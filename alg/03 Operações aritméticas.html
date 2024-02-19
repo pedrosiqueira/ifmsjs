@@ -13,7 +13,6 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="pseudocode.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
     <script defer>hljs.configure({ cssSelector: "code", languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 
@@ -142,7 +141,7 @@
     <p><b>Real:</b> Tipo de dados que pertence ao conjunto dos números reais. Chamado de <b>float</b>, abreviação de número de ponto flutuante, em alusão ao separador decimal que pode flutuar entre a direita e esquerda do número. Exemplos:</p>
     <ul>
         <li>Ela tem 1,73 metro de altura.</li>
-        <li>Meu saldo bancário é de R$ 215,20.</li>
+        <li>Meu saldo bancário é de R&#36;215,20.</li>
         <li>No momento estou pesando 82,5 kg.</li>
     </ul>
     <p><b>Lógico:</b> Tipo de dados que pode assumir apenas duas situações, sim ou não, verdadeiro ou falso. Chamado de <b>boolean</b>, em homenagem a Boole, criador da álgebra booleana. Exemplos:</p>
@@ -254,7 +253,7 @@ let quociente = Math.floor(dividendo / divisor);
 let resto = dividendo % divisor;</code></pre>
 
     <p>Uma <b>constante</b> é um valor que não pode ser alterado durante a execução do programa. Constantes são usadas para armazenar valores que são usados em várias partes do programa e que não devem ser modificados. Por exemplo, você pode definir uma constante para armazenar o valor de pi (3.14159) e usá-la em cálculos matemáticos em seu programa. Como o valor de pi é sempre o mesmo, faz sentido armazená-lo como uma constante para evitar erros e tornar o código mais legível.</p>
-    <p>Por exemplo, suponha um programa para calcular a área de circunferências. Na fórmula `\pi r^2`, o valor `\pi` é constante, e o valor `r` é variável.</p>
+    <p>Por exemplo, suponha um programa para calcular a área de circunferências. Na fórmula $\pi r^2$, o valor $\pi$ é constante, e o valor $r$ é variável.</p>
     <pre><code class="javascript">const PI = 3.14;</code></pre>
     <p>Neste exemplo, <code>PI</code> é uma constante que representa o valor de π. A convenção de usar letras maiúsculas indica que é uma constante.</p>
     <p>Tome cuidado ao misturar diferentes tipos de dados em uma mesma expressão aritmética, pois podem acontecer coisas imprevistas. Por exemplo, em expressões aritméticas, o valor booleano <code>true</code> é considerado como 1 e <code>false</code> como 0.</p>
@@ -338,12 +337,12 @@ let b = 5 + 2 * 4 / 2 % 3 + 10 - 3;
 let c = 18 + 2 * 40 / 10 % 6 - 7 * 3;</code></pre>
         <li>Escreva as seguintes equações na forma Javascript:
             <ol type="a">
-                <li>`m=\dfrac{a+b+c+d+e}{5}`</li>
-                <li>`y=mx-b`</li>
-                <li>`y=ax^2+bx+c`</li>
+                <li>$m=\dfrac{a+b+c+d+e}{5}$</li>
+                <li>$y=mx-b$</li>
+                <li>$y=ax^2+bx+c$</li>
             </ol>
         </li>
-        <li>Dada a equação `z = \frac{2x^3 + y^2}{x - y}`, escreva uma expressão JavaScript correspondente.</li>
+        <li>Dada a equação $z = \frac{2x^3 + y^2}{x - y}$, escreva uma expressão JavaScript correspondente.</li>
         <li>Dadas as variáveis x e y, inicialmente ambas com valor 10, quais os valores de x e y após a execução dessas seguintes linhas?
             <pre><code>x = x + y * 2;
 y = x - y;
@@ -363,7 +362,7 @@ x = x - y / 2;
         <li>Marque com V os identificadores válidos e F os inválidos:
             <ol type="a">
                 <li>nomeVar</li>
-                <li>$total_1</li>
+                <li>&#36;total_1</li>
                 <li>2result</li>
                 <li>_usuario_123</li>
                 <li>primeiro-nome</li>
