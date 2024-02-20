@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+        }, false);
+    </script>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ cssSelector: "code", languages: ["console"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+
+    <style>
+        img {
+            max-width: 100%;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        table.custom,
+        table.custom td,
+        table.custom th {
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        ol.excs {
+            padding-inline-start: 0em;
+            counter-reset: excs;
+            list-style: none;
+        }
+
+        ol.excs>li::before {
+            counter-increment: excs;
+            content: counters(excs, ".") ". ";
+        }
+
+        ol.excs>li {
+            /* Change this to adjust the line color and thickness */
+            border-left: 2px solid #000;
+            /* Optional: Add padding to create some space between the bar and content */
+            padding-left: 10px;
+
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+        }
+
+        ol.section {
+            counter-reset: section;
+            list-style-type: none;
+        }
+
+        ol.section li::before {
+            counter-increment: section;
+            content: counters(section, ".") ". ";
+        }
+
+        td.hljs-ln-numbers {
+            color: #ccc;
+            border-right: 1px solid #999;
+            padding-right: 5px;
+        }
+
+        td.hljs-ln-code {
+            padding-left: 10px;
+        }
+    </style>
+</head>
+
+<div id="preparando-o-ambiente-de-desenvolvimento">
+    <h1>Preparando o ambiente de desenvolvimento</h1>
+    <h2>Introdução</h2>
+    <p>Os computadores não compreendem linguagens de programação diretamente; elas precisam ser convertidas para a <b>linguagem de máquina</b>, composta apenas por 0s e 1s (binário), que é a única linguagem que o computador entende. Para converter um código em linguagem de máquina, dependendo da linguagem de programação, é usado um processo que pode ser de <b>compilação</b> ou de <b>interpretação</b>.</p>
+    <p>Linguagens de programação compiladas são aquelas em que o código-fonte é traduzido para código de máquina antes da execução do programa (imagem: arquivo de texto para arquivo binário). Esse processo é realizado por um compilador, um programa que analisa o código-fonte e o converte em instruções diretamente compreensíveis pela arquitetura da máquina alvo. Essa tradução antecipada permite que o programa seja executado com eficiência e rapidez, uma vez que as instruções já foram processadas e otimizadas antes da execução.</p>
+    <p>Por outro lado, linguagens de programação interpretadas não são traduzidas para código de máquina antes da execução. Em vez disso, um interpretador analisa o código-fonte linha por linha durante a execução do programa. Isso significa que cada vez que o programa é executado, o interpretador deve analisar e traduzir novamente o código-fonte para instruções compreensíveis pela máquina. Embora esse processo possa ser mais lento em comparação com a compilação, as linguagens interpretadas oferecem maior portabilidade, pois o mesmo código-fonte pode ser executado em diferentes sistemas operacionais e arquiteturas, desde que haja um interpretador disponível para a linguagem em questão.</p>
+    <p>Algumas linguagens, como Python e Java, usam uma abordagem intermediária entre compilação e interpretação. Nesses casos, o código-fonte é primeiro compilado para um formato de baixo nível chamado <b>bytecode</b> (imagem: arquivo de texto para arquivo de bytecode). O bytecode é uma representação binária das instruções que a <b>máquina virtual</b> específica da linguagem pode entender. Em seguida, a máquina virtual, é responsável por executar esse bytecode. Dessa forma, o código-fonte é traduzido apenas uma vez para bytecode e depois pode ser executado por diferentes máquinas virtuais em diferentes plataformas, proporcionando a portabilidade das linguagens interpretadas sem a necessidade de interpretar o código-fonte linha por linha repetidamente.</p>
+    <p>Bytecodes permitem aplicar a técnica de <b>compilação Just-In-Time</b> (JIT). A compilação JIT ocorre em tempo de execução, isto é, durante a execução do bytecode, em vez de ser realizada antecipadamente, como na compilação tradicional. Durante a execução, um compilador JIT analisa o bytecode e traduz partes do código em código de máquina otimizado para a arquitetura específica do computador em que está sendo executado. Esse código de máquina é armazenado em cache para reutilização em futuras execuções do mesmo trecho de código, evitando a necessidade de recompilação repetitiva.</p>
+    <p>A execução de partes específicas do código otimizado em código de máquina pode melhorar significativamente o desempenho em comparação com a interpretação linha por linha ou a execução de bytecode não compilado para código de máquina. A compilação JIT também permite que a linguagem de programação forneça uma combinação de portabilidade e eficiência, pois o mesmo código-fonte pode ser executado em diferentes plataformas, mas o compilador JIT pode gerar código de máquina otimizado para cada plataforma específica.</p>
+    <p></p>
+
+    <h2>Instalação</h2>
+    <p>O Python deve ser instalado no computador para executar códigos escritos na linguagem de programação Python. Quando instalamos o Python no computador, ele já vem com o interpretador, o compilador para bytecodes, e o compilador JIT de bytecode. Siga o link apropriado para o seu sistema operacional para instalar o interpretador Python:</p>
+    <ul>
+        <li>Windows: <a href="https://python.org.br/instalacao-windows/">https://python.org.br/instalacao-windows/</a></li>
+        <li>Mac: <a href="https://python.org.br/instalacao-mac/">https://python.org.br/instalacao-mac/</a></li>
+        <li>Linux: <a href="https://python.org.br/instalacao-linux/">https://python.org.br/instalacao-linux/</a></li>
+    </ul>
+
+    <h2>Utilização</h2>
+    <h3>Modo Interativo</h3>
+    <p>No Modo Interativo, os comandos podem ser inseridos e executados um de cada vez. Para abrir o modo interativo, execute o interpretador Python, que exibirá o prompt principal <code>>>></code> indicando que um comando pode ser inserido. Por exemplo, digitar o comando <code>print("Olá Mundo!")</code> e pressionar <kbd>Enter</kbd> executará o comando.</p>
+
+    <h3>Modo de Arquivo</h3>
+    <p>No Modo de Arquivo, várias linhas de código Python podem ser agrupadas em um arquivo de código fonte com a extensão <code>.py</code>. Nesse caso, o interpretador Python funciona como um compilador, gerando bytecode do seu código fonte. Para usar o Modo de Arquivo, você precisará criar e escrever o código Python em um editor de texto e, em seguida, executá-lo usando um terminal.</p>
+
+    <h2>Ambiente de desenvolvimento integrado</h2>
+    <p>Para facilitar o desenvolvimento de programas em Python, usaremos o Visual Studio Code (vscode). Trata-se de um Ambiente de Desenvolvimento Integrado (IDE) que integra recursos para escrever, depurar, compilar e gerenciar dependências de código em um único lugar. Você pode baixar o VSCode <a href="https://code.visualstudio.com/download">aqui</a>.
+    <p>Já com o Python instalado, abra o vscode e acesse a aba de extensões (atalho <kbd>Ctrl + Shift + X</kbd>). Em seguida, instale as seguintes extensões:</p>
+    <ul>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python">ms-python.python</a></li>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter">ms-python.black-formatter</a></li>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode">VisualStudioExptTeam.vscodeintellicode</a></li>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.intellicode-api-usage-examples">VisualStudioExptTeam.intellicode-api-usage-examples</a></li>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.isort">ms-python.isort</a></li>
+    </ul>
+    <h2>Criando nosso projeto</h2>
+    <p>É muito importante mantermos organizado nosso ambiente de trabalho. Como programadores, separamos nossos códigos em projetos, que são pastas que agrupam nossos arquivos de código.</p>
+    <p>Crie uma pasta para armazenar todos os nossos códigos relacionados à nossa matéria. Eu chamarei esta pasta de <code>ifms-algoritmos-python</code>.</p>
+    <p>Pelo vscode, acesse a aba de explorador de pastas (atalho <kbd>Ctrl + Shift + X</kbd>) e abra a pasta recém criada (atalho <kbd>Ctrl + K Ctrl + O</kbd>).</p>
+    <p>Organizaremos a pasta da nossa matéria por capítulos. Criaremos uma pasta para cada capítulo, onde colocaremos os códigos desenvolvidos naquele capítulo.</p>
+    <p>Como já estamos no segundo capítulo, crie a pasta <code>cap02</code> dentro da pasta da nossa matéria. Você pode fazer isso no vscode clicando com o botão direito no espaço vazio da aba de explorador e selecionando "New folder...".</p>
+    <p>Agora, crie o arquivo <code>hello-world.py</code> dentro da pasta <code>cap02</code>. Você pode fazer isso no vscode clicando com o botão direito em cima da pasta e selecionando "New file...". Observe que todos os arquivos de código-fonte em Python devem terminar com a extensão <code>.py</code>.</p>
+    <p>Digite o comando <code>print('hello, world!')</code> dentro do arquivo recém-criado e tecle <kbd>F5</kbd> para executá-lo. Parabéns, esse é seu primeiro programa em Python!</p>
+
+    <h2>Debugging</h2>
+    <p>Errar faz parte do processo de aprendizagem, especialmente na programação. No entanto, às vezes é difícil encontrar a fonte de um erro no código. É aí que entra a arte de <b>debugging</b>. Debugging, ou depuração de código, é o processo de identificar, isolar e corrigir erros em um programa de computador. Quando um programa apresenta comportamentos inesperados, é necessário depurar o código para encontrar e resolver o problema. Isso envolve pausar a execução do programa, observar variáveis e valores em diferentes pontos do código e identificar onde ocorrem os erros. O debugging também é útil para entender o funcionamento do programa, permitindo que você o execute passo a passo, no seu próprio ritmo.</p>
+    <p>Crie o arquivo <code>factorials.py</code> dentro da pasta <code>cap02</code>, e adicione o seguinte código no arquivo:</p>
+    <pre><code class="python">def calculate_sum_of_factorials(argument1, argument2):
+    factorial1 = calculate_factorial(argument1)
+    factorial2 = calculate_factorial(argument2)
+    result = calculate_sum(factorial1, factorial2)
+    return result
+
+def calculate_factorial(argument):
+    factorial_result = 1
+    for i in range(1, argument + 1):
+        factorial_result *= i
+    return factorial_result
+
+def calculate_sum(argument1, argument2):
+    return argument1 + argument2
+
+a = 5
+b = 10
+sum_of_factorials = calculate_sum_of_factorials(a, b)
+print("The sum of factorials of the entered integers is", sum_of_factorials)
+</code></pre>
+    <p>Veja se você consegue entender o que esse código está fazendo. Agora, antes de executá-lo de uma vez, experimente colocar um <b>breakpoint</b> na linha 16.</p>
+    <p>Dentre as opções de depuração no vscode, você pode continuar a execução até o próximo breakpoint (<kbd>F5</kbd>), avançar (<kbd>F10</kbd>), entrar (<kbd>F11</kbd>), sair (<kbd>Shift + F11</kbd>).</p>
+    <p>Na aba de depuração, você pode ver os valores das variáveis atuais, definir observadores (watch) de variáveis ou expressões, consultar a pilha de chamadas de funções e os breakpoints.</p>
+    <p>Na aba "Debug Console", você pode escrever linhas de códigos que são executadas no contexto do programa atual, com acesso às suas variáveis e funções.</p>
+    <p>No momento, essas informações podem parecer abstratas se você ainda está no início de sua jornada como programador. No entanto, depurar é uma ferramenta essencial para programadores e, à medida que você aprender mais, tudo ficará mais claro e fará mais sentido. Por isso, convido você a revisitar essa seção após adquirir mais maturidade em programação. Com o tempo e o conhecimento adquirido, essas práticas e termos farão mais sentido e serão uma parte natural do seu fluxo de trabalho como desenvolvedor.</p>
