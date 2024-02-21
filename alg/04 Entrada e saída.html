@@ -142,38 +142,42 @@ console.log("A soma de", x, "e", y, "é", x + y)</code></pre>
     <p>A função <code>console.log</code> é uma ferramenta útil para exibir informações durante a execução de um programa e ajudar a entender como ele está funcionando.</p>
 
     <h2>Entrada de dados</h2>
-    <p>O comando <code>input</code> é usado em Python para receber informações do teclado. Dizemos "ler do teclado" ou simplesmente <b>ler</b>. Para usar o comando <code>input</code>, basta escrever <code>input()</code> e atribuir esse comando a uma variável, que receberá o valor que o usuário digitar no teclado. Por exemplo:</p>
-    <pre><code>x = input()</code></pre>
+    <p>O comando <code>scanf</code> do pacote <a href="https://github.com/Lellansin/node-scanf">node-scanf</a> pode ser usado para receber informações do teclado facilmente. Dizemos "ler do teclado" ou simplesmente <b>ler</b>. Ele é baseado no comando homônimo da linguagem de programação C. A sintaxe do comando é a seguinte:</p>
+    <pre><code>variavel = scanf(tipo)</code></pre>
+    <p>Onde <code>variavel</code> é o nome da variável que receberá o valor a ser lido do teclado, e <code>tipo</code> é um argumento que representa o tipo do valor a ser lido. <code>scanf</code> suporta a leitura dos seguintes tipos de dados:</p>
+    <ul>
+        <li><code>%d</code> - int</li>
+        <li><code>%f</code> - float</li>
+        <li><code>%s</code> - string</li>
+        <li><code>%S</code> - string of line</li>
+        <li><code>%x</code> - hex</li>
+        <li><code>%a</code> - hex float</li>
+        <li><code>%o</code> - octal</li>
+    </ul>
+    <p>Por exemplo:</p>
+    <pre><code>import scanf from "scanf";
+
+let x = scanf("%s")</code></pre>
+    <p>(Observação: ao usar qualquer recurso de um pacote de terceiro, como o comando <code>scanf</code>, é necessário, antes, importá-lo ao nosso código, como feito na linha 1. Por brevidade, vamos omitir o comando <code>import</code>, mas ele sempre se faz necessário ao usar o <code>scanf</code>).</p>
     <p>Este comando "congela" o programa, aguardando que o usuário digite algum valor e pressione a tecla <kbd>Enter</kbd>. Após isso, o que o usuário digitou será atribuído (armazenado) à variável <code>x</code>.</p>
-    <p>Para tornar a entrada de dados mais interativa, é possível solicitar ao usuário o dado esperado, inserindo uma mensagem entre os parênteses do <code>input</code>. Por exemplo:</p>
-    <pre><code>nome = input("Qual é o seu nome? ")
-console.log("Olá,", nome, "!")</code></pre>
-    <p>Nesse caso, o programa solicitará ao usuário que informe seu nome, o qual será armazenado na variável <code>nome</code>. Em seguida, o programa exibirá uma saudação personalizada, usando o nome fornecido pelo usuário. Observe que inserimos um espaço no final da solicitação, para ela não ficar colada ao que o usuário digitar, apenas por questões de formatação.</p>
-    <p>O comando <code>input</code> também é uma função, mas diferentemente do <code>console.log</code>, só aceita um argumento, mas resulta em um valor, que é aquilo que o usuário digitou. Observe que o valor retornado pelo <code>input</code> é do tipo <i>string</i>, logo, os operadores aritméticos não funcionam como você talvez espere:</p>
-    <pre><code>n1 = input('Digite um número: ')
-n2 = input('Digite outro número: ')
-soma = n1 + n2
-console.log('A soma dos números digitados é', soma)</code></pre>
+    <p>O comando <code>scanf</code> também é uma função, mas diferentemente do <code>console.log</code>, resulta em um valor, que é aquilo que o usuário digitou. Observe que o valor lido pelo <code>scanf</code> deve ser compatível com o que ele está esperando, senão, a leitura não é realizada corretamente:</p>
+    <pre><code>console.log("Please input a number");
+let number = scanf("%d");
+console.log("your number is", number);</code></pre>
+
+    <p>Também tome cuidado para não confundir os tipos dos valores sendo lidos:</p>
+    <pre><code>console.log("Enter two numbers:")
+let n1 = scanf("%s")
+let n2 = scanf("%s")
+let soma = n1 + n2
+console.log("The sum of the numbers is", soma)</code></pre>
     <p>O operador de adição, quando operado em strings, realiza a operação de <b>concatenação</b>, que é "engatar" o final do primeiro operando no início do segundo operando.</p>
-    <p>Portanto, se você quiser que o Python interprete o retorno do <code>input</code> como um número inteiro, deve usar a função <code>int</code> para isso.</p>
-    <pre><code>n1 = int(input('Digite um número: '))
-n2 = int(input('Digite outro número: '))
-soma = n1 + n2
-console.log('A soma dos números digitados é', soma)</code></pre>
+    <p>Portanto, se você quiser que o JavaScript interprete o retorno do <code>scanf</code> como um número inteiro, deve usar o argumento <code>%d</code>. Experimente trocar o <code>%s</code> por <code>%d</code> no código anterior.</p>
 
-    <p>Da mesma forma, use a função <code>float</code> para interpretar uma string como um número real e a <code>bool</code> para interpretar como booleano:</p>
-    <pre><code>numero1 = 3.4 # isso é um número!
-
-numero2 = "2.5" # não se deixe enganar, isso não é um número!
-
-numero3 = float(numero2) # agora sim, um número!
-
-# claro, você pode usar float diretamente com o input
-numero4 = float(input('Digite um número decimal: '))
-
-acerto = numero1 + numero3 + numero4 # ótimo
-
-erro = numero1 + numero2 # não vai dar bom...</code></pre>
+    <p>Da mesma forma, use o argumento <code>%f</code> para ler um número <code>float</code>:</p>
+    <pre><code>console.log("What's your height?")
+let h = scanf("%f")
+console.log("great, you measure", h)</code></pre>
     <p>Juntos, os comandos <code>input</code> e <code>console.log</code> podem ser usados para criar simples programas interativos que se comunicam com o usuário.</p>
 
     <h2>Mais um pouco sobre comentários</h2>
@@ -186,43 +190,42 @@ erro = numero1 + numero2 # não vai dar bom...</code></pre>
 
     <h3>Tipos de comentários</h3>
     <p>Há dois tipos de comentários: comentários simples e comentários em bloco.</p>
-    <p>Os comentários simples começam com uma cerquilha (<code>#</code>) e se estendem até o final da linha. Geralmente, são usados para pequenas anotações que cabem em uma única linha.</p>
-    <p>Os comentários em bloco começam com três aspas (simples <code>'''</code> ou duplas <code>"""</code>) e terminam com as mesmas três aspas (se você começou com as aspas simples, deve terminar com aspas simples). Eles são usados para escrever comentários mais extensos que ocupam várias linhas.</p>
+    <p>Os comentários simples começam com duas barras (<code>//</code>) e se estendem até o final da linha. Geralmente, são usados para pequenas anotações que cabem em uma única linha.</p>
+    <p>Os comentários em bloco começam com barra e asterisco (<code>/*</code>) e terminam com asterisco e barra (<code>*/</code>). Eles são usados para escrever comentários mais extensos que ocupam várias linhas.</p>
 
-    <pre><code>'''
+    <pre><code>/*
 Programa de exemplo de uso de comentários.
 Autor: Pedro Henrique
 Data: 08/08/2018
-'''
+*/
 
-# Solicita ao usuário que digite dois números
-console.log("Digite dois números...")
+// Solicita ao usuário que digite dois números
+console.log("Digite dois números...");
 
-# Lê os números que o usuário digita
-a, b = map(int, input().split())
+// Lê os números que o usuário digita
+const [a, b] = scanf("%d%d")
 
-# Determina qual número é maior e qual é menor
-maior = a if a > b else b
-menor = b if a > b else a
+// Determina qual número é maior e qual é menor
+const maior = a > b ? a : b;
+const menor = a > b ? b : a;
 
-# Escreve o maior e o menor número
-console.log("Maior:", maior)
-console.log("Menor:", menor)</code></pre>
+// Escreve o maior e o menor número
+console.log("Maior:", maior);
+console.log("Menor:", menor);</code></pre>
 
     <p>Você pode não entender todos os comandos deste programa, mas ao ler os comentários, você pode ter uma ideia do que cada um deles está fazendo.</p>
 
-    <p>Principalmente em nossos primeiros programas, é comum incluir muitos comentários para ajudá-lo a se familiarizar com o Python.</p>
+    <p>Principalmente em nossos primeiros programas, é comum incluir muitos comentários para ajudá-lo a se familiarizar com JavaScript.</p>
     <p>Entretanto, tenha cuidado para não sobrecarregar teu código com comentários redundantes ou desnecessários, como o exemplo a seguir:</p>
 
-    <pre><code># Exibe "Gosto de programar"
-console.log("Gosto de programar")
-    </code></pre>
-    <p>Dica: Comentários podem ser usados para testar teu código ou ignorar “temporariamente” um erro no teu código! Colocar cerquilha (<code>#</code>) no início de uma instrução fará com que o computador a ignore!</p>
+    <pre><code>// Exibe "Gosto de programar"
+console.log("Gosto de programar")</code></pre>
+    <p>Dica: Comentários podem ser usados para testar teu código ou ignorar “temporariamente” um erro no teu código! Colocar duas barras (<code>//</code>) no início de uma instrução fará com que o computador a ignore!</p>
 
     <h2>Exercícios</h2>
     <p>Para cada exercício, elabore um programa que resolva à questão.</p>
     <ol class="excs">
-        <li>Dadas a base e a altura de um retângulo, qual sua área? $A=base\cdot altura$</li>
+        <li>Dadas a base $b$ e a altura $a$ de um retângulo, qual sua área? $A=b\cdot a$</li>
         <li>Dado o raio de um círculo, qual sua área? $A=πr^2$</li>
         <li>Dado um inteiro, qual o seu antecessor e o seu sucessor?</li>
         <li>Dados dois inteiros, quantos inteiros há no intervalo fechado entre eles?</li>
