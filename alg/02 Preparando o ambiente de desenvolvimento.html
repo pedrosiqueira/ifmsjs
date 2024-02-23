@@ -192,7 +192,7 @@ console.log("The sum of factorials of the entered integers is", sumOfFactorials)
         </li>
         <li>Uma vez instalado o pnpm, vamos configurar nosso projeto para ser gerenciado pelo pnpm. Dentro da pasta raiz do projeto, execute <code>pnpm init</code>. É criado um arquivo <code>package.json</code>, que contém informações do teu projeto, como os pacotes que ele depende para ser executado.
             <ul>
-                <li>(Observação: Se estiver no Windows e o comando anterior der um erro de permissão de execução de scripts pelo terminal powershell, abra um powershell como administrador e execute <code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned</code>. Feche todos os terminais, reabra um terminal novamente na pasta raiz do projeto e execute novamente <code>pnpm init</code>).</li>
+                <li>(Observação: Se estiver no Windows e o comando anterior der um erro de permissão de execução de scripts pelo terminal powershell, abra um powershell como administrador e execute <code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned</code>. Feche todos os terminais, reabra um terminal na pasta raiz do projeto e execute novamente <code>pnpm init</code>).</li>
             </ul>
         </li>
         <li>Geralmente projetos grandes são compostos por vários arquivos de código-fonte, além dos pacotes de terceiros. O modo como o JavaScript estrutura e utiliza os arquivos é chamado de <i>module system</i>. Basicamente há dois sistemas de módulo: o <i>CommonJS</i>, que é mais antigo e vem habilitado por padrão; e o <i>ECMAScript Modules</i> (ESM), que é mais recente e vamos substituir pelo antigo. Para tanto, adicione a linha <code>"type": "module",</code> no arquivo <code>package.json</code>.</li>
