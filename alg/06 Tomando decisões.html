@@ -225,17 +225,14 @@ console.log(a, b, c, d)</code></pre>
 
 console.log("Informe teu salario: ");
 let salario = scanf("%f")
-console.log("Informe tua nota: ");
-let nota = scanf("%f")
-console.log("Informe teu numero da sorte: ");
-let numero = scanf("%d")
-console.log("Informe tua idade: ");
-let idade = scanf("%d")
 
 console.log("\nVocê ganha", salario);
 if (salario > 5000) {
     console.log("Você está bem, ein!");
 }
+
+console.log("Informe tua nota: ");
+let nota = scanf("%f")
 
 console.log("\nVocê tirou nota", nota);
 if (nota < 7)
@@ -243,11 +240,17 @@ if (nota < 7)
     console.log("Você está de recuperação!");
 }
 
+console.log("Informe teu numero da sorte: ");
+let numero = scanf("%d")
+
 console.log("\nTeu número da sorte é", numero);
 if (numero % 2 == 0) console.log("Número par");
 
 if (numero % 5 == 0) 
     console.log("Número múltiplo de 5.");
+
+console.log("Informe tua idade: ");
+let idade = scanf("%d")
 
 console.log("\nTua idade é", idade);
 if (idade >= 18) {
@@ -268,12 +271,6 @@ console.log("\nFim do programa.");</code></pre>
 
 console.log("Informe teu salario: ");
 let salario = scanf("%f")
-console.log("Informe tua nota: ");
-let nota = scanf("%f")
-console.log("Informe teu numero da sorte: ");
-let numero = scanf("%d")
-console.log("Informe tua idade: ");
-let idade = scanf("%d")
 
 console.log("\nVocê ganha", salario);
 if (salario > 5000) {
@@ -281,6 +278,9 @@ if (salario > 5000) {
 } else {
     console.log("Você ainda chega lá!");
 }
+
+console.log("Informe tua nota: ");
+let nota = scanf("%f")
 
 console.log("\nVocê tirou nota", nota);
 if (nota < 7)
@@ -290,6 +290,9 @@ if (nota < 7)
 else
     console.log("Você passou de ano!");
 
+console.log("Informe teu numero da sorte: ");
+let numero = scanf("%d")
+
 console.log("\nTeu número da sorte é", numero);
 if (numero % 2 == 0) console.log("Número par");
 else console.log("Número ímpar");
@@ -298,6 +301,9 @@ if (numero % 5 == 0)
     console.log("Número múltiplo de 5.");
 else
     console.log("Número NÃO múltiplo de 5.");
+
+console.log("Informe tua idade: ");
+let idade = scanf("%d")
 
 console.log("\nTua idade é", idade);
 if (idade >= 18) {
