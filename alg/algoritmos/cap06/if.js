@@ -21,9 +21,9 @@ if (nota < 7)
 }
 
 console.log("\nTeu número da sorte é", numero);
-if (numero % 2 === 0) console.log("Número par");
+if (numero % 2 == 0) console.log("Número par");
 
-if (numero % 5 === 0) 
+if (numero % 5 == 0) 
     console.log("Número múltiplo de 5.");
 
 console.log("\nTua idade é", idade);

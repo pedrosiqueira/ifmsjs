@@ -22,7 +22,7 @@ if (x > y) {
 
 console.log(maior, "é o maior número");
 
-if (maior % 2 !== 0) {
+if (maior % 2 != 0) {
     console.log("e também é ímpar");
 } else {
     console.log("e também é par");

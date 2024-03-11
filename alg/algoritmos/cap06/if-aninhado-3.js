@@ -1,25 +1,27 @@
 import scanf from "scanf";
 
-console.log("Digite 3 números...");
-let x = scanf('%d');
-let y = scanf('%d');
-let z = scanf('%d');
-let maior;
+console.log("Boletim Digital");
+console.log("###############\n");
 
-if (x > y) {
-    maior = x;
+console.log("Trabalho:");
+let t = scanf("%f");
+console.log("Seminário:");
+let s = scanf("%f");
+console.log("Prova:");
+let p = scanf("%f");
+
+let m = (t * 2 + s * 3 + p * 5) / 10;
+
+console.log("\nMédia:", m);
+
+if (m >= 8.5) {
+    console.log("Conceito A, aprovado :D");
+} else if (m >= 7) {
+    console.log("Conceito B, aprovado :)");
+} else if (m >= 5) {
+    console.log("Conceito C, recuperação :|");
+} else if (m >= 2.5) {
+    console.log("Conceito D, recuperação :(");
 } else {
-    maior = y;
-}
-
-if (z > maior) {
-    maior = z;
-}
-
-console.log(maior, "é o maior número");
-
-if (maior % 2 !== 0) {
-    console.log("e também é ímpar");
-} else {
-    console.log("e também é par");
+    console.log("Conceito E, reprovado :O");
 }
