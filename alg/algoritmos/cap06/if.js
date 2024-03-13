@@ -1,6 +1,6 @@
 import scanf from "scanf";
  
-console.log("Informe teu salario: ");
+console.log("\nInforme teu salario: ");
 let salario = scanf("%f")
  
 console.log("\nVocê ganha", salario);
@@ -8,7 +8,7 @@ if (salario > 5000) {
     console.log("Você está bem, ein!");
 }
  
-console.log("Informe tua nota: ");
+console.log("\nInforme tua nota: ");
 let nota = scanf("%f")
  
 console.log("\nVocê tirou nota", nota);
@@ -17,7 +17,7 @@ if (nota < 7)
     console.log("Você está de recuperação!");
 }
  
-console.log("Informe teu numero da sorte: ");
+console.log("\nInforme teu numero da sorte: ");
 let numero = scanf("%d")
  
 console.log("\nTeu número da sorte é", numero);
@@ -26,7 +26,7 @@ if (numero % 2 == 0) console.log("Número par");
 if (numero % 5 == 0) 
     console.log("Número múltiplo de 5.");
  
-console.log("Informe tua idade: ");
+console.log("\nInforme tua idade: ");
 let idade = scanf("%d")
  
 console.log("\nTua idade é", idade);
