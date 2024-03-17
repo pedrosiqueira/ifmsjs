@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+
+<head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+        }, false);
+    </script>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ cssSelector: "code", languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+
+    <style>
+        img {
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .katex {
+            /* o padrão é 1.21, vc pode remover essa configuração se quiser deixar o padrão */
+            font-size: 1.0em;
+        }
+
+        table.custom,
+        table.custom>thead>tr>th,
+        table.custom>tbody>tr>td,
+        table.custom>tbody>tr>th {
+            /* tabela centralizada e com bordas */
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 5px;
+            padding-right: 5px;
+            text-align: center;
+        }
+
+        table pre {
+            /* Remove a margem interna de tags pre dentro de tabelas */
+            margin: 0;
+            padding: 0;
+            text-align: left;
+        }
+
+        td:has(pre) {
+            /* tags pre dentro de tabela são alinhadas no topo à esquerda */
+            vertical-align: top;
+        }
+
+        table.align-left th,
+        table.align-left td {
+            /* alinha à esquerda as células da tabela */
+            text-align: left;
+        }
+
+        /* inicia a lista de exercícios */
+        ol.excs {
+            padding-inline-start: 0em;
+            counter-reset: excs;
+            list-style: none;
+        }
+
+        /* põe um numerador num item da lista de exercícios, desde que não seja da classe no-mark */
+        ol.excs>li:not(.no-mark)::before {
+            counter-increment: excs;
+            content: counters(excs, ".") ". ";
+        }
+
+        /* põe uma barra vertical ao lado do item da lista de exercícios */
+        ol.excs>li {
+            /* Change this to adjust the line color and thickness */
+            border-left: 2px solid #000;
+            /* Optional: Add padding to create some space between the bar and content */
+            padding-left: 10px;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+        }
+
+        ol.section {
+            counter-reset: section;
+            list-style-type: none;
+        }
+
+        ol.section li::before {
+            counter-increment: section;
+            content: counters(section, ".") ". ";
+        }
+
+        td.hljs-ln-numbers {
+            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
+            color: #ccc;
+            border-right: 1px solid #999;
+            padding-right: 5px;
+        }
+
+        td.hljs-ln-code {
+            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
+            padding-left: 10px;
+        }
+    </style>
+</head>
+
+<div id="tomando-decisoes">
+    <h1>Tomando decisões</h1>
+    <q>É nos momentos de decisão que o seu destino é traçado. &ndash; Anthony Robbins</q>
+    <h3>Estruturas de seleção</h3>
+    <p>Em geral, as instruções em um programa são executadas sequencialmente, uma após a outra, seguindo a ordem em que são escritas. Esse fluxo é conhecido como <b>estrutura sequencial</b>.</p>
+    <p>No entanto, existem situações em que é necessário especificar que a próxima instrução a ser executada não seja necessariamente a próxima na sequência. Para lidar com essas situações, utilizamos a <b>estrutura de seleção</b>.</p>
+
+    <p>As instruções <code>if</code> e <code>else</code> tornam seus programas mais inteligentes, permitindo a eles tomar decisões baseadas em certas condições.</p>
+    <p>Você também aprenderá a usar os <b>operadores relacionais</b>, que servem para comparar valores, e são usados em conjunto com a instrução <code>if</code>.</p>
+    <p>As instruções <code>if</code> e <code>else</code> funcionam como na linguagem falada: <b>se</b> algo é verdadeiro, <b>faça</b> uma coisa; <b>caso contrário</b>, <b>faça</b> outra coisa.</p>
+    <ul>
+        <li>SE eu ganhar na loteria, ENTÃO irei para a Itália; SENÃO, continuarei em 3L.</li>
+        <li>SE chover, ENTÃO leve um guarda-chuva.</li>
+        <li>SE tua nota for menor que 7, ENTÃO você ficou de recuperação; SENÃO, você foi aprovado.</li>
+    </ul>
+
+    <h3>Operadores relacionais</h3>
+    <p>Os operadores relacionais comparam dois valores. Você sempre coloca uma variável, literal ou expressão em ambos os lados de um operador relacional.</p>
+    <table class="custom">
+        <thead>
+            <tr>
+                <th>Operador</th>
+                <th>Descrição</th>
+                <th>Exemplo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>&gt;</td>
+                <td>Maior que</td>
+                <td>numero &gt; 10</td>
+            </tr>
+            <tr>
+                <td>&lt;</td>
+                <td>Menor que</td>
+                <td>10 * x &lt; 8 - y</td>
+            </tr>
+            <tr>
+                <td>&gt;=</td>
+                <td>Maior ou igual a</td>
+                <td>9 &gt;= 19.7</td>
+            </tr>
+            <tr>
+                <td>&lt;=</td>
+                <td>Menor ou igual a</td>
+                <td>c &lt;= &#39;e&#39;</td>
+            </tr>
+            <tr>
+                <td>==</td>
+                <td>Igual a</td>
+                <td>i == j</td>
+            </tr>
+            <tr>
+                <td>!=</td>
+                <td>Diferente de</td>
+                <td>&#39;z&#39; != &#39;g&#39;</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Um operador sempre resulta em um valor. Um operador relacional resulta no valor <code>true</code> quando o resultado da comparação é verdadeiro e resulta no valor <code>false</code> quando o resultado da comparação é falso.</p>
+    <p><b>ATENÇÃO:</b></p>
+    <ul>
+        <li>Não confunda <code>=</code> com <code>==</code>, lembre-se que um sinal de igual é <b>atribuição</b> e dois sinais de igual é <b>comparação</b>.</li>
+        <li>É recomendado comparar somente valores equivalentes (mesmo tipo), para evitar comportamentos inesperados. (não compare letra com número, por exemplo...)</li>
+        <li>Ao comparar booleanos com números, o valor booleano <code>true</code> é equivalente ao número 1 e o valor booleano <code>false</code> é equivalente ao número 0.</li>
+        <li>Não inverta os caracteres dos operadores (<code>=></code>, <code>=&lt;</code>,<code>=!</code>, ..., é errado!).
+        </li>
+        <li>NÃO FAÇA OPERAÇÕES RELACIONAIS COMPARANDO MAIS DE DOIS VALORES: <code>X &lt; Y &lt; Z</code> não funciona como na matemática.</li>
+    </ul>
+
+    <p>Qual a saída do seguinte código?</p>
+    <pre><code>let a = 5, b = 10, c = 15, d = 5;
+console.log(a == d);
+console.log(a > b);
+console.log(c < b);
+console.log(b < c);
+console.log(c > a);
+console.log(c == d);
+console.log(b != d);
+console.log(a < c < d);</code></pre>
+
+    <p>Qual a saída do seguinte código?</p>
+    <pre><code>let a = 15 < 10
+let b = a < 10
+let c = true < 2
+let d = 0 == false
+console.log(a, b, c, d)</code></pre>
+
+    <h3>Seleção simples</h3>
+
+    <pre><b>if</b> (condição) {
+    sequência de instruções
+    que compõem o bloco do if
+}</pre>
+
+    <p>A <b>condição</b> é uma expressão cujo resultado é um booleano ou é interpretado como tal. Se não for booleano, os seguintes valores são interpretados como <code>false</code>:</p>
+    <ul>
+        <li><code>undefined</code>, <code>null</code>, <code>0</code>, <code>-0</code>, <code>0n</code>, <code>NaN</code>, <code>""</code>.</li>
+    </ul>
+    <p>Qualquer outro valor é considerado como <code>true</code>.</p>
+    <p>Um <b>bloco</b> de código é uma sequência de instruções dentro de chaves (<code>{</code> e <code>}</code>). Também chamamos o bloco de <b>corpo</b>.</p>
+    <p>Um <b>recuo</b>, ou <b>indentação</b>, se refere a uma certa quantidade de espaços ou tabulação que se coloca no início de cada instrução de um bloco de código. Por convenção, no Javascript, se usa recuos de 4 espaços.</p>
+    <p>Caso a <b>condição</b> seja <code>true</code>, o corpo do <code>if</code> é executado. Caso contrário, o corpo do <code>if</code> não é executado, e o programa continua da próxima instrução depois do corpo do <code>if</code>.</p>
+    <p>Caso um bloco de código for composto por apenas uma linha, as chaves são opcionais.</p>
+    <p>Execute esse código e teste tanto com valores que atendam às condições do <code>if</code> quanto que não atendam. Procure entender o que está acontecendo no código:</p>
+
+    <pre><code>import scanf from "scanf";
+
+console.log("Informe teu salario: ");
+let salario = scanf("%f")
+console.log("Informe tua nota: ");
+let nota = scanf("%f")
+console.log("Informe teu numero da sorte: ");
+let numero = scanf("%d")
+console.log("Informe tua idade: ");
+let idade = scanf("%d")
+
+console.log("\nVocê ganha", salario);
+if (salario > 5000) {
+    console.log("Você está bem, ein!");
+}
+
+console.log("\nVocê tirou nota", nota);
+if (nota < 7)
+{
+    console.log("Você está de recuperação!");
+}
+
+console.log("\nTeu número da sorte é", numero);
+if (numero % 2 === 0) console.log("Número par");
+
+if (numero % 5 === 0) 
+    console.log("Número múltiplo de 5.");
+
+console.log("\nTua idade é", idade);
+if (idade >= 18) {
+    console.log("Você é maior de idade,");
+    console.log("Já é responsável legalmente.");
+}
+
+console.log("\nFim do programa.");</code></pre>
+
+    <h3>Seleção composta</h3>
+
+    <p>A instrução <code>else</code> é o irmão que complementa o <code>if</code>.</p>
+    <p>Todo <code>else</code> deve vir acompanhado de um <code>if</code>.</p>
+    <p>O corpo do <code>if</code> é executado caso a condição seja verdadeira. Caso a condição do <code>if</code> seja falsa, aí é o corpo do <code>else</code> que é executado.</p>
+
+    <p>Execute esse código e teste com valores que explorem tanto o <code>if</code> quanto o <code>else</code>. Procure entender o que está acontecendo no código:</p>
+    <pre><code>import scanf from "scanf";
+
+console.log("Informe teu salario: ");
+let salario = scanf("%f")
+console.log("Informe tua nota: ");
+let nota = scanf("%f")
+console.log("Informe teu numero da sorte: ");
+let numero = scanf("%d")
+console.log("Informe tua idade: ");
+let idade = scanf("%d")
+
+console.log("\nVocê ganha", salario);
+if (salario > 5000) {
+    console.log("Você está bem, ein!");
+} else {
+    console.log("Você ainda chega lá!");
+}
+
+console.log("\nVocê tirou nota", nota);
+if (nota < 7)
+{
+    console.log("Você está de recuperação!");
+}
+else
+    console.log("Você passou de ano!");
+
+console.log("\nTeu número da sorte é", numero);
+if (numero % 2 === 0) console.log("Número par");
+else console.log("Número ímpar");
+
+if (numero % 5 === 0) 
+    console.log("Número múltiplo de 5.");
+else
+    console.log("Número NÃO múltiplo de 5.");
+
+console.log("\nTua idade é", idade);
+if (idade >= 18) {
+    console.log("Você é maior de idade,");
+    console.log("Já é responsável legalmente.");
+}
+else
+{
+    console.log("Você ainda é menor de idade");
+}
+
+console.log("\nFim do programa.");</code></pre>
+
+    <p>Apesar de eu ter feito variações de blocos na mesma linha e na linha de baixo, a convenção é sempre iniciar o bloco na linha de baixo, mesmo que seja composto por apenas uma linha.</p>
+
+    <h3>Instruções aninhadas</h3>
+
+    <p>Você pode colocar <code>if</code>s e <code>else</code>s dentro de <code>if</code>s e <code>else</code>s.</p>
+    <p>Quando colocamos instruções dentro de instruções, chamamos de <b>instruções aninhadas</b>.</p>
+    <p>Considere o seguinte exercício: ler três números e escrever se o maior número é par ou ímpar.</p>
+
+    <h4>Solução 1</h4>
+    <pre><code>import scanf from "scanf";
+
+console.log("Digite 3 números...");
+let x = scanf("%d");
+let y = scanf("%d");
+let z = scanf("%d");
+
+if (x > y) {
+    if (x > z) {
+        console.log(x, "é o maior número");
+        if (x % 2 !== 0) {
+            console.log("e também é ímpar");
+        } else {
+            console.log("e também é par");
+        }
+    } else {
+        console.log(z, "é o maior número");
+        if (z % 2 !== 0) {
+            console.log("e também é ímpar");
+        } else {
+            console.log("e também é par");
+        }
+    }
+} else {
+    if (y > z) {
+        console.log(y, "é o maior número");
+        if (y % 2 !== 0) {
+            console.log("e também é ímpar");
+        } else {
+            console.log("e também é par");
+        }
+    } else {
+        console.log(z, "é o maior número");
+        if (z % 2 !== 0) {
+            console.log("e também é ímpar");
+        } else {
+            console.log("e também é par");
+        }
+    }
+}</code></pre>
+
+    <p>Observe que o <code>if</code> da linha 11 está dentro do <code>if</code> da linha 9 que por sua vez está dentro do <code>if</code> da linha 8. Isso quer dizer que para a linha 12 ser executada, os <code>if</code>s das linhas 8, 9 e 11 devem ser verdadeiros.</p>
+
+    <p>Há várias formas de fazer um programa. Nesta, optei por usar <code>if</code>s e <code>else</code>s. Daria para fazer apenas com <code>if</code>s, porém ficaria mais complexo.</p>
+
+    <h4>Solução 2</h4>
+    <pre><code>import scanf from "scanf";
+
+console.log("Digite 3 números...");
+let x = scanf("%d");
+let y = scanf("%d");
+let z = scanf("%d");
+let maior;
+
+if (x > y) {
+    if (x > z) {
+        maior = x;
+    } else {
+        maior = z;
+    }
+} else {
+    if (y > z) {
+        maior = y;
+    } else {
+        maior = z;
+    }
+}
+
+console.log(maior, "é o maior número");
+
+if (maior % 2 !== 0) {
+    console.log("e também é ímpar");
+} else {
+    console.log("e também é par");
+}</code></pre>
+
+    <p>Aqui está o mesmo programa feito de forma diferente. Para economizar linhas, armazenei o maior número numa variável e no final verifiquei se essa variável é par ou ímpar, ao invés de fazer a verificação várias vezes.</p>
+
+    <h4>Solução 3</h4>
+    <pre><code>import scanf from "scanf";
+
+console.log("Digite 3 números...");
+let x = scanf('%d');
+let y = scanf('%d');
+let z = scanf('%d');
+let maior;
+
+if (x > y) {
+    maior = x;
+} else {
+    maior = y;
+}
+
+if (z > maior) {
+    maior = z;
+}
+
+console.log(maior, "é o maior número");
+
+if (maior % 2 !== 0) {
+    console.log("e também é ímpar");
+} else {
+    console.log("e também é par");
+}</code></pre>
+
+    <p>O mesmo exercício resolvido de mais outra forma. Dessa vez, usando ainda menos if-else’s.</p>
+
+    <h3>O problema do else oscilante</h3>
+    <p>O Javascript sempre associa um <code>else</code> à instrução <code>if</code> imediatamente anterior, a menos que instruído de outro modo pela colocação de chaves ({ e }). Esse comportamento pode levar àquilo que é chamado de problema do <code>else</code> oscilante.</p>
+    <p>Cuidado! Isso daqui:</p>
+    <pre><code>if (x > 5)
+    if (y > 5)
+        console.log("x e y são maiores que 5");
+else
+    console.log("x é menor que 5");</code></pre>
+
+    <p>É equivalente a isso daqui:</p>
+    <pre><code>if (x > 5)
+    if (y > 5)
+        console.log("x e y são maiores que 5");
+    else
+        console.log("x é menor que 5");</code></pre>
+
+    <p>Use chaves para associar o <code>else</code> ao primeiro <code>if</code> deste exemplo…</p>
+
+    <h3>Instrução vazia</h3>
+    <p>Uma instrução vazia é representada colocando um ponto-e-vírgula (<code>;</code>) onde uma instrução normalmente estaria. Colocar um ponto-e-vírgula depois da condição em uma instrução <code>if</code> resulta em um erro de lógica em um <code>if</code> único ou em erro de sintaxe em um <code>if</code>..<code>else</code>. Por exemplo,</p>
+    <pre><code>if (number1 == number2); // erro de lógica
+    console.log(number1, "==", number2);</code>
+</pre>
+    <p>É equivalente a:</p>
+    <pre><code>if (number1 == number2)
+    ; // estrutura vazia
+
+console.log(number1, "==", number2);</code></pre>
+
+    <h3>Erros</h3>
+    <p>Um <b>erro de sintaxe</b> ocorre quando o código que você escreve não segue a gramática definida pela linguagem de programação. Esses erros são detectados durante a análise do código, antes de ser executado. Eles geralmente resultam em mensagens de erro que indicam a linha e o local onde a violação ocorreu. Erros de sintaxe incluem coisas como escrever palavras-chave erradas, omitir parênteses de fechamento, usar operadores de forma incorreta e outros problemas que violam as regras da linguagem.</p>
+    <p>Quantos erros de sintaxe você consegue encontrar a seguir?</p>
+    <pre><code class="plain">console.log("tudo certo??")
+
+console.log("qual tua nota? )
+nota1 = scanf(%f)
+if nota2 >= 6 {
+    print("aprovado"
+else 
+    print(reprovado)
+}</code></pre>
+    <p>Erros de sintaxe também podem ser chamados de <b>erros em tempo de compilação</b> ou simplesmente <b>erros de compilação</b>, porque eles são detectados pelo compilador antes da execução do programa, impedindo o programa de ser executado, mesmo que apenas algumas instruções estejam erradas.</p>
+    <p>Um <b>erro em tempo de execução</b> ou simplesmente <b>erro de execução</b> ocorre quando o programa está em execução e encontra uma situação imprevista que impede seu funcionamento normal. Isso pode ser causado por vários motivos, como entradas inválidas, tentativas de acesso a variáveis inexistentes, divisões por zero, entre outros. Esses erros são frequentemente chamados de <b>exceções</b> e interrompem a execução do programa no momento em que ocorrem, geralmente exibindo uma mensagem de erro para o usuário.</p>
+    <!-- <p>Tente digitar uma palavra em vez de um número para ver um exemplo de erro de execução:</p>
+    <pre><code>print("Programa para calcular o quadrado de um número...")
+numero = int(input("Digite um número: "))
+quadrado = numero * numero
+print("O quadrado do número é", quadrado)</code></pre> -->
+    <p>Nesse exemplo, se o usuário digitar <code>erro</code>, ocorrerá um erro de execução:</p>
+    <pre><code>import scanf from "scanf";
+
+let string = scanf("%s")
+
+if (string == 'erro')
+    string = 3
+console.log(string.toUpperCase())
+
+console.log("Deu tudo certo!")</code></pre>
+
+    <p>Um <b>erro de lógica</b> ocorre quando um programa produz resultados indesejados devido a problemas em sua lógica interna ou na implementação do algoritmo. Esse tipo de erro não é detectado pelo interpretador ou compilador como um erro, porque o código está sintaticamente correto e não resulta em falhas de compilação ou execução. No entanto, o programa pode não realizar as operações desejadas ou pode produzir resultados incorretos.</p>
+    <p>Considere o seguinte programa que não calcula corretamente o quadrado de um número, resultando em um erro de lógica:</p>
+    <pre><code>console.log("Programa para calcular o quadrado de um número...")
+console.log("Digite um número: ")
+numero = scanf("%f")
+quadrado = numero * 2
+console.log("O quadrado do número é", quadrado)</code></pre>
+
+    <h3>Seleção encadeada</h3>
+    <p>Considere o seguinte exercício:</p>
+    <p>A nota final de um estudante é calculada a partir de três notas atribuídas, respectivamente, a um trabalho, a um seminário e a uma prova. A média das três notas mencionadas obedece aos pesos da tabela A. Dadas as três notas de um estudante, qual sua média ponderada e seu conceito conforme a tabela B?</p>
+    <div style="display:flex;">
+        <table class="custom">
+            <caption>Tabela A</caption>
+            <thead>
+                <tr>
+                    <th>Nota</th>
+                    <th>Peso</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Trabalho</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Seminário</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Prova</td>
+                    <td>5</td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="custom">
+            <caption>Tabela B</caption>
+            <thead>
+                <tr>
+                    <th>MÉDIA PONDERADA</th>
+                    <th>CONCEITO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Maior ou igual a 8,5</td>
+                    <td>A, aprovado :D</td>
+                </tr>
+                <tr>
+                    <td>Maior ou igual a 7 e menor que 8,5</td>
+                    <td>B, aprovado :)</td>
+                </tr>
+                <tr>
+                    <td>Maior ou igual a 5 e menor que 7</td>
+                    <td>C, recuperação :|</td>
+                </tr>
+                <tr>
+                    <td>Maior ou igual a 2,5 e menor que 5</td>
+                    <td>D, recuperação :(</td>
+                </tr>
+                <tr>
+                    <td>Menor que 2,5</td>
+                    <td>E, reprovado :O</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Solução 1:</p>
+    <pre><code>import scanf from "scanf";
+
+console.log("Boletim Digital");
+console.log("###############\n");
+
+console.log("Trabalho:");
+let t = scanf("%f");
+console.log("Seminário:");
+let s = scanf("%f");
+console.log("Prova:");
+let p = scanf("%f");
+
+let m = (t * 2 + s * 3 + p * 5) / 10;
+
+console.log("\nMédia:", m);
+
+if (m >= 8.5) {
+    console.log("Conceito A, aprovado :D");
+} else {
+    if (m >= 7) {
+        console.log("Conceito B, aprovado :)");
+    } else {
+        if (m >= 5) {
+            console.log("Conceito C, recuperação :|");
+        } else {
+            if (m >= 2.5) {
+                console.log("Conceito D, recuperação :(");
+            } else {
+                console.log("Conceito E, reprovado :O");
+            }
+        }
+    }
+}</code></pre>
+
+    <p>Embora esse código funcione, esse aninhamento de <code>if</code>s e <code>else</code>s torna o código menos legível. Apesar da recomendação ser sempre colocar chaves, em casos como esse, o código fica mais legível ao omitir as chaves.</p>
+
+    <p>Solução 2:</p>
+    <pre><code>import scanf from "scanf";
+
+console.log("Boletim Digital");
+console.log("###############\n");
+
+console.log("Trabalho:");
+let t = scanf("%f");
+console.log("Seminário:");
+let s = scanf("%f");
+console.log("Prova:");
+let p = scanf("%f");
+
+let m = (t * 2 + s * 3 + p * 5) / 10;
+
+console.log("\nMédia:", m);
+
+if (m >= 8.5) {
+    console.log("Conceito A, aprovado :D");
+} else if (m >= 7) {
+    console.log("Conceito B, aprovado :)");
+} else if (m >= 5) {
+    console.log("Conceito C, recuperação :|");
+} else if (m >= 2.5) {
+    console.log("Conceito D, recuperação :(");
+} else {
+    console.log("Conceito E, reprovado :O");
+}</code></pre>
+
+    <p>As instruções encadeadas <code>if</code> e <code>else</code> são mutuamente exclusivas. Isto é, apenas o corpo da primeira instrução verdadeira é executado. Se nenhuma for verdadeira, e houver um <code>else</code>, apenas o corpo do <code>else</code> é executado.</p>
+
+    <h3>Operador ternário</h3>
+    <p>Em Javascript, assim como em algumas outras linguagens de programação, você pode usar o operador ternário para expressar uma operação condicional de forma mais concisa. O operador ternário é uma forma compacta de escrever um <code>if</code>-<code>else</code> de uma linha.</p>
+    <p>A sintaxe básica do operador ternário em Javascript é a seguinte:</p>
+    <pre>condição <b>?</b> valor_se_verdadeiro <b>:</b> valor_se_falso</pre>
+    <p>A <code>condição</code> é a expressão que será avaliada. Se for verdadeira, o resultado da expressão é <code>valor_se_verdadeiro</code>; caso contrário, o resultado da expressão é <code>valor_se_falso</code>.</p>
+    <p>Aqui está um exemplo de código que utiliza operador ternário para determinar o maior entre dois números:</p>
+    <pre><code>let a = scanf("%d")
+let b = scanf("%d")
+
+maior = a > b ? a : b;
+console.log(maior)</code></pre>
+    <p>Neste caso, o operador ternário verifica se <code>a</code> é maior que <code>b</code>. Se for verdadeiro, a variável <code>maior</code> recebe o valor de <code>a</code>, senão, recebe o valor de <code>b</code>. Isso é equivalente à:</p>
+    <pre><code>let a = scanf("%d")
+let b = scanf("%d")
+
+if (a > b)
+    maior = a
+else
+    maior = b
+
+console.log(maior)</code></pre>
+
+    <p>Considere também este exemplo:</p>
+    <pre><code>console.log("Qual é a tua nota?")
+let nota = scanf("%f")
+console.log(nota >= 6 ? "Aprovado!" : "Reprovado!")</code></pre>
+    <p>O operador ternário é útil para expressões condicionais simples, mas deve ser usado com moderação para não comprometer a legibilidade do código.</p>
+
+    <h2>Exercícios</h2>
+    <p>Observação: procure resolver apenas com o que ensinei até o momento. (Evite usar operadores lógicos como <code>&&</code> e <code>||</code>).</p>
+    <ol class="excs">
+        <li>Dado um inteiro, ele é par ou ímpar?</li>
+        <li>Dados dois números, o primeiro é o dobro do segundo? Responda com SIM ou NÃO.</li>
+        <li>Dados dois inteiros, algum deles é ímpar? Responda com SIM ou NÃO.</li>
+        <li>Dados dois inteiros, ambos são pares? Responda com SIM ou NÃO.</li>
+        <li>Dados três inteiros, a soma deles é ímpar? Responda com SIM ou NÃO.</li>
+        <li>Dados dois números, qual o maior deles e a diferença absoluta entre eles? (a diferença absoluta é o maior menos o menor).</li>
+        <li>Dados três números, qual o maior?</li>
+        <li>Dados três números representando os lados de um triângulo, ele é equilátero, isósceles ou escaleno? (como seria esse exercício sem o else nem o elif?)</li>
+        <li>Em certa região, o preço pelo fornecimento de energia elétrica depende do consumo em kWh, conforme a seguinte tabela:
+            <table class="custom">
+                <tr>
+                    <th>Faixa (kWh)</th>
+                    <th>Preço (R$\$$)</th>
+                </tr>
+                <tr>
+                    <td>Até 500</td>
+                    <td>0,40</td>
+                </tr>
+                <tr>
+                    <td>Acima de 500</td>
+                    <td>0,65</td>
+                </tr>
+            </table>
+            <p>Dado o consumo de uma residência em kWh, qual o preço da energia a ser pago?</p>
+        </li>
+        <li>Determinar as raízes ou zero de uma função do 2º grau consiste em determinar os pontos de intersecção da parábola com o eixo das abscissas no plano cartesiano. Seja a função $f(x) = ax^2 + bx + c$, podemos determinar sua raiz considerando $f(x) = 0$, dessa forma obtemos a equação do 2º grau $ax^2 + bx + c = 0$, que pode ser resolvida pela fórmula de Bháskara. Nesta, as raízes são $$x_1=\dfrac{-b+\sqrt{\Delta}}{2a}$$ e $$x_2=\dfrac{-b-\sqrt{\Delta}}{2a}$$, onde $\Delta = b² - 4ac$.
+            <p>Dados os valores das constantes $a$, $b$ e $c$, quais as raízes da equação? Caso $a=0$, escrever "Não é equação de segundo grau". Caso $\Delta &lt; 0$, escrever "Não existe raiz". Caso $\Delta=0$, escrever a raiz e a mensagem "Raiz única". Caso $\Delta \gt 0$, escrever as duas raízes.</p>
+        </li>
+        <li>Dado o código de determinado produto, qual a sua classificação? Utilize a seguinte tabela de referência:
+            <table class="custom">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Classificação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Alimento não perecível</td>
+                    </tr>
+                    <tr>
+                        <td>2, 3 ou 4</td>
+                        <td>Alimento perecível</td>
+                    </tr>
+                    <tr>
+                        <td>5 ou 6</td>
+                        <td>Vestuário</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Higiene pessoal</td>
+                    </tr>
+                    <tr>
+                        <td>8 até 15</td>
+                        <td>Limpeza e utensílios domésticos</td>
+                    </tr>
+                    <tr>
+                        <td>Qualquer outro código</td>
+                        <td>Inválido</td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
+        <li>Dado o preço da etiqueta de um produto e o código da condição de pagamento, qual o valor total a ser pago pelo produto, e, se for o caso, o valor de cada parcela? Utilize a seguinte tabela de referência:
+            <table class="custom">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Condição de pagamento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>À vista em dinheiro ou cheque, recebe 10% de desconto</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>No cartão de débito ou PIX, recebe 5% de desconto</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Em duas vezes, preço normal de etiqueta sem juros</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Em três vezes, preço normal de etiqueta mais juros de 10%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
+        <li>Para descobrir o peso ideal de uma pessoa, calcula-se o Índice de Massa Corporal (IMC) utilizando a seguinte fórmula: $imc=peso/altura^2$. Dados o peso e a altura de uma pessoa, de acordo com a tabela a seguir, qual é o seu IMC e a sua condição atual?
+            <table class="custom">
+                <tr>
+                    <th>Condição</th>
+                    <th>IMC em mulheres</th>
+                    <th>IMC em homens</th>
+                <tr>
+                    <td>Abaixo do peso</td>
+                    <td>$IMC\lt 19.1$</td>
+                    <td>$IMC\lt 20.7$</td>
+                </tr>
+                <tr>
+                    <td>No peso ideal</td>
+                    <td>$19.1\leq IMC\lt 25.8$</td>
+                    <td>$20.7\leq IMC\lt 26.4$</td>
+                </tr>
+                <tr>
+                    <td>Acima do peso</td>
+                    <td>$25.8\leq IMC$</td>
+                    <td>$26.4\leq IMC$</td>
+                </tr>
+                </tr>
+            </table>
+        </li>
+    </ol>
+</div>
