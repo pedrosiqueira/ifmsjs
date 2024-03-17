@@ -223,19 +223,16 @@ console.log(a, b, c, d)</code></pre>
 
     <pre><code>import scanf from "scanf";
 
-console.log("Informe teu salario: ");
+console.log("\nInforme teu salario: ");
 let salario = scanf("%f")
-console.log("Informe tua nota: ");
-let nota = scanf("%f")
-console.log("Informe teu numero da sorte: ");
-let numero = scanf("%d")
-console.log("Informe tua idade: ");
-let idade = scanf("%d")
 
 console.log("\nVocê ganha", salario);
 if (salario > 5000) {
     console.log("Você está bem, ein!");
 }
+
+console.log("\nInforme tua nota: ");
+let nota = scanf("%f")
 
 console.log("\nVocê tirou nota", nota);
 if (nota < 7)
@@ -243,11 +240,17 @@ if (nota < 7)
     console.log("Você está de recuperação!");
 }
 
-console.log("\nTeu número da sorte é", numero);
-if (numero % 2 === 0) console.log("Número par");
+console.log("\nInforme teu numero da sorte: ");
+let numero = scanf("%d")
 
-if (numero % 5 === 0) 
+console.log("\nTeu número da sorte é", numero);
+if (numero % 2 == 0) console.log("Número par");
+
+if (numero % 5 == 0) 
     console.log("Número múltiplo de 5.");
+
+console.log("\nInforme tua idade: ");
+let idade = scanf("%d")
 
 console.log("\nTua idade é", idade);
 if (idade >= 18) {
@@ -266,14 +269,8 @@ console.log("\nFim do programa.");</code></pre>
     <p>Execute esse código e teste com valores que explorem tanto o <code>if</code> quanto o <code>else</code>. Procure entender o que está acontecendo no código:</p>
     <pre><code>import scanf from "scanf";
 
-console.log("Informe teu salario: ");
+console.log("\nInforme teu salario: ");
 let salario = scanf("%f")
-console.log("Informe tua nota: ");
-let nota = scanf("%f")
-console.log("Informe teu numero da sorte: ");
-let numero = scanf("%d")
-console.log("Informe tua idade: ");
-let idade = scanf("%d")
 
 console.log("\nVocê ganha", salario);
 if (salario > 5000) {
@@ -281,6 +278,9 @@ if (salario > 5000) {
 } else {
     console.log("Você ainda chega lá!");
 }
+
+console.log("\nInforme tua nota: ");
+let nota = scanf("%f")
 
 console.log("\nVocê tirou nota", nota);
 if (nota < 7)
@@ -290,14 +290,20 @@ if (nota < 7)
 else
     console.log("Você passou de ano!");
 
+console.log("\nInforme teu numero da sorte: ");
+let numero = scanf("%d")
+
 console.log("\nTeu número da sorte é", numero);
-if (numero % 2 === 0) console.log("Número par");
+if (numero % 2 == 0) console.log("Número par");
 else console.log("Número ímpar");
 
-if (numero % 5 === 0) 
+if (numero % 5 == 0) 
     console.log("Número múltiplo de 5.");
 else
     console.log("Número NÃO múltiplo de 5.");
+
+console.log("\nInforme tua idade: ");
+let idade = scanf("%d")
 
 console.log("\nTua idade é", idade);
 if (idade >= 18) {
@@ -330,14 +336,14 @@ let z = scanf("%d");
 if (x > y) {
     if (x > z) {
         console.log(x, "é o maior número");
-        if (x % 2 !== 0) {
+        if (x % 2 != 0) {
             console.log("e também é ímpar");
         } else {
             console.log("e também é par");
         }
     } else {
         console.log(z, "é o maior número");
-        if (z % 2 !== 0) {
+        if (z % 2 != 0) {
             console.log("e também é ímpar");
         } else {
             console.log("e também é par");
@@ -346,14 +352,14 @@ if (x > y) {
 } else {
     if (y > z) {
         console.log(y, "é o maior número");
-        if (y % 2 !== 0) {
+        if (y % 2 != 0) {
             console.log("e também é ímpar");
         } else {
             console.log("e também é par");
         }
     } else {
         console.log(z, "é o maior número");
-        if (z % 2 !== 0) {
+        if (z % 2 != 0) {
             console.log("e também é ímpar");
         } else {
             console.log("e também é par");
@@ -390,7 +396,7 @@ if (x > y) {
 
 console.log(maior, "é o maior número");
 
-if (maior % 2 !== 0) {
+if (maior % 2 != 0) {
     console.log("e também é ímpar");
 } else {
     console.log("e também é par");
@@ -419,7 +425,7 @@ if (z > maior) {
 
 console.log(maior, "é o maior número");
 
-if (maior % 2 !== 0) {
+if (maior % 2 != 0) {
     console.log("e também é ímpar");
 } else {
     console.log("e também é par");
@@ -496,7 +502,8 @@ console.log("O quadrado do número é", quadrado)</code></pre>
 
     <h3>Seleção encadeada</h3>
     <p>Considere o seguinte exercício:</p>
-    <p>A nota final de um estudante é calculada a partir de três notas atribuídas, respectivamente, a um trabalho, a um seminário e a uma prova. A média das três notas mencionadas obedece aos pesos da tabela A. Dadas as três notas de um estudante, qual sua média ponderada e seu conceito conforme a tabela B?</p>
+    <p>A nota final de um estudante é calculada a partir de três notas atribuídas, respectivamente, a um trabalho, a um seminário e a uma prova. A média das três notas mencionadas obedece aos pesos da tabela A.</p>
+    <p>Dadas as três notas de um estudante, qual sua média ponderada e seu conceito conforme a tabela B?</p>
     <div style="display:flex;">
         <table class="custom">
             <caption>Tabela A</caption>
