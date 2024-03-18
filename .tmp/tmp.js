@@ -1,2 +1,4 @@
-let number1 = 3, number2 = 4
-console.log(number1, "==", number2);
+import scanf from "scanf";
+
+let [a, b, c] = scanf("%d/%d/%d")
+console.log(a, b, c);
