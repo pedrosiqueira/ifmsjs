@@ -356,6 +356,29 @@ if (!masculino) { ... } </code></pre>
                     </tr>
                 </tbody>
             </table>
+            <!--
+T || T && T = T
+T || T && F = T
+T || F && T = T
+T || F && F = T
+F || T && T = T
+F || T && F = F
+F || F && T = F
+F || F && F = F
+              -->
+        </li>
+        <li>Responda o exercício 1 mas para a seguinte expressão:
+            <p class="center">(horas &lt; 20 || vendas &lt; 1200) && faltas &gt; 15</p>
+            <!--
+(T || T) && T = T
+(T || T) && F = F
+(T || F) && T = T
+(T || F) && F = F
+(F || T) && T = T
+(F || T) && F = F
+(F || F) && T = F
+(F || F) && F = F
+              -->
         </li>
         <h4>Para os exercícios de 2 a 11, responda apenas com SIM ou NÃO.</h4>
         <li>Dados dois números, algum deles é ímpar?</li>
