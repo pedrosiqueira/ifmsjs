@@ -89,16 +89,16 @@
 <div id="resto-da-divisao">
     <h1>Resto da divisão</h1>
     <q>O resto é consequência.</q>
-    <p>No Python, o operador <code>%</code> realiza a operação de resto da divisão, que algumas pessoas também chamam de módulo. Já o operador <code>//</code> realiza o “piso” da divisão entre dois números, isto é, resulta no maior inteiro menor ou igual ao resultado da divisão. Essa operação é equivalente à divisão inteira quando são usados números positivos:</p>
+    <p>O operador <code>%</code> realiza a operação de resto da divisão, que algumas pessoas também chamam de módulo. Em várias linguagens há um operador específico para divisão inteira, isto é, aquela em que não há parte decimal, mas esse não é o caso do Javascript. Para realizar a divisão inteira em Javascript, é necessário usar o comando <code>Math.trunc</code>:</p>
+    <pre><code>let dividendo = 17;
+let divisor = 5;
+let cociente = Math.trunc(dividendo / divisor);
+let resto = dividendo % divisor;
+console.log(dividendo, ' = ', divisor, ' * ', cociente, ' + ', resto);
+// 17 = 5 * 3 + 2</code></pre>
     <p>
         <img id='dividendo-divisor' alt='dividendo e divisor'>
     </p>
-    <pre><code class="python">dividendo = 17
-divisor = 5
-cociente = dividendo // divisor
-resto = dividendo % divisor
-print(dividendo, '=', divisor, '*', cociente, '+', resto)
-# 17 = 5 * 3 + 2</code></pre>
     <p>Observações:</p>
     <ul>
         <li>Atente-se para a fórmula, numa divisão inteira, <code>dividendo = divisor * cociente + resto</code>.</li>
@@ -106,17 +106,17 @@ print(dividendo, '=', divisor, '*', cociente, '+', resto)
         <li>O resto de um número dividido por dez é seu último dígito.</li>
         <li>O cociente de um número dividido por dez são todos os seus dígitos menos o último.</li>
         <li>O resto da divisão de um número menor por um número maior é sempre o número menor.</li>
-        <li>A divisão inteira (<code>//</code>) sempre gera números inteiros, mesmo que o resultado seja atribuído a uma variável de ponto flutuante.</li>
+        <li>A divisão inteira (<code>Math.trunc</code>) sempre gera números inteiros, mesmo que o resultado seja atribuído a uma variável de ponto flutuante.</li>
     </ul>
 
-    <p>Em Python, o operador <code>//</code> realiza o “piso” da divisão. Em outras linguagens como o Java, não há o operador <code>//</code>, mas na divisão entre inteiros, a parte decimal é truncada (descartada). Logo, o comportamento ao realizar divisão inteira em números negativos no Python é diferente em relação à outras linguagens.</p>
-    <p>Divisão de números inteiros negativos em linguagens como o Java:</p>
-    <pre><code class="java">int result = -5 / 2;  // Result: -2</code></pre>
-    <p>Operação de piso da divisão no Python:</p>
-    <pre><code class="python">result = -5 // 2  # Result: -3</code></pre>
+    <p>No comando <code>Math.trunc</code>, a parte decimal é truncada (descartada). Para arredondar a divisão para o inteiro mais próximo, em vez de truncar o resultado, use o comando <code>Math.round</code>:</p>
+    <p>Divisão truncada:</p>
+    <pre><code>let result = Math.trunc(5 / 2) // 2</code></pre>
+    <p>Divisão arredondada:</p>
+    <pre><code>let result = Math.round(5 / 2) // 3</code></pre>
 
     <p>Com o operador de resto da divisão, podemos saber se um número é múltiplo ou divisor de outro número. Por exemplo, para saber se uma variável é par ou ímpar, verificamos se seu resto é 0 ou 1, respectivamente:</p>
-    <pre><code class="python">par = 10
+    <pre><code>par = 10
 impar = 15
 
 resto1 = par % 2
@@ -125,14 +125,14 @@ resto2 = impar % 2
 print(resto1, resto2)</code></pre>
 
     <p>Ao realizar divisões inteiras sucessivas por 10, obtendo o resto a cada divisão, conseguimos decompor um número em seus algarismos:</p>
-    <pre><code class="python">num = 123
-unidade = num % 10
-num = num // 10
-dezena = num % 10
-num = num // 10
-centena = num % 10
+    <pre><code>let num = 123;
+let unidade = num % 10;
+num = Math.trunc(num / 10);
+let dezena = num % 10;
+num = Math.trunc(num / 10);
+let centena = num % 10;
 
-print(centena, dezena, unidade)</code></pre>
+console.log(centena, dezena, unidade)</code></pre>
 
     <h2>Dia juliano</h2>
     <p>O dia juliano é a contagem contínua de dias desde o início do período juliano e é usado principalmente por astrônomos e em software para calcular facilmente os dias decorridos entre dois eventos.</p>
@@ -207,13 +207,13 @@ print(centena, dezena, unidade)</code></pre>
     <p>Para converter um dia juliano para sua data gregoriana, a partir do dia 0, usamos a seguinte fórmula:</p>
     <p>
         $$\begin{aligned}
-        f &= J + 1401 + (4 \cdot J + 274277) / 146097 \cdot 3 / 4 + (-38) \\
+        f &= J + 1401 + (4 \cdot J + 274277) \div 146097 \cdot 3 \div 4 + (-38) \\
         e &= 4 \cdot f + 3 \\
-        g &= e \% 1461 / 4 \\
+        g &= e \% 1461 \div 4 \\
         h &= 5 \cdot g + 2 \\
-        D &= h \% 153 / 5 + 1 \\
-        M &= (h / 153 + 2) \% 12 + 1 \\
-        Y &= e / 1461 - 4716 + (12 + 2 - M) / 12
+        D &= h \% 153 \div 5 + 1 \\
+        M &= (h \div 153 + 2) \% 12 + 1 \\
+        Y &= e \div 1461 - 4716 + (12 + 2 - M) \div 12
         \end{aligned}$$
     </p>
     <p>Onde $J$ é o número do dia juliano, e $D$, $M$ e $Y$ são, respectivamente, o dia, mês e ano da data daquele dia juliano.</p>
