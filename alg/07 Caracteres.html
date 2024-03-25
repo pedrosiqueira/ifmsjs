@@ -388,6 +388,20 @@ console.log("Uma palavra entre aspas duplas: \"javascript\".")</code></pre>
     <p>Observe que quando você usa uma string delimitada por aspas simples, não precisa prefixar as aspas duplas para incluí-las na string, e vice-versa.</p>
 
     <p>Você pode saber o código de um caractere usando a função <code>String.fromCharCode</code>. E também pode saber o caractere correspondente a um código usando a função <code>charCodeAt</code>:</p>
+    <pre><code>let codigo_a = 97
+// convertendo de código numérico para letra
+let letra_a = String.fromCharCode(codigo_a)
+
+console.log("\nLetra:", letra_a)
+console.log("Código numérico:", codigo_a)
+
+let letra_j = 'j'
+// convertendo de letra para código numérico
+let codigo_j = letra_j.charCodeAt()
+
+console.log("\nLetra:", letra_j)
+console.log("Código numérico:", codigo_j)</code></pre>
+    <p>Veja outro exemplo:</p>
     <pre><code>let a = 97
 let U = 85
 let cifrao = 36

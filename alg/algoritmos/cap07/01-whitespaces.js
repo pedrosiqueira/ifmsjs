@@ -1,3 +1,3 @@
 console.log("uma linha\n")
-console.log("outra linha\n")
-console.log("uma frase\n com algumas\n palavras.")
+console.log("outra linha")
+console.log("uma\n frase\n com\n algumas\n palavras.")
