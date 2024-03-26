@@ -143,7 +143,7 @@ console.log("A soma de", x, "e", y, "é", x + y)</code></pre>
 
     <h2>Entrada de dados</h2>
     <p>O comando <code>scanf</code> do pacote <a href="https://github.com/Lellansin/node-scanf">node-scanf</a> pode ser usado para receber informações do teclado facilmente. Dizemos "ler do teclado" ou simplesmente <b>ler</b>. Ele é baseado no comando homônimo da linguagem de programação C. A sintaxe do comando é a seguinte:</p>
-    <pre><code>variavel = scanf(tipo)</code></pre>
+    <pre><code>variavel = scanf("tipo")</code></pre>
     <p>Onde <code>variavel</code> é o nome da variável que receberá o valor a ser lido do teclado, e <code>tipo</code> é um argumento que representa o tipo do valor a ser lido. <code>scanf</code> suporta a leitura dos seguintes tipos de dados:</p>
     <ul>
         <li><code>%d</code> - int</li>
@@ -178,7 +178,28 @@ console.log("The sum of the numbers is", soma)</code></pre>
     <pre><code>console.log("What's your height?")
 let h = scanf("%f")
 console.log("great, you measure", h)</code></pre>
-    <p>Juntos, os comandos <code>input</code> e <code>console.log</code> podem ser usados para criar simples programas interativos que se comunicam com o usuário.</p>
+    <p>Juntos, os comandos <code>scanf</code> e <code>console.log</code> podem ser usados para criar simples programas interativos que se comunicam com o usuário.</p>
+    <h3>Lendo múltiplos valores de uma vez</h3>
+    <p>Você também pode ler vários valores em um único <code>scanf</code>:</p>
+    <pre><code>import scanf from 'scanf';
+
+console.log('digite três inteiros')
+let inteiros = scanf('%d%d%d')
+console.log('vc digitou', inteiros);</code></pre>
+    <p>Você pode digitar três inteiros separados por espaço ou enter. Mas os três valores ficam numa única variável, que é uma lista. Mais para frente estudaremos listas na programação. Mas, já adiantando um pouco, para você desagrupar cada valor em uma única variável, você pode usar o recurso de destruturação de listas:</p>
+    <pre><code>import scanf from 'scanf';
+
+console.log('digite três inteiros')
+let [n1, n2, n3] = scanf('%d%d%d')
+console.log('vc digitou', n1, n2, n3)
+let soma = n1 + n2 + n3
+console.log('a soma dos números é', soma);</code></pre>
+    <p>Os números lidos devem ser separados por espaço ou enter (quebra de linha), por padrão. Mas você pode alterar esse comportamento informando uma "máscara" ao <code>scanf</code>. Por exemplo, uma data é composta por três inteiros, representando, respectivamente, o dia, mês e ano. Para o usuário digitar uma data no formato dd/mm/aaaa, o código pode ficar assim:</p>
+    <pre><code>import scanf from 'scanf';
+
+console.log('digite uma data no formato dd/mm/aaaa')
+let [d, m, a] = scanf('%d/%d/%d')
+console.log('a data informada é', d, '/', m, '/', a)</code></pre>
 
     <h2>Mais um pouco sobre comentários</h2>
     <p>Computadores interpretam e executam códigos, mas eles não têm a capacidade de adivinhar tua intenção. Um simples erro no código, como não fechar um parêntese, e teu computador não saberá o que fazer.</p>
