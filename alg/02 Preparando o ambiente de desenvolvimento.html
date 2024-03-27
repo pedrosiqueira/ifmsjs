@@ -175,7 +175,7 @@
     <p>Já com o JavaScript instalado, abra o vscode e acesse a aba de extensões (atalho <kbd>Ctrl + Shift + X</kbd>). Em seguida, instale as seguintes extensões:</p>
     <ul>
         <li><a href="https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode">VisualStudioExptTeam.vscodeintellicode</a></li>
-        <li><a href="https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.intellicode-api-usage-examples">VisualStudioExptTeam.intellicode-api-usage-examples</a></li>
+        <!-- <li><a href="https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.intellicode-api-usage-examples">VisualStudioExptTeam.intellicode-api-usage-examples</a></li> -->
         <li><a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">dbaeumer.vscode-eslint</a></li>
         <li><a href="https://marketplace.visualstudio.com/items?itemName=xabikos.JavaScriptSnippets">xabikos.JavaScriptSnippets</a></li>
         <li><a href="https://marketplace.visualstudio.com/items?itemName=christian-kohler.npm-intellisense">christian-kohler.npm-intellisense</a></li>
@@ -184,8 +184,23 @@
         <!-- <li><a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.js-debug">JavaScript Debugger</a> (a versão "estável" já vem instalada junto com o vs code).</li> -->
     </ul>
     <h2>Criando nosso projeto</h2>
-    <p>É muito importante mantermos organizado nosso ambiente de trabalho. Como programadores, separamos nossos códigos em projetos, que são pastas que agrupam nossos arquivos de código.</p>
-    <p id="vamos-baixar-do-github">Vamos baixar do github pelo vscode um projeto já configurado para a nossa matéria. Primeiramente copie esse link: <a class="click-to-copy" href="https://github.com/pedrosiqueira/info3-dw3.git">https://github.com/pedrosiqueira/info3-dw3.git</a>. Agora, no vscode, tecle <kbd>F1</kbd>, digite "clone", e selecione a opção "Git: Clone". No campo de entrada que abrir, cole o link copiado anteriormente e tecle <kbd>Enter</kbd>. Escolha um local para o seu projeto, e abra-o pelo vscode. Se aparecer uma mensagem perguntando se você confia nesse projeto, confirme que sim.</p>
+    <p>É fundamental mantermos nosso ambiente de trabalho organizado. Como programadores, separamos nossos códigos em projetos, que são pastas que agrupam nossos arquivos de código.</p>
+    <p id="vamos-baixar-do-github">Vamos baixar um projeto já configurado do GitHub. O GitHub é um site que hospeda repositórios Git, onde os desenvolvedores podem armazenar, compartilhar e colaborar em projetos. Você pode baixar e abrir o projeto de duas maneiras. Se você não tem o <a href="https://git-scm.com/downloads">git</a> instalado ou não está familiarizado com o git, siga estas etapas:</p>
+    <h4>Alternativa 1</h4>
+    <ol>
+        <li>Baixe o projeto do link <a href="https://github.com/pedrosiqueira/info3-dw3/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/info3-dw3/archive/refs/heads/main.zip</a>.</li>
+        <li>O arquivo baixado está compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto.</li>
+        <li>Abra o projeto no vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</li>
+    </ol>
+    <p>Se você tiver o <a href="https://git-scm.com/downloads">git</a> instalado, siga estas etapas:</p>
+    <h4>Alternativa 2</h4>
+    <ol>
+        <li>Copie este link: <a class="click-to-copy" href="https://github.com/pedrosiqueira/info3-dw3.git">https://github.com/pedrosiqueira/info3-dw3.git</a>.</li>
+        <li>No vscode, tecle <kbd>F1</kbd>, digite "clone" e selecione a opção "Git: Clone".</li>
+        <li>Na caixa de entrada que aparece, cole o link copiado anteriormente e tecle <kbd>Enter</kbd>.</li>
+        <li>Escolha um local para o seu projeto e abra-o no vscode.</li>
+        <li>Se aparecer uma mensagem perguntando se você confia neste projeto, confirme que sim.</li>
+    </ol>
     <p>De início, o projeto vem com dois arquivos de configuração. O arquivo <code>.vscode/launch.json</code> possui configurações do vscode para o projeto, como como compilá-lo e executá-lo. O arquivo <code>package.json</code> possui configurações do node para o projeto, como o nome dos autores do projeto, descrição do projeto, e pacotes de terceiros utilizados pelo projeto.</p>
     <p>O projeto também vem com a pasta <code>node_modules</code>, onde ficam os pacotes de terceiros. No momento o único pacote que utilizaremos é o <code>scanf</code>, que nos auxilia a ler dados digitados pelo usuário.</p>
     <p>Organizaremos nosso projeto por pastas. Criaremos uma pasta para cada capítulo, onde colocaremos os códigos desenvolvidos naquele capítulo. Como estamos no segundo capítulo, crie a pasta <code>cap02</code> na pasta raiz do projeto. Você pode fazer isso no vscode clicando com o botão direito no espaço vazio da aba de explorador e selecionando "New folder...".</p>
