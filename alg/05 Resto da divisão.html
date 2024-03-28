@@ -234,12 +234,12 @@ console.log(centena, dezena, unidade)</code></pre>
     <p>Para realizar cálculos entre datas, consideramos apenas números inteiros, inclusive para os cocientes das divisões entre os números, descartando a parte decimal.</p>
     <p>Para converter um dia juliano para sua data gregoriana, a partir do dia 0, usamos a seguinte fórmula:</p>
     <pre><code>f = J + 1401 + (((4 * J + 274277) / 146097) * 3) / 4 -38
-    e = 4 * f + 3
-    g = (e % 1461) / 4
-    h = 5 * g + 2
-    D = ((h % 153)) / 5 + 1
-    M = (h / 153 + 2) % 12 + 1
-    Y = (e / 1461) - 4716 + (12 + 2 - M) / 12</code></pre>
+e = 4 * f + 3
+g = (e % 1461) / 4
+h = 5 * g + 2
+D = ((h % 153)) / 5 + 1
+M = (h / 153 + 2) % 12 + 1
+Y = (e / 1461) - 4716 + (12 + 2 - M) / 12</code></pre>
     <p>Onde $J$ é o dia juliano, e $D$, $M$ e $Y$ são, respectivamente, o dia, mês e ano da data gregoriana.</p>
 
     <h2>Exercícios</h2>
