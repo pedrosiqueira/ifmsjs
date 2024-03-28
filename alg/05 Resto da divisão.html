@@ -167,21 +167,21 @@ console.log(centena, dezena, unidade)</code></pre>
     <p>O período juliano começou no dia juliano 0, que no calendário gregoriano proléptico, começou ao meio-dia de 24 de novembro de 4714 a.C.</p>
     <p>Curiosidade: nessa data, três ciclos plurianuais começaram (os Ciclos Solar, Lunar e de Indicção), predecessores de qualquer data na história registrada.</p>
     <p>Por exemplo, o número do dia juliano em 01/01/2000, ao meio dia do horário universal (UT), é 2.451.545.</p>
+    <p>Os meses de janeiro a dezembro são numerados de 1 a 12. Os dias dos meses são numerados de 1 a 31. Para o ano, é usada a numeração astronômica do ano, portanto, 1 AC é 0, 2 AC é -1 e 4713 AC é -4712. Use o dia anterior do mês se estiver tentando encontrar o dia juliano de um instante antes do meio-dia UT.</p>
 
     <h3>Data gregoriana para dia juliano</h3>
     <p>Para realizar cálculos entre datas, consideramos apenas números inteiros, inclusive para os cocientes das divisões entre os números, descartando a parte decimal.</p>
-    <p>Para converter uma data gregoriana para seu dia juliano, a partir do dia 23 de novembro de 4714 a.C., usamos a seguinte fórmula:</p>
-    <p>$$\begin{align*}
-        a &= \left(14 - \text{M}\right) \div 12 \\
-        y &= \text{Y} + 4800 - a \\
-        m &= \text{M} + 12 \cdot a - 3 \\
-        \text{J} &= \text{D} + \left(153 \cdot m + 2\right) \div 5 + 365 \cdot y + y \div 4 - y \div 100 + y \div 400 - 32045
-        \end{align*}$$</p>
+    <p>Para converter uma data gregoriana proléptica para seu dia juliano, a partir do dia 23 de novembro de 4714 a.C., usamos a seguinte fórmula:</p>
+    <pre><code>J = (1461 * (Y + 4800 + (M - 14)/12))/4
+  + (367 * (M - 2 - 12 * ((M - 14)/12)))/12
+  - (3 * ((Y + 4900 + (M - 14)/12)/100))/4
+  + D - 32075</code></pre>
     <p>Onde $J$ é o número do dia juliano, e $D$, $M$ e $Y$ são, respectivamente, o dia, mês e ano de uma data gregoriana.</p>
+    <p>Devido à reforma do calendário juliano para o calendário gregoriano ocorrida em 5/10/1582, a fórmula de conversão <a href="https://en.wikipedia.org/wiki/Gregorian_calendar#Difference_between_Gregorian_and_Julian_calendar_dates">precisa ser adaptada</a> para datas anteriores a esta.</p>
 
     <h3>Dia juliano para dia da semana</h3>
     <p>Para saber o dia da semana a partir de um dia juliano, usamos a seguinte fórmula, começando do domingo como dia zero, sendo <code>%</code> o resto da divisão:</p>
-    <p>$W1 = (J + 1) \% 7$</p>
+    <pre><code>W1 = (J + 1) % 7</code></pre>
     <table class="custom">
         <tr>
             <th>W1</th>
@@ -206,7 +206,7 @@ console.log(centena, dezena, unidade)</code></pre>
     </table>
     <p>Mas se o horário for depois da meia-noite UT (e antes do meio-dia UT), então já está no próximo dia da semana.</p>
     <p>Já considerando a segunda-feira como dia 1 e domingo como dia 7, usamos a seguinte fórmula:</p>
-    <p>$W0 = J \% 7 + 1$</p>
+    <pre><code>W0 = J % 7 + 1</code></pre>
     <table class="custom">
         <tr>
             <th>W0</th>
@@ -233,18 +233,14 @@ console.log(centena, dezena, unidade)</code></pre>
     <h3>Dia juliano para data gregoriana</h3>
     <p>Para realizar cálculos entre datas, consideramos apenas números inteiros, inclusive para os cocientes das divisões entre os números, descartando a parte decimal.</p>
     <p>Para converter um dia juliano para sua data gregoriana, a partir do dia 0, usamos a seguinte fórmula:</p>
-    <p>
-        $$\begin{aligned}
-        f &= J + 1401 + (4 \cdot J + 274277) \div 146097 \cdot 3 \div 4 + (-38) \\
-        e &= 4 \cdot f + 3 \\
-        g &= e \% 1461 \div 4 \\
-        h &= 5 \cdot g + 2 \\
-        D &= h \% 153 \div 5 + 1 \\
-        M &= (h \div 153 + 2) \% 12 + 1 \\
-        Y &= e \div 1461 - 4716 + (12 + 2 - M) \div 12
-        \end{aligned}$$
-    </p>
-    <p>Onde $J$ é o número do dia juliano, e $D$, $M$ e $Y$ são, respectivamente, o dia, mês e ano da data daquele dia juliano.</p>
+    <pre><code>f = J + 1401 + (((4 * J + 274277) / 146097) * 3) / 4 -38
+    e = 4 * f + 3
+    g = (e % 1461) / 4
+    h = 5 * g + 2
+    D = ((h % 153)) / 5 + 1
+    M = (h / 153 + 2) % 12 + 1
+    Y = (e / 1461) - 4716 + (12 + 2 - M) / 12</code></pre>
+    <p>Onde $J$ é o dia juliano, e $D$, $M$ e $Y$ são, respectivamente, o dia, mês e ano da data gregoriana.</p>
 
     <h2>Exercícios</h2>
     <ol class="excs">
@@ -257,7 +253,7 @@ console.log(centena, dezena, unidade)</code></pre>
         <li>Dado um dia juliano, qual é o dia da semana?</li>
         <li>Dada uma data, qual é o dia da semana correspondente?</li>
         <li>Dada a data e o número de dias decorridos, qual é a nova data?</li>
-        <li>Dado o valor do saque realizado pelo cliente de um banco, quantas notas de cada valor serão necessárias para atender ao saque com a menor quantidade de notas possível? Podem ser utilizadas notas de $\$100$, $\$50$, $\$20$, $\$10$, $\$5$, $\$2$ e $\$1$.</li>
+        <li>Dado o valor do saque realizado pelo cliente de um banco, quantas notas de cada valor serão necessárias para atender ao saque com a menor quantidade de notas possível? Podem ser utilizadas notas de $\$100$, $\$50$, $\$10$, $\$5$ e $\$1$.</li>
         <p>Solução do exercício 10:</p>
         <pre><code>/* Dado o valor do saque realizado pelo cliente de um banco, quantas notas de cada valor serão necessárias para atender ao saque com a menor quantidade de notas possível? Podem ser utilizadas notas de $100, $50, $20, $10, $5, $2 e $1. */
 
@@ -272,27 +268,19 @@ saque = saque % 100
 let notas50 = Math.trunc(saque / 50)
 saque = saque % 50
 
-let notas20 = Math.trunc(saque / 20)
-saque = saque % 20
-
 let notas10 = Math.trunc(saque / 10)
 saque = saque % 10
 
 let notas5 = Math.trunc(saque / 5)
 saque = saque % 5
 
-let notas2 = Math.trunc(saque / 2)
-saque = saque % 2
-
 let notas1 = saque
 
 console.log("Você receberá:")
 console.log(notas100, "notas de R$100")
 console.log(notas50, "notas de R$50")
-console.log(notas20, "notas de R$20")
 console.log(notas10, "notas de R$10")
 console.log(notas5, "notas de R$5")
-console.log(notas2, "notas de R$2")
 console.log(notas1, "notas de R$1")</code></pre>
     </ol>
 </div>
