@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt">
 
 <head>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+
         }, false);
     </script>
 
@@ -11,23 +11,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
-    <script defer>hljs.configure({ cssSelector: "code", languages: ["console"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+    <script defer>hljs.configure({ cssSelector: "code", languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
-    <!-- retire o atributo output para, ao copiar uma fórmula, copiar tanto no formato html quanto no formato mathml, entretanto, a fórmula sai duplicada -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false},],output:'html'});"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
 
     <style>
         img {
-            max-width: 100%;
+            max-width: 90vw;
+            max-height: 90vh;
         }
 
         .center {
             text-align: center;
+        }
+
+        .katex {
+            /* o padrão é 1.21, vc pode remover essa configuração se quiser deixar o padrão */
+            font-size: 1.0em;
         }
 
         table.custom,
@@ -48,33 +53,39 @@
             /* Remove a margem interna de tags pre dentro de tabelas */
             margin: 0;
             padding: 0;
+            text-align: left;
+        }
+
+        td:has(pre) {
+            /* tags pre dentro de tabela são alinhadas no topo à esquerda */
+            vertical-align: top;
         }
 
         table.align-left th,
         table.align-left td {
             /* alinha à esquerda as células da tabela */
-            text-align: left;
+            text-align: left !important;
         }
 
+        /* inicia a lista de exercícios */
         ol.excs {
-            /* lista de exercícios */
             padding-inline-start: 0em;
             counter-reset: excs;
             list-style: none;
         }
 
-        ol.excs>li::before {
-            /* lista de exercícios */
+        /* põe um numerador num item da lista de exercícios, desde que não seja da classe no-mark */
+        ol.excs>li:not(.no-mark)::before {
             counter-increment: excs;
             content: counters(excs, ".") ". ";
         }
 
+        /* põe uma barra vertical ao lado do item da lista de exercícios */
         ol.excs>li {
             /* Change this to adjust the line color and thickness */
             border-left: 2px solid #000;
             /* Optional: Add padding to create some space between the bar and content */
             padding-left: 10px;
-
             margin-block-start: 1em;
             margin-block-end: 1em;
         }
@@ -109,144 +120,155 @@
 
     <p>Se determinado código precisa ser executado várias vezes, você pode usar estrutura de controle chamada de <b>repetição</b>, também conhecida como <b>laço</b> ou <b>loop</b>. Cada vez que um código é executado em uma estrutura de repetição, ocorre uma <b>iteração</b>, ou <b>ciclo</b>. Uma propriedade da repetição na programação, é que em um momento ela deve parar. Se não parar, acontece o que chamamos de <b>loop infinito</b>. (cuidado para não ficar preso no loop infinito!).</p>
     <p>Bohm e Jacopini demonstraram que todos os programas poderiam ser escritos com apenas três tipos de estruturas de controle (ou instruções de controle) — a estrutura de sequência, a estrutura de seleção e a estrutura de repetição.</p>
-    <p>O Python possui dois tipos de repetições, <code>while</code> e <code>for</code>. Vamos começar com o <code>while</code>.</p>
-    <pre><code class="python"># instruções que vão
-# antes do while
-# são executadas
-# normalmente
+    <p>Dentre as <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration">estruturas de repetição</a> do Javascript, as mais usadas são <code>while</code> e <code>for</code>. Vamos começar com o <code>while</code>.</p>
+    <pre><code>// instruções que vão
+// antes do while
+// são executadas
+// normalmente
 
-while condicao:
-    # corpo da repeticao
-    # será executado
-    # enquanto a condição
-    # for verdadeira
-
-# instrução que vão
-# depois do while
-# são executadas
-# normalmente</code></pre>
+while (condicao) {
+    // corpo da repeticao
+    // será executado
+    // enquanto a condição
+    // é verdadeira
+}
+// instrução que vão
+// depois do while
+// são executadas
+// normalmente</code></pre>
     <p>Observe sua semelhança com o <code>if</code>. O corpo do <code>if</code> executa apenas uma vez, já o corpo do <code>while</code> pode executar muitas vezes.</p>
-    <p>Enquanto a <code>condição</code> do <code>while</code> for verdadeira (isto é, qualquer valor diferente de <code>False</code>), o código do corpo do <code>while</code> será executado (isto é, o que estiver recuado depois do <code>while</code>).</p>
-    <p>Assim como qualquer estrutura que tem um corpo, quando houver apenas uma instrução, ela pode ir na mesma linha do <code>while</code>. Mesmo assim, é recomendável abrir um recuo na linha de baixo para explicitar o corpo do <code>while</code>.</p>
-    <p>Atenção para não esquecer o dois-pontos no final do <code>while</code>!</p>
+    <p>Enquanto a <code>condição</code> do <code>while</code> é verdadeira (isto é, qualquer valor diferente de <code>false</code>), o código do corpo do <code>while</code> será executado (isto é, o que estiver entre as chaves do <code>while</code>).</p>
+    <p>Assim como qualquer estrutura que tem um corpo, quando houver apenas uma instrução, não é necessário colocar chaves. Mesmo assim, é recomendável abrir um recuo na linha de baixo para explicitar o corpo do <code>while</code>.</p>
     <p>Certifique-se de que o corpo do <code>while</code> altere algo na condição para que, eventualmente, a condição se torne falsa e o programa continue com as instruções que seguem o <code>while</code> (não caia no loop infinito!).</p>
     <p>Assim como o <code>if</code>, o <code>while</code> pode nunca ser executado! Se a condição for falsa pela a primeira vez, o corpo do <code>while</code> não será executado.</p>
     <p>Os seguintes exercícios propõem que você execute o código manualmente, sem uso do computador, para entender o fluxo de execução do <code>while</code>.</p>
     <p>Qual a saída de cada trecho de código a seguir?</p>
-    <table class="custom align-left">
+    <table class="custom">
         <tr>
             <td>
-                <pre><code class="python">print("\nversão 1")
-i = 10
-if i &lt; 20:
-    print(i, end=" ")
+                <pre><code>console.log("\nversão 1")
+let i = 10
+if (i &lt; 20) {
+    console.log(i)
     i = i + 1
-print(i)</code></pre>
+}
+console.log(i)</code></pre>
             </td>
             <td>
-                <pre><code class="python">print("\nversão 2")
-i = 10
-while i &lt; 20:
-    print(i, end=" ")
+                <pre><code>console.log("\nversão 2")
+let i = 10
+while (i &lt; 20) {
+    console.log(i)
     i = i + 1
-print(i)</code></pre>
+}
+console.log(i)</code></pre>
             </td>
         </tr>
         <tr>
             <td>
-                <pre><code class="python">print("\nversão 3")
-i = 100
-if i &lt; 20:
-    print(i, end=" ")
+                <pre><code>console.log("\nversão 3")
+let i = 100
+if (i &lt; 20) {
+    console.log(i)
     i = i + 1
-print(i)</code></pre>
+}
+console.log(i)</code></pre>
             </td>
             <td>
-                <pre><code class="python">print("\nversão 4")
-i = 100
-while i &lt; 20:
-    print(i, end=" ")
+                <pre><code>console.log("\nversão 4")
+let i = 100
+while (i &lt; 20) {
+    console.log(i)
     i = i + 1
-print(i)</code></pre>
+}
+console.log(i)</code></pre>
             </td>
         </tr>
         <tr>
             <td>
-                <pre><code class="python">print("\nversão 5")
-i = 1
-if i &lt; 20:
-    print(i, end=" ")
-print(i)</code></pre>
+                <pre><code>console.log("\nversão 5")
+let i = 1
+if (i &lt; 20) {
+    console.log(i)
+}
+console.log(i)</code></pre>
             </td>
             <td>
-                <pre><code class="python">print("\nversão 6")
-i = 1
-while i &lt; 20:
-    print(i, end=" ")
-print(i)</code></pre>
+                <pre><code>console.log("\nversão 6")
+let i = 1
+while (i &lt; 20) {
+    console.log(i)
+}
+console.log(i)</code></pre>
             </td>
         </tr>
     </table>
 
     <p>Qual a saída de cada trecho de código a seguir?</p>
 
-    <table class="custom align-left">
+    <table class="custom">
         <tr>
             <td>
-                <pre><code class="python">print("\nVersão 1:")
-i=0
-while i &lt; 10:
-    print(i, end=" ")
-    i += 1</code></pre>
+                <pre><code>console.log("\nVersão 1:")
+let i = 0
+while (i &lt; 10) {
+    console.log(i)
+    i = i + 1
+}</code></pre>
             </td>
             <td>
-                <pre><code class="python">print("\nVersão 2:")
-i=0
-while i &lt;= 10:
-    print(i, end=" ")
-    i += 1</code></pre>
+                <pre><code>console.log("\nVersão 2:")
+let i = 0
+while (i &lt;= 10) {
+    console.log(i)
+    i = i + 1
+}</code></pre>
             </td>
         </tr>
         <tr>
             <td>
-                <pre><code class="python">print("\nVersão 3:")
-i=0
-while i &lt; 10:
-    print(i, end=" ")
-    i += 1
-print(i)</code></pre>
+                <pre><code>console.log("\nVersão 3:")
+let i = 0
+while (i &lt; 10) {
+    console.log(i)
+    i = i + 1
+}
+console.log(i)</code></pre>
             </td>
             <td>
-                <pre><code class="python">print("\nVersão 4:")
-i=0
-while i &lt;= 10:
-    print(i, end=" ")
-    i += 1
-print(i)</code></pre>
+                <pre><code>console.log("\nVersão 4:")
+let i = 0
+while (i &lt;= 10) {
+    console.log(i)
+    i = i + 1
+}
+console.log(i)</code></pre>
             </td>
         </tr>
     </table>
 
     <p>Qual a saída de cada trecho de código a seguir?</p>
-    <table class="custom align-left">
+    <table class="custom">
         <tr>
             <td>
-                <pre><code class="python">i = 1
-soma = 0
-while i &lt; 5:
-    print("+", i, end=" ")
+                <pre><code>let i = 1
+let soma = 0
+while (i &lt; 5) {
+    console.log("+", i)
     soma = soma + i
     i = i + 1
-print("=", soma)</code></pre>
+}
+console.log("=", soma)</code></pre>
             </td>
             <td>
-                <pre><code class="python">bit = 512
-p = 0
-while bit > 1:
-    print(bit)
+                <pre><code>let bit = 512
+let p = 0
+while (bit > 1) {
+    console.log(bit)
     p = p + 1
-    bit = bit // 2
-print("=", p)</code></pre>
+    bit = bit / 2
+}
+console.log("=", p)</code></pre>
             </td>
         </tr>
     </table>
@@ -256,54 +278,63 @@ print("=", p)</code></pre>
     <p>A repetição controlada por contador utiliza uma variável chamada <b>contador</b> para controlar o número de vezes que as instruções são executadas.</p>
     <p>A repetição controlada por contador costuma ser chamada de repetição definida, porque o número de repetições é conhecido antes de o loop começar a executar.</p>
     <p>Considere o seguinte problema: Dadas as notas (reais entre 0 e 10) de cinco estudantes de uma classe, qual a média da classe?</p>
-    <pre><code class="python"># Inicialize as variáveis
-total = 0
-contador = 1
+    <pre><code>import scanf from "scanf"
 
-# Use um loop para ler as notas dos cinco estudantes
-while contador &lt;= 5:
-    nota = float(input(f"Digite a nota do {contador}º estudante (entre 0 e 10): "))
+// Inicialize as variáveis
+let total = 0
+let contador = 1
+
+// Use um loop para ler as notas dos cinco estudantes
+while (contador &lt;= 5) {
+    console.log(`Digite a nota do ${contador}º estudante (entre 0 e 10): `)
+    let nota = scanf("%f")
     total = total + nota
     contador = contador + 1
+}
 
-# Calcule a média
-media = total / 5
+// Calcule a média
+let media = total / 5
 
-# Escreve a média da classe
-print("A média da classe é:", media)</code></pre>
+// Escreva a média da classe
+console.log("A média da classe é:", media)</code></pre>
+
     <p>O <code>total</code> é uma variável <b>acumuladora</b>: utilizada para acumular a soma de vários valores. Variáveis utilizadas para armazenar totais normalmente são inicializadas com zero antes de serem utilizadas em um programa.</p>
-    <p>Antes de utilizar uma variável você deve declará-la, isto é, atribuir um valor a ela.</p>
+    <p>Antes de atribuir um valor de uma variável <code>x</code> a uma variável <code>y</code>, você deve inicializar a variável <code>x</code>, isto é atribuir um valor a <code>x</code>. Por exemplo, na linha 11, a variável <code>total</code> recebe o valor dela mais o valor de <code>nota</code>, isso só é possível porque na linha 4 tínhamos atribuído um valor inicial à variável <code>total.</code></p>
 
     <h2>Repetição controlada por sentinela</h2>
     <!-- retirado do livro do deitel de java, edição 10, capítulo 4 -->
     <p>Considere o seguinte problema: Dadas as notas (reais entre 0 e 10) de um número arbitrário de estudantes de uma classe, qual a média da classe?</p>
     <p>Como podemos determinar quando parar de ler as notas? Como saber quando calcular e imprimir a média da classe? Uma maneira de resolver esse problema é utilizar uma variável especial chamado <b>sentinela</b> (também chamada de variável de sinal, variável fictícia ou <b>flag</b>) para indicar “final de entrada de dados”. Deve-se escolher uma sentinela que não possa ser confundida com um valor aceitável de entrada.</p>
-    <pre><code class="python">total = 0
-contador = 0
-nota = float(input("Digite a nota do estudante (ou -1 para encerrar): "))
-
-while nota != -1:
-    if 0 &lt;= nota &lt;= 10:
+    <pre><code>let total = 0
+let contador = 0
+console.log("Digite a nota do estudante (ou -1 para encerrar): ")
+let nota = scanf("%f")
+ 
+while (nota != -1) {
+    if (0 &lt;= nota && nota &lt;= 10) {
         total = total + nota
         contador = contador + 1
-    else:
-        print("A nota deve estar entre 0 e 10. Tente novamente.")
-
-    nota = float(input("Digite a nota do estudante (ou -1 para encerrar): "))
-
-if contador > 0:
-    media = total / contador
-    print("A média da classe é:", media)
-else:
-    print("Nenhuma nota válida foi inserida.")</code></pre>
+    } else {
+        console.log("A nota deve estar entre 0 e 10. Tente novamente.")
+    }
+    console.log("Digite a nota do estudante (ou -1 para encerrar): ")
+    nota = scanf("%f")
+}
+ 
+if (contador > 0) {
+    let media = total / contador
+    console.log("A média da classe é:", media)
+} else {
+    console.log("Nenhuma nota válida foi inserida.")
+}</code></pre>
 
     <h2>Atribuição composta</h2>
-    <p>É muito comum em um programa atualizar o valor de uma variável. Por exemplo, você ainda vai usar bastante essa expressão:</p>
-    <pre><code class="python">i = i + 1</code></pre>
+    <p>É muito comum em programação atualizar o valor de uma variável. Por exemplo, você ainda vai usar bastante essa expressão:</p>
+    <pre><code>i = i + 1</code></pre>
     <p>A expressão anterior não significa que <code>i</code> é igual a <code>i+1</code>. Significa que o valor de <code>i</code> é alterado para seu valor atual mais 1.</p>
     <p>Suponha que queiramos adicionar 25% ao valor de uma variável. Podemos fazer:</p>
-    <pre><code class="python">salario = salario * 1.25</code></pre>
-    <p>Como essas operações são comuns no dia-a-dia de um programador, o Python fornece os operadores de <b>atribuição composta</b> (<i>augmented assignment</i>):</p>
+    <pre><code>salario = salario * 1.25</code></pre>
+    <p>Como essas operações são comuns no dia-a-dia de um programador, o Javascript fornece os operadores de <b>atribuição composta</b> (<i>compound assignment</i>):</p>
     <table class="custom">
         <thead>
             <tr>
@@ -334,11 +365,6 @@ else:
                 <td><code>x = x / y</code></td>
             </tr>
             <tr>
-                <td><code>//=</code></td>
-                <td><code>x //= y</code></td>
-                <td><code>x = x // y</code></td>
-            </tr>
-            <tr>
                 <td><code>%=</code></td>
                 <td><code>x %= y</code></td>
                 <td><code>x = x % y</code></td>
@@ -352,7 +378,197 @@ else:
     </table>
 
     <p>Os operadores de atribuição composta possuem a mesma prioridade que o operador de atribuição simples (<code>=</code>), que possui a menor prioridade entre os operadores.</p>
-    <p>No Python não há os operadores de incremento <code>++</code> e decremento <code>--</code>.</p>
+
+    <h2>Operadores de incremento/decremento</h2>
+    <p>Incrementar ou decrementar uma variável significa aumentar ou diminuir o seu valor.</p>
+    <p>Há dois tipos de incremento/decremento: prefixado e pós-fixado. Tanto o operador de incremento/decremento prefixado quanto o pós-fixado incrementa/decrementa o valor da variável em uma unidade.</p>
+    <p>No incremento/decremento prefixado, o resultado da operação será o valor da variável "depois" que ela for incrementada.</p>
+    <p>No incremento/decremento pós-fixado, o resultado da operação será o valor da variável antes de ser incrementada.</p>
+
+    <table class="custom">
+        <thead>
+            <tr>
+                <th>Exemplo</th>
+                <th>Operação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>++var</code></td>
+                <td>Incremento prefixado</td>
+            </tr>
+            <tr>
+                <td><code>--var</code></td>
+                <td>Decremento prefixado</td>
+            </tr>
+            <tr>
+                <td><code>var++</code></td>
+                <td>Incremento posfixado</td>
+            </tr>
+            <tr>
+                <td><code>var--</code></td>
+                <td>Decremento posfixado</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Qual a saída?</p>
+
+    <pre><code>let x = 1;
+let y = ++x; //x=x+1; y=x;
+let z = x++; //z=x; x=x+1;
+
+console.log(x + " " + y + " " + z);
+
+x++; //x=x+1;
+++x; //x=x+1;
+y = x--; //y=x; x=x-1;
+z = --x; //x=x-1; z=x;
+
+console.log(x + " " + y + " " + z);</code></pre>
+
+    <p>Qual a saída?</p>
+
+    <table class="custom">
+        <tr>
+            <td>
+                <pre><code>let x = 20
+x++
+let y = x - 5
+console.log(x, y)</code></pre>
+            </td>
+            <td>
+                <pre><code>let x = 7
+let y = ++x
+let z = ++x
+console.log(x, y, z)</code></pre>
+            </td>
+            <td>
+                <pre><code>let x = 7
+let y = --x
+let z = --x
+console.log(x, y, z)</code></pre>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <pre><code>let x = 7
+let y = ++x
+let z = --x
+console.log(x, y, z)</code></pre>
+            </td>
+            <td>
+                <pre><code>let x = 7
+let y = x++
+let z = x--
+console.log(x, y, z)</code></pre>
+            </td>
+            <td>
+                <pre><code>let x = 7
+let y = ++x
+let z = x++
+console.log(x, y, z)</code></pre>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <pre><code>let x = 7
+let y = x++
+let z = ++x
+console.log(x, y, z)</code></pre>
+            </td>
+            <td>
+                <pre><code>let x = 7
+let y = --x
+let z = x--
+console.log(x, y, z)</code></pre>
+            </td>
+            <td>
+                <pre><code>let x = 7
+let y = ++x
+let z = x--
+console.log(x, y, z)</code></pre>
+            </td>
+        </tr>
+    </table>
+
+    <h2>Prioridades</h2>
+    <p>Aqui está os <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#table">operadores que vimos até o momento</a>, ordenados por prioridade.</p>
+    <table class="custom align-left">
+        <tbody>
+            <tr>
+                <th>Operadores</th>
+                <th>Associatividade</th>
+            </tr>
+            <tr>
+                <td>Parênteses <code>()</code></td>
+                <td>n/a</td>
+            </tr>
+            <tr>
+                <td>Incremento pós-fixado <code>x++</code>,<br>
+                    Decremento pós-fixado <code>x--</code></td>
+                <td>n/a</td>
+            </tr>
+            <tr>
+                <td>Negação lógica <code>!x</code>,<br>
+                    Incremento prefixado <code>++x</code>,<br>
+                    Decremento prefixado <code>--x</code>,<br>
+                    Positivo unário <code>+x</code>,<br>
+                    Negativo unário<code>-x</code></td>
+                <td>n/a</td>
+            </tr>
+            <tr>
+                <td>Expoenciação <code>**</code></td>
+                <td>Direita para esquerda</td>
+            </tr>
+            <tr>
+                <td>Multiplicação <code>*</code>,<br>
+                    Divisão <code>/</code>,<br>
+                    Resto da divisão <code>%</code></td>
+                <td>Esquerda para direita</td>
+            </tr>
+            <tr>
+                <td>Adição <code>+</code>,<br>
+                    Subtração <code>-</code></td>
+                <td>Esquerda para direita</td>
+            </tr>
+            <tr>
+                <td>Operadores relacionais <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code></td>
+                <td>Esquerda para direita</td>
+            </tr>
+            <tr>
+                <td>Operadores de igualdade <code>==</code>, <code>!=</code></td>
+                <td>Esquerda para direita</td>
+            </tr>
+            <tr>
+                <td>Operador conjuntivo (E lógico) <code>&&</code></td>
+                <td>Esquerda para direita</td>
+            </tr>
+            <tr>
+                <td>Operador disjuntivo (OU lógico) <code>||</code></td>
+                <td>Esquerda para direita</td>
+            </tr>
+            <tr>
+                <td>Atribuição<code>=</code>, <code>**=</code>, <code>*=</code>, <code>/=</code>, <code>%=</code>, <code>+=</code>, <code>-=</code>,<br>
+                    Operador condicional ternário <code>x ? y : z</code></td>
+                <td>Direita para esquerda</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Observe que incremento/decremento pós-fixado possui maior prioridade que incremento/decremento prefixado.</p>
+
+    <p>Qual a saída?</p>
+
+    <pre><code>let n1 = 1;
+let n2 = ++n1;
+let n3 = n1++;
+let n4 = n1 + ++n1;  // evite isso
+let n5 = n1 + n1++;  // evite isso
+let n6 = ++n1 + n1++;// evite isso
+//let n7 = ++ ++n1;  // erro
+//let n8 = n1++ ++;  // erro
+console.log(n1, n2, n3, n4, n5, n6);</code></pre>
 
     <h2>Exercícios</h2>
     <ol class="excs">
@@ -361,36 +577,41 @@ else:
 
             <p>Ler o nome e o resultado de cada estudante, sendo o resultado um valor que indica se o estudante foi aprovado ou reprovado no exame. Escrever a quantidade de estudantes aprovados, a quantidade de reprovados, e se mais de oito estudantes foram aprovados, escrever “Bônus ao instrutor!”.</p>
         </li>
-        <pre><code class="python"># Inicialize as variáveis para contar os aprovados e reprovados
-aprovados = 0
-reprovados = 0
+        <pre><code>import scanf from 'scanf';
 
-# Inicialize a variável para contar o número de estudantes
-contador = 0
+// Inicialize as variáveis para contar os aprovados e reprovados
+let aprovados = 0
+let reprovados = 0
 
-# Use um loop while para ler os resultados de cada estudante
-while contador &lt; 10:
-    nome = input("Digite o nome do estudante: ")
-    resultado = input("Digite o resultado do estudante ('a' para aprovado ou 'r' para reprovado): ")
+// Inicialize a variável para contar o número de estudantes
+let contador = 0
 
-    # Verifique o resultado e atualize as contagens
-    if resultado == "a":
+// Use um loop while para ler os resultados de cada estudante
+while (contador < 10) {
+    console.log("Digite o nome do estudante:")
+    let nome = scanf("%s")
+    console.log("Digite o resultado do estudante ('a' para aprovado ou 'r' para reprovado):")
+    let resultado = scanf("%s")
+
+    // Verifique o resultado e atualize as contagens
+    if (resultado == "a") {
         aprovados = aprovados + 1
-    else:
+    } else {
         reprovados = reprovados + 1
-
+    }
     contador = contador + 1
+}
 
-# Escreva a quantidade de estudantes aprovados e reprovados
-print("Quantidade de estudantes aprovados:", aprovados)
-print("Quantidade de estudantes reprovados:", reprovados)
+// Escreva a quantidade de estudantes aprovados e reprovados
+console.log("Quantidade de estudantes aprovados:", aprovados)
+console.log("Quantidade de estudantes reprovados:", reprovados)
 
-# Verifique se mais de oito estudantes foram aprovados
-if aprovados > 8:
-    print("Bônus ao instrutor!")
-</code></pre>
+// Verifique se mais de oito estudantes foram aprovados
+if (aprovados > 8) {
+    console.log("Bônus ao instrutor!")
+}</code></pre>
 
-        <li>Qual o intervalo de inteiros de cada item a seguir? (escrever cada intervalo em uma linha)
+        <li>Qual o intervalo de inteiros de cada item a seguir?<!-- (escrever cada intervalo em uma linha) -->
             <ol type="a">
                 <li>[0, 10[</li>
                 <li>]10, 0]</li>
