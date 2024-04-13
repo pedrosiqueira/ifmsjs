@@ -121,47 +121,73 @@
     <h2>Principios da repetição controlada por contador</h2>
     <p>Na repetição controlada por <b>contador</b>, sabemos de antemão quantas vezes o corpo da repetição será executado. O contador começa de um valor <b>inicial</b> e é <b>atualizado</b> a cada <b>iteração</b> (ciclo) até alcançar um valor <b>final</b>.</p>
 
-    <p>Em vez de usarmos o <code>while</code> para repetição por contador, podemos usar o <code>for</code>:</p>
 
-    <table class="custom align-left">
+    <p>Em vez de usarmos a instrução <code>while</code> para repetição por contador, podemos usar a instrução <code>for</code>. A instrução <code>for</code> especifica no seu cabeçalho todos os detalhes da repetição.</p>
+
+    <table class="custom">
         <tr>
             <td>
-                <pre><code class="python">inicio = 1
-fim = 11
-print("Contando até 10...")
+                <pre>// instruções antes do for
 
-cont = inicio
-while cont &lt; fim:
-    print(cont)
-    cont += 1
+for (<b>início</b>; <b>fim</b>; <b>atualização</b>) {
+    // instruções do corpo do for
+}
 
-print("Fim!")
-print("Valor final:", cont)</code></pre>
-            </td>
-            <td>
-                <pre><code class="python">inicio = 1
-fim = 11
-print("Contando até 10...")
-
-
-for cont in range(inicio, fim):
-    print(cont)
-
-
-print("Fim!")
-print("Valor final:", cont)</code></pre>
+// instruções depois do for</pre>
             </td>
         </tr>
     </table>
 
 
+    <p>O <b>início</b> especifica o valor inicial do contador. É executado apenas uma vez, antes da primeira iteração.</p>
+    <p>O <b>fim</b> especifica o valor final do contador. É uma condição, que é executada no início de cada iteração. Se a condição é verdadeira, as instruções do corpo do <code>for</code> são executadas, senão, o <code>for</code> é encerrado e o programa continua da próxima instrução depois do corpo do <code>for</code>.</p>
+    <p>E <b>atualização</b> especifica o próximo valor do contador. É executada no final de cada iteração. Ela modifica o contador para que uma hora a condição encerre o <code>for</code>. Terminada a atualização, o programa volta para o início da próxima iteração.</p>
+    <p>Veja um exemplo do <code>for</code> ao lado do <code>while</code> para comparação.</p>
+
+    <table class="custom">
+        <tr>
+            <td>
+                <pre><code>let inicio = 1
+let fim = 11
+console.log("Contando até 10...")
+
+let cont = inicio // valor inicial
+while (cont &lt; fim) { // valor final
+    console.log(cont)
+    cont++ // atualização
+}
+
+console.log("Fim!")
+console.log("Valor final:", cont)</code></pre>
+            </td>
+            <td>
+                <pre><code>let inicio = 1
+let fim = 11
+console.log("Contando até 10...")
 
 
+for (let cont = inicio; cont &lt; fim; cont++) {
+    console.log(cont)
+}
 
 
-    <p>No Python, definimos um intervalo de valores inteiros para o loop <code>for</code> através da função <code>range</code>. Note que este intervalo é semiaberto, ou seja, o valor inicial está incluído, enquanto o valor final não está. Observação: a função <code>range</code> aceita apenas números inteiros.</p>
+console.log("Fim!")
+console.log("Valor final:", cont)</code></pre>
+            </td>
+        </tr>
+    </table>
 
-    <p>Observe que no <code>for</code> o contador termina com um valor a menos que o final do intervalo, enquanto que no <code>while</code> o contador termina com o valor final do intervalo, apesar de ambos executarem o corpo da repetição a mesma quantidade de vezes.</p>
+    <p>As expressões em um cabeçalho for são opcionais.</p>
+    <ul>
+        <li>Você poderia omitir a inicialização se o contador é inicializado antes do <code>for</code>.</li>
+        <li>Você poderia omitir a atualização se o contador é atualizado dentro do <code>for</code>.</li>
+        <li>Você poderia omitir a condição se quisesse manter o controle da repetição dentro do corpo do <code>for</code> (veremos isso mais adiante com os comandos <code>continue</code>/<code>break</code>).</li>
+    </ul>
+
+    <p>Assim como qualquer estrutura que tem um corpo, as chaves do <code>for</code> são opcionais quando o seu corpo possui apenas uma instrução. Mesmo assim, é recomendável sempre colocar chaves para explicitar o corpo do <code>for</code>.</p>
+    <p>Os dois pontos-e-vírgulas no cabeçalho do <code>for</code> são obrigatórios. Mas atenção para não colocar um ponto-e-vírgula depois dos parênteses do <code>for</code>!</p>
+    <p>Variáveis declaradas dentro do <code>for</code>, inclusive variáveis do cabeçalho, só existem enquanto o <code>for</code> estiver sendo executado.</p>
+    <p>Observação: Assim como o <code>while</code>, o <code>for</code> pode nunca ser executado! Se a condição é falsa durante a primeira vez, o corpo do <code>for</code> não é executado.</p>
 
     <h2>Diferenças e semelhanças entre <code>for</code> e <code>while</code></h2>
 
@@ -173,162 +199,183 @@ print("Valor final:", cont)</code></pre>
     <table class="custom align-left">
         <tr>
             <td>
-                <pre><code class="python">i = 1
-soma = 0
-while i &lt; 5:
-    print("+", i, end=" ")
+                <pre><code>let i = 1
+let soma = 0
+while (i &lt; 5) {
+    console.log("+", i)
     soma += i
-    i += 1
-print("= ", soma)</code></pre>
+    i++
+}
+console.log("= ", soma)</code></pre>
             </td>
             <td>
-                <pre><code class="python">
-soma = 0
-for i in range(1, 5):
-    print("+", i, end=" ")
+                <pre><code>
+let soma = 0
+for (let i = 1; i &lt; 5; i++) {
+    console.log("+", i, end=" ")
     soma += i
+}
 
-print("= ", soma)</code></pre>
+console.log("= ", soma)</code></pre>
             </td>
         </tr>
     </table>
 
     <h2>Mais possibilidades com o <code>for</code></h2>
-    <p>Você pode omitir o valor inicial se quiser começar do zero:</p>
-    <pre><code class="python">print("Contando do 0 até o 9...")
-for cont in range(10):
-    print(cont)</code></pre>
+    <p>O contador pode ser decrementado:</p>
+    <pre><code>console.log("Contagem regressiva:");
+for (let i = 10; i > 0; i--) {
+    console.log(i, "...");
+}
+console.log("Decolar!");
+</code></pre>
 
-    <p>Você pode especificar o tamanho do teu "passo" na contagem:</p>
-    <pre><code class="python">print("Contagem de 5 em 5...")
-inicio = 0
-fim = 50
-passo = 5
-for cont in range(inicio, fim, passo):
-    print(cont)</code></pre>
+    <p>O contador não precisa ser atualizado apenas de um em um:</p>
+    <pre><code>console.log("todos os múltiplos de três entre zero e cem:");
+for (let n = 0; n &lt;= 100; n += 3) {
+    console.log(n);
+}</code></pre>
 
-    <p>Se o teu passo for negativo e o valor inicial for maior que o valor final, a contagem será regressiva:</p>
-    <pre><code class="python">print("Contagem regressiva...")
-for cont in range(10, 0, -1):
-    print(cont)</code></pre>
+    <p>Sugira uma correção para o seguinte erro:</p>
 
-    <p>Assim como qualquer estrutura que possui corpo, se este for composto por apenas uma linha de código, pode ir na mesma linha que a estrutura:</p>
-    <pre><code class="python">print("Contagem regressiva...")
-for cont in range(10, 0, -1): print(cont)</code></pre>
-    <p>Assim como qualquer estrutura que possui corpo, não se esqueça do dois-pontos separando a declaração da estrutura do seu corpo!</p>
+    <pre><code>let i = 5;
+for (let j = 3; j &lt; 17; j += 4) {
+    console.log(i, j);
+    i--;
+}
+console.log(i, j); // erro: j não existe aqui</code></pre>
 
-    <p>Observação: Assim como no <code>while</code>, o <code>for</code> pode nunca ser executado!</p>
-    <pre><code class="python">print("Valendo!")
-for cont in range(0, 10, -1):
-    print(cont)
-print("Fim!")</code></pre>
+    <p>O <b>início</b> e a <b>atualização</b> podem ter múltiplas expressões separadas por vírgula:</p>
+    <pre><code>for (let i = 1, j = 10; i &lt; j; i++, j--) {
+    console.log(i, j);
+}</code></pre>
+
+    <p>Como essas expressões podem tornar o código mais confuso, não é comum fazer assim. Outro exemplo:</p>
+    <pre><code>let bit, p;
+for(bit=512, p=0; bit > 1; bit/=2, p+=1){
+    console.log(bit);
+}
+console.log("=", p);</code></pre>
+
+    <p>Na verdade, <b>atualização</b> pode ser qualquer expressão válida:</p>
+    <pre><code>for (let i = 1; i &lt; 1025; console.log(i *= 2));</code></pre>
+    <p>O ponto-e-vírgula no final do <code>for</code> indica que seu corpo é vazio. Na atualização, ao mesmo tempo que <code>i</code> é dobrado, também é exibido. Apesar de funcionar, essa estrutura não é recomendada por ser confusa.</p>
 
     <h2 id="mais-exemplos">Mais exemplos de <code>for</code></h2>
 
-    <p>Contando de 1 a 100 em incrementos de 1:</p>
-    <pre><code class="python">for i in range(1, 101): print(i)</code></pre>
+    <p>Contando de 1 a 100 em incrementos de 1.</p>
+    <pre><code>for (let i = 1; i &lt;= 100; i++) { … }</code></pre>
+    <p>Contando de 100 a 1 em decrementos de 1.</p>
+    <pre><code>for (let i = 100; i >= 1; i--) { … }</code></pre>
+    <p>Contando de 7 a 77 em incrementos de 7.</p>
+    <pre><code>for (let i = 7; i &lt;= 77; i += 7) { … }</code></pre>
+    <p>Contando de 20 a 10 em decrementos de 2.</p>
+    <pre><code>for (let i = 20; i >= 10; i -= 2) { … }</code></pre>
+    <p>Incrementando entre os valores 2, 5, 8, 11, 14, 17, 20.</p>
+    <pre><code>for (let i = 2; i &lt;= 20; i += 3) { … }</code></pre>
+    <p>Decrementando entre os valores 99, 88, 77, 66, 55, 44, 33, 22, 11, 0.</p>
+    <pre><code>for (let i = 99; i >= 0; i -= 11) { … }</code></pre>
 
-    <p>Contando de 100 a 1 em decrementos de 1:</p>
-    <pre><code class="python">for i in range(100, 0, -1): print(i)</code></pre>
-
-    <p>Contando de 7 a 77 em incrementos de 7:</p>
-    <pre><code class="python">for i in range(7, 78, 7): print(i)</code></pre>
-
-    <p>Contando de 20 a 2 em decrementos de 2:</p>
-    <pre><code class="python">for i in range(20, 1, -2): print(i)</code></pre>
-
-    <p>Incrementando entre os valores 2, 5, 8, 11, 14, 17, 20:</p>
-    <pre><code class="python">for i in range(2, 21, 3): print(i)</code></pre>
-
-    <p>Decrementando entre os valores 99, 88, 77, 66, 55, 44, 33, 22, 11, 0:</p>
-    <pre><code class="python">for i in range(99, -1, -11): print(i)</code></pre>
-
-    <!-- <p>Qual a saída de cada versão a seguir?</p>
+    <p>Qual a saída de cada versão a seguir?</p>
 
     <table class="custom align-left">
         <tr>
             <td>
-                <pre><code class="python">print("\nVersão 1:")
-for i in range(10):
-    print(i, end=" ")</code></pre>
+                <pre><code>console.log("\nVersão 1:");
+let i;
+for (i = 0; i &lt; 10; i++) {
+    console.log(i);
+}</code></pre>
             </td>
             <td>
-                <pre><code class="python">print("\nVersão 2:")
-for i in range(11):
-    print(i, end=" ")</code></pre>
+                <pre><code>console.log("\nVersão 2:");
+let i;
+for (i = 0; i &lt;= 10; i++) {
+    console.log(i);
+}</code></pre>
             </td>
         </tr>
         <tr>
             <td>
-                <pre><code class="python">print("\nVersão 3:")
-for i in range(10):
-    print(i, end=" ")
-print(i)</code></pre>
+                <pre><code>console.log("\nVersão 3:");
+let i;
+for (i = 0; i &lt; 10; i++) {
+    console.log(i);
+}
+console.log(i);</code></pre>
             </td>
             <td>
-                <pre><code class="python">print("\nVersão 4:")
-for i in range(11):
-    print(i, end=" ")
-print(i)</code></pre>
+                <pre><code>console.log("\nVersão 4:");
+let i;
+for (i = 0; i &lt;= 10; i++) {
+    console.log(i);
+}
+console.log(i);</code></pre>
             </td>
         </tr>
-    </table> -->
+    </table>
 
     <h2>Laços aninhados</h2>
-    <p>Seja estruturas de seleção ou de repetição, podemos colocá-las umas dentro das outras. Veja este exemplo de um <code>for</code> dentro de outro <code>for</code>.</p>
+    <p>Seja estruturas de seleção ou de repetição, podemos colocá-las umas dentro das outras.</p>
 
     <p>Veja esse exemplo de <code>if-else</code> dentro de <code>for</code>. Qual a saída?</p>
-    <pre><code class="python">i = 12
-for j in range(1, i + 1):
-    print("", j, end="")
-    if j % 5 == 0 or j % 3 == 0:
-        print(" A", end="")
-    if i % j == 0:
-        print(" B", end="")
-    else:
-        print(" C", end="")</code></pre>
+    <pre><code>let i = 12
+for (let j = 1; j &lt;= i; j++) {
+    console.log(j)
+    if (j % 5 == 0 || j % 3 == 0)
+        console.log("A")
+    if (i % j == 0)
+        console.log("B")
+    else
+        console.log("C")
+}</code></pre>
 
     <p>Vamos examinar um exemplo de laço <code>for</code> simples:</p>
-    <pre><code>i = 1
-print("(", end=" ")
-for j in range(0, 5):
-    print(j, end=" ")
-print(")")</code></pre>
+    <pre><code>for (let j = 0; j &lt; 5; j++)
+    console.log(j)</code></pre>
 
-    <p>A linha 4 é executada 5 vezes. Agora, vamos colocar esse laço dentro de outro laço:</p>
+    <p>A linha 2 é executada 5 vezes. Agora, vamos colocar esse laço dentro de outro laço:</p>
 
-    <pre><code>for i in range(0, 3):
-    print("(", end=" ")
-    for j in range(0, 5):
-        print(j, end=" ")
-    print(")")</code></pre>
+    <pre><code>for (let i = 0; i &lt; 3; i++) {
+    console.log()
+    for (let j = 0; j &lt; 5; j++) {
+        console.log(j)
+    }
+}</code></pre>
 
     <p>Neste novo código, devido ao laço da linha 1, as linhas 2 a 5 são executadas 3 vezes. A linha 4, que já era executada 5 vezes no laço interno, agora é executada um total de 3 * 5 = 15 vezes!</p>
 
-    <p>O laço interno repete a mesma quantidade de vezes a cada ciclo do laço externo. Mas poderíamos alterar esse comportamento:</p>
+    <p>O laço interno repete a mesma quantidade de vezes a cada iteração (ciclo) do laço externo. Mas poderíamos alterar esse comportamento:</p>
 
-    <pre><code>for i in range(0, 3):
-    print("(", end=" ")
-    for j in range(i, 5):
-        print(j, end=" ")
-    print(")")</code></pre>
-
-    <p>Qual a saída do seguinte código?</p>
-    <pre><code class="python">print("Início")
-for externo in range(1, 4):
-    print(">", end=" ")
-    for interno in range(1, 6):
-        print(externo, interno, sep="", end=" ")
-    print()  # Adiciona uma quebra de linha após a conclusão de cada linha interna
-print("Fim")</code></pre>
+    <pre><code>for (let i = 0; i &lt; 3; i++) {
+    console.log()
+    for (let j = i; j &lt; 5; j++) {
+        console.log(j)
+    }
+}</code></pre>
 
     <p>Qual a saída do seguinte código?</p>
-    <pre><code>for i in range(0, 3):
-    for j in range(0, 4):
-        for k in range(0, 2):
-            print("3", end="")
-        print("2", end="")
-    print("1", end="")</code></pre>
+    <pre><code>let externo, interno;
+console.log("Início");
+for (externo = 1; externo &lt;= 3; externo++) {
+    console.log(">");
+    for (interno = 1; interno &lt;= 5; interno++) {
+        console.log(externo, interno);
+    }
+    console.log("&lt;");
+}
+console.log("Fim");</code></pre>
+
+    <p>Qual a saída do seguinte código?</p>
+    <pre><code>for (let i = 0; i &lt; 3; i++) {
+    for (let j = 0; j &lt; 4; j++) {
+        for (let k = 0; k &lt; 2; k++) {
+            console.log(3)
+        }
+        console.log(2)
+    }
+    console.log(1)
+}</code></pre>
 
     <h2>Exercícios</h2>
     <ol class="excs">
@@ -340,13 +387,19 @@ print("Fim")</code></pre>
         <li>Programa de cálculo de juros compostos. Imagine que você está investindo teu dinheiro em um ativo financeiro que te proporciona juros compostos. A fórmula dos juros compostos é $$M=C(1+i)^t$$, onde: $C$ é o valor inicial do investimento (o capital); $i$ é a taxa de juros por período (por exemplo, utilize $0.05$ para $5\%$ de juros); $t$ é a quantidade de períodos investidos; $M$ é o montante total ao final de $t$ períodos. Por exemplo, ao investir $\$1000$ em um ativo que rende $5\%$ ao ano, ao final de 10 anos você terá acumulado $M=\$1000(1+0.05)^{10}=\$1628.89$.
             <p>Dado o capital investido, a taxa de juros anual e a quantidade de anos de investimento, qual o montante ao final de cada ano?</p>
         </li>
-        <pre><code class="python">C = float(input("Informe o capital inicial: $"))
-i = float(input("Informe a taxa de juros anual (por exemplo, 5% como 0.05): "))
-t = int(input("Informe a quantidade de anos de investimento: "))
+        <pre><code>import scanf from 'scanf';
 
-for ano in range(1, t + 1):
-    M = C * (1 + i) ** ano
-    print(f"Ao final do ano {ano}, o montante será de ${M:.2f}")</code></pre>
+console.log("Informe o capital inicial:")
+let C = scanf("%f")
+console.log("Informe a taxa de juros anual (por exemplo, 0.05 para 5%):")
+let i = scanf("%f")
+console.log("Informe a quantidade de anos de investimento:")
+let t = scanf("%f")
+
+for (let ano = 1; ano <= t; ano++) {
+    let M = C * (1 + i) ** ano
+    console.log(`Ao final do ${ano}º ano, o montante será de ${M}`)
+}</code></pre>
         <li>Dados dois números inteiros, multiplicá-los usando somas repetidas. Não pode usar o operador de multiplicação "*". Sugestão: usar um laço e o operador de soma (+).</li>
         <li>Qual a tabuada dos número de 1 a 10?</li>
         <li>Dado um natural, quais seus divisores? Por exemplo, os divisores de 90 são 1, 2, 3, 5, 6, 9, 10, 15, 18, 30, 45, 90.</li>
