@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="pt">
 
 <head>
     <script>
@@ -12,15 +11,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
-    <script defer>hljs.configure({ cssSelector: "code", languages: ["python"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+    <script defer>hljs.configure({ cssSelector: "code", languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
-    <!-- retire o atributo output para, ao copiar uma fórmula, copiar tanto no formato html quanto no formato mathml, entretanto, a fórmula sai duplicada -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false},],output:'html'});"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
 
     <style>
         img {
@@ -30,6 +28,11 @@
 
         .center {
             text-align: center;
+        }
+
+        .katex {
+            /* o padrão é 1.21, vc pode remover essa configuração se quiser deixar o padrão */
+            font-size: 1.0em;
         }
 
         table.custom,
@@ -50,33 +53,39 @@
             /* Remove a margem interna de tags pre dentro de tabelas */
             margin: 0;
             padding: 0;
+            text-align: left;
+        }
+
+        td:has(pre) {
+            /* tags pre dentro de tabela são alinhadas no topo à esquerda */
+            vertical-align: top;
         }
 
         table.align-left th,
         table.align-left td {
             /* alinha à esquerda as células da tabela */
-            text-align: left;
+            text-align: left !important;
         }
 
+        /* inicia a lista de exercícios */
         ol.excs {
-            /* lista de exercícios */
             padding-inline-start: 0em;
             counter-reset: excs;
             list-style: none;
         }
 
-        ol.excs>li::before {
-            /* lista de exercícios */
+        /* põe um numerador num item da lista de exercícios, desde que não seja da classe no-mark */
+        ol.excs>li:not(.no-mark)::before {
             counter-increment: excs;
             content: counters(excs, ".") ". ";
         }
 
+        /* põe uma barra vertical ao lado do item da lista de exercícios */
         ol.excs>li {
             /* Change this to adjust the line color and thickness */
             border-left: 2px solid #000;
             /* Optional: Add padding to create some space between the bar and content */
             padding-left: 10px;
-
             margin-block-start: 1em;
             margin-block-end: 1em;
         }
@@ -113,78 +122,87 @@
     <p>A instrução <code>break</code> finaliza o loop. Portanto, ela só é válida dentro de um loop.</p>
 
     <p>Qual a saída caso o usuário digite 10 e 5?</p>
-    <pre><code>a = int(input())
-b = int(input())
-for i in range(a + 1):
-    print(i, end=' ')
-    if i == b:
+    <pre><code>let a = scanf("%d")
+let b = scanf("%d")
+for (i = 0; i &lt; 10; i++) {
+    console.log(i)
+    if (i == b)
         break
-    print(a - i)
-print("fim do programa")</code></pre>
+    console.log(a - i)
+}
+console.log("fim do programa")</code></pre>
 
     <p>O que o seguinte programa faz?</p>
-    <pre><code>num = 0
-media = 0
-total = 0
+    <pre><code>let num = 0
+let media = 0
+let total = 0
 
-print("Digite 10 números não negativos:")
-while total &lt; 10:
-    num = float(input())
-    if num &lt; 0:
+console.log("Digite 10 números não negativos:")
+while (total &lt; 10) {
+    num = scanf("%f")
+    if (num &lt; 0)
         break
     media += num
     total += 1
 
-if total > 0:
+if (total > 0) {
     media /= total
-    print("Média dos números válidos:", media)
-else:
-    print("Nenhum número válido inserido.")</code></pre>
+    console.log("Média dos números válidos:", media)
+} else {
+    console.log("Nenhum número válido inserido.")
+}</code></pre>
 
     <p>Observe que em todos os casos, o uso do <code>break</code> é condicionado por um <code>if</code>. Caso contrário, o loop se encerraria após a primeira iteração.</p>
 
     <h2>A instrução <code>continue</code></h2>
 
-    <p>Dependendo do que você quiser fazer, as vezes pode não ser interessante executar todo o corpo do loop antes de iniciar um novo ciclo.</p>
-    <p>A instrução <code>continue</code> força o início de um novo ciclo independentemente do que ainda resta do ciclo atual.</p>
+    <p>Dependendo do que você quer fazer, as vezes pode não ser interessante executar todo o corpo do loop antes de iniciar uma nova iteração.</p>
+    <p>A instrução <code>continue</code> força o início de uma nova iteração independentemente do que ainda resta da iteração atual.</p>
     <p>Na instrução <code>while</code>, a condição de terminação é avaliada logo após a execução de <code>continue</code>.</p>
     <p>Na instrução <code>for</code>, logo após a execução de <code>continue</code>, primeiramente a variável contadora é atualizada, e então a condição de terminação é avaliada.</p>
     <p>O que acontece nos dois códigos anteriores se substituirmos o <code>break</code> por <code>continue</code>?</p>
 
     <p>Qual a saída do seguinte código?</p>
 
-    <pre><code>for i in range(1, 11):
-    print(i,"é", end=" ")
-    if i % 2 == 1:
-        print("ímpar")
-        continue
-    print("par")</code></pre>
+    <pre><code>let i;
+for (i = 1; i &lt;= 10; i++) {
+    console.log(i);
+    if (i % 2 == 1) {
+        console.log("impar\n");
+        continue;
+    }
+    console.log("par\n");
+}</code></pre>
 
     <p>Os dois códigos seguintes fazem a mesma coisa? Quais suas saídas?</p>
 
     <table class="custom align-left">
         <tr>
             <td>
-                <pre><code>i = 1
-while i &lt;= 10:
-    print(f"{i} ", end='')
-    if i % 4 == 0:
-        print("pula")
+                <pre><code>
+for (i = 1; i &lt; 10; i++) {
+    console.log(i)
+    if (i % 4 == 0) {
+        console.log("pula")
         continue
-    print(i)
-    i += 1
-print("fim!")</code></pre>
+    }
+    console.log(i)
+
+}
+console.log("fim!")</code></pre>
             </td>
             <td>
-                <pre><code>
-for i in range(1, 11):
-    print(f"{i} ", end='')
-    if i % 4 == 0:
-        print("pula")
+                <pre><code>let i = 1
+while (i &lt;= 10) {
+    console.log(i)
+    if (i % 4 == 0) {
+        console.log("pula")
         continue
-    print(i)
-
-print("fim!")</code></pre>
+    }
+    console.log(i)
+    i += 1
+}
+console.log("fim!")</code></pre>
             </td>
         </tr>
     </table>
