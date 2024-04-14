@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt">
 
 <head>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+
         }, false);
     </script>
 
@@ -13,9 +13,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="pseudocode.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
-    <script defer>hljs.configure({ cssSelector: "code", languages: ["python"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+    <script defer>hljs.configure({ cssSelector: "code", languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
@@ -29,6 +28,11 @@
 
         .center {
             text-align: center;
+        }
+
+        .katex {
+            /* o padrão é 1.21, vc pode remover essa configuração se quiser deixar o padrão */
+            font-size: 1.0em;
         }
 
         table.custom,
@@ -49,33 +53,39 @@
             /* Remove a margem interna de tags pre dentro de tabelas */
             margin: 0;
             padding: 0;
+            text-align: left;
+        }
+
+        td:has(pre) {
+            /* tags pre dentro de tabela são alinhadas no topo à esquerda */
+            vertical-align: top;
         }
 
         table.align-left th,
         table.align-left td {
             /* alinha à esquerda as células da tabela */
-            text-align: left;
+            text-align: left !important;
         }
 
+        /* inicia a lista de exercícios */
         ol.excs {
-            /* lista de exercícios */
             padding-inline-start: 0em;
             counter-reset: excs;
             list-style: none;
         }
 
-        ol.excs>li::before {
-            /* lista de exercícios */
+        /* põe um numerador num item da lista de exercícios, desde que não seja da classe no-mark */
+        ol.excs>li:not(.no-mark)::before {
             counter-increment: excs;
             content: counters(excs, ".") ". ";
         }
 
+        /* põe uma barra vertical ao lado do item da lista de exercícios */
         ol.excs>li {
             /* Change this to adjust the line color and thickness */
             border-left: 2px solid #000;
             /* Optional: Add padding to create some space between the bar and content */
             padding-left: 10px;
-
             margin-block-start: 1em;
             margin-block-end: 1em;
         }
@@ -105,7 +115,7 @@
 </head>
 
 <div id="lists">
-    <h1>Listas</h1>
+    <h1>Arrays</h1>
     <q>Ir além do limite é tão incerto quanto não alcançar o objetivo. — Confúcio</q>
 
     <h2>Introdução</h2>
@@ -113,24 +123,23 @@
     <pre><code>fruta1 = "pera";
 fruta2 = "pêssego";
 fruta3 = "pitanga";</code></pre>
-    <p>E se você não tem 3, mas 300 itens? A solução é <!--array-->o tipo de dados <code>list</code> do Python!</p>
-    <p>Uma <code>list</code>, como o nome indica, é uma variável que permite armazenar uma lista de valores, e não apenas um único valor.</p>
-    <p>Cada item da lista também pode ser chamado de elemento ou valor.</p>
-    <p>Ao invés de se referir a cada um dos itens por um nome diferente, você se refere a eles pelo nome da lista e os distingue por um índice, que é um número natural.</p>
-    <p>Também há o tipo de dados <code>array</code>, também chamado de vetor, que possui características semelhantes à listas, mas que não é tão versátil quanto listas.</p>
+    <p>E se você não tem 3, mas 300 itens? A solução é arrays!</p>
+    <p>Um <code>array</code>, também conhecido como vetor, é uma variável que permite armazenar uma lista de valores, e não apenas um único valor.</p>
+    <p>Cada item do array também pode ser chamado de elemento ou valor.</p>
+    <p>Ao invés de se referir a cada um dos itens por um nome diferente, você se refere a eles pelo nome do array e os distingue por um índice, que é um número natural.</p>
 
-    <h2>Declarando listas</h2>
-    <p>Você pode declarar uma lista com itens:</p>
-    <pre><code>frutas=['abacate', 'banana', 'caqui', 'damasco', 'figo']</code></pre>
-    <p>Ou declarar uma lista vazia para posterior adição de itens:</p>
-    <pre><code>legumes=[]</code></pre>
+    <h2>Declarando arrays</h2>
+    <p>Você pode declarar um array com itens:</p>
+    <pre><code>let frutas = ['abacate', 'banana', 'caqui', 'damasco', 'figo']</code></pre>
+    <p>Ou declarar um array vazio para posterior adição de itens:</p>
+    <pre><code>let legumes = []</code></pre>
 
-    <p>Arrays em geral são homogêneos, podem conter apenas itens de um mesmo tipo. Por exemplo, você não pode ter um array que tenha um número e uma string. Mas listas em Python são heterogêneas, isto é, você pode colocar qualquer tipo de dados em uma mesma lista:</p>
-    <pre><code>itens_diversos = ['uma palavra', 23, 9.5, True, ['uma', 'lista']]</code></pre>
-    <p>Apesar de listas serem heterogêneas, na prática, elas acabam por armazenar apenas dados homogêneos.</p>
+    <p>Arrays em geral são homogêneos, colocamos apenas itens de um mesmo tipo. Por exemplo, não é habitual um array que tenha um número e uma string. Mas nada impede de termos arrays heterogêneos, isto é, você pode colocar qualquer tipo de dados em um mesmo array:</p>
+    <pre><code>let itens_diversos = ['uma palavra', 23, 9.5, true, ['uma', 'lista']]</code></pre>
+    <p>Apesar de arrays poderem ser heterogêneos, na prática, acabam por armazenar apenas dados homogêneos.</p>
 
     <h2>Abstração</h2>
-    <p>Uma lista é composta de vários itens. Pense numa lista como uma rua com várias casas. Os itens são moradores das casas da rua. E cada casa tem um endereço, um número, que na lista chamamos de índice ou posição.</p>
+    <p>Um array é composto de vários itens. Pense num array como uma rua com várias casas. Os itens são moradores das casas da rua. E cada casa tem um endereço, um número, que no array chamamos de índice ou posição.</p>
 
     <table>
         <tr>
@@ -139,9 +148,9 @@ fruta3 = "pitanga";</code></pre>
         </tr>
         <tr>
             <td>
-                <pre><code>limeira = ["Cebolinha", "Mônica", "Cascão", "Magali"]
+                <pre><code>let limeira = ["Cebolinha", "Mônica", "Cascão", "Magali"]
 
-print("A rua Limeira possui quatro casas. \
+console.log("A rua Limeira possui quatro casas. \
 Dentre os moradores, estão o Cebolinha, \
 no endereço de número 0, \
 e a Magali, no número 3.")</code></pre>
@@ -173,7 +182,7 @@ e a Magali, no número 3.")</code></pre>
         </tr>
     </table>
 
-    <p>No seguinte exemplo, uma variável numérica comum ocupa apenas um espaço na memória, já uma variável de lista ocupa vários espaços na memória, cada qual com seu índice.</p>
+    <p>No seguinte exemplo, uma variável de tipo primitivo, como um número, ocupa apenas um espaço na memória, já uma variável do tipo array ocupa vários espaços na memória, cada qual com seu índice.</p>
     <table>
         <tr>
             <td><u>Código</u></td>
@@ -223,194 +232,190 @@ n = [4, 1, 7, 9]
         </tr>
     </table>
 
-    <h2>Manipulando listas</h2>
-    <p>Para atribuir um item específico de uma lista a uma variável:</p>
-    <pre><code>var = lista[i] //acessando o i-ésimo item da lista</code></pre>
+    <h2>Manipulando arrays</h2>
+    <p>Para atribuir um item específico de um array a uma variável:</p>
+    <pre><code>variavel = lista[i] // acessando o i-ésimo item da lista</code></pre>
     <p>Para atribuir um valor a um item específico de uma lista:</p>
-    <pre><code>lista[i] = var //modificando o i-ésimo item da lista</code></pre>
-    <p>O <code>i</code>, chamado de índice, ou posição, deve ser um número <!--natural-->inteiro.</p>
+    <pre><code>lista[i] = variavel // modificando o i-ésimo item da lista</code></pre>
+    <p>O <code>i</code>, chamado de índice, ou posição, deve ser um número natural.</p>
     <p>O primeiro item está no índice zero.</p>
-    Para uma lista com <code>N</code> itens, o último item está no índice <code>N-1</code>.
-    <p>Pode colocar qualquer expressão entre os colchetes, desde que seu resultado seja um número inteiro dentro do intervalo de índices válidos da lista.</p>
+    <p>Para um array com <code>N</code> itens, o último item está no índice <code>N-1</code>.</p>
+    <p>Pode colocar qualquer expressão entre os colchetes, desde que seu resultado seja um número natural dentro do intervalo de índices válidos do array.</p>
 
-    <p>Qual o valor de cada variável?</p>
-    <pre><code>v = []
+    <p>Qual a saída do seguinte código?</p>
+    <pre><code>let v = []
 
 v[1]=10
 v[2]=5
 v[0]=7
 
-a = v[0] + v[2]
-b = v[ v[0] - 5 ]
-c = 3 * v[a / 4 - 2]</code></pre>
+let a = v[0] + v[2]
+let b = v[ v[0] - 5 ]
+let c = 3 * v[a / 4 - 2]
+
+console.log(a, b, c)</code></pre>
 
     <p>Qual a saída do seguinte código?</p>
-    <pre><code>c = [42, 23, 15, 39, 91, 42, 71, 64, 41, 63, 17, 70]
+    <pre><code>let c = [42, 23, 15, 39, 91, 42, 71, 64, 41, 63, 17, 70]
 
-a = 5
-b = 6
+let a = 5
+let b = 6
 
 c[a + b] += 2
 
-x = c[0] + c[1] + c[2]
+let x = c[0] + c[1] + c[2]
+let y = c[7] / 2
+let z = c[11] + 1
 
-y = c[7] / 2
-
-z = c[11] + 1
-
-print(x, y, z)</code></pre>
+console.log(x, y, z)</code></pre>
 
     <h3>Acessando itens</h3>
     <p>Considere o seguinte trecho de código:</p>
-    <pre><code>qtd = 10  # comprimento da lista
-nomes = ["maria", "ana", "francisca", "antonia", "adriana",
-         "jose", "joao", "antonio", "francisco", "luiz"]</code></pre>
+    <pre><code>let qtd = 10  // comprimento do array
+let nomes = ["maria", "ana", "francisca", "antonia", "adriana",
+             "jose", "joao", "antonio", "francisco", "luiz"]</code></pre>
 
-    <p>Você pode imprimir a lista inteira:</p>
-    <pre><code>print("Imprimindo a lista de uma vez:")
-print(nomes)</code></pre>
+    <p>Você pode imprimir o array inteiro:</p>
+    <pre><code>console.log("Imprimindo o array de uma vez:")
+console.log(nomes)</code></pre>
 
-    <p>Ou então imprimir separadamente cada item da lista:</p>
+    <p>Ou então imprimir separadamente cada item do array:</p>
     <table>
         <tr>
             <td>
-                <pre><code>print("\nImprimindo item por item:")
-
-for i in range(qtd):
-    print(nomes[i], end=" ")
-
-</code></pre>
+                <pre><code>console.log("\nImprimindo item por item:")
+for (let i = 0; i &lt; qtd; i++)
+    console.log(nomes[i])</code></pre>
             </td>
             <td>
-                <pre><code>print("\n\nImprimindo item por item:")
-
-for i in range(0, qtd - 2):
-    print(nomes[i], end=", ")
-print(nomes[qtd - 2], "e", nomes[qtd - 1])</code></pre>
-            </td>
-            <td>
-                <pre><code>print("\n\nImprimindo item por item:")
-print(nomes[0], end="")
-for i in range(1, qtd - 1):
-    print(",", nomes[i], end="")
-print(" e", nomes[qtd - 1])</code></pre>
+                <pre><code>console.log("\nImprimindo item por item:")
+for (let i = 0; i &lt; qtd - 2; i++)
+    console.log(`${nomes[i]},`)
+console.log(nomes[qtd - 2], "e")
+console.log(nomes[qtd - 1])</code></pre>
             </td>
         </tr>
     </table>
 
-    <h3>Preenchendo listas</h3>
-    <p>Para preencher uma lista com valores digitados pelo usuário:</p>
-    <pre><code>N = 5
-nums = []
+    <h3>Preenchendo arrays</h3>
+    <p>Arrays vêm com uma série de comandos para trabalhar com eles. Dentre os comandos, temos o <code>push</code>, que adiciona um item no final do array. Veja um exemplo do comando <code>push</code> para preencher um array com valores digitados pelo usuário:</p>
+    <pre><code>let N = 5
+let nums = []
 
-for i in range(N):
-    num = int(input(f"Informe o {i + 1}º número: "))
-    nums.append(num)
+for (let i = 0; i &lt; N; i++) {
+    console.log(`Informe o ${i + 1}º número: `)
+    let num = scanf("%d")
+    nums.push(num)
+}
 
-print("Você digitou os seguintes números:")
-for i in range(N):
-    print(nums[i], end=" ")</code></pre>
+console.log("Você digitou os seguintes números:")
+for (let i = 0; i &lt; N; i++)
+    console.log(nums[i])</code></pre>
 
-    <h3>Modificando listas</h3>
-    <p>Você pode modificar os itens de uma lista:</p>
-    <pre><code>qtd = 10
-nomes = ["maria", "ana", "francisca", "antonia", "adriana",\
-         "jose", "joao", "antonio", "francisco", "luiz"]
+    <h3>Modificando arrays</h3>
+    <p>Você pode modificar os itens de um array:</p>
+    <pre><code>import scanf from 'scanf';
 
-print("Nomes:", nomes)
+let qtd = 10
+let nomes = ["maria", "ana", "francisca", "antonia", "adriana",
+             "jose", "joao", "antonio", "francisco", "luiz"]
 
-print("\nAlterando...\n")
+console.log("Nomes:", nomes)
 
-for i in range(qtd):
-    nomes[i] = nomes[i].upper()
+console.log("\nAlterando...\n")
 
-print("Nomes alterados:", nomes)</code></pre>
+for (let i = 0; i < qtd; i++)
+    nomes[i] = nomes[i].toUpperCase()
+
+console.log("Nomes alterados:", nomes)</code></pre>
+    <p>O comando <code>toUpperCase</code> converte as letras de uma string para maiúsculo.</p>
 
     <h2>Visão geral</h2>
     <ul>
-        <li>Uma lista é como se fosse várias variáveis com o mesmo nome (o nome da lista).</li>
-        <li>Você distingue entre as "variáveis" da lista (seus itens) com um índice numérico (posição do item na lista).</li>
-        <li>O primeiro item da lista está no índice 0 e o restante conta a partir daí.</li>
-        <li>Você acessa/modifica um item da lista pelo seu índice.</li>
-        <li>Os índices da lista ficam dentro dos colchetes.</li>
-        <li>Atenção: não coloque um índice maior do que o comprimento da lista para não dar erro!</li>
-        <li>Diferentemente de arrays convencionais, que possuem um comprimento fixo definido na sua inicialização, listas em Python possuem comprimentos dinâmicos. Elas podem crescer ou diminuir seu comprimento conforme itens são adicionados ou excluídos.</li>
+        <li>Um array é como se fosse várias variáveis com o mesmo nome (o nome do array).</li>
+        <li>Você distingue entre as "variáveis" do array (seus itens) com um índice numérico (posição do item no array).</li>
+        <li>O primeiro item do array está no índice 0 e o restante conta a partir daí.</li>
+        <li>Você acessa/modifica um item do array pelo seu índice.</li>
+        <li>Os índices do array ficam dentro dos colchetes.</li>
+        <li>Atenção: não coloque um índice maior do que o comprimento do array para não dar erro!</li>
+        <li>Diferentemente de arrays convencionais, que possuem um comprimento fixo definido na sua inicialização, arrays em Javascript possuem comprimentos dinâmicos. Eles podem crescer ou diminuir seu comprimento conforme itens são adicionados ou excluídos.</li>
     </ul>
 
-    <h2>O comprimento da lista</h2>
-    <p>Para saber quantos itens há em uma lista, use a função <code>len</code>, abreviação de <i>length</i> (comprimento, em inglês):</p>
-    <pre><code>frutas = ["pequi", "pera", "pêssego", "pitanga", "pinha", "pitaia"]
-legumes = ["caxi", "cebola", "cenoura", "chuchu"]
+    <h2>O comprimento do array</h2>
+    <p>Para saber quantos itens há em um array, use o comando <code>length</code> (comprimento, em inglês):</p>
+    <pre><code>let frutas = ["pequi", "pera", "pêssego", "pitanga", "pinha", "pitaia"]
+let legumes = ["caxi", "cebola", "cenoura", "chuchu"]
 
-qtd_frutas = len(frutas)
-qtd_legumes = len(legumes)
+let qtd_frutas = frutas.length
+let qtd_legumes = legumes.length
 
-print(f"\nEu tenho {qtd_frutas} frutas:")
-for i in range(qtd_frutas):
-    print(frutas[i], end=" ")
+console.log(`\nEu tenho ${qtd_frutas} frutas:`)
+for (let i = 0; i < qtd_frutas; i++)
+    console.log(frutas[i])
 
-print(f"\n\nTambém tenho {qtd_legumes} legumes:")
-for i in range(qtd_legumes):
-    print(legumes[i], end=" ")</code></pre>
-
-    <p>Qual a saída?</p>
-    <pre><code>frutas = ["pequi", "pera", "pêssego", "pitanga"]
-legumes = ["caxi", "cebola", "cenoura"]
-
-a = frutas[2]
-b = legumes[1]
-c = len(frutas)
-d = len(legumes)
-e = 3
-f = frutas[e]
-g = frutas[e - 2]
-
-print(a, b, c, f)
-print(d, e, g)</code></pre>
+console.log(`\n\nTambém tenho ${qtd_legumes} legumes:`)
+for (let i = 0; i < qtd_legumes; i++)
+    console.log(legumes[i])</code></pre>
 
     <p>Qual a saída?</p>
+    <pre><code>let frutas = ["pequi", "pera", "pêssego", "pitanga"]
+let legumes = ["caxi", "cebola", "cenoura"]
 
-    <pre><code>frutas = ["pequi", "pera", "pêssego", "pitanga", "pinha", "pitaia"]
-legumes = ["caxi", "cebola", "cenoura", "chuchu"]
-n = [9, 1, 3, 0, 7, 2, 6]
+let a = frutas[2]
+let b = legumes[1]
+let c = frutas.length
+let d = legumes.length
+let e = 3
+let f = frutas[e]
+let g = frutas[e - 2]
 
-a = len(frutas)
-b = len(legumes)
-c = len(n)
-d = frutas[0]
-e = legumes[1]
-f = n[2]
-g = frutas[f]
-h = legumes[b - 1]
-i = frutas[n[3]]
+console.log(a, b, c, f)
+console.log(d, e, g)</code></pre>
 
-print(a, d, g)
-print(b, e, h)
-print(c, f, i)</code></pre>
+    <p>Qual a saída?</p>
+
+    <pre><code>let frutas = ["pequi", "pera", "pêssego", "pitanga", "pinha", "pitaia"]
+let legumes = ["caxi", "cebola", "cenoura", "chuchu"]
+let n = [9, 1, 3, 0, 7, 2, 6]
+
+let a = frutas.length
+let b = legumes.length
+let c = n.length
+let d = frutas[0]
+let e = legumes[1]
+let f = n[2]
+let g = frutas[f]
+let h = legumes[b - 1]
+let i = frutas[n[3]]
+
+console.log(a, d, g)
+console.log(b, e, h)
+console.log(c, f, i)</code></pre>
 
     <h2>A instrução <code>for</code>-each</h2>
-    <p>Listas em Python fazem parte de uma classe de dados chamada de iteráveis. Iterar uma lista significa percorrer cada item da lista. </p>
+    <p>Arrays em Javascript fazem parte de uma classe de dados chamada de iteráveis. Iterar um array significa percorrer cada um de seus item.</p>
     <p>A instrução <code>for</code>-each, permite iterar pelos itens de uma classe iterável sem utilizar um contador.</p>
-    <p>Sua vantagem é que Evita a possibilidade de ultrapassar o limite da classe iterável.</p>
-    <p>A sintaxe de uma instrução for-each é:</p>
-    <pre><code>for it in iterable:
+    <p>Sua vantagem é que evita a possibilidade de ultrapassar o limite da classe iterável.</p>
+    <p>A sintaxe de uma instrução <code>for</code>-each é:</p>
+    <pre><code>for (let item of iterável) {
     instruções...
+}
         </code>
     </pre>
-    <p>Onde <code>it</code> é o item atual da lista <code>iterable</code>.</p>
+    <p>Onde <code>item</code> é o item atual do array <code>iterável</code>.</p>
     <!-- O tipo do parâmetro deve ser consistente com o tipo de item no array. -->
     <p>Exemplo:</p>
-    <pre><code>array = [87, 68, 94, 100, 83, 78, 85, 91, 76, 87]
+    <pre><code>let array = [87, 68, 94, 100, 83, 78, 85, 91, 76, 87]
 
-total = 0
+let total = 0
 
-for number in array:
+for (let number of array)
     total += number
 
-print("Total of array items:", total)</code></pre>
+console.log("Total:", total)</code></pre>
 
-    <p>A instrução for-each não pode ser utilizada para modificar itens em um array. Se precisar modificar itens, utilize a tradicional instrução for.</p>
-    <p>Observe no seguinte exemplo que nada adianta modificar a variável <code>e</code> achando que os itens da lista serão afetados:</p>
+    <p>A instrução <code>for</code>-each não pode ser utilizada para modificar itens em um array. Se precisar modificar itens, utilize a tradicional instrução <code>for</code>.</p>
+    <p>Observe no seguinte exemplo que nada adianta modificar a variável <code>e</code> achando que os itens do array serão afetados:</p>
     <table>
         <tr>
             <td>Quando você faz isso…</td>
@@ -418,20 +423,21 @@ print("Total of array items:", total)</code></pre>
         </tr>
         <tr>
             <td>
-                <pre><code>arr = [4, 3, 2, 1]
+                <pre><code>let arr = [4, 3, 2, 1]
 
-for e in arr:
+for (let e of arr)
     e = e * 2
 
-print(arr)</code></pre>
+console.log(arr)</code></pre>
             </td>
             <td>
-                <pre><code>arr = [4, 3, 2, 1]
+                <pre><code>let arr = [4, 3, 2, 1]
 
-for i in range(len(arr)):
-    e = arr[i]  # `e` é uma cópia de `arr[i]`
+for (let i = 0; i &lt; arr.length; i++) {
+    e = arr[i]  // `e` é uma cópia de `arr[i]`
     e = e * 2
-print(arr)</code></pre>
+}
+console.log(arr)</code></pre>
             </td>
         </tr>
     </table>
