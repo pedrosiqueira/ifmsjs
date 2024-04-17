@@ -1,11 +1,12 @@
-function soma(x, y) {
-    console.log('calculando soma...')
-    const z = x + y
-    return z
+function funcao_externa() {
+
+    function funcao_interna() {
+        return "Esta é uma função interna."
+    }
+
+    const resultado = funcao_interna()
+    return `A função externa invocou a função interna e obteve: ${resultado}`
 }
 
-const a = soma(10, 20)
-console.log(a)
-
-const b = 30
-console.log(soma(a, b))
+console.log(funcao_externa())  // possível
+console.log(funcao_interna())  // impossível
