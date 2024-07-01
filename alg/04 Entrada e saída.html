@@ -111,6 +111,11 @@
             /* estilizar as linhas de código da extensao highlightjs-line-numbers */
             padding-left: 10px;
         }
+
+        .info {
+            border-left: 6px solid blue;
+            padding-left: 1%;
+        }
     </style>
 </head>
 
@@ -171,14 +176,26 @@ let n1 = scanf("%s")
 let n2 = scanf("%s")
 let soma = n1 + n2
 console.log("The sum of the numbers is", soma)</code></pre>
-    <p>O operador de adição, quando operado em strings, realiza a operação de <b>concatenação</b>, que é "engatar" o final do primeiro operando no início do segundo operando.</p>
+    <p>O operador de adição, quando operado com pelo menos uma string, realiza a operação de <b>concatenação</b>, que é "engatar" o final do primeiro operando no início do segundo operando.</p>
     <p>Portanto, se você quiser que o JavaScript interprete o retorno do <code>scanf</code> como um número inteiro, deve usar o argumento <code>%d</code>. Experimente trocar o <code>%s</code> por <code>%d</code> no código anterior.</p>
-
     <p>Da mesma forma, use o argumento <code>%f</code> para ler um número <code>float</code>:</p>
     <pre><code>console.log("What's your height?")
 let h = scanf("%f")
 console.log("great, you measure", h)</code></pre>
     <p>Juntos, os comandos <code>scanf</code> e <code>console.log</code> podem ser usados para criar simples programas interativos que se comunicam com o usuário.</p>
+
+    <div class="info">
+        <h3>Concatenação</h3>
+        <p>Você pode concatenar qualquer tipo de dados a uma string usando o operador <code>+</code>. O Javascript tentará converter o tipo de dados em uma string para fazer a concatenação. No seguinte exemplo, os tipos primitivos foram concatenados à uma string:</p>
+        <pre><code>console.log('palavra' + 123 + 65.4 + false)</code></pre>
+        <p>Cuidado! Como o <code>+</code> é avaliado da esquerda para a direita, o segundo <code>+</code> realiza a concatenação, e não a soma:</p>
+        <pre><code>const y = 5
+console.log("y + 2 = " + y + 2)</code></pre>
+        <p>Se quiser que o segundo operador realize a soma, deve colocá-lo entre parênteses:</p>
+        <pre><code>const y = 5
+console.log("y + 2 = " + (y + 2))</code></pre>
+    </div>
+
     <h3>Lendo múltiplos valores de uma vez</h3>
     <p>Você também pode ler vários valores em um único <code>scanf</code>:</p>
     <pre><code>import scanf from 'scanf';
