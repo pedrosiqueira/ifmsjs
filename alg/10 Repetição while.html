@@ -599,7 +599,12 @@ console.log(n1, n2, n3, n4, n5, n6);</code></pre>
         <li>
             Uma faculdade oferece um curso que prepara os candidatos a obter licença estadual para corretores de imóveis. No ano passado, dez estudantes que concluíram esse curso prestaram o exame. A universidade quer saber como foi o desempenho dos seus estudantes nesse exame. Você foi contratado para escrever um programa que resuma os resultados.
 
-            <p>Ler o nome e o resultado de cada estudante, sendo o resultado um valor que indica se o estudante foi aprovado ou reprovado no exame. Escrever a quantidade de estudantes aprovados, a quantidade de reprovados, e se mais de oito estudantes foram aprovados, escrever “Bônus ao instrutor!”.</p>
+            <p>O programa deve:</p>
+            <ul>
+                <li>Ler o nome e o resultado de cada estudante, sendo o resultado um valor que indica se o estudante foi aprovado ou reprovado no exame.
+                </li>
+                <li>Escrever a quantidade de estudantes aprovados, a quantidade de reprovados, e se mais de oito estudantes foram aprovados, escrever “Bônus ao instrutor!”.</li>
+            </ul>
         </li>
         <pre><code>import scanf from 'scanf';
 
@@ -611,7 +616,7 @@ let reprovados = 0
 let contador = 0
 
 // Use um loop while para ler os resultados de cada estudante
-while (contador < 10) {
+while (contador &lt; 10) {
     console.log("Digite o nome do estudante:")
     let nome = scanf("%s")
     console.log("Digite o resultado do estudante ('a' para aprovado ou 'r' para reprovado):")
@@ -635,7 +640,7 @@ if (aprovados > 8) {
     console.log("Bônus ao instrutor!")
 }</code></pre>
 
-        <li>Qual o intervalo de inteiros de cada item a seguir?<!-- (escrever cada intervalo em uma linha) -->
+        <li>Escrever os números de cada intervalo de inteiros a seguir:<!-- (escrever cada intervalo em uma linha) -->
             <ol type="a">
                 <li>[0, 10[</li>
                 <li>]10, 0]</li>
