@@ -148,7 +148,7 @@ while (condicao) {
             <td>
                 <pre><code>console.log("\nversão 1")
 let i = 10
-if (i &lt; 20) {
+if (i &lt; 13) {
     console.log(i)
     i = i + 1
 }
@@ -157,7 +157,7 @@ console.log(i)</code></pre>
             <td>
                 <pre><code>console.log("\nversão 2")
 let i = 10
-while (i &lt; 20) {
+while (i &lt; 13) {
     console.log(i)
     i = i + 1
 }
@@ -168,7 +168,7 @@ console.log(i)</code></pre>
             <td>
                 <pre><code>console.log("\nversão 3")
 let i = 100
-if (i &lt; 20) {
+if (i &lt; 13) {
     console.log(i)
     i = i + 1
 }
@@ -177,7 +177,7 @@ console.log(i)</code></pre>
             <td>
                 <pre><code>console.log("\nversão 4")
 let i = 100
-while (i &lt; 20) {
+while (i &lt; 13) {
     console.log(i)
     i = i + 1
 }
@@ -187,16 +187,16 @@ console.log(i)</code></pre>
         <tr>
             <td>
                 <pre><code>console.log("\nversão 5")
-let i = 1
-if (i &lt; 20) {
+let i = 10
+if (i &lt; 13) {
     console.log(i)
 }
 console.log(i)</code></pre>
             </td>
             <td>
                 <pre><code>console.log("\nversão 6")
-let i = 1
-while (i &lt; 20) {
+let i = 10
+while (i &lt; 13) {
     console.log(i)
 }
 console.log(i)</code></pre>
@@ -211,25 +211,28 @@ console.log(i)</code></pre>
             <td>
                 <pre><code>console.log("\nVersão 1:")
 let i = 0
-while (i &lt; 10) {
+while (i &lt; 3) {
     console.log(i)
     i = i + 1
-}</code></pre>
+}
+console.log(i)</code></pre>
             </td>
             <td>
                 <pre><code>console.log("\nVersão 2:")
 let i = 0
-while (i &lt;= 10) {
+while (i &lt; 3) {
     console.log(i)
     i = i + 1
-}</code></pre>
+}
+
+</code></pre>
             </td>
         </tr>
         <tr>
             <td>
                 <pre><code>console.log("\nVersão 3:")
 let i = 0
-while (i &lt; 10) {
+while (i &lt;= 3) {
     console.log(i)
     i = i + 1
 }
@@ -238,9 +241,30 @@ console.log(i)</code></pre>
             <td>
                 <pre><code>console.log("\nVersão 4:")
 let i = 0
-while (i &lt;= 10) {
+while (i &lt;= 3) {
     console.log(i)
     i = i + 1
+}
+
+</code></pre>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <pre><code>console.log("\nVersão 5:")
+let i = 0
+while (i &lt; 3) {
+    i = i + 1
+    console.log(i)
+}
+console.log(i)</code></pre>
+            </td>
+            <td>
+                <pre><code>console.log("\nVersão 6:")
+let i = 0
+while (i &lt;= 3) {
+    i = i + 1
+    console.log(i)
 }
 console.log(i)</code></pre>
             </td>
@@ -380,7 +404,7 @@ if (contador > 0) {
     <p>Os operadores de atribuição composta possuem a mesma prioridade que o operador de atribuição simples (<code>=</code>), que possui a menor prioridade entre os operadores.</p>
 
     <h2>Operadores de incremento/decremento</h2>
-    <p>Incrementar ou decrementar uma variável significa aumentar ou diminuir o seu valor.</p>
+    <p>Incrementar ou decrementar uma variável significa aumentar ou diminuir o seu valor em uma unidade.</p>
     <p>Há dois tipos de incremento/decremento: prefixado e pós-fixado. Tanto o operador de incremento/decremento prefixado quanto o pós-fixado incrementa/decrementa o valor da variável em uma unidade.</p>
     <p>No incremento/decremento prefixado, o resultado da operação será o valor da variável "depois" que ela for incrementada.</p>
     <p>No incremento/decremento pós-fixado, o resultado da operação será o valor da variável antes de ser incrementada.</p>
@@ -575,7 +599,12 @@ console.log(n1, n2, n3, n4, n5, n6);</code></pre>
         <li>
             Uma faculdade oferece um curso que prepara os candidatos a obter licença estadual para corretores de imóveis. No ano passado, dez estudantes que concluíram esse curso prestaram o exame. A universidade quer saber como foi o desempenho dos seus estudantes nesse exame. Você foi contratado para escrever um programa que resuma os resultados.
 
-            <p>Ler o nome e o resultado de cada estudante, sendo o resultado um valor que indica se o estudante foi aprovado ou reprovado no exame. Escrever a quantidade de estudantes aprovados, a quantidade de reprovados, e se mais de oito estudantes foram aprovados, escrever “Bônus ao instrutor!”.</p>
+            <p>O programa deve:</p>
+            <ul>
+                <li>Ler o nome e o resultado de cada estudante, sendo o resultado um valor que indica se o estudante foi aprovado ou reprovado no exame.
+                </li>
+                <li>Escrever a quantidade de estudantes aprovados, a quantidade de reprovados, e se mais de oito estudantes foram aprovados, escrever “Bônus ao instrutor!”.</li>
+            </ul>
         </li>
         <pre><code>import scanf from 'scanf';
 
@@ -587,7 +616,7 @@ let reprovados = 0
 let contador = 0
 
 // Use um loop while para ler os resultados de cada estudante
-while (contador < 10) {
+while (contador &lt; 10) {
     console.log("Digite o nome do estudante:")
     let nome = scanf("%s")
     console.log("Digite o resultado do estudante ('a' para aprovado ou 'r' para reprovado):")
@@ -595,11 +624,11 @@ while (contador < 10) {
 
     // Verifique o resultado e atualize as contagens
     if (resultado == "a") {
-        aprovados = aprovados + 1
+        aprovados++
     } else {
-        reprovados = reprovados + 1
+        reprovados++
     }
-    contador = contador + 1
+    contador++
 }
 
 // Escreva a quantidade de estudantes aprovados e reprovados
@@ -611,7 +640,7 @@ if (aprovados > 8) {
     console.log("Bônus ao instrutor!")
 }</code></pre>
 
-        <li>Qual o intervalo de inteiros de cada item a seguir?<!-- (escrever cada intervalo em uma linha) -->
+        <li>Escrever os números de cada intervalo de inteiros a seguir:<!-- (escrever cada intervalo em uma linha) -->
             <ol type="a">
                 <li>[0, 10[</li>
                 <li>]10, 0]</li>
