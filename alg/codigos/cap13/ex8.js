@@ -2,7 +2,7 @@
 
 import scanf from 'scanf'
 
-console.log("Digite quantos números o vetor terá...")
+console.log("Digite a quantidade de números do vetor...")
 let n = scanf("%d")
 let v = []
 
