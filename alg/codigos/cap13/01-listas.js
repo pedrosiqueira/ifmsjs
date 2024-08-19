@@ -1,8 +1,16 @@
-let array = [87, 68, 94, 100, 83, 78, 85, 91, 76, 87]
+let qtd = 10  // comprimento do array
+let nomes = ["maria", "ana", "francisca", "antonia", "adriana",
+    "jose", "joao", "antonio", "francisco", "luiz"]
 
-let total = 0
+console.log("Imprimindo o array de uma vez:")
+console.log(nomes)
 
-for (let number of array)
-    total += number
+console.log("\nImprimindo item por item:")
+for (let i = 0; i < qtd; i++)
+    console.log(nomes[i])
 
-console.log("Total:", total)
+console.log("\nImprimindo item por item:")
+for (let i = 0; i < qtd - 2; i++)
+    console.log(`${nomes[i]},`)
+console.log(nomes[qtd - 2], "e")
+console.log(`${nomes[qtd - 1]}.`)
