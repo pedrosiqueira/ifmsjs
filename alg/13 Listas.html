@@ -308,14 +308,14 @@ resultado += nomes[qtd - 1] + "."
 console.log(resultado)</code></pre>
 
     <h3>Preenchendo arrays</h3>
-    <p>Arrays vêm com uma série de comandos para trabalhar com eles. Dentre os comandos, temos o <code>push</code>, que adiciona um item no final do array. Veja um exemplo do comando <code>push</code> para preencher um array com valores digitados pelo usuário:</p>
+    <p>Para preencher um array com valores digitados pelo usuário:</p>
     <pre><code>let N = 5
 let nums = []
 
 for (let i = 0; i &lt; N; i++) {
     console.log(`Informe o ${i + 1}º número: `)
     let num = scanf("%d")
-    nums.push(num)
+    nums[i] = num
 }
 
 console.log("Você digitou os seguintes números:")

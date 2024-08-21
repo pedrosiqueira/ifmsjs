@@ -8,7 +8,7 @@ let v = []
 
 console.log("Ok, agora, digite os", n, "números...")
 for (let i = 0; i < n; i++) {
-    v.push(scanf("%d"))
+    v[i] = scanf("%d")
 }
 
 console.log("Lista na ordem normal: ", v)
