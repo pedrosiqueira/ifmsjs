@@ -12,5 +12,15 @@ for (let i = 0; i < qtd; i++)
 console.log("\nImprimindo item por item:")
 for (let i = 0; i < qtd - 2; i++)
     console.log(`${nomes[i]},`)
+
 console.log(nomes[qtd - 2], "e")
 console.log(`${nomes[qtd - 1]}.`)
+
+console.log("\nImprimindo item por item na mesma linha:")
+let resultado = ""
+for (let i = 0; i < qtd - 2; i++)
+    resultado += nomes[i] + ", "
+
+resultado += nomes[qtd - 2] + " e "
+resultado += nomes[qtd - 1] + "."
+console.log(resultado)

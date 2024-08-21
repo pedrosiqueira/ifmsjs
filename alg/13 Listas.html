@@ -297,6 +297,16 @@ console.log(`${nomes[qtd - 1]}.`)</code></pre>
         </tr>
     </table>
 
+    <p>O Javascript sempre pula uma linha no comando <code>console.log()</code>. Para imprimir personalizadamente um vetor em uma mesma linha, você pode concatenar os itens em uma <code>string</code> e depois imprimir a <code>string</code>:</p>
+    <pre><code>console.log("\nImprimindo item por item na mesma linha:")
+let resultado = ""
+for (let i = 0; i &lt; qtd - 2; i++)
+    resultado += nomes[i] + ", "
+
+resultado += nomes[qtd - 2] + " e "
+resultado += nomes[qtd - 1] + "."
+console.log(resultado)</code></pre>
+
     <h3>Preenchendo arrays</h3>
     <p>Arrays vêm com uma série de comandos para trabalhar com eles. Dentre os comandos, temos o <code>push</code>, que adiciona um item no final do array. Veja um exemplo do comando <code>push</code> para preencher um array com valores digitados pelo usuário:</p>
     <pre><code>let N = 5
