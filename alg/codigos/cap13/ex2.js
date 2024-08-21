@@ -8,13 +8,12 @@ let v = []
 
 console.log("Ok, agora, digite os", n, "números do vetor...")
 for (let i = 0; i < n; i++) {
-    v.push(scanf("%d"))
+    v[i] = scanf("%d")
 }
 
-console.log("X e Y serão 2 números de indice que voce entre 0 a", n-1);
+console.log("X e Y serão 2 números de indice que voce entre 0 a", n - 1);
 let x = scanf('%d');
 let y = scanf('%d');
 
 let soma = v[x] + v[y];
-console.log("A soma dos indices x e y é", soma,":3") 
-
+console.log("A soma dos indices x e y é", soma, ":3")
