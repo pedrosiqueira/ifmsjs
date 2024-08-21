@@ -324,7 +324,7 @@ console.log("Nomes:", nomes)
 
 console.log("\nAlterando...\n")
 
-for (let i = 0; i < qtd; i++)
+for (let i = 0; i &lt; qtd; i++)
     nomes[i] = nomes[i].toUpperCase()
 
 console.log("Nomes alterados:", nomes)</code></pre>
@@ -350,11 +350,11 @@ let qtd_frutas = frutas.length
 let qtd_legumes = legumes.length
 
 console.log(`\nEu tenho ${qtd_frutas} frutas:`)
-for (let i = 0; i < qtd_frutas; i++)
+for (let i = 0; i &lt; qtd_frutas; i++)
     console.log(frutas[i])
 
 console.log(`\n\nTambém tenho ${qtd_legumes} legumes:`)
-for (let i = 0; i < qtd_legumes; i++)
+for (let i = 0; i &lt; qtd_legumes; i++)
     console.log(legumes[i])</code></pre>
 
     <p>Qual a saída?</p>
@@ -451,11 +451,60 @@ console.log(arr)</code></pre>
         <li>Ler uma lista de n itens e dois índices x e y. Permutar os itens de x e y, e escrever a lista resultante.</li>
         <li>Ler uma lista de n itens e um valor x. Escrever o primeiro índice em que x se encontra na lista. Caso x não se encontre, escrever "Não encontrado!".</li>
         <li>Ler uma lista de n números. Escrever o índice do maior item. Caso haja empate, escrever o de menor índice.</li>
+        <pre><code>/* 8. Ler uma lista de n números. Escrever o índice do maior item. Caso haja empate, escrever o de menor índice. */
+
+import scanf from 'scanf'
+
+console.log("Digite a quantidade de números do vetor...")
+let n = scanf("%d")
+let v = []
+
+console.log("Ok, agora, digite os", n, "números do vetor...")
+for (let i = 0; i &lt; n; i++) {
+    v[i] = scanf("%d")
+}
+
+let imaior = 0
+for (let i = 1; i &lt; n; i++) {
+    if (v[i] &gt; v[imaior]) {
+        imaior = i
+    }
+}
+
+console.log("O maior número é", v[imaior], "e ele se encontra no índice", imaior)</code></pre>
         <li>Ler uma lista de n itens, seguida por uma sequência de índices que se encerra com um índice inválido. Para cada índice, escrever seu item.</li>
         <li>Ler uma lista de n itens, seguida por uma sequência de itens que se encerra com um item que não existe na lista. Para cada item, escrever seu índice.</li>
         <li>Ler um natural $n$, indicando a capacidade máxima de itens em uma lista, seguido por uma série de duplas $i$ e $x$. Cada dupla representa um índice $i$ e seu respectivo item $x$ na lista. Encerrar a leitura ao encontrar um índice inválido. Caso não seja fornecido um determinado índice, considerar seu item como zero. Escrever a lista resultante.</li>
         <li>Ler uma lista de n itens, seguida por uma sequência de itens que se encerra com um item ausente na lista. Para cada item, substituir sua primeira ocorrência na lista por zero. Escrever a lista resultante.</li>
         <li>Dada uma lista de n itens, há itens repetidos na lista?</li>
+        <pre><code>/* 13. Dada uma lista de n itens, há itens repetidos na lista? */
+
+import scanf from 'scanf'
+
+console.log("Quantos números queres digitar...")
+let n = scanf("%d")
+let v = []
+
+console.log("Ok, agora, digite os", n, "números...")
+for (let i = 0; i &lt; n; i++) {
+    v[i] = scanf("%d")
+}
+
+let ha_repetidos = false
+
+for (let i = 0; i &lt; n; i++) {
+    for (let j = i + 1; j &lt; n; j++) {
+        if (v[i] == v[j]) {
+            console.log("Sim!", v[i], "se repete!")
+            ha_repetidos = true
+            i = j = n
+        }
+    }
+}
+
+if (!ha_repetidos) {
+    console.log("Não há repetidos!")
+}</code></pre>
         <li>Ler uma lista de n números e um número m. Escrever os números da lista que são menores que m em uma linha, e os maiores que m em outra linha.</li>
         <li>Ler uma lista de n números. Escrever os números menores que a média aritmética em uma linha e os maiores em outra linha.</li>
         <li>Ler uma lista de n itens. Permutar os itens da primeira metade com os da segunda metade da lista. Caso n seja ímpar, o item do meio fica na mesma posição. Escrever a lista resultante.</li>
