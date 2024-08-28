@@ -224,7 +224,7 @@ console.log("= ", soma)</code></pre>
     <h2>Mais possibilidades com o <code>for</code></h2>
     <p>O contador pode ser decrementado:</p>
     <pre><code>console.log("Contagem regressiva:");
-for (let i = 10; i > 0; i--) {
+for (let i = 10; i &gt; 0; i--) {
     console.log(i, "...");
 }
 console.log("Decolar!");
@@ -252,7 +252,7 @@ console.log(i, j); // erro: j não existe aqui</code></pre>
 
     <p>Como essas expressões podem tornar o código mais confuso, não é comum fazer assim. Outro exemplo:</p>
     <pre><code>let bit, p;
-for(bit=512, p=0; bit > 1; bit/=2, p+=1){
+for(bit=512, p=0; bit &gt; 1; bit/=2, p+=1){
     console.log(bit);
 }
 console.log("=", p);</code></pre>
@@ -407,9 +407,76 @@ for (let ano = 1; ano <= t; ano++) {
         <li>Dada uma sequência de duplas de números, representando valores e seus respectivos pesos, seguida por uma dupla de zeros, qual a média ponderada desconsiderando a dupla de zeros?</li>
         <li>Dada uma sequência de inteiros seguida por um múltiplo de 11, 13 ou 17, qual o menor número?</li>
         <li>Dado um inteiro $n$ e um dígito $d$, quantas vezes $d$ ocorre em $n$? Por exemplo, o dígito $2$ ocorre $3$ vezes em $762021192$.</li>
-        <li>Dado um inteiro, qual o seu reverso? Exemplo de entrada→saída: 5837→7385.</li>
+        <li>Dado um inteiro, qual o seu valor invertido? Exemplo de entrada→saída: 5837→7385.</li>
+        <pre><code>import scanf from 'scanf'
+
+let n = scanf('%d')
+let invertido = 0
+while (n != 0) {
+    let resto = n % 10
+    invertido = invertido * 10 + resto
+    n = Math.trunc(n / 10)
+}
+console.log(invertido)</code></pre>
         <li>Dado um natural no sistema decimal, qual seu equivalente no sistema binário? Para realizar a conversão do sistema decimal para binário, realiza-se a divisão sucessiva por 2. O resultado da conversão será dado pelo último quociente (MSB) e o agrupamento dos restos das divisões.</li>
         <li>Dado um natural menor que 10000, qual sua forma por extenso? Por exemplo, dado o número 9243, sua forma por extenso é "nove mil duzentos e quarenta e três".</li>
+        <p>ATENÇÃO: esse exercício ainda não está completo. Pode usá-lo como base para escrever sua versão completa.</p>
+        <pre><code>import scanf from "scanf"
+let n = scanf("%d")
+
+let un = n % 10
+n = Math.trunc(n / 10)
+let dz = n % 10
+n = Math.trunc(n / 10)
+let ct = n % 10
+n = Math.trunc(n / 10)
+let ml = n % 10
+n = Math.trunc(n / 10)
+
+if (ml &gt; 0) {
+    if (ml == 1) console.log('Um mil')
+    if (ml == 2) console.log('Dois mil')
+    if (ml == 3) console.log('Três mil')
+    if (ml == 4) console.log('Quatro mil')
+    if (ml == 5) console.log('Cinco mil')
+    if (ml == 6) console.log('Seis mil')
+    if (ml == 7) console.log('Sete mil')
+    if (ml == 8) console.log('Oito mil')
+    if (ml == 9) console.log('Nove mil')
+}
+if (ct &gt; 0) {
+    if (ct == 1) console.log('Cento')
+    if (ct == 2) console.log('Duzentos')
+    if (ct == 3) console.log('Trezentos')
+    if (ct == 4) console.log('Quatrocentos')
+    if (ct == 5) console.log('Quinhentos')
+    if (ct == 6) console.log('Seiscentos')
+    if (ct == 7) console.log('Setecentos')
+    if (ct == 8) console.log('Oitocentos')
+    if (ct == 9) console.log('Novecentos')
+}
+if (dz &gt; 0) {
+    if (dz == 1) console.log('????')
+    if (dz == 2) console.log('Vinte')
+    if (dz == 3) console.log('Trinta')
+    if (dz == 4) console.log('Quarenta')
+    if (dz == 5) console.log('Cinquenta')
+    if (dz == 6) console.log('Sessenta')
+    if (dz == 7) console.log('Setenta')
+    if (dz == 8) console.log('Oitenta')
+    if (dz == 9) console.log('Noventa')
+}
+if (un &gt; 0) {
+    if (un == 1) console.log('e Um')
+    if (un == 2) console.log('e Dois')
+    if (un == 3) console.log('e Três')
+    if (un == 4) console.log('e Quatro')
+    if (un == 5) console.log('e Cinco')
+    if (un == 6) console.log('e Seis')
+    if (un == 7) console.log('e Sete')
+    if (un == 8) console.log('e Oito')
+    if (un == 9) console.log('e Nove')
+}</code></pre>
         <li>Decompor um número em fatores primos ou, fatorá-lo, é escrever este número como uma multiplicação de números primos. Os fatores são termos da multiplicação que, neste caso, são números primos. A fatoração é uma técnica usada em muitos algoritmos de criptografia sem os quais a internet não existiria da forma como a conhecemos. A fatoração de um número natural qualquer se dá pela seguinte forma: Divida o número pelo seu menor divisor primo. O quociente será o novo número. Continue dividindo o número pelo seu menor divisor primo até chegar em 1. A multiplicação de todos os divisores dará o valor do número original. Exemplo, os fatores primos de $180$ são $2\cdot 2\cdot 3\cdot 3\cdot 5 = 180$:
             <table style="border-spacing: 0; text-align: center;">
                 <tr>
