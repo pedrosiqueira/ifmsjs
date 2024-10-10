@@ -1,0 +1,11 @@
+<input type="number" name="numero" id="numero">
+<input onclick="calcularprimo();" type="button" value="Calcular primo!">
+<p id="resposta"></p>
+
+<script src="ex5.js">
+    function calcularprimo() {
+        let parametro = document.getElementById('numero')
+        let resultado = primo(parametro)
+        document.getElementById('resposta').innerText = `O primo de ${parametro} é ${resultado}!`
+    }
+</script>
