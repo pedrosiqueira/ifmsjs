@@ -12,4 +12,6 @@ function funcaoMisteriosa(arr) {
 }
 
 let x = funcaoMisteriosa([2, 3, 4])
-let y = funcaoMisteriosa([1, 5, 7])
+let y = funcaoMisteriosa([1, 5, 7, 4])
+
+console.log(x, y)

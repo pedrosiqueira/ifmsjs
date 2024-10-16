@@ -9,3 +9,5 @@ function funcaoMisteriosa(a, b) {
 let x = funcaoMisteriosa(7, 10)
 let y = funcaoMisteriosa(2, 3)
 let z = funcaoMisteriosa(5, 4)
+
+console.log(x, y, z)
