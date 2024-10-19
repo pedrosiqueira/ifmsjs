@@ -3,7 +3,27 @@
 <head>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-
+            for (el of document.getElementsByClassName('click-to-copy')) {
+                el.style.display = 'inline'
+                el.style.position = 'relative'
+                const template = document.createElement('template')
+                template.innerHTML = '<span style="visibility:hidden; background: rgba(0, 0, 0, .8); border-radius: 5px; bottom: 1em; color: #fff; left: 20%; padding: 5px 5px; position: absolute; z-index: 98;">Click to copy</span><span style="visibility:hidden; border: solid; border-color: #333 transparent; border-width: 6px 6px 0 6px; bottom: .75em; left: 30%; position: absolute; z-index: 99;" />'
+                ballon = template.content.children[0]
+                tail = template.content.children[1]
+                el.prepend(ballon, tail)
+                el.addEventListener('mouseenter', ev => {
+                    ballon.style.visibility = tail.style.visibility = 'visible'
+                })
+                el.addEventListener('click', ev => {
+                    ev.preventDefault()
+                    ballon.innerText = 'Copied!'
+                    navigator.clipboard.writeText(ev.target.innerText.substring(8));
+                })
+                el.addEventListener('mouseleave', ev => {
+                    ballon.style.visibility = tail.style.visibility = 'hidden'
+                    ballon.innerText = 'Click to copy'
+                })
+            }
         }, false);
     </script>
 
@@ -118,11 +138,11 @@
     <h1>Preparando o ambiente de desenvolvimento</h1>
     <h2>Instalação</h2>
     <p>Vamos usar duas coisas para desenvolver nossos aplicativos: (1) O VSCode, onde vamos escrever nossos códigos, e (2) O NodeJS, que vai executar nossos códigos.</p>
-    <p>Para instalar o NodeJS, siga os passos da seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando-nodejs">Instalando um ambiente de execução Javascript</a>. Depois de instalado o NodeJS, execute pelo terminal o comando <code>npm install -g pnpm</code>.</p>
+    <p>Para instalar o NodeJS, siga os passos da seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando-nodejs">Instalando um ambiente de execução Javascript</a>. Depois de instalado o NodeJS, execute pelo terminal o comando <code>npm install -g pnpm</code> para instalar o pnpm, versão melhorada do npm.</p>
     <p>Para instalar o VSCode, siga os passos da seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando-vscode">Ambiente de desenvolvimento integrado</a>.</p>
 
     <h2>Criando e executando nosso projeto</h2>
-    <p>Se você quiser configurar seu projeto do zero, siga as etapas da Alternativa 1. Se quiser baixar o projeto já configurado, siga as etapas da Alternativa 2.</p>
+    <p>Se você quiser configurar seu projeto do zero, siga as etapas da Alternativa 1. Se quiser baixar o projeto já configurado, siga as etapas da Alternativa 2. Se você tem o git e quiser clonar o projeto pelo git, siga as etapas da Alternativa 3.</p>
     <h3>Criando...</h3>
     <h4 id="alternativa1">Alternativa 1 - Criando o projeto do zero</h4>
     <p>Abra o terminal onde quer criar o projeto e execute os seguintes comandos:</p>
@@ -148,13 +168,22 @@ code -r .</pre>
     <p>Esses comandos fazem respectivamente: (1) cria um projeto sveltekit com o nome <code>dw4</code>; (2) abre a pasta do projeto; (3) configura o projeto; e (4) abre a pasta do projeto pelo vscode.</p>
 
     <h4 id="alternativa2">Alternativa 2 - Baixando o projeto já configurado</h4>
-    <p>Se você já seguiu a Alternativa 1, pode pular a Alternativa 2...</p>
     <ol>
         <li>Baixe o projeto do link <a href="https://github.com/pedrosiqueira/dw4/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/dw4/archive/refs/heads/main.zip</a>.</li>
         <li>O arquivo baixado está compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto.</li>
         <li>Abra o projeto no vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</li>
         <li>Com o terminal na pasta do projeto, execute <code>pnpm install</code>.</li>
     </ol>
+
+    <h4 id="alternativa3">Alternativa 3 - Clonando o projeto pelo git</h4>
+    <ol>
+        <li>Copie este link: <a class="click-to-copy" href="https://github.com/pedrosiqueira/dw4.git">https://github.com/pedrosiqueira/dw4.git</a>.</li>
+        <li>No vscode, tecle <kbd>F1</kbd>, digite "clone" e selecione a opção "Git: Clone".</li>
+        <li>Na caixa de entrada que aparece, cole o link copiado anteriormente e tecle <kbd>Enter</kbd>.</li>
+        <li>Escolha um local para o seu projeto e abra-o no vscode.</li>
+        <li>Com o terminal na pasta do projeto, execute <code>pnpm install</code>.</li>
+    </ol>
+
 
     <h3>Executando...</h3>
     <p>Após criar o seu projeto, com o terminal na pasta do projeto, execute o comando <code>pnpm run dev -- --open</code>. Se ocorreu tudo bem, será aberta uma página no navegador web com seu aplicativo web rodando!</p>
