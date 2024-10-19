@@ -188,18 +188,18 @@
     <p>Qual a saída do seguinte código?</p>
     <pre><code>let a = 5, b = 10, c = 15, d = 5;
 console.log(a == d);
-console.log(a > b);
-console.log(c < b);
-console.log(b < c);
-console.log(c > a);
+console.log(a &gt; b);
+console.log(c &lt; b);
+console.log(b &lt; c);
+console.log(c &gt; a);
 console.log(c == d);
 console.log(b != d);
-console.log(a < c < d);</code></pre>
+console.log(a &lt; c &lt; d);</code></pre>
 
     <p>Qual a saída do seguinte código?</p>
-    <pre><code>let a = 15 < 10
-let b = a < 10
-let c = true < 2
+    <pre><code>let a = 15 &lt; 10
+let b = a &lt; 10
+let c = true &lt; 2
 let d = 0 == false
 console.log(a, b, c, d)</code></pre>
 
@@ -227,7 +227,7 @@ console.log("\nInforme teu salario: ");
 let salario = scanf("%f")
 
 console.log("\nVocê ganha", salario);
-if (salario > 5000) {
+if (salario &gt; 5000) {
     console.log("Você está bem, ein!");
 }
 
@@ -235,7 +235,7 @@ console.log("\nInforme tua nota: ");
 let nota = scanf("%f")
 
 console.log("\nVocê tirou nota", nota);
-if (nota < 7)
+if (nota &lt; 7)
 {
     console.log("Você está de recuperação!");
 }
@@ -273,7 +273,7 @@ console.log("\nInforme teu salario: ");
 let salario = scanf("%f")
 
 console.log("\nVocê ganha", salario);
-if (salario > 5000) {
+if (salario &gt; 5000) {
     console.log("Você está bem, ein!");
 } else {
     console.log("Você ainda chega lá!");
@@ -283,7 +283,7 @@ console.log("\nInforme tua nota: ");
 let nota = scanf("%f")
 
 console.log("\nVocê tirou nota", nota);
-if (nota < 7)
+if (nota &lt; 7)
 {
     console.log("Você está de recuperação!");
 }
@@ -333,8 +333,8 @@ let x = scanf("%d");
 let y = scanf("%d");
 let z = scanf("%d");
 
-if (x > y) {
-    if (x > z) {
+if (x &gt; y) {
+    if (x &gt; z) {
         console.log(x, "é o maior número");
         if (x % 2 != 0) {
             console.log("e também é ímpar");
@@ -350,7 +350,7 @@ if (x > y) {
         }
     }
 } else {
-    if (y > z) {
+    if (y &gt; z) {
         console.log(y, "é o maior número");
         if (y % 2 != 0) {
             console.log("e também é ímpar");
@@ -380,14 +380,14 @@ let y = scanf("%d");
 let z = scanf("%d");
 let maior;
 
-if (x > y) {
-    if (x > z) {
+if (x &gt; y) {
+    if (x &gt; z) {
         maior = x;
     } else {
         maior = z;
     }
 } else {
-    if (y > z) {
+    if (y &gt; z) {
         maior = y;
     } else {
         maior = z;
@@ -413,13 +413,13 @@ let y = scanf('%d');
 let z = scanf('%d');
 let maior;
 
-if (x > y) {
+if (x &gt; y) {
     maior = x;
 } else {
     maior = y;
 }
 
-if (z > maior) {
+if (z &gt; maior) {
     maior = z;
 }
 
@@ -436,15 +436,15 @@ if (maior % 2 != 0) {
     <h3>O problema do else oscilante</h3>
     <p>O Javascript sempre associa um <code>else</code> à instrução <code>if</code> imediatamente anterior, a menos que instruído de outro modo pela colocação de chaves ({ e }). Esse comportamento pode levar àquilo que é chamado de problema do <code>else</code> oscilante.</p>
     <p>Cuidado! Isso daqui:</p>
-    <pre><code>if (x > 5)
-    if (y > 5)
+    <pre><code>if (x &gt; 5)
+    if (y &gt; 5)
         console.log("x e y são maiores que 5");
 else
     console.log("x é menor que 5");</code></pre>
 
     <p>É equivalente a isso daqui:</p>
-    <pre><code>if (x > 5)
-    if (y > 5)
+    <pre><code>if (x &gt; 5)
+    if (y &gt; 5)
         console.log("x e y são maiores que 5");
     else
         console.log("x é menor que 5");</code></pre>
@@ -638,13 +638,13 @@ if (m >= 8.5) {
     <pre><code>let a = scanf("%d")
 let b = scanf("%d")
 
-maior = a > b ? a : b;
+maior = a &gt; b ? a : b;
 console.log(maior)</code></pre>
     <p>Neste caso, o operador ternário verifica se <code>a</code> é maior que <code>b</code>. Se for verdadeiro, a variável <code>maior</code> recebe o valor de <code>a</code>, senão, recebe o valor de <code>b</code>. Isso é equivalente à:</p>
     <pre><code>let a = scanf("%d")
 let b = scanf("%d")
 
-if (a > b)
+if (a &gt; b)
     maior = a
 else
     maior = b
