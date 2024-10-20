@@ -120,7 +120,7 @@
 
     <p>Considere o seguinte trecho de código para verificar se uma idade está entre 18 e 64 anos:</p>
     <pre><code>if (idade >= 18) {
-    if (idade < 65) {
+    if (idade &lt; 65) {
         // Your code goes here
     }
 }</code></pre>
@@ -140,7 +140,7 @@
     <pre><code>if ((idade >= 21) && (idade &lt; 65)) { ... }</code></pre>
     <h2>Operador Disjuntivo</h2>
     <p>Para assegurar que uma das duas ou ambas as condições são verdadeiras, utilize o operador <code>||</code> (OU condicional).</p>
-    <pre><code>if (horas > 40 || vendas > 25000.00) { ... }</code></pre>
+    <pre><code>if (horas &gt; 40 || vendas &gt; 25000.00) { ... }</code></pre>
     <h2>Operador de negação</h2>
     <p>O operador unário <code>!</code> (NÃO lógico) “inverte” o valor de uma expressão lógica.</p>
     <p>O operador de negação é colocado antes de uma condição.</p>
@@ -216,7 +216,7 @@
     <p>Os operadores lógicos geram o valor <code>true</code> para verdadeiro e o valor <code>false</code> para falso.</p>
 
     <pre><code>if (idade >= 21 && idade &lt; 65) { ... }
-if (horas > 40 || vendas > 25000.00) { ... }
+if (horas &gt; 40 || vendas &gt; 25000.00) { ... }
 if (!masculino) { ... } </code></pre>
 
     <p>Uma condição que usa os operadores <code>&&</code> ou <code>||</code> utiliza a avaliação em curto-circuito — a avaliação termina assim que encontra a resposta.</p>
@@ -275,12 +275,12 @@ if (!masculino) { ... } </code></pre>
     </table>
 
     <p>Suponha que a escola queira recompensar o alunos que tenham bom desempenho e tenham perdido poucas aulas. Além disso, a recompensa exige que os alunos ingressem em três projetos escolares ou participem de duas atividades esportivas. A avaliação poderia ficar assim:</p>
-    <pre><code>if (nota > 9 && faltas &lt;= 3 && (projetos >= 3 || esportes >=  2)) {
+    <pre><code>if (nota &gt; 9 && faltas &lt;= 3 && (projetos >= 3 || esportes >=  2)) {
     ...
 }</code></pre>
 
     <p>Para tornar o código mais legível, você pode acrescentar quebras de linhas entre os operadores:</p>
-    <pre><code>if (nota > 9 && faltas &lt;= 3
+    <pre><code>if (nota &gt; 9 && faltas &lt;= 3
 && (projetos >= 3 || esportes >= 2)) {
     ...
 }</code></pre>
