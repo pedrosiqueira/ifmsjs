@@ -152,6 +152,11 @@
             /* estilizar as linhas de código da extensao highlightjs-line-numbers */
             padding-left: 10px;
         }
+
+        .info {
+            border-left: 6px solid blue;
+            padding-left: 1%;
+        }
     </style>
 </head>
 
@@ -159,8 +164,24 @@
     <h1>Preparando o ambiente de desenvolvimento</h1>
     <h2>Instalação</h2>
     <p>Vamos usar duas coisas para desenvolver nossos aplicativos: (1) O VSCode, onde vamos escrever nossos códigos, e (2) O NodeJS, que vai executar nossos códigos.</p>
-    <p>Para instalar o NodeJS, siga os passos da seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando-nodejs">Instalando um ambiente de execução Javascript</a>.</p>
+    <p>Para instalar o NodeJS, siga os passos da seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando-nodejs">Instalando um ambiente de execução Javascript</a>. Após instalado o NodeJS, execute pelo terminal o comando <code>npm install -g pnpm</code> para instalar o pnpm, versão melhorada do npm.</p>
     <p>Para instalar o VSCode, siga os passos da seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando-vscode">Ambiente de desenvolvimento integrado</a>. Após instalado o VSCode, instale a extensão <a href="https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode">svelte.svelte-vscode</a>.</p>
+
+    <div class="info">
+        <p>Opcional: O npm instala os pacotes por usuário. Especialmente se você estiver num computador com vários usuários usando o npm, vocês podem compartilhar a mesma pasta de pacotes e economizar espaço em disco.</p>
+        <p>Para isso, se não tiver acesso administrativo, execute os seguintes comandos no terminal:</p>
+        <pre>npm -g set prefix %SYSTEMDRIVE%\npm
+npm -g set cache %SYSTEMDRIVE%\npm-cache
+
+$Path = [Environment]::GetEnvironmentVariable("PATH", "User")
+[Environment]::SetEnvironmentVariable( "Path", "$Path;%SYSTEMDRIVE%\npm", "User" )</pre>
+        <p>Esses comandos fazem: configura a pasta onde os pacotes são instalados globalmente e a pasta cache em <code>C:\npm</code> e <code>C:\npm-cache</code>, adiciona a pasta <code>C:\npm</code> nas variáveis de ambiente do usuário.</p>
+        <p>Agora, se tiver acesso administrativo, adicione as seguintes configurações no arquivo <code>C:\Program Files\nodejs\node_modules\npm\.npmrc</code>:</p>
+        <pre>prefix=C:\npm
+cache=C:\npm-cache</pre>
+        <p>Após isso, adicione a pasta nas variáveis de ambiente do sistema executando no terminal:</p>
+        <pre>[Environment]::SetEnvironmentVariable("Path", "$Path;%SYSTEMDRIVE%\npm", "Machine")</pre>
+    </div>
 
     <h2>Criando e executando nosso projeto</h2>
     <p>Se você tem o git e quiser clonar o projeto pelo git, siga as etapas da Alternativa 1. Se quiser baixar o projeto já configurado, siga as etapas da Alternativa 2. Se você quiser configurar seu projeto do zero, siga as etapas da Alternativa 3.</p>
@@ -171,7 +192,7 @@
         <li>No vscode, tecle <kbd>F1</kbd>, digite "clone" e selecione a opção "Git: Clone".</li>
         <li>Na caixa de entrada que aparece, cole o link copiado anteriormente e tecle <kbd>Enter</kbd>.</li>
         <li>Escolha um local para o seu projeto e abra-o no vscode.</li>
-        <li>Com o terminal na pasta do projeto, execute <code>npm install</code>.</li>
+        <li>Com o terminal na pasta do projeto, execute <code>pnpm install</code>.</li>
     </ol>
 
     <h4 id="alternativa2">Alternativa 2 - Baixando o projeto já configurado</h4>
@@ -179,14 +200,14 @@
         <li>Baixe o projeto do link <a href="https://github.com/pedrosiqueira/dw4/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/dw4/archive/refs/heads/main.zip</a>.</li>
         <li>O arquivo baixado está compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto.</li>
         <li>Abra o projeto no vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</li>
-        <li>Com o terminal na pasta do projeto, execute <code>npm install</code>.</li>
+        <li>Com o terminal na pasta do projeto, execute <code>pnpm install</code>.</li>
     </ol>
 
     <h4 id="alternativa3">Alternativa 3 - Criando o projeto do zero</h4>
     <p>Abra o terminal onde quer criar o projeto e execute os seguintes comandos:</p>
-    <pre>npm create svelte@latest dw4
+    <pre>pnpm create svelte@latest dw4
 cd dw4
-npm install
+pnpm install
 code -r .</pre>
 
     <p>Quando solicitado, escolha as seguintes opções:</p>
@@ -206,7 +227,7 @@ code -r .</pre>
     <p>Esses comandos fazem respectivamente: (1) cria um projeto sveltekit com o nome <code>dw4</code>; (2) abre a pasta do projeto; (3) configura o projeto; e (4) abre a pasta do projeto pelo vscode.</p>
 
     <h3>Executando...</h3>
-    <p>Após criar o seu projeto, com o terminal na pasta do projeto, execute o comando <code>npm run dev -- --open</code>. Se ocorreu tudo bem, será aberta uma página no navegador web com seu aplicativo web rodando!</p>
+    <p>Após criar o seu projeto, com o terminal na pasta do projeto, execute o comando <code>pnpm run dev -- --open</code>. Se ocorreu tudo bem, será aberta uma página no navegador web com seu aplicativo web rodando!</p>
 
     <h2>Valendo!</h2>
     <p>Tudo pronto para iniciarmos nossa jornada! Vamos começar do <a href="https://learn.svelte.dev/tutorial">tutorial oficial Svelte</a>.</p>
