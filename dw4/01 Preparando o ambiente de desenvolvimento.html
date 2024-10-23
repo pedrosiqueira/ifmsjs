@@ -167,22 +167,6 @@
     <p>Para instalar o NodeJS, siga os passos da seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando-nodejs">Instalando um ambiente de execução Javascript</a>. Após instalado o NodeJS, execute pelo terminal o comando <code>npm install -g pnpm</code> para instalar o pnpm, versão melhorada do npm.</p>
     <p>Para instalar o VSCode, siga os passos da seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando-vscode">Ambiente de desenvolvimento integrado</a>. Após instalado o VSCode, instale a extensão <a href="https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode">svelte.svelte-vscode</a>.</p>
 
-    <div class="info">
-        <p>Opcional: O npm instala os pacotes por usuário. Especialmente se você estiver num computador com vários usuários usando o npm, vocês podem compartilhar a mesma pasta de pacotes e economizar espaço em disco.</p>
-        <p>Para isso, se não tiver acesso administrativo, execute os seguintes comandos no terminal:</p>
-        <pre>npm -g set prefix %SYSTEMDRIVE%\npm
-npm -g set cache %SYSTEMDRIVE%\npm-cache
-
-$Path = [Environment]::GetEnvironmentVariable("PATH", "User")
-[Environment]::SetEnvironmentVariable( "Path", "$Path;%SYSTEMDRIVE%\npm", "User" )</pre>
-        <p>Esses comandos fazem: configura a pasta onde os pacotes são instalados globalmente e a pasta cache em <code>C:\npm</code> e <code>C:\npm-cache</code>, adiciona a pasta <code>C:\npm</code> nas variáveis de ambiente do usuário.</p>
-        <p>Agora, se tiver acesso administrativo, adicione as seguintes configurações no arquivo <code>C:\Program Files\nodejs\node_modules\npm\.npmrc</code>:</p>
-        <pre>prefix=C:\npm
-cache=C:\npm-cache</pre>
-        <p>Após isso, adicione a pasta nas variáveis de ambiente do sistema executando no terminal:</p>
-        <pre>[Environment]::SetEnvironmentVariable("Path", "$Path;%SYSTEMDRIVE%\npm", "Machine")</pre>
-    </div>
-
     <h2>Criando e executando nosso projeto</h2>
     <p>Se você tem o git e quiser clonar o projeto pelo git, siga as etapas da Alternativa 1. Se quiser baixar o projeto já configurado, siga as etapas da Alternativa 2. Se você quiser configurar seu projeto do zero, siga as etapas da Alternativa 3.</p>
     <h3>Criando...</h3>
