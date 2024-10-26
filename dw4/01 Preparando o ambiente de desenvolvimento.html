@@ -152,6 +152,11 @@
             /* estilizar as linhas de código da extensao highlightjs-line-numbers */
             padding-left: 10px;
         }
+
+        .info {
+            border-left: 6px solid blue;
+            padding-left: 1%;
+        }
     </style>
 </head>
 
@@ -163,31 +168,16 @@
     <p>Para instalar o VSCode, siga os passos da seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando-vscode">Ambiente de desenvolvimento integrado</a>. Após instalado o VSCode, instale a extensão <a href="https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode">svelte.svelte-vscode</a>.</p>
 
     <h2>Criando e executando nosso projeto</h2>
-    <p>Se você quiser configurar seu projeto do zero, siga as etapas da Alternativa 1. Se quiser baixar o projeto já configurado, siga as etapas da Alternativa 2. Se você tem o git e quiser clonar o projeto pelo git, siga as etapas da Alternativa 3.</p>
-    <p>Se você quiser configurar seu projeto do zero, siga as etapas da Alternativa 1. Se quiser baixar o projeto já configurado, siga as etapas da Alternativa 2. Se você tem o git e quiser clonar o projeto pelo git, siga as etapas da Alternativa 3.</p>
+    <p>Se você tem o git e quiser clonar o projeto pelo git, siga as etapas da Alternativa 1. Se quiser baixar o projeto já configurado, siga as etapas da Alternativa 2. Se você quiser configurar seu projeto do zero, siga as etapas da Alternativa 3.</p>
     <h3>Criando...</h3>
-    <h4 id="alternativa1">Alternativa 1 - Criando o projeto do zero</h4>
-    <p>Abra o terminal onde quer criar o projeto e execute os seguintes comandos:</p>
-    <pre>pnpm create svelte@latest dw4
-cd dw4
-pnpm install
-code -r .</pre>
-
-    <p>Quando solicitado, escolha as seguintes opções:</p>
-    <pre>    ┌  Welcome to SvelteKit!
-    │
-    ◇  Which Svelte app template?
-    │  Skeleton project
-    │
-    ◇  Add type checking with TypeScript?
-    │  No
-    │
-    ◇  Select additional options (use arrow keys/space bar)
-    │  Add ESLint for code linting, Add Prettier for code formatting
-    │
-    └  Your project is ready!</pre>
-
-    <p>Esses comandos fazem respectivamente: (1) cria um projeto sveltekit com o nome <code>dw4</code>; (2) abre a pasta do projeto; (3) configura o projeto; e (4) abre a pasta do projeto pelo vscode.</p>
+    <h4 id="alternativa1">Alternativa 1 - Clonando o projeto pelo git</h4>
+    <ol>
+        <li>Copie este link: <a class="click-to-copy" href="https://github.com/pedrosiqueira/dw4.git">https://github.com/pedrosiqueira/dw4.git</a>.</li>
+        <li>No vscode, tecle <kbd>F1</kbd>, digite "clone" e selecione a opção "Git: Clone".</li>
+        <li>Na caixa de entrada que aparece, cole o link copiado anteriormente e tecle <kbd>Enter</kbd>.</li>
+        <li>Escolha um local para o seu projeto e abra-o no vscode.</li>
+        <li>Com o terminal na pasta do projeto, execute <code>pnpm install</code>.</li>
+    </ol>
 
     <h4 id="alternativa2">Alternativa 2 - Baixando o projeto já configurado</h4>
     <ol>
@@ -197,26 +187,37 @@ code -r .</pre>
         <li>Com o terminal na pasta do projeto, execute <code>pnpm install</code>.</li>
     </ol>
 
-    <h4 id="alternativa3">Alternativa 3 - Clonando o projeto pelo git</h4>
-    <ol>
-        <li>Copie este link: <a class="click-to-copy" href="https://github.com/pedrosiqueira/dw4.git">https://github.com/pedrosiqueira/dw4.git</a>.</li>
-        <li>No vscode, tecle <kbd>F1</kbd>, digite "clone" e selecione a opção "Git: Clone".</li>
-        <li>Na caixa de entrada que aparece, cole o link copiado anteriormente e tecle <kbd>Enter</kbd>.</li>
-        <li>Escolha um local para o seu projeto e abra-o no vscode.</li>
-        <li>Com o terminal na pasta do projeto, execute <code>pnpm install</code>.</li>
-    </ol>
+    <h4 id="alternativa3">Alternativa 3 - Criando o projeto do zero</h4>
+    <p>Abra o terminal onde quer criar o projeto e execute os seguintes comandos:</p>
+    <pre>pnpm dlx sv create dw4
+cd dw4
+pnpm install
+code -r .</pre>
 
-    <h4 id="alternativa3">Alternativa 3 - Clonando o projeto pelo git</h4>
-    <ol>
-        <li>Copie este link: <a class="click-to-copy" href="https://github.com/pedrosiqueira/dw4.git">https://github.com/pedrosiqueira/dw4.git</a>.</li>
-        <li>No vscode, tecle <kbd>F1</kbd>, digite "clone" e selecione a opção "Git: Clone".</li>
-        <li>Na caixa de entrada que aparece, cole o link copiado anteriormente e tecle <kbd>Enter</kbd>.</li>
-        <li>Escolha um local para o seu projeto e abra-o no vscode.</li>
-        <li>Com o terminal na pasta do projeto, execute <code>pnpm install</code>.</li>
-    </ol>
+    <p>Quando solicitado, escolha as seguintes opções:</p>
+    <pre>┌  Welcome to the Svelte CLI! (v0.5.7)
+│
+◇  Which template would you like?
+│  SvelteKit minimal
+│
+◇  Add type checking with Typescript?
+│  No
+│
+◆  Project created
+│
+◇  What would you like to add to your project?
+│  prettier, eslint
+│
+◇  Which package manager do you want to install dependencies
+with?
+│  pnpm</pre>
 
-    <h3>Executando...</h3>
-    <p>Após criar o seu projeto, com o terminal na pasta do projeto, execute o comando <code>pnpm run dev -- --open</code>. Se ocorreu tudo bem, será aberta uma página no navegador web com seu aplicativo web rodando!</p>
+    <p>Esses comandos fazem respectivamente: (1) cria um projeto sveltekit com o nome <code>dw4</code>; (2) abre a pasta do projeto; (3) configura o projeto; e (4) abre a pasta do projeto pelo vscode.</p>
+
+    <h3>Executando o projeto</h3>
+    <p>Após criar teu projeto, com o terminal aberto na pasta do mesmo, execute o comando <code>pnpm run dev -- --open</code>. Se ocorreu tudo bem, uma página será aberta automaticamente no navegador web, exibindo seu aplicativo web em execução. Para encerrar o aplicativo, basta voltar ao terminal onde ele está rodando e pressionar <kbd>Ctrl+C</kbd>.</p>
+    <p>Se você possuir permissões administrativas, é possível disponibilizar o site para todos os dispositivos da sua rede local utilizando o comando <code>pnpm run dev -- --host 0.0.0.0</code>. Após isso, tente acessar o site pelo teu celular ou outro dispositivo, utilizando o endereço IP exibido no terminal.</p>
+    <p>Caso deseje expor o site para a Internet, é possível, mas esse processo está fora do escopo desta aula. Isso demandaria configurações adicionais, como mexer no modem, além de apresentar riscos de segurança, já que seu computador ficaria acessível publicamente na rede.</p>
 
     <h2>Valendo!</h2>
     <p>Tudo pronto para iniciarmos nossa jornada! Vamos começar do <a href="https://learn.svelte.dev/tutorial">tutorial oficial Svelte</a>.</p>
