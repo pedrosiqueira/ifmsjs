@@ -1,0 +1,23 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      scanf:
+        specifier: ^1.2.0
+        version: 1.2.0
+
+packages:
+
+  scanf@1.2.0:
+    resolution: {integrity: sha512-I2wC8pY78d7mkkElvvfpf47F8Dzdx9ep8/bPvy/0/PeUYW8Fb4p+DD/Axcp5isO5cOUhcrmXp0IHZwDlTYeJAg==}
+    engines: {node: '>= 4'}
+
+snapshots:
+
+  scanf@1.2.0: {}
