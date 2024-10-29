@@ -24,27 +24,6 @@
                     ballon.innerText = 'Click to copy'
                 })
             }
-            for (el of document.getElementsByClassName('click-to-copy')) {
-                el.style.display = 'inline'
-                el.style.position = 'relative'
-                const template = document.createElement('template')
-                template.innerHTML = '<span style="visibility:hidden; background: rgba(0, 0, 0, .8); border-radius: 5px; bottom: 1em; color: #fff; left: 20%; padding: 5px 5px; position: absolute; z-index: 98;">Click to copy</span><span style="visibility:hidden; border: solid; border-color: #333 transparent; border-width: 6px 6px 0 6px; bottom: .75em; left: 30%; position: absolute; z-index: 99;" />'
-                ballon = template.content.children[0]
-                tail = template.content.children[1]
-                el.prepend(ballon, tail)
-                el.addEventListener('mouseenter', ev => {
-                    ballon.style.visibility = tail.style.visibility = 'visible'
-                })
-                el.addEventListener('click', ev => {
-                    ev.preventDefault()
-                    ballon.innerText = 'Copied!'
-                    navigator.clipboard.writeText(ev.target.innerText.substring(8));
-                })
-                el.addEventListener('mouseleave', ev => {
-                    ballon.style.visibility = tail.style.visibility = 'hidden'
-                    ballon.innerText = 'Click to copy'
-                })
-            }
         }, false);
     </script>
 
