@@ -149,6 +149,17 @@
     <h2>Criando e executando nosso projeto</h2>
     <p>Se você tem o git e quiser clonar o projeto pelo git, siga as etapas da Alternativa 1. Se quiser baixar o projeto já configurado, siga as etapas da Alternativa 2. Se você quiser configurar seu projeto do zero, siga as etapas da Alternativa 3.</p>
     <h3>Criando...</h3>
+    <h4>Alternativa 0...</h4>
+    <p>Execute o seguinte código no terminal:</p>
+    <pre><code>Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser # dá permissão de execução ao npm
+$desktopPath = [Environment]::GetFolderPath('Desktop') # define a pasta de área de trabalho
+Set-Location -Path $desktopPath # abre a pasta de área de trabalho
+Remove-Item -Path dw4 -Recurse -Force # exclui a pasta dw4
+git clone https://github.com/pedrosiqueira/dw4.git # baixa a pasta dw4
+cd dw4 # abre a pasta dw4
+npm install # baixa os pacotes do projeto
+code --install-extension svelte.svelte-vscode # instala a extensão do svelte
+code -r . # abre o projeto pelo vscode</code></pre>
     <h4 id="alternativa1">Alternativa 1 - Clonando o projeto pelo git</h4>
     <ol>
         <li>Copie este link: <a class="click-to-copy" href="https://github.com/pedrosiqueira/dw4.git">https://github.com/pedrosiqueira/dw4.git</a>.</li>
