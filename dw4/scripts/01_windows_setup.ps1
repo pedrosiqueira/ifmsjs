@@ -40,4 +40,6 @@ Add-PathIfNotExists -newPath "$env:SYSTEMDRIVE\npm\pnpm\"
 # $env:XDG_CACHE_HOME = [System.Environment]::GetEnvironmentVariable("XDG_CACHE_HOME","Machine")
 # $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
 
-exit
+# recarrega as variáveis de ambiente modificadas
+# refreshenv
+exit # sair do terminal é mais garantido para recarregar as variáveis de ambiente
