@@ -39,3 +39,5 @@ Add-PathIfNotExists -newPath "$env:SYSTEMDRIVE\npm\pnpm\"
 # $env:XDG_STATE_HOME = [System.Environment]::GetEnvironmentVariable("XDG_STATE_HOME","Machine")
 # $env:XDG_CACHE_HOME = [System.Environment]::GetEnvironmentVariable("XDG_CACHE_HOME","Machine")
 # $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
+
+exit
