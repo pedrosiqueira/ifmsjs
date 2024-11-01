@@ -1,140 +1,219 @@
-<h2>Criando nosso projeto</h2>
-<p>É fundamental mantermos nosso ambiente de trabalho organizado. Como programadores, separamos nossos códigos em projetos, que são pastas que agrupam nossos arquivos de código.</p>
-<p id="vamos-baixar-do-github">Vamos baixar um projeto já configurado do GitHub. O GitHub é um site que hospeda repositórios Git, onde os desenvolvedores podem armazenar, compartilhar e colaborar em projetos. Você pode baixar e abrir o projeto de duas maneiras. Se você não tem o <a href="https://git-scm.com/downloads">git</a> instalado ou não está familiarizado com o git, siga as etapas da <a href="#alternativa2">Alternativa 2</a>. Se você tiver o <a href="https://git-scm.com/downloads">git</a> instalado, siga as etapas da <a href="#alternativa1">Alternativa 1</a>.</p>
-</p>
-<h4 id="alternativa1">Alternativa 1</h4>
-<ol>
-    <li>Copie este link: <a class="click-to-copy" href="https://github.com/pedrosiqueira/info3-dw3.git">https://github.com/pedrosiqueira/info3-dw3.git</a>.</li>
-    <li>No vscode, tecle <kbd>F1</kbd>, digite "clone" e selecione a opção "Git: Clone".</li>
-    <li>Na caixa de entrada que aparece, cole o link copiado anteriormente e tecle <kbd>Enter</kbd>.</li>
-    <li>Escolha um local para o seu projeto e abra-o no vscode.</li>
-    <li>Se aparecer uma mensagem perguntando se você confia neste projeto, confirme que sim.</li>
-</ol>
-<h4 id="alternativa2">Alternativa 2</h4>
-<ol>
-    <li>Baixe o projeto do link <a href="https://github.com/pedrosiqueira/info3-dw3/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/info3-dw3/archive/refs/heads/main.zip</a>.</li>
-    <li>O arquivo baixado está compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto.</li>
-    <li>Abra o projeto no vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</li>
-</ol>
-<p>De início, o projeto vem com dois arquivos de configuração. O arquivo <code>.vscode/launch.json</code> possui configurações do vscode para o projeto, como como compilá-lo e executá-lo. O arquivo <code>package.json</code> possui configurações do node para o projeto, como o nome dos autores do projeto, descrição do projeto, e pacotes de terceiros utilizados pelo projeto.</p>
-<p>O projeto também vem com a pasta <code>node_modules</code>, onde ficam os pacotes de terceiros. No momento o único pacote que utilizaremos é o <code>scanf</code>, que nos auxilia a ler dados digitados pelo usuário.</p>
-<p>Organizaremos nosso projeto por pastas. Criaremos uma pasta para cada capítulo, onde colocaremos os códigos desenvolvidos naquele capítulo. Como estamos no segundo capítulo, crie a pasta <code>cap02</code> na pasta raiz do projeto. Você pode fazer isso no vscode clicando com o botão direito no espaço vazio da aba de explorador e selecionando "New folder...".</p>
-<p>Agora, crie o arquivo <code>hello-world.js</code> dentro da pasta <code>cap02</code>. Você pode fazer isso no vscode clicando com o botão direito em cima da pasta <code>cap02</code> e selecionando "New file...". Observe que todos os arquivos de código-fonte em JavaScript devem terminar com a extensão <code>.js</code>.</p>
-<p>Escreva o código <code>console.log('hello, world!')</code> dentro do arquivo recém-criado. Para executar esse arquivo, abra o terminal na pasta raiz do projeto (atalho <kbd>Ctrl+j</kbd>) e execute <code>node cap02/hello-world.js</code>. Parabéns, esse é seu primeiro programa em JavaScript!</p>
-<p>Você também pode executar qualquer arquivo <code>.js</code> aberto no vscode simplesmente teclando <kbd>F5</kbd>.</p>
+<!DOCTYPE html>
 
-<h2>Extras (não cai na prova)</h2>
-<h3>Configuração do Node.js</h3>
-<p>O npm utiliza <a href="https://docs.npmjs.com/cli/v10/configuring-npm/folders">determinadas pastas</a> para gerenciar seus pacotes. O npm instala os pacotes utilizados em cada projeto na pasta <code>node_modules</code> do próprio projeto. O npm instala pacotes utilizados globalmente na pasta <code>prefix</code>, que no Windows fica em <code>%AppData%\npm</code>. O npm também utiliza a pasta <code>cache</code> para armazenar pacotes baixados, que no Windows fica em <code>%LocalAppData%/npm-cache</code>. Em um computador com vários usuários utilizando npm, podemos compartilhar as pastas <code>prefix</code> e <code>cache</code> para economizar espaço em disco. Para isso, podemos modificar as <a href="https://docs.npmjs.com/cli/v10/using-npm/config#prefix">configurações padrão do npm</a> que definem onde os pacotes são instalados. O npm carrega suas configurações de <a href="https://docs.npmjs.com/cli/v10/configuring-npm/npmrc">arquivos <code>npmrc</code></a> ou de variáveis de ambiente do sistema. Podemos editar os arquivos npmrc <a href="https://stackoverflow.com/a/54133101/4072641">via linha de comando</a>, mas isso afeta apenas o usuário que executou o comando. Portanto, aqui, vamos definir variáveis de ambiente do sistema que redirecionam a instalação de pacotes globais e o cache do npm para as pastas <code>C:\npm\npm\</code> e <code>C:\npm\npm-cache\</code>, respectivamente. Além disso, também precisaremos atualizar a variável de ambiente <code>PATH</code> para conseguir executar os pacotes globais pela linha de comando. Isso valerá para todos os usuários, não só para o usuário que executou o comando.</p>
-<p>No Windows, execute pelo terminal no <i>modo administrativo<sup><a href="#obs-1">1</a></sup></i> os seguintes comandos:</p>
-<pre><code class="language-console">[Environment]::SetEnvironmentVariable("npm_config_prefix", "$env:SYSTEMDRIVE\npm\npm\", "Machine")
+<head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        }, false);
+    </script>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+
+    <style>
+        img {
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .katex {
+            /* o padrão é 1.21, vc pode remover essa configuração se quiser deixar o padrão */
+            font-size: 1.0em;
+        }
+
+        table.custom,
+        table.custom>thead>tr>th,
+        table.custom>tbody>tr>td,
+        table.custom>tbody>tr>th {
+            /* tabela centralizada e com bordas */
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 5px;
+            padding-right: 5px;
+            text-align: center;
+        }
+
+        table pre {
+            /* Remove a margem interna de tags pre dentro de tabelas */
+            margin: 0;
+            padding: 0;
+            text-align: left;
+        }
+
+        td:has(pre) {
+            /* tags pre dentro de tabela são alinhadas no topo à esquerda */
+            vertical-align: top;
+        }
+
+        table.align-left th,
+        table.align-left td {
+            /* alinha à esquerda as células da tabela */
+            text-align: left !important;
+        }
+
+        /* inicia a lista de exercícios */
+        ol.excs {
+            padding-inline-start: 0em;
+            counter-reset: excs;
+            list-style: none;
+        }
+
+        /* põe um numerador num item da lista de exercícios, desde que não seja da classe no-mark */
+        ol.excs>li:not(.no-mark)::before {
+            counter-increment: excs;
+            content: counters(excs, ".") ". ";
+        }
+
+        /* põe uma barra vertical ao lado do item da lista de exercícios */
+        ol.excs>li {
+            /* Change this to adjust the line color and thickness */
+            border-left: 2px solid #000;
+            /* Optional: Add padding to create some space between the bar and content */
+            padding-left: 10px;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+        }
+
+        ol.section {
+            counter-reset: section;
+            list-style-type: none;
+        }
+
+        ol.section li::before {
+            counter-increment: section;
+            content: counters(section, ".") ". ";
+        }
+
+        p code {
+            /* estiliza códigos dentro de parágrafos */
+            color: darkred;
+            background-color: #f3f3f3;
+        }
+
+        td.hljs-ln-numbers {
+            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
+            color: #ccc;
+            border-right: 1px solid #999;
+            padding-right: 5px;
+        }
+
+        td.hljs-ln-code {
+            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
+            padding-left: 10px;
+        }
+
+        .info {
+            border-left: 6px solid blue;
+            padding-left: 1%;
+        }
+    </style>
+</head>
+
+<div id="preparando-o-ambiente-de-desenvolvimento-extra">
+    <h1>Preparando o ambiente de desenvolvimento - Extras</h1>
+    <p>Para aqueles que querem se aprofundar, esse capítulo mostra alguns detalhes do preparo do ambiente de desenvolvimento que foram omitidos do capítulo anterior.</p>
+
+    <h2>Baixando o projeto</h2>
+    <p>Já temos o projeto criado e hospedado no GitHub. Se você quiser baixar o projeto sem o git, pode clicar no seguinte link <a href="https://github.com/pedrosiqueira/info3-dw3/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/info3-dw3/archive/refs/heads/main.zip</a>. O projeto vem compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto e o abra no vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</p>
+
+    <h2>Criando seu projeto do zero</h2>
+    <p>No capítulo anterior, <a href="./02 Preparando o ambiente de desenvolvimento.html#configurando">executamos um script</a> que já baixa e configura o projeto, deixando tudo pronto para uso. Aqui faremos o passo a passo para criar e configurar o projeto do zero.</p>
+
+    <h4>Parte do vscode</h4>
+    <ol>
+        <li>Crie uma pasta para o projeto. Essa pasta é conhecida como "pasta raiz", pois todos os arquivos do projeto ficam dentro dela.</li>
+        <li>Abra essa pasta pelo vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</li>
+        <li>Acesse o menu "Run → Add Configuration → Node.js". Isso adiciona uma configuração do vscode ao seu projeto para conseguir executar seus scripts simplesmente teclando <kbd>F5</kbd>, sem precisar digitar comandos no terminal.</li>
+        <li>No arquivo recém-criado <code>.vscode/launch.json</code>, adicione a linha <code>"console": "integratedTerminal",</code> logo acima da linha <code>"type":"node",</code>. Essa linha configura o vscode para executar os arquivos pelo terminal em vez do debug console, pois assim poderemos interagir com nossos programas.</li>
+    </ol>
+
+    <h4>Parte do node</h4>
+    <ol>
+        <li>Embora o npm seja o gerenciador de pacotes padrão do node, eu pessoalmente prefiro o gerenciador de pacotes pnpm, por ser mais ágil e ocupar menos espaço que o npm. Para instalar o pnpm, basta executar <code>npm install -g pnpm</code>.
+        </li>
+        <li>Uma vez instalado o pnpm, vamos configurar nosso projeto para ser gerenciado pelo pnpm. Dentro da pasta raiz do projeto, execute <code>pnpm init</code>. É criado um arquivo <code>package.json</code>, que contém informações do teu projeto, como os pacotes que ele depende para ser executado.
+            <ul>
+                <li>(Observação: Se estiver no Windows e o comando anterior der um erro de permissão de execução de scripts pelo terminal powershell, abra um powershell como administrador e execute <code>Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser</code>. Feche todos os terminais, reabra um terminal na pasta raiz do projeto e execute novamente <code>pnpm init</code>).</li>
+            </ul>
+        </li>
+        <li>Geralmente projetos grandes são compostos por vários arquivos de código-fonte, além dos pacotes de terceiros. O modo como o JavaScript estrutura e utiliza os arquivos é chamado de <i>module system</i>. Basicamente há dois sistemas de módulo: o <i>CommonJS</i>, que é mais antigo e vem habilitado por padrão; e o <i>ECMAScript Modules</i> (ESM), que é mais recente e vamos substituir pelo antigo. Para tanto, adicione a linha <code>"type": "module",</code> no arquivo <code>package.json</code>.</li>
+        <li id="scanf">O node não vem com uma maneira simples de ler entradas digitadas pelo terminal, pelo fato do foco do JavaScript ser desenvolvimento web. Mas para fins de aprendizado de algoritmos, é mais fácil interagirmos com nossos programas diretamente pelo terminal. Portanto, vamos instalar o utilitário de leitura de entradas por terminal <a href="https://github.com/Lellansin/node-scanf">node-scanf</a>. Execute <code>pnpm add scanf</code> na pasta raiz do projeto. Ao instalar um pacote com o pnpm, o pacote é colocado na pasta <code>node_modules</code> e também registrado no arquivo <code>package.json</code>.</li>
+        <li>Por fim, para testar se está tudo em ordem, crie e execute o arquivo <code>cap02/input-output.js</code> com o seguinte código:</li>
+    </ol>
+
+    <pre><code>import scanf from 'scanf';
+    
+    console.log('Please input your name');
+    let name = scanf('%s');
+    
+    console.log('Please input your age');
+    let age = scanf('%d');
+    
+    console.log('your name', name, 'is a', typeof name);
+    console.log('your age', age, 'is a', typeof age);</code></pre>
+
+    <p>Não se preocupe em entender tudo o que está se passando. Esse capítulo é mais para deixar tudo preparado para começarmos a aprender JavaScript no próximo capítulo. Se este programa estiver funcionando conforme o esperado, ele vai te solicitar um nome e uma idade, e, depois que você informá-los, o programa responde com algumas mensagens.</p>
+
+    <h2>Tornando o npm mais econômico</h2>
+    <p>As duas próximas seções tratam de alguns detalhes do npm e do pnpm, e mostram como compartilhar os pacotes entre usuários na mesma máquina, útil para economizar espaço em disco. Se você executou o <a href="./02 Preparando o ambiente de desenvolvimento.html#instalando">script de instalação</a> do capítulo anterior, esses passos já foram realizados.</p>
+    <h3>Configuração do Node.js</h3>
+    <p>O npm utiliza <a href="https://docs.npmjs.com/cli/v10/configuring-npm/folders">determinadas pastas</a> para gerenciar seus pacotes. O npm instala os pacotes utilizados em cada projeto na pasta <code>node_modules</code> do próprio projeto. O npm instala pacotes utilizados globalmente na pasta <code>prefix</code>, que no Windows fica em <code>%AppData%\npm</code>. O npm também utiliza a pasta <code>cache</code> para armazenar pacotes baixados, que no Windows fica em <code>%LocalAppData%/npm-cache</code>. Em um computador com vários usuários utilizando npm, podemos compartilhar as pastas <code>prefix</code> e <code>cache</code> para economizar espaço em disco. Para isso, podemos modificar as <a href="https://docs.npmjs.com/cli/v10/using-npm/config#prefix">configurações padrão do npm</a> que definem onde os pacotes são instalados. O npm carrega suas configurações de <a href="https://docs.npmjs.com/cli/v10/configuring-npm/npmrc">arquivos <code>npmrc</code></a> ou de variáveis de ambiente do sistema. Podemos editar os arquivos npmrc <a href="https://stackoverflow.com/a/54133101/4072641">via linha de comando</a>, mas isso afeta apenas o usuário que executou o comando. Portanto, aqui, vamos definir variáveis de ambiente do sistema que redirecionam a instalação de pacotes globais e o cache do npm para as pastas <code>C:\npm\npm\</code> e <code>C:\npm\npm-cache\</code>, respectivamente. Além disso, também precisaremos atualizar a variável de ambiente <code>PATH</code> para conseguir executar os pacotes globais pela linha de comando. Isso valerá para todos os usuários, não só para o usuário que executou o comando.</p>
+    <p>No Windows, execute pelo terminal no <i>modo administrativo</i> os seguintes comandos:</p>
+    <pre><code class="language-console">[Environment]::SetEnvironmentVariable("npm_config_prefix", "$env:SYSTEMDRIVE\npm\npm\", "Machine")
 [Environment]::SetEnvironmentVariable("npm_config_cache", "$env:SYSTEMDRIVE\npm\npm-cache\", "Machine")
-
+    
 $Path = [Environment]::GetEnvironmentVariable("PATH", "Machine")
 [Environment]::SetEnvironmentVariable( "Path", "$Path;$env:SYSTEMDRIVE\npm\npm\", "Machine" )</code></pre>
-<p>(<sup id="obs-1">1</sup>Se não tiver acesso administrativo, troque nos comandos o termo "Machine" por "User").</p>
-<!-- Sem acesso administrativo
-<pre>npm -g set prefix %SYSTEMDRIVE%\npm
-npm -g set cache %SYSTEMDRIVE%\npm-cache
+    <!-- Sem acesso administrativo
+    <pre>npm -g set prefix %SYSTEMDRIVE%\npm
+    npm -g set cache %SYSTEMDRIVE%\npm-cache
+    
+    $Path = [Environment]::GetEnvironmentVariable("PATH", "User")
+    [Environment]::SetEnvironmentVariable( "Path", "$Path;%SYSTEMDRIVE%\npm\", "User" )</pre> -->
+    <!-- Com acesso administrativo
+    <p>(na verdade, como diz a documentação (https://docs.npmjs.com/cli/v10/configuring-npm/npmrc#built-in-config-file), esse arquivo deve ser alterado via linha de comando, talvez `npm config -g`, ou entao conforme descrito em https://docs.npmjs.com/cli/v10/using-npm/config#npmrc-files?) Altere a localização da pasta onde os pacotes são instalados globalmente e da pasta cache, adicionando as seguintes configurações no arquivo <code>C:\Program Files\nodejs\node_modules\npm\npmrc</code>:</p>
+    <pre>prefix=C:\npm
+    cache=C:\npm-cache</pre>
+    <p>Adicione a pasta nas variáveis de ambiente do sistema, executando no terminal no modo administrador:</p>
+    <pre>$Path = [Environment]::GetEnvironmentVariable("PATH", "Machine")
+    [Environment]::SetEnvironmentVariable( "Path", "$Path;%SYSTEMDRIVE%\npm\", "Machine" )</pre> -->
 
-$Path = [Environment]::GetEnvironmentVariable("PATH", "User")
-[Environment]::SetEnvironmentVariable( "Path", "$Path;%SYSTEMDRIVE%\npm\", "User" )</pre> -->
-<!-- Com acesso administrativo
-<p>(na verdade, como diz a documentação (https://docs.npmjs.com/cli/v10/configuring-npm/npmrc#built-in-config-file), esse arquivo deve ser alterado via linha de comando, talvez `npm config -g`, ou entao conforme descrito em https://docs.npmjs.com/cli/v10/using-npm/config#npmrc-files?) Altere a localização da pasta onde os pacotes são instalados globalmente e da pasta cache, adicionando as seguintes configurações no arquivo <code>C:\Program Files\nodejs\node_modules\npm\npmrc</code>:</p>
-<pre>prefix=C:\npm
-cache=C:\npm-cache</pre>
-<p>Adicione a pasta nas variáveis de ambiente do sistema, executando no terminal no modo administrador:</p>
-<pre>$Path = [Environment]::GetEnvironmentVariable("PATH", "Machine")
-[Environment]::SetEnvironmentVariable( "Path", "$Path;%SYSTEMDRIVE%\npm\", "Machine" )</pre> -->
-
-<h3>Instalação e configuração do pnpm</h3>
-<p>O <a href="https://pnpm.io/">pnpm</a> é uma alternativa mais rápida e leve do npm. Para instalar o pnpm, execute no terminal:</p>
-<pre><code>npm install -g pnpm</code></pre>
-<p>Similarmente ao npm, os pacotes são instalados pelo pnpm em <a href="https://pnpm.io/npmrc#global-bin-dir">pastas dentro da pasta do usuário</a>. Em um computador com vários usuários utilizando pnpm, podemos compartilhar essas pastas em comum. Similarmente ao que fizemos na seção anterior, vamos definir algumas variáveis de ambiente de sistema que isso já valerá para todos os usuários.</p>
-<p>No Windows, execute pelo terminal no <i>modo administrativo<sup><a href="#obs-1">1</a></sup></i> os seguintes comandos:</p>
-<pre><code class="language-console">[Environment]::SetEnvironmentVariable("XDG_DATA_HOME", "$env:SYSTEMDRIVE\npm\", "Machine")
+    <h3>Instalação e configuração do pnpm</h3>
+    <p>O <a href="https://pnpm.io/">pnpm</a> é uma alternativa mais rápida e leve do npm. Para instalar o pnpm, execute no terminal:</p>
+    <pre><code>npm install -g pnpm</code></pre>
+    <p>Similarmente ao npm, os pacotes são instalados pelo pnpm em <a href="https://pnpm.io/npmrc#global-bin-dir">pastas dentro da pasta do usuário</a>. Em um computador com vários usuários utilizando pnpm, podemos compartilhar essas pastas em comum. Similarmente ao que fizemos na seção anterior, vamos definir algumas variáveis de ambiente de sistema que isso já valerá para todos os usuários.</p>
+    <p>No Windows, execute pelo terminal no <i>modo administrativo</i> os seguintes comandos:</p>
+    <pre><code class="language-console">[Environment]::SetEnvironmentVariable("XDG_DATA_HOME", "$env:SYSTEMDRIVE\npm\", "Machine")
 [Environment]::SetEnvironmentVariable("XDG_STATE_HOME", "$env:SYSTEMDRIVE\npm\pnpm-state\", "Machine")
 [Environment]::SetEnvironmentVariable("XDG_CACHE_HOME", "$env:SYSTEMDRIVE\npm\pnpm-cache\", "Machine")
 
 $Path = [Environment]::GetEnvironmentVariable("PATH", "Machine")
 [Environment]::SetEnvironmentVariable( "Path", "$Path;$env:SYSTEMDRIVE\npm\pnpm\", "Machine" )</code></pre>
 
-<!-- <p>As pastas do pnpm ficam localizadas em:</p>
-<pre>store-dir: %LocalAppData%\pnpm\store
-global-dir: %LocalAppData%\pnpm\global
-global-bin-dir: %LocalAppData%\pnpm
-state-dir: %LocalAppData%\pnpm-state
-cache-dir: %LocalAppData%\pnpm-cache</pre> -->
-
-<p>Os comandos do pnpm, se não idênticos, são similares aos do npm. Para saber mais sobre as diferenças entre os comandos, podemos <a href="https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8">acessar aqui</a>.</p>
-
-<h3>Debugging</h3>
-<p>Errar faz parte do processo de aprendizagem, especialmente na programação. No entanto, às vezes é difícil encontrar a fonte de um erro no código. É aí que entra a arte de <b>debugging</b>. Debugging, ou depuração de código, é o processo de identificar, isolar e corrigir erros em um programa de computador. Quando um programa apresenta comportamentos inesperados, é necessário depurar o código para encontrar e resolver o problema. Isso envolve pausar a execução do programa, observar variáveis e valores em diferentes pontos do código e identificar onde ocorrem os erros. O debugging também é útil para entender o funcionamento do programa, permitindo que você o execute passo a passo, no seu próprio ritmo.</p>
-<p>Crie o arquivo <code>cap02/factorials.js</code> com o seguinte código:</p>
-<pre><code>function calculateSumOfFactorials(argument1, argument2) {
-let factorial1 = calculateFactorial(argument1);
-let factorial2 = calculateFactorial(argument2);
-let result = calculateSum(factorial1, factorial2);
-return result;
-}
-
-function calculateFactorial(argument) {
-let factorialResult = 1;
-for (let i = 1; i &lt;= argument; i++) {
-    factorialResult *= i;
-}
-return factorialResult;
-}
-
-function calculateSum(argument1, argument2) {
-return argument1 + argument2;
-}
-
-let a = 5;
-let b = 10;
-let sumOfFactorials = calculateSumOfFactorials(a, b);
-console.log("The sum of factorials of the entered integers is", sumOfFactorials);</code></pre>
-<p>(Observação: as barras em um caminho de arquivo significam as pastas onde o arquivo se encontra. Portanto, <code>cap02/factorials.js</code> significa que o arquivo <code>factorials.js</code> está dentro da pasta <code>cap02</code>).</p>
-<p>Veja se você consegue entender o que esse código está fazendo. Agora, antes de executá-lo de uma vez, experimente colocar um <b>breakpoint</b> na linha 20.</p>
-<p>Dentre as opções de depuração no vscode, você pode continuar a execução até o próximo breakpoint (<kbd>F5</kbd>), avançar (<kbd>F10</kbd>), entrar (<kbd>F11</kbd>), sair (<kbd>Shift + F11</kbd>).</p>
-<p>Na aba de depuração, você pode ver os valores das variáveis atuais, definir observadores (watch) de variáveis ou expressões, consultar a pilha de chamadas de funções e os breakpoints.</p>
-<p>Na aba "Debug Console", você pode escrever linhas de códigos que são executadas no contexto do programa atual, com acesso às suas variáveis e funções.</p>
-<p>No momento, essas informações podem parecer abstratas se você ainda está no início de sua jornada como programador. No entanto, depurar é uma ferramenta essencial para programadores e, à medida que você aprender mais, tudo ficará mais claro e fará mais sentido. Por isso, convido você a revisitar essa seção após adquirir mais maturidade em programação. Com o tempo e o conhecimento adquirido, essas práticas e termos farão mais sentido e serão uma parte natural do teu fluxo de trabalho como desenvolvedor.</p>
-
-<h3>Criando seu projeto do zero</h3>
-<p>Anteriormente, vimos como <a href="#vamos-baixar-do-github">baixar um projeto</a> já configurado e pronto para uso. Aqui faremos o passo a passo para criar e configurar o projeto do zero.</p>
-
-<h4>Parte do vscode</h4>
-<ol>
-    <li>Crie uma pasta para o projeto. Essa pasta é conhecida como "pasta raiz", pois todos os arquivos do projeto ficam dentro dela.</li>
-    <li>Abra essa pasta pelo vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</li>
-    <li>Acesse o menu "Run → Add Configuration → Node.js". Isso adiciona uma configuração do vscode ao seu projeto para conseguir executar seus scripts simplesmente teclando <kbd>F5</kbd>, sem precisar digitar comandos no terminal.</li>
-    <li>No arquivo recém-criado <code>.vscode/launch.json</code>, adicione a linha <code>"console": "integratedTerminal",</code> logo acima da linha <code>"type":"node",</code>. Essa linha configura o vscode para executar os arquivos pelo terminal em vez do debug console, pois assim poderemos interagir com nossos programas.</li>
-</ol>
-
-<h4>Parte do node</h4>
-<ol>
-    <li>Embora o npm seja o gerenciador de pacotes padrão do node, eu pessoalmente prefiro o gerenciador de pacotes pnpm, por ser mais ágil e ocupar menos espaço que o npm. Para instalar o pnpm, basta executar <code>npm install -g pnpm</code>.
-    </li>
-    <li>Uma vez instalado o pnpm, vamos configurar nosso projeto para ser gerenciado pelo pnpm. Dentro da pasta raiz do projeto, execute <code>pnpm init</code>. É criado um arquivo <code>package.json</code>, que contém informações do teu projeto, como os pacotes que ele depende para ser executado.
-        <ul>
-            <li>(Observação: Se estiver no Windows e o comando anterior der um erro de permissão de execução de scripts pelo terminal powershell, abra um powershell como administrador e execute <code>Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser</code>. Feche todos os terminais, reabra um terminal na pasta raiz do projeto e execute novamente <code>pnpm init</code>).</li>
-        </ul>
-    </li>
-    <li>Geralmente projetos grandes são compostos por vários arquivos de código-fonte, além dos pacotes de terceiros. O modo como o JavaScript estrutura e utiliza os arquivos é chamado de <i>module system</i>. Basicamente há dois sistemas de módulo: o <i>CommonJS</i>, que é mais antigo e vem habilitado por padrão; e o <i>ECMAScript Modules</i> (ESM), que é mais recente e vamos substituir pelo antigo. Para tanto, adicione a linha <code>"type": "module",</code> no arquivo <code>package.json</code>.</li>
-    <li id="scanf">O node não vem com uma maneira simples de ler entradas digitadas pelo terminal, pelo fato do foco do JavaScript ser desenvolvimento web. Mas para fins de aprendizado de algoritmos, é mais fácil interagirmos com nossos programas diretamente pelo terminal. Portanto, vamos instalar o utilitário de leitura de entradas por terminal <a href="https://github.com/Lellansin/node-scanf">node-scanf</a>. Execute <code>pnpm add scanf</code> na pasta raiz do projeto. Ao instalar um pacote com o pnpm, o pacote é colocado na pasta <code>node_modules</code> e também registrado no arquivo <code>package.json</code>.</li>
-    <li>Por fim, para testar se está tudo em ordem, crie e execute o arquivo <code>cap02/input-output.js</code> com o seguinte código:</li>
-</ol>
-
-<pre><code>import scanf from 'scanf';
-
-console.log('Please input your name');
-let name = scanf('%s');
-
-console.log('Please input your age');
-let age = scanf('%d');
-
-console.log('your name', name, 'is a', typeof name);
-console.log('your age', age, 'is a', typeof age);</code></pre>
-
-<p>Não se preocupe em entender tudo o que está se passando. Esse capítulo é mais para deixar tudo preparado para começarmos a aprender JavaScript no próximo capítulo. Se este programa estiver funcionando conforme o esperado, ele vai te solicitar um nome e uma idade, e, depois que você informá-los, o programa responde com algumas mensagens.</p>
+    <!-- <p>As pastas do pnpm ficam localizadas em:</p>
+    <pre>store-dir: %LocalAppData%\pnpm\store
+    global-dir: %LocalAppData%\pnpm\global
+    global-bin-dir: %LocalAppData%\pnpm
+    state-dir: %LocalAppData%\pnpm-state
+    cache-dir: %LocalAppData%\pnpm-cache</pre> -->
+</div>
