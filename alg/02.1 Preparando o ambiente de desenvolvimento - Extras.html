@@ -3,6 +3,27 @@
 <head>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            for (el of document.getElementsByClassName('click-to-copy')) {
+                el.style.display = 'inline'
+                el.style.position = 'relative'
+                const template = document.createElement('template')
+                template.innerHTML = '<span style="visibility:hidden; background: rgba(0, 0, 0, .8); border-radius: 5px; bottom: 1em; color: #fff; left: 20%; padding: 5px 5px; position: absolute; z-index: 98;">Click to copy</span><span style="visibility:hidden; border: solid; border-color: #333 transparent; border-width: 6px 6px 0 6px; bottom: .75em; left: 30%; position: absolute; z-index: 99;" />'
+                ballon = template.content.children[0]
+                tail = template.content.children[1]
+                el.prepend(ballon, tail)
+                el.addEventListener('mouseenter', ev => {
+                    ballon.style.visibility = tail.style.visibility = 'visible'
+                })
+                el.addEventListener('click', ev => {
+                    ev.preventDefault()
+                    ballon.innerText = 'Copied!'
+                    navigator.clipboard.writeText(ev.target.innerText.substring(8));
+                })
+                el.addEventListener('mouseleave', ev => {
+                    ballon.style.visibility = tail.style.visibility = 'hidden'
+                    ballon.innerText = 'Click to copy'
+                })
+            }
         }, false);
     </script>
 
@@ -54,21 +75,31 @@
         }
 
         table pre {
-            /* Remove a margem interna de tags pre dentro de tabelas */
+            /* tags pre dentro de tabelas são alinhadas à esquerda, sem margem interna */
             margin: 0;
-            padding: 0;
             text-align: left;
         }
 
         td:has(pre) {
-            /* tags pre dentro de tabela são alinhadas no topo à esquerda */
+            /* tags pre dentro de tabela são alinhadas no topo */
             vertical-align: top;
+        }
+
+        code:not(pre code) {
+            /* tags code não filhas de pre */
+            color: darkred;
+            background-color: #f3f3f3;
         }
 
         table.align-left th,
         table.align-left td {
             /* alinha à esquerda as células da tabela */
             text-align: left !important;
+        }
+
+        .bordered-line td {
+            /* tags tr com borda em todas as suas células */
+            border: 1px solid black;
         }
 
         /* inicia a lista de exercícios */
@@ -104,12 +135,6 @@
             content: counters(section, ".") ". ";
         }
 
-        p code {
-            /* estiliza códigos dentro de parágrafos */
-            color: darkred;
-            background-color: #f3f3f3;
-        }
-
         td.hljs-ln-numbers {
             /* estilizar as linhas de código da extensao highlightjs-line-numbers */
             color: #ccc;
@@ -123,31 +148,55 @@
         }
 
         .info {
+            /* balão de informação */
             border-left: 6px solid blue;
             padding-left: 1%;
         }
     </style>
 </head>
 
-<div id="preparando-o-ambiente-de-desenvolvimento-extra">
+<div id="preparando-o-ambiente-de-desenvolvimento-extras">
     <h1>Preparando o ambiente de desenvolvimento - Extras</h1>
-    <p>Para aqueles que querem se aprofundar, esse capítulo mostra alguns detalhes do preparo do ambiente de desenvolvimento que foram omitidos do capítulo anterior.</p>
+    <p>No capítulo anterior, <a href="./02 Preparando o ambiente de desenvolvimento.html#configurando">executamos um script</a> que preparava o ambiente, baixava e configurava o projeto automaticamente, deixando tudo pronto para uso. Para quem deseja se aprofundar, este capítulo mostra os detalhes omitidos do capítulo anterior. Aqui faremos o passo a passo de como preparar o ambiente de desenvolvimento do JavaScript, criar um novo projeto e configura-lo do zero. Para isso, você já precisa ter os <a href="./02 Preparando o ambiente de desenvolvimento.html#programas">programas necessários</a> instalados.</p>
 
-    <h2>Baixando o projeto</h2>
-    <p>Já temos o projeto criado e hospedado no GitHub. Se você quiser baixar o projeto sem o git, pode clicar no seguinte link <a href="https://github.com/pedrosiqueira/info3-dw3/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/info3-dw3/archive/refs/heads/main.zip</a>. O projeto vem compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto e o abra no vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</p>
+    <h2>Preparando o ambiente</h2>
+
+    <h3>Configuração do git</h3>
+    <p>Defina o nome de usuário e email do git, substituindo <code>username</code> e <code>useremail</code> conforme tua conta do <a href="https://github.com/">GitHub</a> (crie uma conta no GitHub antes, se ainda não tiver uma):</p>
+
+    <pre><code class="ps">git config --global user.name username
+git config --global user.email useremail
+</code></pre>
+
+    <h3>Configuração do vscode</h3>
+    <p>Instale as seguintes extensões para nos auxiliar no desenvolvimento do projeto:</p>
+    <ul>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode">VisualStudioExptTeam.vscodeintellicode</a></li>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">dbaeumer.vscode-eslint</a></li>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=xabikos.JavaScriptSnippets">xabikos.JavaScriptSnippets</a></li>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=christian-kohler.npm-intellisense">christian-kohler.npm-intellisense</a></li>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense">christian-kohler.path-intellisense</a></li>
+        <li>Caso esteja usando WSL ou Docker, Pacote de extensões <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development</a></li>
+    </ul>
+
+    <h3>Configuração do npm</h3>
+    <p>Instale o pnpm:</p>
+    <pre><code class="sh">npm install -g pnpm</code></pre>
 
     <h2>Criando seu projeto do zero</h2>
-    <p>No capítulo anterior, <a href="./02 Preparando o ambiente de desenvolvimento.html#configurando">executamos um script</a> que já baixa e configura o projeto, deixando tudo pronto para uso. Aqui faremos o passo a passo para criar e configurar o projeto do zero.</p>
+    <p>Já temos o projeto criado e hospedado no GitHub. Se você quiser baixar o projeto sem o git, pode clicar no seguinte link <a href="https://github.com/pedrosiqueira/alg/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/alg/archive/refs/heads/main.zip</a>. O projeto vem compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto e o abra no vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</p>
 
-    <h4>Parte do vscode</h4>
+    <p>Para criar o projeto do zero, siga as seções seguintes.</p>
+
+    <h3>Parte do vscode</h3>
     <ol>
-        <li>Crie uma pasta para o projeto. Essa pasta é conhecida como "pasta raiz", pois todos os arquivos do projeto ficam dentro dela.</li>
+        <li>Crie a pasta <code>alg</code> para o projeto. Essa pasta é denominada "pasta raiz", pois todos os arquivos do projeto ficam dentro dela.</li>
         <li>Abra essa pasta pelo vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</li>
         <li>Acesse o menu "Run → Add Configuration → Node.js". Isso adiciona uma configuração do vscode ao seu projeto para conseguir executar seus scripts simplesmente teclando <kbd>F5</kbd>, sem precisar digitar comandos no terminal.</li>
         <li>No arquivo recém-criado <code>.vscode/launch.json</code>, adicione a linha <code>"console": "integratedTerminal",</code> logo acima da linha <code>"type":"node",</code>. Essa linha configura o vscode para executar os arquivos pelo terminal em vez do debug console, pois assim poderemos interagir com nossos programas.</li>
     </ol>
 
-    <h4>Parte do node</h4>
+    <h3>Parte do node</h3>
     <ol>
         <li>Embora o npm seja o gerenciador de pacotes padrão do node, eu pessoalmente prefiro o gerenciador de pacotes pnpm, por ser mais ágil e ocupar menos espaço que o npm. Para instalar o pnpm, basta executar <code>npm install -g pnpm</code>.
         </li>
