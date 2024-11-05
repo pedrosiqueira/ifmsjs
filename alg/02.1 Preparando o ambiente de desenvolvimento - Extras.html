@@ -3,25 +3,10 @@
 <head>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            for (el of document.getElementsByClassName('click-to-copy')) {
-                el.style.display = 'inline'
-                el.style.position = 'relative'
-                const template = document.createElement('template')
-                template.innerHTML = '<span style="visibility:hidden; background: rgba(0, 0, 0, .8); border-radius: 5px; bottom: 1em; color: #fff; left: 20%; padding: 5px 5px; position: absolute; z-index: 98;">Click to copy</span><span style="visibility:hidden; border: solid; border-color: #333 transparent; border-width: 6px 6px 0 6px; bottom: .75em; left: 30%; position: absolute; z-index: 99;" />'
-                ballon = template.content.children[0]
-                tail = template.content.children[1]
-                el.prepend(ballon, tail)
-                el.addEventListener('mouseenter', ev => {
-                    ballon.style.visibility = tail.style.visibility = 'visible'
-                })
+            for (el of document.querySelectorAll('[title="Clique para copiar"]')) {
                 el.addEventListener('click', ev => {
                     ev.preventDefault()
-                    ballon.innerText = 'Copied!'
-                    navigator.clipboard.writeText(ev.target.innerText.substring(8));
-                })
-                el.addEventListener('mouseleave', ev => {
-                    ballon.style.visibility = tail.style.visibility = 'hidden'
-                    ballon.innerText = 'Click to copy'
+                    navigator.clipboard.writeText(ev.target.innerText);
                 })
             }
         }, false);
@@ -164,7 +149,7 @@
     <h3>Configuração do git</h3>
     <p>Defina o nome de usuário e email do git, substituindo <code>username</code> e <code>useremail</code> conforme tua conta do <a href="https://github.com/">GitHub</a> (crie uma conta no GitHub antes, se ainda não tiver uma):</p>
 
-    <pre><code class="ps">git config --global user.name username
+    <pre><code class="sh">git config --global user.name username
 git config --global user.email useremail
 </code></pre>
 
@@ -190,36 +175,34 @@ git config --global user.email useremail
 
     <h3>Parte do vscode</h3>
     <ol>
-        <li>Crie a pasta <code>alg</code> para o projeto. Essa pasta é denominada "pasta raiz", pois todos os arquivos do projeto ficam dentro dela.</li>
+        <li>Crie a pasta <code title="Clique para copiar">alg</code> para o projeto. Essa pasta é denominada "pasta raiz", pois todos os arquivos do projeto ficam dentro dela.</li>
         <li>Abra essa pasta pelo vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</li>
         <li>Acesse o menu "Run → Add Configuration → Node.js". Isso adiciona uma configuração do vscode ao seu projeto para conseguir executar seus scripts simplesmente teclando <kbd>F5</kbd>, sem precisar digitar comandos no terminal.</li>
-        <li>No arquivo recém-criado <code>.vscode/launch.json</code>, adicione a linha <code>"console": "integratedTerminal",</code> logo acima da linha <code>"type":"node",</code>. Essa linha configura o vscode para executar os arquivos pelo terminal em vez do debug console, pois assim poderemos interagir com nossos programas.</li>
+        <li>No arquivo recém-criado <code>.vscode/launch.json</code>, adicione a linha <code title="Clique para copiar">"console": "integratedTerminal",</code> logo acima da linha <code>"type":"node",</code>. Essa linha configura o vscode para executar os arquivos pelo terminal em vez do debug console, pois assim poderemos interagir com nossos programas.</li>
     </ol>
 
     <h3>Parte do node</h3>
     <ol>
-        <li>Embora o npm seja o gerenciador de pacotes padrão do node, eu pessoalmente prefiro o gerenciador de pacotes pnpm, por ser mais ágil e ocupar menos espaço que o npm. Para instalar o pnpm, basta executar <code>npm install -g pnpm</code>.
+        <li>Embora o npm seja o gerenciador de pacotes padrão do node, eu pessoalmente prefiro o gerenciador de pacotes pnpm, por ser mais ágil e ocupar menos espaço que o npm. Execute <code title="Clique para copiar">pnpm init</code> na pasta raiz do projeto. É criado um arquivo <code>package.json</code>, que contém informações do teu projeto, como nome, versão e os pacotes que ele depende para ser executado.
+            <div class="info">
+                <p>(Observação: Se estiver no Windows e o comando anterior der um erro de permissão de execução de scripts pelo terminal, execute <code title="Clique para copiar">Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>. Feche todos os terminais, reabra um terminal na pasta raiz do projeto e execute novamente <code title="Clique para copiar">pnpm init</code>).</p>
+            </div>
         </li>
-        <li>Uma vez instalado o pnpm, vamos configurar nosso projeto para ser gerenciado pelo pnpm. Dentro da pasta raiz do projeto, execute <code>pnpm init</code>. É criado um arquivo <code>package.json</code>, que contém informações do teu projeto, como os pacotes que ele depende para ser executado.
-            <ul>
-                <li>(Observação: Se estiver no Windows e o comando anterior der um erro de permissão de execução de scripts pelo terminal powershell, abra um powershell como administrador e execute <code>Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser</code>. Feche todos os terminais, reabra um terminal na pasta raiz do projeto e execute novamente <code>pnpm init</code>).</li>
-            </ul>
-        </li>
-        <li>Geralmente projetos grandes são compostos por vários arquivos de código-fonte, além dos pacotes de terceiros. O modo como o JavaScript estrutura e utiliza os arquivos é chamado de <i>module system</i>. Basicamente há dois sistemas de módulo: o <i>CommonJS</i>, que é mais antigo e vem habilitado por padrão; e o <i>ECMAScript Modules</i> (ESM), que é mais recente e vamos substituir pelo antigo. Para tanto, adicione a linha <code>"type": "module",</code> no arquivo <code>package.json</code>.</li>
-        <li id="scanf">O node não vem com uma maneira simples de ler entradas digitadas pelo terminal, pelo fato do foco do JavaScript ser desenvolvimento web. Mas para fins de aprendizado de algoritmos, é mais fácil interagirmos com nossos programas diretamente pelo terminal. Portanto, vamos instalar o utilitário de leitura de entradas por terminal <a href="https://github.com/Lellansin/node-scanf">node-scanf</a>. Execute <code>pnpm add scanf</code> na pasta raiz do projeto. Ao instalar um pacote com o pnpm, o pacote é colocado na pasta <code>node_modules</code> e também registrado no arquivo <code>package.json</code>.</li>
-        <li>Por fim, para testar se está tudo em ordem, crie e execute o arquivo <code>cap02/input-output.js</code> com o seguinte código:</li>
+        <li>Geralmente projetos grandes são compostos por vários arquivos de código-fonte, além dos pacotes de terceiros. O modo como o JavaScript estrutura e utiliza os arquivos é chamado de <i>module system</i>. Basicamente há dois sistemas de módulo: o <i>CommonJS</i>, que é mais antigo e vem habilitado por padrão; e o <i>ECMAScript Modules</i> (ESM), que é o mais recente e indicado, mas não vem habilitado por padrão. Para configurar o projeto com o ESM, adicione a linha <code title="Clique para copiar">, "type": "module"</code> no final do arquivo <code>package.json</code>, antes da chave de fechamento.</li>
+        <li id="scanf">O node não vem com uma maneira simples de ler entradas digitadas pelo terminal, pelo fato do foco do JavaScript ser desenvolvimento web. Mas para fins de aprendizado de algoritmos, é mais fácil interagirmos com nossos programas diretamente pelo terminal. Portanto, vamos instalar o utilitário de leitura de entradas por terminal <a href="https://github.com/Lellansin/node-scanf">node-scanf</a>. Execute <code title="Clique para copiar">pnpm add scanf</code> na pasta raiz do projeto. Ao instalar um pacote com o pnpm, o pacote é colocado na pasta <code>node_modules</code> e também registrado no arquivo <code>package.json</code>.</li>
+        <li>Por fim, para testar se está tudo em ordem, crie e execute o arquivo <code title="Clique para copiar">cap02/input-output.js</code> com o seguinte código:</li>
     </ol>
 
     <pre><code>import scanf from 'scanf';
-    
-    console.log('Please input your name');
-    let name = scanf('%s');
-    
-    console.log('Please input your age');
-    let age = scanf('%d');
-    
-    console.log('your name', name, 'is a', typeof name);
-    console.log('your age', age, 'is a', typeof age);</code></pre>
+
+console.log('Please input your name');
+let name = scanf('%s');
+
+console.log('Please input your age');
+let age = scanf('%d');
+
+console.log('your name', name, 'is a', typeof name);
+console.log('your age', age, 'is a', typeof age);</code></pre>
 
     <p>Não se preocupe em entender tudo o que está se passando. Esse capítulo é mais para deixar tudo preparado para começarmos a aprender JavaScript no próximo capítulo. Se este programa estiver funcionando conforme o esperado, ele vai te solicitar um nome e uma idade, e, depois que você informá-los, o programa responde com algumas mensagens.</p>
 
