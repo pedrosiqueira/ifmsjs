@@ -12,7 +12,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
-    <script defer>hljs.configure({ cssSelector: "code", languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
@@ -48,21 +53,31 @@
         }
 
         table pre {
-            /* Remove a margem interna de tags pre dentro de tabelas */
+            /* tags pre dentro de tabelas são alinhadas à esquerda, sem margem interna */
             margin: 0;
-            padding: 0;
             text-align: left;
         }
 
         td:has(pre) {
-            /* tags pre dentro de tabela são alinhadas no topo à esquerda */
+            /* tags pre dentro de tabela são alinhadas no topo */
             vertical-align: top;
+        }
+
+        code:not(pre code) {
+            /* tags code não filhas de pre */
+            color: darkred;
+            background-color: #f3f3f3;
         }
 
         table.align-left th,
         table.align-left td {
             /* alinha à esquerda as células da tabela */
             text-align: left !important;
+        }
+
+        .bordered-line td {
+            /* tags tr com borda em todas as suas células */
+            border: 1px solid black;
         }
 
         /* inicia a lista de exercícios */
@@ -111,6 +126,7 @@
         }
 
         .info {
+            /* balão de informação */
             border-left: 6px solid blue;
             padding-left: 1%;
         }
@@ -121,7 +137,7 @@
     <h1>Introdução ao Svelte/Sveltekit</h1>
     <div id="getelementbyid">
         <h2>A função <code>document.getElementById</code></h2>
-        <p>A função <a href="https://developer.mozilla.org/pt-BR/docs/Web/API/Document/getElementById"><code>document.getElementById</code></a> no JavaScript é usada para selecionar um <a href="https://developer.mozilla.org/pt-BR/docs/Web/API/Element">elemento</a> HTML específico em uma página com base no seu atributo <code>id</code>. O <code>id</code> é um identificador único que cada elemento pode ter, permitindo que você acesse ou manipule esse elemento diretamente.</p>
+        <p>A função <a href="https://developer.mozilla.org/pt-BR/docs/Web/API/Document/getElementById"><code>document.getElementById</code></a> no JavaScript é usada para selecionar um <a href="https://developer.mozilla.org/pt-BR/docs/Web/API/Element">elemento</a> HTML específico em uma página com base no seu atributo <code>id</code>. O <code>id</code> é um identificador único que cada elemento pode ter, permitindo que você acesse ou manipule esse elemento via javascript.</p>
         <h3>Sintaxe</h3>
         <pre><code class="language-javascript">document.getElementById(&quot;id-do-elemento&quot;);
 </code></pre>
@@ -148,7 +164,7 @@ paragrafo.innerText = &quot;Texto atualizado!&quot;;
             <li>É rápido e eficiente para seleção de elementos únicos, mas lembre-se de que o <code>id</code> deve ser único na página para evitar confusões.</li>
         </ul>
         <p>Esse método é amplamente utilizado para manipulações básicas de DOM em JavaScript e é especialmente útil para adicionar ou modificar o conteúdo, alterar estilos e manipular atributos de elementos específicos na página.</p>
-        <p>Veja mais um exemplo:</p>
+        <p>Veja mais um exemplo com SvelteKit:</p>
         <pre><code class="html">&lt;script&gt;
 	function mudarCor(novaCor) {
 		var elemento = document.getElementById('para1');
@@ -163,7 +179,7 @@ paragrafo.innerText = &quot;Texto atualizado!&quot;;
     </div>
     <div id="temporal">
         <h2>A API <code>Date</code></h2>
-        <p>A API <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date"><code>Date</code></a> do JavaScript é uma biblioteca padrão que permite a criação e manipulação de datas e horas em projetos web. Com ela, é possível criar objetos de data, formatar datas, calcular diferenças entre datas e trabalhar com horas e minutos. No entanto, como a API foi projetada inicialmente nos anos 90, algumas limitações e inconsistências fizeram com que fosse proposta uma nova API padrão para trabalhar com datas e horas no Javascript, chamada de <a href="https://tc39.es/proposal-temporal/docs/index.html#api-documentation"><code>Temporal</code></a>. Entretanto essa API ainda está em fases de adoção.</p>
+        <p>A API <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date"><code>Date</code></a> do JavaScript é uma biblioteca padrão que permite a criação e manipulação de datas e horas em projetos web. Com ela, é possível criar objetos de data, formatar datas, calcular diferenças entre datas e trabalhar com horas e minutos. No entanto, a API foi projetada com algumas limitações e inconsistências que fizeram com que fosse proposta uma nova API padrão para trabalhar com datas e horas no Javascript, chamada de <a href="https://tc39.es/proposal-temporal/docs/index.html#api-documentation"><code>Temporal</code></a>. Entretanto essa API ainda está em fases de adoção.</p>
         <h3>Principais Funcionalidades da API <code>Date</code></h3>
         <ol>
             <li>
@@ -181,16 +197,22 @@ const fromTimestamp = new Date(1698626400000); // Data a partir de timestamp
             <li>
                 <p><strong>Métodos de Obtenção e Definição de Componentes da Data</strong></p>
                 <ul>
-                    <li>Para obter partes da data, como o ano, mês, dia, etc., você pode usar métodos como:<ul>
+                    <li>Para obter partes da data, como o ano, mês, dia, etc., você pode usar métodos como:
+                        <ul>
                             <li><code>getFullYear()</code>, <code>getMonth()</code>, <code>getDate()</code>, <code>getHours()</code>, <code>getMinutes()</code>, <code>getSeconds()</code>, etc.</li>
                         </ul>
                     </li>
-                    <li>Para definir componentes da data, use métodos correspondentes: <code>setFullYear()</code>, <code>setMonth()</code>, <code>setDate()</code>, etc.</li>
+                    <li>Para definir partes da data, use métodos correspondentes:
+                        <ul>
+                            <li><code>setFullYear(newValue)</code>, <code>setMonth(newValue)</code>, <code>setDate(newValue)</code>, <code>setHours(newValue)</code>, <code>setMinutes(newValue)</code>, <code>setSeconds(newValue)</code>, etc.</li>
+                        </ul>
+                    </li>
                 </ul>
                 <pre><code class="language-javascript">const date = new Date();
 console.log(date.getFullYear()); // Ano atual
 console.log(date.getMonth()); // Mês atual (0-11)
-</code></pre>
+date.setDate(31); // Altera o dia atual
+console.log(date.getDate()); // Dia atual</code></pre>
             </li>
             <li>
                 <p><strong>Métodos para Operações e Cálculos</strong></p>
@@ -212,9 +234,9 @@ const days = diff / (1000 * 60 * 60 * 24); // Conversão para dias
                     <li><strong>Formatador Internacional</strong>: <code>Intl.DateTimeFormat</code> é a abordagem moderna para formatar datas conforme as convenções de um idioma específico.</li>
                 </ul>
                 <pre><code class="language-javascript">const date = new Date();
-console.log(date.toISOString()); // ISO 8601
-console.log(date.toLocaleDateString(&quot;pt-BR&quot;)); // Data em formato brasileiro
-</code></pre>
+console.log(date); // Tue Nov 05 2024 09:06:54 GMT-0400 (Horário Padrão do Amazonas)
+console.log(date.toISOString()); // 2024-11-05T13:06:02.559Z
+console.log(date.toLocaleDateString(&quot;pt-BR&quot;)); // 05/11/2024</code></pre>
             </li>
         </ol>
         <h3>Desafios da API <code>Date</code></h3>
@@ -223,7 +245,7 @@ console.log(date.toLocaleDateString(&quot;pt-BR&quot;)); // Data em formato bras
         <p>A API <a href="https://tc39.es/proposal-temporal/docs/index.html"><code>Temporal</code></a> é uma biblioteca padrão que permite a criação e manipulação de datas e horas. Com ela, é possível criar objetos de data, formatar datas, calcular diferenças entre datas e trabalhar com horas e minutos.</p>
         <p>A API <code>Temporal</code>, atualmente em estágio experimental, é a nova proposta para manipulação de datas e horas no JavaScript. Ela resolve várias limitações da API <code>Date</code>, oferecendo maior precisão, suporte a fusos horários e manipulação de datas complexas, além de ser mais intuitiva e menos propensa a erros. A <code>Temporal</code> é parte da especificação ECMAScript e visa substituir a <code>Date</code> para operações de data e hora de forma confiável e poderosa.</p>
 
-        <h3>Exemplos</h3>
+        <h3>Exemplos com SvelteKit</h3>
         <p>O seguinte código exibe a hora atual:</p>
         <pre><code class="html">&lt;script&gt;
 	const now = new Date();
