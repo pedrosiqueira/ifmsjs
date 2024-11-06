@@ -3,25 +3,10 @@
 <head>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            for (el of document.getElementsByClassName('click-to-copy')) {
-                el.style.display = 'inline'
-                el.style.position = 'relative'
-                const template = document.createElement('template')
-                template.innerHTML = '<span style="visibility:hidden; background: rgba(0, 0, 0, .8); border-radius: 5px; bottom: 1em; color: #fff; left: 20%; padding: 5px 5px; position: absolute; z-index: 98;">Click to copy</span><span style="visibility:hidden; border: solid; border-color: #333 transparent; border-width: 6px 6px 0 6px; bottom: .75em; left: 30%; position: absolute; z-index: 99;" />'
-                ballon = template.content.children[0]
-                tail = template.content.children[1]
-                el.prepend(ballon, tail)
-                el.addEventListener('mouseenter', ev => {
-                    ballon.style.visibility = tail.style.visibility = 'visible'
-                })
+            for (el of document.querySelectorAll('[title="Clique para copiar"]')) {
                 el.addEventListener('click', ev => {
                     ev.preventDefault()
-                    ballon.innerText = 'Copied!'
-                    navigator.clipboard.writeText(ev.target.innerText.substring(8));
-                })
-                el.addEventListener('mouseleave', ev => {
-                    ballon.style.visibility = tail.style.visibility = 'hidden'
-                    ballon.innerText = 'Click to copy'
+                    navigator.clipboard.writeText(ev.target.innerText);
                 })
             }
         }, false);
@@ -161,17 +146,22 @@
     <p>Tenha certeza de ter instalado tudo de que precisamos conforme exposto na seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando">Instalando um ambiente de execução Javascript</a>.</p>
 
     <h2>Criando e executando nosso projeto</h2>
-    <p>Se você tem o git e quiser clonar o projeto pelo git, execute o script da Alternativa 0 ou siga as etapas da Alternativa 1, que faz manualmente o mesmo que a Alternativa 0. Se quiser baixar o projeto já configurado, siga as etapas da Alternativa 2. Se você quiser configurar teu projeto do zero, siga as etapas da Alternativa 3.</p>
+    <p>Se você tem o git e quiser clonar o projeto pelo git, execute o script da Alternativa 0 ou siga as etapas da Alternativa 1, que faz manualmente o mesmo que a Alternativa 0. Se quiser baixar o projeto já configurado, mas sem o git, siga as etapas da Alternativa 2. Se você quiser configurar teu projeto do zero, siga as etapas da Alternativa 3.</p>
 
     <h3>Criando...</h3>
 
     <h4>Alternativa 0 - Mamão com açúcar</h4>
-    <p>Execute o seguinte código no terminal:</p>
+    <p>Execute um dos seguintes códigos no terminal, dependendo do teu sistema operacional:</p>
+
+    <p><strong>Linux</strong></p>
+    <pre>por fazer</pre>
+
+    <p><strong>Windows</strong></p>
     <pre><code class="ps">Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/03_dw4_project_setup.ps1'))</code></pre>
 
     <h4 id="alternativa1">Alternativa 1 - Clonando o projeto pelo git</h4>
     <ol>
-        <li>Copie este link: <a class="click-to-copy" href="https://github.com/pedrosiqueira/dw4.git">https://github.com/pedrosiqueira/dw4.git</a>.</li>
+        <li>Copie este link: <a title="Clique para copiar" href="https://github.com/pedrosiqueira/dw4.git">https://github.com/pedrosiqueira/dw4.git</a>.</li>
         <li>No vscode, tecle <kbd>F1</kbd>, digite "clone" e selecione a opção "Git: Clone".</li>
         <li>Na caixa de entrada que aparece, cole o link copiado anteriormente e tecle <kbd>Enter</kbd>.</li>
         <li>Escolha um local para o seu projeto e abra-o no vscode.</li>
