@@ -177,7 +177,7 @@
     </ol>
 
     <h4 id="alternativa3">Alternativa 3 - Criando o projeto do zero</h4>
-    <p>Abra o terminal onde quer criar o projeto e execute os seguintes comandos:</p>
+    <p>Abra o terminal na pasta onde vai ficar o projeto e execute os seguintes comandos:</p>
     <pre><code class="sh">pnpm dlx sv create dw4
 cd dw4
 pnpm install
@@ -203,12 +203,23 @@ with?
 │  pnpm</pre>
 
     <p>Esses comandos fazem respectivamente: (1) cria um projeto sveltekit com o nome <code>dw4</code>; (2) abre a pasta do projeto; (3) configura o projeto; e (4) abre a pasta do projeto pelo vscode.</p>
-
+    <p>Para conseguir executar o aplicativo web teclando <kbd>F5</kbd> no vscode, crie o arquivo <code title="Clique para copiar">.vscode\launch.json</code>:</p>
+    <pre><code>{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "command": "pnpm run dev",
+            "name": "Run development server",
+            "request": "launch",
+            "type": "node-terminal"
+        }
+    ]
+}</code></pre>
     <h3>Executando o projeto</h3>
-    <p>Após criar teu projeto, com o terminal aberto na pasta do mesmo, execute o comando <code>pnpm run dev -- --open</code>. Se ocorreu tudo bem, uma página será aberta automaticamente no navegador web, exibindo seu aplicativo web em execução. Para encerrar o aplicativo, basta voltar ao terminal onde ele está rodando e pressionar <kbd>Ctrl+C</kbd>.</p>
+    <p>Após criar teu projeto, com o terminal aberto na pasta do mesmo, execute o comando <code>pnpm run dev -- --open</code>. Se ocorreu tudo bem, uma página será aberta automaticamente no navegador web, exibindo seu aplicativo web em execução. Para encerrar o aplicativo, basta voltar ao terminal onde ele está rodando e pressionar <kbd>Ctrl+C</kbd>. Você também pode executar o aplicativo web teclando <kbd>F5</kbd>, mas deverá copiar/colar o endereço do site no navegador web.</p>
     <p>Se você possuir permissões administrativas, é possível disponibilizar o site para todos os dispositivos da sua rede local utilizando o comando <code>pnpm run dev -- --host 0.0.0.0</code>. Após isso, tente acessar o site pelo teu celular ou outro dispositivo, utilizando o endereço IP exibido no terminal.</p>
     <p>Caso deseje expor o site para a Internet, é possível, mas esse processo está fora do escopo desta aula. Isso demandaria configurações adicionais, como mexer no modem, além de apresentar riscos de segurança, já que seu computador ficaria acessível publicamente na rede.</p>
 
     <h2>Valendo!</h2>
-    <p>Tudo pronto para iniciarmos nossa jornada! Vamos começar do <a href="https://learn.svelte.dev/tutorial">tutorial oficial Svelte</a>.</p>
+    <p>Tudo pronto para iniciarmos nossa jornada! Nos vemos no próximo capítulo.</p>
 </div>
