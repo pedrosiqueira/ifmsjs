@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            for (el of document.querySelectorAll('[title="Clique para copiar"]')) {
+                el.addEventListener('click', ev => {
+                    ev.preventDefault()
+                    navigator.clipboard.writeText(ev.target.innerText);
+                })
+            }
+        }, false);
+    </script>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+    <script defer>hljs.highlightLinesAll([
+            // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }] // Highlight some lines in the first code block.
+        ]);
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+
+    <style>
+        img {
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .katex {
+            /* o padrão é 1.21, vc pode remover essa configuração se quiser deixar o padrão */
+            font-size: 1.0em;
+        }
+
+        table.custom,
+        table.custom>thead>tr>th,
+        table.custom>tbody>tr>td,
+        table.custom>tbody>tr>th {
+            /* tabela centralizada e com bordas */
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 5px;
+            padding-right: 5px;
+            text-align: center;
+        }
+
+        table pre {
+            /* tags pre dentro de tabelas são alinhadas à esquerda, sem margem interna */
+            margin: 0;
+            text-align: left !important;
+        }
+
+        td:has(pre) {
+            /* tags pre dentro de tabela são alinhadas no topo */
+            vertical-align: top;
+        }
+
+        code:not(pre code) {
+            /* tags code não filhas de pre */
+            color: darkred;
+            background-color: #f3f3f3;
+        }
+
+        table.align-left th,
+        table.align-left td {
+            /* alinha à esquerda as células da tabela */
+            text-align: left !important;
+        }
+
+        .bordered-line td {
+            /* tags tr com borda em todas as suas células */
+            border: 1px solid black;
+        }
+
+        /* inicia a lista de exercícios */
+        ol.excs {
+            padding-inline-start: 0em;
+            counter-reset: excs;
+            list-style: none;
+        }
+
+        /* põe um numerador num item da lista de exercícios, desde que não seja da classe no-mark */
+        ol.excs>li:not(.no-mark)::before {
+            counter-increment: excs;
+            content: counters(excs, ".") ". ";
+        }
+
+        /* põe uma barra vertical ao lado do item da lista de exercícios */
+        ol.excs>li {
+            /* Change this to adjust the line color and thickness */
+            border-left: 2px solid #000;
+            /* Optional: Add padding to create some space between the bar and content */
+            padding-left: 10px;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+        }
+
+        ol.section {
+            counter-reset: section;
+            list-style-type: none;
+        }
+
+        ol.section li::before {
+            counter-increment: section;
+            content: counters(section, ".") ". ";
+        }
+
+        td.hljs-ln-numbers {
+            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
+            color: #ccc;
+            border-right: 1px solid #999;
+            padding-right: 5px;
+        }
+
+        td.hljs-ln-code {
+            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
+            padding-left: 10px;
+        }
+
+        .info {
+            /* balão de informação */
+            border-left: 6px solid blue;
+            padding-left: 1%;
+        }
+    </style>
+</head>
+
+<h1>Reatividade e campos de entrada</h1>
+<h2>Leitura</h2>
+<p>Leia as seguintes seções:</p>
+<ul>
+    <li><a href="https://svelte.dev/tutorial/svelte/state">State</a></li>
+    <li><a href="https://svelte.dev/tutorial/svelte/deep-state">Deep state</a></li>
+    <li><a href="https://svelte.dev/tutorial/svelte/derived-state">Derived state</a></li>
+    <li><a href="https://svelte.dev/tutorial/svelte/text-inputs">Text inputs</a></li>
+    <li><a href="https://svelte.dev/tutorial/svelte/numeric-inputs">Numeric inputs</a></li>
+</ul>
+
+<h2>Alterando o estilo dinamicamente</h2>
+<p>Você pode usar variáveis para definir as classes de estilos dos seus elementos. Crie a página <code>src/routes/customizing/+page.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+    let fontsize = 6;
+    let fundo = &apos;bg-primary-subtle&apos;;
+
+    function aumentarFonte() {
+        if (fontsize &gt; 2) fontsize--;
+    }
+    function diminuirFonte() {
+        if (fontsize &lt; 5) fontsize++;
+    }
+    function mudarFundo() {
+        if (fundo == &apos;bg-primary-subtle&apos;) fundo = &apos;bg-danger-subtle&apos;;
+        else fundo = &apos;bg-primary-subtle&apos;;
+    }
+&lt;/script&gt;
+
+&lt;div&gt;
+    &lt;button class=&quot;btn btn-primary&quot; onclick={diminuirFonte}&gt;Diminuir fonte&lt;/button&gt;
+    &lt;button class=&quot;btn btn-primary&quot; onclick={aumentarFonte}&gt;Aumentar fonte&lt;/button&gt;
+    &lt;button class=&quot;btn btn-primary&quot; onclick={mudarFundo}&gt;Mudar fundo&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;fs-{fontsize} p-3 text-primary-emphasis {fundo} border border-primary-subtle rounded-3&quot;&gt;
+    Example element with utilities
+&lt;/div&gt;
+</code></pre>
+
+<p>Não se esqueça de adicionar essa página, bem como as demais, na barra de navegação!</p>
+
+<p>Explicação das classes:</p>
+<ul>
+    <li><code>btn btn-primary</code>: A classe <code>.btn</code> sozinha oferece o estilo básico, mas geralmente é usada em conjunto com uma classe de cor, como <code>btn-primary</code>, para definir o tema do botão. Mais sobre botões <a href="https://getbootstrap.com/docs/5.3/components/buttons/">aqui</a>.</li>
+    <li><code>fs-{fontsize}</code>: Define o tamanho da fonte de acordo com o valor da variável, que pode variar entre 1 (maior tamanho) e 6 (menor tamanho). Não confunda, à medida que o número aumenta, a fonte diminui. Mais sobre tamanho de fonte <a href="https://getbootstrap.com/docs/5.3/utilities/text/#font-size">aqui</a>.</li>
+    <li><code>text-primary-emphasis</code>: Define a cor do texto como azul escuro. Mais opções de cores <a href="https://getbootstrap.com/docs/5.3/utilities/colors/">aqui</a>.</li>
+    <li><code>border border-primary-subtle rounded-3</code>: Adiciona borda ao elemento atual, com cor azul claro e cantos arredondados. Mais sobre bordas <a href="https://getbootstrap.com/docs/5.3/utilities/colors/">aqui</a>.</li>
+    <li><code>p-3</code>: Adiciona enchimento (padding) de nível 3. O enchimento pode variar entre 0 e 5. Mais sobre espaçamentos <a href="https://getbootstrap.com/docs/5.3/utilities/spacing/#margin-and-padding">aqui</a>.</li>
+</ul>
+
+<h2>Calculadora de temperatura</h2>
+<p>Crie a página <code>src/routes/temperatura/+layout.svelte</code>:</p>
+<pre><code class="svelte">&lt;script&gt;
+    let celsius = 0,
+        fahrenheit = 0;
+
+    function c2f() {
+        fahrenheit = celsius * 1.8 + 32;
+    }
+
+    function f2c() {
+        celsius = ((fahrenheit - 32) * 5) / 9;
+    }
+&lt;/script&gt;
+
+Celsius: &lt;input oninput={c2f} type=&quot;number&quot; bind:value={celsius} /&gt;
+Fahrenheit: &lt;input oninput={f2c} type=&quot;number&quot; bind:value={fahrenheit} /&gt;
+</code></pre>
+
+<h2>Exercícios</h2>
+<ol class="excs">
+    <li>Com base no exemplo de Calculadora de temperatura, agora faça uma página de conversão entre as moedas dólas e real, tomando como base a cotação do dólar de hoje.</li>
+</ol>
