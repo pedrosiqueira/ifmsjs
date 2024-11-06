@@ -3,6 +3,12 @@
 <head>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            for (el of document.querySelectorAll('[title="Clique para copiar"]')) {
+                el.addEventListener('click', ev => {
+                    ev.preventDefault()
+                    navigator.clipboard.writeText(ev.target.innerText);
+                })
+            }
         }, false);
     </script>
 
@@ -54,21 +60,31 @@
         }
 
         table pre {
-            /* Remove a margem interna de tags pre dentro de tabelas */
+            /* tags pre dentro de tabelas são alinhadas à esquerda, sem margem interna */
             margin: 0;
-            padding: 0;
             text-align: left;
         }
 
         td:has(pre) {
-            /* tags pre dentro de tabela são alinhadas no topo à esquerda */
+            /* tags pre dentro de tabela são alinhadas no topo */
             vertical-align: top;
+        }
+
+        code:not(pre code) {
+            /* tags code não filhas de pre */
+            color: darkred;
+            background-color: #f3f3f3;
         }
 
         table.align-left th,
         table.align-left td {
             /* alinha à esquerda as células da tabela */
             text-align: left !important;
+        }
+
+        .bordered-line td {
+            /* tags tr com borda em todas as suas células */
+            border: 1px solid black;
         }
 
         /* inicia a lista de exercícios */
@@ -104,12 +120,6 @@
             content: counters(section, ".") ". ";
         }
 
-        p code {
-            /* estiliza códigos dentro de parágrafos */
-            color: darkred;
-            background-color: #f3f3f3;
-        }
-
         td.hljs-ln-numbers {
             /* estilizar as linhas de código da extensao highlightjs-line-numbers */
             color: #ccc;
@@ -123,54 +133,76 @@
         }
 
         .info {
+            /* balão de informação */
             border-left: 6px solid blue;
             padding-left: 1%;
         }
     </style>
 </head>
 
-<div id="preparando-o-ambiente-de-desenvolvimento-extra">
-    <h1>Preparando o ambiente de desenvolvimento - Extras</h1>
-    <p>Para aqueles que querem se aprofundar, esse capítulo mostra alguns detalhes do preparo do ambiente de desenvolvimento que foram omitidos do capítulo anterior.</p>
+<div id="preparando-o-ambiente-de-desenvolvimento-indo-alem">
+    <h1>(Opcional) Preparando o ambiente de desenvolvimento - indo além</h1>
+    <p>No capítulo anterior, <a href="./02 Preparando o ambiente de desenvolvimento.html#configurando">executamos um script</a> que preparava o ambiente, baixava e configurava o projeto automaticamente, deixando tudo pronto para uso. Para quem deseja se aprofundar, este capítulo mostra os detalhes omitidos do capítulo anterior. Aqui faremos o passo a passo de como preparar o ambiente de desenvolvimento do JavaScript, criar um novo projeto e configura-lo do zero. Para isso, você já precisa ter os <a href="./02 Preparando o ambiente de desenvolvimento.html#programas">programas necessários</a> instalados.</p>
 
-    <h2>Baixando o projeto</h2>
-    <p>Já temos o projeto criado e hospedado no GitHub. Se você quiser baixar o projeto sem o git, pode clicar no seguinte link <a href="https://github.com/pedrosiqueira/info3-dw3/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/info3-dw3/archive/refs/heads/main.zip</a>. O projeto vem compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto e o abra no vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</p>
+    <h2>Preparando o ambiente</h2>
+
+    <h3>Configuração do git</h3>
+    <p>Defina o nome de usuário e email do git, substituindo <code>username</code> e <code>useremail</code> conforme tua conta do <a href="https://github.com/">GitHub</a> (crie uma conta no GitHub antes, se ainda não tiver uma):</p>
+
+    <pre><code class="sh">git config --global user.name username
+git config --global user.email useremail
+</code></pre>
+
+    <h3>Configuração do vscode</h3>
+    <p>Instale as seguintes extensões para nos auxiliar no desenvolvimento do projeto:</p>
+    <ul>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode">VisualStudioExptTeam.vscodeintellicode</a></li>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">dbaeumer.vscode-eslint</a></li>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=xabikos.JavaScriptSnippets">xabikos.JavaScriptSnippets</a></li>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=christian-kohler.npm-intellisense">christian-kohler.npm-intellisense</a></li>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense">christian-kohler.path-intellisense</a></li>
+        <li>Caso esteja usando WSL ou Docker, Pacote de extensões <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development</a></li>
+    </ul>
+
+    <h3>Configuração do npm</h3>
+    <p>Instale o pnpm:</p>
+    <pre><code class="sh">npm install -g pnpm</code></pre>
 
     <h2>Criando seu projeto do zero</h2>
-    <p>No capítulo anterior, <a href="./02 Preparando o ambiente de desenvolvimento.html#configurando">executamos um script</a> que já baixa e configura o projeto, deixando tudo pronto para uso. Aqui faremos o passo a passo para criar e configurar o projeto do zero.</p>
+    <p>Já temos o projeto criado e hospedado no GitHub. Se você quiser baixar o projeto sem o git, pode clicar no seguinte link <a href="https://github.com/pedrosiqueira/alg/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/alg/archive/refs/heads/main.zip</a>. O projeto vem compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto e o abra no vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</p>
 
-    <h4>Parte do vscode</h4>
+    <p>Para criar o projeto do zero, siga as seções seguintes.</p>
+
+    <h3>Parte do vscode</h3>
     <ol>
-        <li>Crie uma pasta para o projeto. Essa pasta é conhecida como "pasta raiz", pois todos os arquivos do projeto ficam dentro dela.</li>
+        <li>Crie a pasta <code title="Clique para copiar">alg</code> para o projeto. Essa pasta é denominada "pasta raiz", pois todos os arquivos do projeto ficam dentro dela.</li>
         <li>Abra essa pasta pelo vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</li>
         <li>Acesse o menu "Run → Add Configuration → Node.js". Isso adiciona uma configuração do vscode ao seu projeto para conseguir executar seus scripts simplesmente teclando <kbd>F5</kbd>, sem precisar digitar comandos no terminal.</li>
-        <li>No arquivo recém-criado <code>.vscode/launch.json</code>, adicione a linha <code>"console": "integratedTerminal",</code> logo acima da linha <code>"type":"node",</code>. Essa linha configura o vscode para executar os arquivos pelo terminal em vez do debug console, pois assim poderemos interagir com nossos programas.</li>
+        <li>No arquivo recém-criado <code>.vscode/launch.json</code>, adicione a linha <code title="Clique para copiar">"console": "integratedTerminal",</code> logo acima da linha <code>"type":"node",</code>. Essa linha configura o vscode para executar os arquivos pelo terminal em vez do debug console, pois assim poderemos interagir com nossos programas.</li>
     </ol>
 
-    <h4>Parte do node</h4>
+    <h3>Parte do node</h3>
     <ol>
-        <li>Embora o npm seja o gerenciador de pacotes padrão do node, eu pessoalmente prefiro o gerenciador de pacotes pnpm, por ser mais ágil e ocupar menos espaço que o npm. Para instalar o pnpm, basta executar <code>npm install -g pnpm</code>.
+        <li>Embora o npm seja o gerenciador de pacotes padrão do node, eu pessoalmente prefiro o gerenciador de pacotes pnpm, por ser mais ágil e ocupar menos espaço que o npm. Execute <code title="Clique para copiar">pnpm init</code> na pasta raiz do projeto. É criado um arquivo <code>package.json</code>, que contém informações do teu projeto, como nome, versão e os pacotes que ele depende para ser executado.
+            <div class="info">
+                <p>(Observação: Se estiver no Windows e o comando anterior der um erro de permissão de execução de scripts pelo terminal, execute <code title="Clique para copiar">Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>. Feche todos os terminais, reabra um terminal na pasta raiz do projeto e execute novamente <code title="Clique para copiar">pnpm init</code>).</p>
+            </div>
         </li>
-        <li>Uma vez instalado o pnpm, vamos configurar nosso projeto para ser gerenciado pelo pnpm. Dentro da pasta raiz do projeto, execute <code>pnpm init</code>. É criado um arquivo <code>package.json</code>, que contém informações do teu projeto, como os pacotes que ele depende para ser executado.
-            <ul>
-                <li>(Observação: Se estiver no Windows e o comando anterior der um erro de permissão de execução de scripts pelo terminal powershell, abra um powershell como administrador e execute <code>Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser</code>. Feche todos os terminais, reabra um terminal na pasta raiz do projeto e execute novamente <code>pnpm init</code>).</li>
-            </ul>
-        </li>
-        <li>Geralmente projetos grandes são compostos por vários arquivos de código-fonte, além dos pacotes de terceiros. O modo como o JavaScript estrutura e utiliza os arquivos é chamado de <i>module system</i>. Basicamente há dois sistemas de módulo: o <i>CommonJS</i>, que é mais antigo e vem habilitado por padrão; e o <i>ECMAScript Modules</i> (ESM), que é mais recente e vamos substituir pelo antigo. Para tanto, adicione a linha <code>"type": "module",</code> no arquivo <code>package.json</code>.</li>
-        <li id="scanf">O node não vem com uma maneira simples de ler entradas digitadas pelo terminal, pelo fato do foco do JavaScript ser desenvolvimento web. Mas para fins de aprendizado de algoritmos, é mais fácil interagirmos com nossos programas diretamente pelo terminal. Portanto, vamos instalar o utilitário de leitura de entradas por terminal <a href="https://github.com/Lellansin/node-scanf">node-scanf</a>. Execute <code>pnpm add scanf</code> na pasta raiz do projeto. Ao instalar um pacote com o pnpm, o pacote é colocado na pasta <code>node_modules</code> e também registrado no arquivo <code>package.json</code>.</li>
-        <li>Por fim, para testar se está tudo em ordem, crie e execute o arquivo <code>cap02/input-output.js</code> com o seguinte código:</li>
+        <li>Geralmente projetos grandes são compostos por vários arquivos de código-fonte, além dos pacotes de terceiros. O modo como o JavaScript estrutura e utiliza os arquivos é chamado de <i>module system</i>. Basicamente há dois sistemas de módulo: o <i>CommonJS</i>, que é mais antigo e vem habilitado por padrão; e o <i>ECMAScript Modules</i> (ESM), que é o mais recente e indicado, mas não vem habilitado por padrão. Para configurar o projeto com o ESM, adicione a linha <code title="Clique para copiar">, "type": "module"</code> no final do arquivo <code>package.json</code>, antes da chave de fechamento.</li>
+        <li id="scanf">O node não vem com uma maneira simples de ler entradas digitadas pelo terminal, pelo fato do foco do JavaScript ser desenvolvimento web. Mas para fins de aprendizado de algoritmos, é mais fácil interagirmos com nossos programas diretamente pelo terminal. Portanto, vamos instalar o utilitário de leitura de entradas por terminal <a href="https://github.com/Lellansin/node-scanf">node-scanf</a>. Execute <code title="Clique para copiar">pnpm add scanf</code> na pasta raiz do projeto. Ao instalar um pacote com o pnpm, o pacote é colocado na pasta <code>node_modules</code> e também registrado no arquivo <code>package.json</code>.</li>
+        <li>Por fim, para testar se está tudo em ordem, crie e execute o arquivo <code title="Clique para copiar">cap02/input-output.js</code> com o seguinte código:</li>
     </ol>
 
     <pre><code>import scanf from 'scanf';
-    
-    console.log('Please input your name');
-    let name = scanf('%s');
-    
-    console.log('Please input your age');
-    let age = scanf('%d');
-    
-    console.log('your name', name, 'is a', typeof name);
-    console.log('your age', age, 'is a', typeof age);</code></pre>
+
+console.log('Please input your name');
+let name = scanf('%s');
+
+console.log('Please input your age');
+let age = scanf('%d');
+
+console.log('your name', name, 'is a', typeof name);
+console.log('your age', age, 'is a', typeof age);</code></pre>
 
     <p>Não se preocupe em entender tudo o que está se passando. Esse capítulo é mais para deixar tudo preparado para começarmos a aprender JavaScript no próximo capítulo. Se este programa estiver funcionando conforme o esperado, ele vai te solicitar um nome e uma idade, e, depois que você informá-los, o programa responde com algumas mensagens.</p>
 
