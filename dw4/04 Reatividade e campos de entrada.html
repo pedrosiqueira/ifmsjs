@@ -18,10 +18,7 @@
 
     <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
     <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
-    <script defer>hljs.highlightLinesAll([
-            // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }] // Highlight some lines in the first code block.
-        ]);
-    </script>
+    <script defer>hljs.highlightLinesAll([[], [], [], [{ start: 3, end: 3, color: 'lightgreen' }]]);</script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
@@ -43,7 +40,7 @@
 </ul>
 
 <h2 id="alterando-estilo">Alterando o estilo dinamicamente</h2>
-<p>Você pode usar variáveis para definir as classes de estilos dos seus elementos. Crie a página <code ctc>src/routes/customizing/+page.svelte</code>:</p>
+<p>Você pode usar variáveis para definir as classes de estilos dos seus elementos. Crie a página <code ctc>src/routes/personalizacao/+page.svelte</code>:</p>
 <pre><code>&lt;script&gt;
     let fontsize = 6;
     let fundo = &apos;bg-primary-subtle&apos;;
@@ -101,8 +98,43 @@ Celsius: &lt;input oninput={c2f} type=&quot;number&quot; bind:value={celsius} /&
 Fahrenheit: &lt;input oninput={f2c} type=&quot;number&quot; bind:value={fahrenheit} /&gt;
 </code></pre>
 
+<h2>Reatividade</h2>
+<p>No Svelte, as variáveis declaradas no bloco <code>&lt;script&gt;</code> podem ser acessadas diretamente no HTML com o uso de chaves <code>{ }</code>. Quando modificamos o valor dessas variáveis, o novo valor é automaticamente atualizado na página, um conceito conhecido como <strong>reatividade</strong>. Isso acontece porque o Svelte monitora as variáveis para atualizar o HTML sempre que seus valores mudam. Para exemplificar, crie o arquivo <code ctc>src/routes/reatividade/+page.svelte</code>:</p>
+
+<pre><code class="svelte">&lt;script&gt;
+    let counter1 = 0;
+    let counter2 = 0;
+&lt;/script&gt;
+
+&lt;button onclick={() =&gt; {counter1 -= 1; console.log(counter1)}}&gt;Diminuir&lt;/button&gt;
+&lt;button onclick={() =&gt; {counter1 += 1; console.log(counter1)}}&gt;Aumentar&lt;/button&gt;
+&lt;h1&gt;{counter1}&lt;/h1&gt;
+
+&lt;button onclick={() =&gt; {counter2 -= 1; console.log(counter2)}}&gt;Diminuir&lt;/button&gt;
+&lt;button onclick={() =&gt; {counter2 += 1; console.log(counter2)}}&gt;Aumentar&lt;/button&gt;
+&lt;h1&gt;{counter2}&lt;/h1&gt;</code></pre>
+
+<p>Observe que, sempre que clicamos em um dos botões, o valor da variável correspondente muda, e a página exibe automaticamente o novo valor. No entanto, monitorar todas as variáveis do site pode ser um processo custoso. Para otimizar a performance, o Svelte 5 introduziu o conceito de <strong>runes</strong>, que são declarações explícitas das variáveis que o Svelte deve observar. Com isso, você pode selecionar apenas as variáveis que realmente precisam de reatividade, melhorando o desempenho do aplicativo. Experimente declarar uma das variáveis com <code>$state</code> para observar que apenas essa variável será atualizada na tela:</p>
+
+<pre><code class="svelte">&lt;script&gt;
+    let counter1 = 0;
+    let counter2 = $state(0);
+&lt;/script&gt;
+
+&lt;button onclick={() =&gt; {counter1 -= 1; console.log(counter1)}}&gt;Diminuir&lt;/button&gt;
+&lt;button onclick={() =&gt; {counter1 += 1; console.log(counter1)}}&gt;Aumentar&lt;/button&gt;
+&lt;h1&gt;{counter1}&lt;/h1&gt;
+
+&lt;button onclick={() =&gt; {counter2 -= 1; console.log(counter2)}}&gt;Diminuir&lt;/button&gt;
+&lt;button onclick={() =&gt; {counter2 += 1; console.log(counter2)}}&gt;Aumentar&lt;/button&gt;
+&lt;h1&gt;{counter2}&lt;/h1&gt;</code></pre>
+
+<p>Abra o console do navegador (tecla <kbd>F12</kbd>) e observe que, embora a variável sem <code>$state</code> ainda mude ao clicar em seu botão, seu valor não é exibido na página, pois não está sendo monitorado para reatividade.</p>
+
+<p>Para mais sobre o assunto, veja a <a href="https://youtu.be/AdNJ3fydeao?si=loxeTsL8p8JSZ_n6">palestra de Rich Harris</a>, criador do Svelte.</p>
+
 <h2>Exercícios</h2>
 <ol class="excs">
-    <li>Do Bootstrap, a documentação de <a href="https://getbootstrap.com/docs/5.3/utilities/text/">texto</a>, <a href="https://getbootstrap.com/docs/5.3/utilities/borders/">borda</a> e <a href="https://getbootstrap.com/docs/5.3/utilities/background/">fundo</a> mostra várias formas de modificá-los usando o atributo <code>class</code>. Amplie o exemplo de <a href="#alterando-estilo">alteração de estilo</a>, colocando mais opções de personalização, seja do texto, da borda ou do fundo.</li>
-    <li>Com base no exemplo de <a href="#calculadora-temperatura">Calculadora de temperatura</a>, agora faça uma página de conversão entre as moedas dólas e real, tomando como base a cotação do dólar de hoje.</li>
+    <li>A documentação do Bootstrap oferece várias opções para modificar estilos de <a href="https://getbootstrap.com/docs/5.3/utilities/text/">texto</a>, <a href="https://getbootstrap.com/docs/5.3/utilities/borders/">borda</a> e <a href="https://getbootstrap.com/docs/5.3/utilities/background/">fundo</a> usando o atributo <code>class</code>. Explore essas possibilidades ampliando o exemplo de <a href="#alterando-estilo">alteração de estilo</a> com mais opções de personalização.</li>
+    <li>Com base no exemplo de <a href="#calculadora-temperatura">Calculadora de temperatura</a>, faça uma página de conversão entre as moedas dólas e real, tomando como base a cotação do dólar de hoje.</li>
 </ol>
