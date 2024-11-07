@@ -1,17 +1,6 @@
 <!DOCTYPE html>
 
 <head>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            for (el of document.querySelectorAll('[title="Clique para copiar"]')) {
-                el.addEventListener('click', ev => {
-                    ev.preventDefault()
-                    navigator.clipboard.writeText(ev.target.innerText);
-                })
-            }
-        }, false);
-    </script>
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,114 +19,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
 
-    <style>
-        img {
-            max-width: 90vw;
-            max-height: 90vh;
-        }
-
-        .center {
-            text-align: center;
-        }
-
-        .katex {
-            /* o padrão é 1.21, vc pode remover essa configuração se quiser deixar o padrão */
-            font-size: 1.0em;
-        }
-
-        table.custom,
-        table.custom>thead>tr>th,
-        table.custom>tbody>tr>td,
-        table.custom>tbody>tr>th {
-            /* tabela centralizada e com bordas */
-            border: 1px solid black;
-            border-collapse: collapse;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 5px;
-            padding-right: 5px;
-            text-align: center;
-        }
-
-        table pre {
-            /* tags pre dentro de tabelas são alinhadas à esquerda, sem margem interna */
-            margin: 0;
-            text-align: left;
-        }
-
-        td:has(pre) {
-            /* tags pre dentro de tabela são alinhadas no topo */
-            vertical-align: top;
-        }
-
-        code:not(pre code) {
-            /* tags code não filhas de pre */
-            color: darkred;
-            background-color: #f3f3f3;
-        }
-
-        table.align-left th,
-        table.align-left td {
-            /* alinha à esquerda as células da tabela */
-            text-align: left !important;
-        }
-
-        .bordered-line td {
-            /* tags tr com borda em todas as suas células */
-            border: 1px solid black;
-        }
-
-        /* inicia a lista de exercícios */
-        ol.excs {
-            padding-inline-start: 0em;
-            counter-reset: excs;
-            list-style: none;
-        }
-
-        /* põe um numerador num item da lista de exercícios, desde que não seja da classe no-mark */
-        ol.excs>li:not(.no-mark)::before {
-            counter-increment: excs;
-            content: counters(excs, ".") ". ";
-        }
-
-        /* põe uma barra vertical ao lado do item da lista de exercícios */
-        ol.excs>li {
-            /* Change this to adjust the line color and thickness */
-            border-left: 2px solid #000;
-            /* Optional: Add padding to create some space between the bar and content */
-            padding-left: 10px;
-            margin-block-start: 1em;
-            margin-block-end: 1em;
-        }
-
-        ol.section {
-            counter-reset: section;
-            list-style-type: none;
-        }
-
-        ol.section li::before {
-            counter-increment: section;
-            content: counters(section, ".") ". ";
-        }
-
-        td.hljs-ln-numbers {
-            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
-            color: #ccc;
-            border-right: 1px solid #999;
-            padding-right: 5px;
-        }
-
-        td.hljs-ln-code {
-            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
-            padding-left: 10px;
-        }
-
-        .info {
-            /* balão de informação */
-            border-left: 6px solid blue;
-            padding-left: 1%;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.js"></script>
 </head>
 
 <div id="preparando-o-ambiente-de-desenvolvimento-indo-alem">
@@ -168,29 +51,30 @@ git config --global user.email useremail
     <p>Instale o pnpm:</p>
     <pre><code class="sh">npm install -g pnpm</code></pre>
 
-    <h2>Criando seu projeto do zero</h2>
+    <h2>Baixando o projeto</h2>
     <p>Já temos o projeto criado e hospedado no GitHub. Se você quiser baixar o projeto sem o git, pode clicar no seguinte link <a href="https://github.com/pedrosiqueira/alg/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/alg/archive/refs/heads/main.zip</a>. O projeto vem compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto e o abra no vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</p>
 
+    <h2>Criando o projeto do zero</h2>
     <p>Para criar o projeto do zero, siga as seções seguintes.</p>
 
     <h3>Parte do vscode</h3>
     <ol>
-        <li>Crie a pasta <code title="Clique para copiar">alg</code> para o projeto. Essa pasta é denominada "pasta raiz", pois todos os arquivos do projeto ficam dentro dela.</li>
+        <li>Crie a pasta <code ctc>alg</code> para o projeto. Essa pasta é denominada "pasta raiz", pois todos os arquivos do projeto ficam dentro dela.</li>
         <li>Abra essa pasta pelo vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</li>
         <li>Acesse o menu "Run → Add Configuration → Node.js". Isso adiciona uma configuração do vscode ao seu projeto para conseguir executar seus scripts simplesmente teclando <kbd>F5</kbd>, sem precisar digitar comandos no terminal.</li>
-        <li>No arquivo recém-criado <code>.vscode/launch.json</code>, adicione a linha <code title="Clique para copiar">"console": "integratedTerminal",</code> logo acima da linha <code>"type":"node",</code>. Essa linha configura o vscode para executar os arquivos pelo terminal em vez do debug console, pois assim poderemos interagir com nossos programas.</li>
+        <li>No arquivo recém-criado <code>.vscode/launch.json</code>, adicione a linha <code ctc>"console": "integratedTerminal",</code> logo acima da linha <code>"type":"node",</code>. Essa linha configura o vscode para executar os arquivos pelo terminal em vez do debug console, pois assim poderemos interagir com nossos programas.</li>
     </ol>
 
     <h3>Parte do node</h3>
     <ol>
-        <li>Embora o npm seja o gerenciador de pacotes padrão do node, eu pessoalmente prefiro o gerenciador de pacotes pnpm, por ser mais ágil e ocupar menos espaço que o npm. Execute <code title="Clique para copiar">pnpm init</code> na pasta raiz do projeto. É criado um arquivo <code>package.json</code>, que contém informações do teu projeto, como nome, versão e os pacotes que ele depende para ser executado.
+        <li>Embora o npm seja o gerenciador de pacotes padrão do node, eu pessoalmente prefiro o gerenciador de pacotes pnpm, por ser mais ágil e ocupar menos espaço que o npm. Execute <code ctc>pnpm init</code> na pasta raiz do projeto. É criado um arquivo <code>package.json</code>, que contém informações do teu projeto, como nome, versão e os pacotes que ele depende para ser executado.
             <div class="info">
-                <p>(Observação: Se estiver no Windows e o comando anterior der um erro de permissão de execução de scripts pelo terminal, execute <code title="Clique para copiar">Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>. Feche todos os terminais, reabra um terminal na pasta raiz do projeto e execute novamente <code title="Clique para copiar">pnpm init</code>).</p>
+                <p>(Observação: Se estiver no Windows e o comando anterior der um erro de permissão de execução de scripts pelo terminal, execute <code ctc>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>. Feche todos os terminais, reabra um terminal na pasta raiz do projeto e execute novamente <code ctc>pnpm init</code>).</p>
             </div>
         </li>
-        <li>Geralmente projetos grandes são compostos por vários arquivos de código-fonte, além dos pacotes de terceiros. O modo como o JavaScript estrutura e utiliza os arquivos é chamado de <i>module system</i>. Basicamente há dois sistemas de módulo: o <i>CommonJS</i>, que é mais antigo e vem habilitado por padrão; e o <i>ECMAScript Modules</i> (ESM), que é o mais recente e indicado, mas não vem habilitado por padrão. Para configurar o projeto com o ESM, adicione a linha <code title="Clique para copiar">, "type": "module"</code> no final do arquivo <code>package.json</code>, antes da chave de fechamento.</li>
-        <li id="scanf">O node não vem com uma maneira simples de ler entradas digitadas pelo terminal, pelo fato do foco do JavaScript ser desenvolvimento web. Mas para fins de aprendizado de algoritmos, é mais fácil interagirmos com nossos programas diretamente pelo terminal. Portanto, vamos instalar o utilitário de leitura de entradas por terminal <a href="https://github.com/Lellansin/node-scanf">node-scanf</a>. Execute <code title="Clique para copiar">pnpm add scanf</code> na pasta raiz do projeto. Ao instalar um pacote com o pnpm, o pacote é colocado na pasta <code>node_modules</code> e também registrado no arquivo <code>package.json</code>.</li>
-        <li>Por fim, para testar se está tudo em ordem, crie e execute o arquivo <code title="Clique para copiar">cap02/input-output.js</code> com o seguinte código:</li>
+        <li>Geralmente projetos grandes são compostos por vários arquivos de código-fonte, além dos pacotes de terceiros. O modo como o JavaScript estrutura e utiliza os arquivos é chamado de <i>module system</i>. Basicamente há dois sistemas de módulo: o <i>CommonJS</i>, que é mais antigo e vem habilitado por padrão; e o <i>ECMAScript Modules</i> (ESM), que é o mais recente e indicado, mas não vem habilitado por padrão. Para configurar o projeto com o ESM, adicione a linha <code ctc>, "type": "module"</code> no final do arquivo <code>package.json</code>, antes da chave de fechamento.</li>
+        <li id="scanf">O node não vem com uma maneira simples de ler entradas digitadas pelo terminal, pelo fato do foco do JavaScript ser desenvolvimento web. Mas para fins de aprendizado de algoritmos, é mais fácil interagirmos com nossos programas diretamente pelo terminal. Portanto, vamos instalar o utilitário de leitura de entradas por terminal <a href="https://github.com/Lellansin/node-scanf">node-scanf</a>. Execute <code ctc>pnpm add scanf</code> na pasta raiz do projeto. Ao instalar um pacote com o pnpm, o pacote é colocado na pasta <code>node_modules</code> e também registrado no arquivo <code>package.json</code>.</li>
+        <li>Por fim, para testar se está tudo em ordem, crie e execute o arquivo <code ctc>cap02/input-output.js</code> com o seguinte código:</li>
     </ol>
 
     <pre><code>import scanf from 'scanf';

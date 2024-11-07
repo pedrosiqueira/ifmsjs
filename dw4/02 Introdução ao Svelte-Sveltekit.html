@@ -1,17 +1,6 @@
 <!DOCTYPE html>
 
 <head>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            for (el of document.querySelectorAll('[title="Clique para copiar"]')) {
-                el.addEventListener('click', ev => {
-                    ev.preventDefault()
-                    navigator.clipboard.writeText(ev.target.innerText);
-                })
-            }
-        }, false);
-    </script>
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,114 +27,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
 
-    <style>
-        img {
-            max-width: 90vw;
-            max-height: 90vh;
-        }
-
-        .center {
-            text-align: center;
-        }
-
-        .katex {
-            /* o padrão é 1.21, vc pode remover essa configuração se quiser deixar o padrão */
-            font-size: 1.0em;
-        }
-
-        table.custom,
-        table.custom>thead>tr>th,
-        table.custom>tbody>tr>td,
-        table.custom>tbody>tr>th {
-            /* tabela centralizada e com bordas */
-            border: 1px solid black;
-            border-collapse: collapse;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 5px;
-            padding-right: 5px;
-            text-align: center;
-        }
-
-        table pre {
-            /* tags pre dentro de tabelas são alinhadas à esquerda, sem margem interna */
-            margin: 0;
-            text-align: left !important;
-        }
-
-        td:has(pre) {
-            /* tags pre dentro de tabela são alinhadas no topo */
-            vertical-align: top;
-        }
-
-        code:not(pre code) {
-            /* tags code não filhas de pre */
-            color: darkred;
-            background-color: #f3f3f3;
-        }
-
-        table.align-left th,
-        table.align-left td {
-            /* alinha à esquerda as células da tabela */
-            text-align: left !important;
-        }
-
-        .bordered-line td {
-            /* tags tr com borda em todas as suas células */
-            border: 1px solid black;
-        }
-
-        /* inicia a lista de exercícios */
-        ol.excs {
-            padding-inline-start: 0em;
-            counter-reset: excs;
-            list-style: none;
-        }
-
-        /* põe um numerador num item da lista de exercícios, desde que não seja da classe no-mark */
-        ol.excs>li:not(.no-mark)::before {
-            counter-increment: excs;
-            content: counters(excs, ".") ". ";
-        }
-
-        /* põe uma barra vertical ao lado do item da lista de exercícios */
-        ol.excs>li {
-            /* Change this to adjust the line color and thickness */
-            border-left: 2px solid #000;
-            /* Optional: Add padding to create some space between the bar and content */
-            padding-left: 10px;
-            margin-block-start: 1em;
-            margin-block-end: 1em;
-        }
-
-        ol.section {
-            counter-reset: section;
-            list-style-type: none;
-        }
-
-        ol.section li::before {
-            counter-increment: section;
-            content: counters(section, ".") ". ";
-        }
-
-        td.hljs-ln-numbers {
-            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
-            color: #ccc;
-            border-right: 1px solid #999;
-            padding-right: 5px;
-        }
-
-        td.hljs-ln-code {
-            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
-            padding-left: 10px;
-        }
-
-        .info {
-            /* balão de informação */
-            border-left: 6px solid blue;
-            padding-left: 1%;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.js"></script>
 </head>
 
 <h1>Introdução ao Svelte/Sveltekit e Bootstrap</h1>
@@ -187,10 +70,10 @@
 <p>Na linha 2 alteramos nosso aplicativo para ser reconhecido pelos navegadores como de idioma português. Nas linhas 9 e 14 adicionamos o css e o js do bootstrap.</p>
 
 <h2>Nossas primeiras páginas</h2>
-<p>Crie o arquivo <code title="Clique para copiar">src/routes/about/+page.svelte</code> com informações sobre teu site. Também modifique o arquivo <code title="Clique para copiar">src/routes/+page.svelte</code> com uma mensagem de boas vinda personalizada para o teu site. Seja criativo...</p>
+<p>Crie o arquivo <code ctc>src/routes/about/+page.svelte</code> com informações sobre teu site. Também modifique o arquivo <code ctc>src/routes/+page.svelte</code> com uma mensagem de boas vindas personalizada para o teu site.</p>
 
 <h2>Adicionando uma barra de navegação</h2>
-<p>Vimos no <a href="https://svelte.dev/tutorial/kit/layouts">tutorial do sveltekit</a> como fazer uma barra de navegação personalizada. Mas aqui, utilizaremos a <a href="https://getbootstrap.com/docs/5.3/components/navbar/">barra de navegação</a> do Bootstrap. Crie o arquivo <code title="Clique para copiar">src/routes/+layout.svelte</code>:</p>
+<p>Vimos no <a href="https://svelte.dev/tutorial/kit/layouts">tutorial do sveltekit</a> como fazer uma barra de navegação personalizada. Mas aqui, utilizaremos a <a href="https://getbootstrap.com/docs/5.3/components/navbar/">barra de navegação</a> do Bootstrap. Crie o arquivo <code ctc>src/routes/+layout.svelte</code>:</p>
 
 <pre><code class="svelte">&lt;script&gt;
     let { children } = $props();
