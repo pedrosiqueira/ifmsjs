@@ -148,27 +148,26 @@
     </style>
 </head>
 
-<div id="introducao-ao-svelte-sveltekit">
-    <h1>Introdução ao Svelte/Sveltekit e Bootstrap</h1>
+<h1>Introdução ao Svelte/Sveltekit e Bootstrap</h1>
 
-    <h2>Svelte/SvelteKit</h2>
-    <p>Vamos utilizar o Svelte para desenvolver nossos aplicativos web. Leia as seguintes seções:</p>
-    <ul>
-        <li><a href="https://svelte.dev/tutorial/svelte/welcome-to-svelte">Welcome to Svelte</a></li>
-        <li><a href="https://svelte.dev/tutorial/kit/introducing-sveltekit">What is SvelteKit?</a></li>
-        <li><a href="https://svelte.dev/tutorial/kit/pages">Pages</a></li>
-        <li><a href="https://svelte.dev/tutorial/kit/layouts">Layouts</a></li>
-    </ul>
+<h2>Svelte/SvelteKit</h2>
+<p>Vamos utilizar o Svelte para desenvolver nossos aplicativos web. Leia as seguintes seções:</p>
+<ul>
+    <li><a href="https://svelte.dev/tutorial/svelte/welcome-to-svelte">Welcome to Svelte</a></li>
+    <li><a href="https://svelte.dev/tutorial/kit/introducing-sveltekit">What is SvelteKit?</a></li>
+    <li><a href="https://svelte.dev/tutorial/kit/pages">Pages</a></li>
+    <li><a href="https://svelte.dev/tutorial/kit/layouts">Layouts</a></li>
+</ul>
 
-    <h2>Bootstrap</h2>
-    <p>Vamos utilizar o Bootstrap para estilizar nossas páginas. Leia a seguinte seção:</p>
-    <ul>
-        <li><a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">Get started with Bootstrap</a></li>
-    </ul>
+<h2>Bootstrap</h2>
+<p>Vamos utilizar o Bootstrap para estilizar nossas páginas. Leia a seguinte seção:</p>
+<ul>
+    <li><a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">Get started with Bootstrap</a></li>
+</ul>
 
-    <h2>Adicionando Bootstrap ao SvelteKit</h2>
-    <p>Para utilizar SvelteKit com Bootstrap, modifique o arquivo <code>src/app.html</code> (em verde as modificações, em azul os acréscimos):</p>
-    <pre><code class="html">&lt;!doctype html&gt;
+<h2>Adicionando Bootstrap ao SvelteKit</h2>
+<p>Para utilizar SvelteKit com Bootstrap, modifique o arquivo <code>src/app.html</code> (em verde as modificações, em azul os acréscimos):</p>
+<pre><code class="html">&lt;!doctype html&gt;
 &lt;html lang=&quot;pt&quot;&gt;
 
 &lt;head&gt;
@@ -185,15 +184,15 @@
 &lt;/body&gt;
 
 &lt;/html&gt;</code></pre>
-    <p>Na linha 2 alteramos nosso aplicativo para ser reconhecido pelos navegadores como de idioma português. Nas linhas 9 e 14 adicionamos o css e o js do bootstrap.</p>
+<p>Na linha 2 alteramos nosso aplicativo para ser reconhecido pelos navegadores como de idioma português. Nas linhas 9 e 14 adicionamos o css e o js do bootstrap.</p>
 
-    <h2>Nossas primeiras páginas</h2>
-    <p>Crie o arquivo <code title="Clique para copiar">src/routes/about/+page.svelte</code> com informações sobre teu site. Também modifique o arquivo <code title="Clique para copiar">src/routes/+page.svelte</code> com uma mensagem de boas vinda personalizada para o teu site. Seja criativo...</p>
+<h2>Nossas primeiras páginas</h2>
+<p>Crie o arquivo <code title="Clique para copiar">src/routes/about/+page.svelte</code> com informações sobre teu site. Também modifique o arquivo <code title="Clique para copiar">src/routes/+page.svelte</code> com uma mensagem de boas vinda personalizada para o teu site. Seja criativo...</p>
 
-    <h2>Adicionando uma barra de navegação</h2>
-    <p>Vimos no <a href="https://svelte.dev/tutorial/kit/layouts">tutorial do sveltekit</a> como fazer uma barra de navegação personalizada. Mas aqui, utilizaremos a <a href="https://getbootstrap.com/docs/5.3/components/navbar/">barra de navegação</a> do Bootstrap. Crie o arquivo <code title="Clique para copiar">src/routes/+layout.svelte</code>:</p>
+<h2>Adicionando uma barra de navegação</h2>
+<p>Vimos no <a href="https://svelte.dev/tutorial/kit/layouts">tutorial do sveltekit</a> como fazer uma barra de navegação personalizada. Mas aqui, utilizaremos a <a href="https://getbootstrap.com/docs/5.3/components/navbar/">barra de navegação</a> do Bootstrap. Crie o arquivo <code title="Clique para copiar">src/routes/+layout.svelte</code>:</p>
 
-    <pre><code class="svelte">&lt;script&gt;
+<pre><code class="svelte">&lt;script&gt;
     let { children } = $props();
 &lt;/script&gt;
 
@@ -224,18 +223,17 @@
 {@render children()}
 </code></pre>
 
-    <p>Vejamos o que são cada linha:</p>
-    <ul>
-        <li>Linha 7: O botão da marca do teu site. É aqui que geralmente fica o ícone do teu site.</li>
-        <li>Linhas 8-17: Botão que expande os itens do teu navbar quando a tela fica pequena.</li>
-        <li>Linha 20: Os itens do teu navbar. No momento, só temos um, que é a página "Sobre".</li>
-    </ul>
+<p>Vejamos o que faz cada linha:</p>
+<ul>
+    <li>Linha 7: O botão da marca do teu site. É aqui que geralmente fica o logotipo do teu site.</li>
+    <li>Linhas 8-18: Botão que expande os itens do teu navbar quando a tela fica pequena.</li>
+    <li>Linha 20: Os itens do teu navbar. No momento, só temos um, que é a página "Sobre".</li>
+</ul>
 
-    <p>Estilizamos nossos elementos com Bootstrap através do atributo <code>class</code>. Vejamos as principais classes usadas aqui:
-    <ul>
-        <li><code>navbar</code>: Estiliza o elemento <code>nav</code>.</li>
-        <li><code>navbar-expand-sm</code> Especifica que os itens dentro do <code>div</code> com classe <code>collapse navbar-collapse</code> serão ocultados em telas pequenas. As <a href="https://getbootstrap.com/docs/5.3/layout/breakpoints/">opções de ocultamento</a> são: <code>.navbar-expand{-sm|-md|-lg|-xl|-xxl}</code>, que significam, respectivamente, pequeno, médio, grande, extra grande, extra extra grande.</li>
-        <li><code>bg-body-tertiary</code>: Define a cor de fundo do navbar como um cinza suave. O Bootstrap vem com uma <a href="https://getbootstrap.com/docs/5.3/utilities/background/">paleta de cores padrão</a> para o fundo. Experimente mudar a cor de fundo do teu navbar com uma das opções do Bootstrap!</li>
-        <li><code>container-fluid</code>: Define que esse <code>div</code> ocupará 100% da largura da tela. Outras opções de expansão da largura de <code>div</code>s podem ser <a href="https://getbootstrap.com/docs/5.3/layout/containers/">encontradas aqui</a>.</li>
-    </ul>
-</div>
+<p>Estilizamos nossos elementos com Bootstrap através do atributo <code>class</code>. Vejamos as principais classes usadas aqui:
+<ul>
+    <li><code>navbar</code>: Estiliza o elemento <code>nav</code>.</li>
+    <li><code>navbar-expand-sm</code> Especifica que os itens dentro do <code>div</code> com classe <code>collapse navbar-collapse</code> serão ocultados em telas pequenas. As <a href="https://getbootstrap.com/docs/5.3/layout/breakpoints/">opções de ocultamento</a> são: <code>.navbar-expand{-sm|-md|-lg|-xl|-xxl}</code>, que significam, respectivamente, pequeno, médio, grande, extra grande, extra extra grande.</li>
+    <li><code>bg-body-tertiary</code>: Define a cor de fundo do navbar como um cinza suave. O Bootstrap vem com uma <a href="https://getbootstrap.com/docs/5.3/utilities/background/">paleta de cores padrão</a> para o fundo. Experimente mudar a cor de fundo do teu navbar com uma das opções do Bootstrap!</li>
+    <li><code>container-fluid</code>: Define que esse <code>div</code> ocupará 100% da largura da tela. Outras opções de expansão da largura de <code>div</code>s podem ser <a href="https://getbootstrap.com/docs/5.3/layout/containers/">encontradas aqui</a>.</li>
+</ul>
