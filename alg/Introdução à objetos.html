@@ -31,3 +31,113 @@
 </head>
 
 <h1>Introdução à objetos</h1>
+<sub>
+    <p>Adaptado <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects">daqui</a>.</p>
+</sub>
+<p>Em JavaScript, a maioria das coisas são objetos, desde os principais recursos do JavaScript, como arrays e strings, até as APIs do navegador criadas sobre o JavaScript. Podemos até mesmo criar nossos próprios objetos para encapsular funções e variáveis relacionadas em pacotes eficientes e atuar como contêineres de dados úteis. É importante entendermos a natureza orientada a objetos do JavaScript se você quisermos ir mais longe em nosso conhecimento da linguagem.</p>
+
+<h2>Noções básicas de objetos</h2>
+<p>Um objeto é uma coleção de dados e/ou funcionalidades relacionadas, chamadas de <strong>propriedades</strong> (ou <strong>membros</strong>). Essas propriedades podem ser variáveis e funções que nesse contexto são chamadas de atributos e métodos, respectivamente.</p>
+<p>Assim como muitas coisas em JavaScript, a criação de um objeto geralmente começa com a definição e inicialização de uma variável:</p>
+<pre><code>const emptyObject = {}</code></pre>
+<p>Qualquer variável inicializada com colchetes é um objeto. Nesse exemplo, temos um objeto vazio, sem nenhuma propriedade, o que não nos serve para muita coisa. Vamos criar um objeto com algumas propriedades:</p>
+<pre><code>const person = {
+  name: ["Bob", "Smith"],
+  age: 32,
+  bio: function () {
+    console.log(`${this.name[0]} ${this.name[1]} is ${this.age} years old.`);
+  },
+  introduceSelf: function () {
+    console.log(`Hi! I'm ${this.name[0]}.`);
+  },
+};</code></pre>
+<p>Um objeto é composto de várias propriedades (ou membros), cada uma tendo um nome (por exemplo, <code>name</code> e <code>age</code> anteriormente) e um valor (por exemplo, <code>['Bob', 'Smith']</code> e <code>32</code>). Cada propriedade (par nome/valor) deve ser separado por uma vírgula, e o nome e o valor separados por dois pontos. A sintaxe sempre segue este padrão:</p>
+<pre><code>const objectName = {
+  member1Name: member1Value,
+  member2Name: member2Value,
+  member3Name: member3Value,
+};</code></pre>
+<p>O valor de uma propriedade do objeto pode ser praticamente qualquer coisa — em nosso objeto <code>person</code>, temos um número, uma lista e duas funções. As duas primeiras propriedades são valores de dados e são chamadas de <strong>atributos</strong> do objeto. As duas últimas propriedades são funções que permitem que o objeto faça algo com esses dados e são chamadas de <strong>métodos</strong> do objeto. Vamos interagir com nosso objeto:</p>
+<pre><code>console.log(person.name, person.name[0], person.age); // [ 'Bob', 'Smith' ] Bob 32
+person.bio(); // "Bob Smith is 32 years old."
+person.introduceSelf(); // "Hi! I'm Bob."</code></pre>
+
+<p>Quando os membros do objeto são funções, há uma sintaxe mais simples. Em vez de <code>bio: function()</code> podemos escrever <code>bio()</code>. Assim:</p>
+<pre><code>const person = {
+  name: ["Bob", "Smith"],
+  age: 32,
+  bio() {
+    console.log(`${this.name[0]} ${this.name[1]} is ${this.age} years old.`);
+  },
+  introduceSelf() {
+    console.log(`Hi! I'm ${this.name[0]}.`);
+  },
+};</code></pre>
+
+<p>Um objeto como esse é chamado de <strong>objeto literal</strong> — nós literalmente escrevemos o conteúdo do objeto conforme o criamos. Isso é diferente comparado a objetos instanciados de classes, que veremos mais tarde. É muito comum criar um objeto literal quando queremos transferir uma série de itens de dados estruturados e relacionados de alguma maneira, por exemplo, enviando uma requisição ao servidor para ser colocada em um banco de dados. Enviar um único objeto é muito mais eficiente do que enviar vários itens individualmente, e é mais fácil de trabalhar do que um array, quando queremos identificar itens individuais pelo nome.</p>
+
+<h2>Notação de ponto</h2>
+<p>Anteriormente, acessamos as propriedades do objeto usando a <strong>notação de ponto</strong>. O nome do objeto (<code>person</code>) atua como o namespace — ele deve ser informado primeiro para acessar qualquer coisa dentro do objeto. Em seguida, escrevemos um ponto, depois o item que desejamos acessar — pode ser uma variável simples, um item de uma lista ou uma chamada a um dos métodos do objeto, por exemplo:</p>
+
+<pre><code>person.age;
+person.bio();</code></pre>
+
+<h3>Objetos como propriedades de objetos</h3>
+<p>Uma propriedade de objeto pode ser outro objeto. Exemplo, em vez do nome de nosso <code>person</code> ser uma lista de nomes, poderia ser outro objeto:</p>
+<pre><code>const person = {
+  name: {
+    first: "Bob",
+    last: "Smith",
+  },
+  // …
+};</code></pre>
+
+<p>Para acessarmos esses itens, basta encadear uma propriedade com outra através do ponto:</p>
+
+<pre><code>console.log(person.name.first, person.name.last); // Bob Smith</code></pre>
+
+<p>Agora que alteramos o atributo <code>name</code> de nosso objetos, precisamos alterar seus métodos, substituindo <code>name[0]</code> e <code>name[1]</code> por <code>name.first</code> e <code>name.last</code>, respectivamente...</p>
+
+<h2>Notação de colchetes</h2>
+<p>A notação de colchetes fornece uma maneira alternativa de acessar propriedades de objetos. Em vez de usar notação de ponto assim...</p>
+<pre><code>person.age;
+person.name.first;</code></pre>
+<p>... Podemos usar colchetes assim:</p>
+<pre><code>person["age"];
+person["name"]["first"];</code></pre>
+
+<p>Isso parece muito similar a como acessamos os itens em um array, e é basicamente a mesma coisa — em vez de usar um número de índice para selecionar um item, usamos o nome associado ao valor de cada membro. Não é de se espantar que objetos sejam às vezes chamados de <code>arrays associativos</code> — eles mapeiam strings para valores da mesma forma que arrays mapeiam números para valores.</p>
+
+<p>A notação de ponto é geralmente preferida à notação de colchetes porque é mais sucinta e fácil de ler. No entanto, há alguns casos em que você precisa usar colchetes. Por exemplo, se um nome de propriedade de objeto for mantido em uma variável, você não poderá usar a notação de ponto para acessar o valor, mas poderá acessar o valor usando a notação de colchetes. No seguinte exemplo, a função <code>logProperty()</code> pode usar <code>person[propertyName]</code> para recuperar o valor da propriedade nomeada em <code>propertyName</code>:</p>
+<pre><code>const person = {
+  name: ["Bob", "Smith"],
+  age: 32,
+};
+
+function logProperty(propertyName) {
+  console.log(person[propertyName]);
+}
+
+logProperty("name");
+// ["Bob", "Smith"]
+logProperty("age");
+// 32</code></pre>
+
+<h2>Definindo membros de objetos</h2>
+<p>Até agora, vimos apenas como obter membros de objetos, mas também podemos definir (atualizar) o valor dos membros de objetos através do operador de atribuição <code>=</code>:</p>
+<pre><code>person.bio(); // Bob Smith is 32 years old.
+
+person.age = 45;
+person["name"]["last"] = "Cratchit";
+
+person.bio(); // Bob Cratchit is 45 years old.</code></pre>
+
+<p>Podemos definir membros não apenas para atualizar valores e métodos existentes, mas também para criar membros completamente novos:</p>
+<pre><code>person["eyes"] = "hazel";
+person.farewell = function () {
+  console.log("Bye everybody!");
+};</code></pre>
+
+<p>Podemos agora testar os novos membros:</p>
+<pre><code>console.log(person["eyes"]); // hazel
+person.farewell(); // Bye everybody!</code></pre>
