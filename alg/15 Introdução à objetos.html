@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([
+      // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
+    ]);
+  </script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.js"></script>
+</head>
+
+<h1>Introdução à objetos</h1>
+
+<sub>
+  <p>Adaptado <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects">daqui</a>.</p>
+</sub>
+<p>Em JavaScript, a maioria das coisas são objetos, desde os principais recursos do JavaScript, como arrays e strings, até as APIs do navegador criadas sobre o JavaScript. Podemos até mesmo criar nossos próprios objetos para encapsular funções e variáveis relacionadas em pacotes eficientes e atuar como contêineres de dados úteis. É importante entendermos a natureza orientada a objetos do JavaScript se você quisermos ir mais longe em nosso conhecimento da linguagem.</p>
+
+<h2>Noções básicas de objetos</h2>
+
+<p>Um objeto é uma coleção de dados e/ou funcionalidades relacionadas, chamadas de <strong>propriedades</strong> (ou <strong>membros</strong>). Essas propriedades podem ser variáveis e funções que nesse contexto são chamadas de atributos e métodos, respectivamente.</p>
+<p>Assim como muitas coisas em JavaScript, a criação de um objeto geralmente começa com a definição e inicialização de uma variável:</p>
+<pre><code>const emptyObject = {}</code></pre>
+<p>Qualquer variável inicializada com colchetes é um objeto. Nesse exemplo, temos um objeto vazio, sem nenhuma propriedade, o que não nos serve para muita coisa. Vamos criar um objeto com algumas propriedades:</p>
+<pre><code>const person = {
+  name: ["Bob", "Smith"],
+  age: 32,
+  bio: function () {
+    console.log(`${this.name[0]} ${this.name[1]} is ${this.age} years old.`);
+  },
+  introduceSelf: function () {
+    console.log(`Hi! I'm ${this.name[0]}.`);
+  },
+};</code></pre>
+<p>Um objeto é composto de várias propriedades (ou membros), cada uma tendo um nome (por exemplo, <code>name</code> e <code>age</code> anteriormente) e um valor (por exemplo, <code>['Bob', 'Smith']</code> e <code>32</code>). Cada propriedade (par nome/valor) deve ser separado por uma vírgula, e o nome e o valor separados por dois pontos. A sintaxe sempre segue este padrão:</p>
+<pre><code>const objectName = {
+  member1Name: member1Value,
+  member2Name: member2Value,
+  member3Name: member3Value,
+};</code></pre>
+<p>O valor de uma propriedade do objeto pode ser praticamente qualquer coisa, inclusive outro objeto! Em nosso objeto <code>person</code>, temos um número, uma lista e duas funções. As duas primeiras propriedades são valores de dados e são chamadas de <strong>atributos</strong> do objeto. As duas últimas propriedades são funções que permitem que o objeto faça algo com esses dados e são chamadas de <strong>métodos</strong> do objeto. Vamos interagir com nosso objeto:</p>
+<pre><code>console.log(person.name, person.name[0], person.age); // [ 'Bob', 'Smith' ] Bob 32
+person.bio(); // "Bob Smith is 32 years old."
+person.introduceSelf(); // "Hi! I'm Bob."</code></pre>
+
+<p>Quando os membros do objeto são funções, há uma sintaxe mais simples. Em vez de <code>bio: function()</code> podemos escrever <code>bio()</code>. Assim:</p>
+<pre><code>const person = {
+  name: ["Bob", "Smith"],
+  age: 32,
+  bio() {
+    console.log(`${this.name[0]} ${this.name[1]} is ${this.age} years old.`);
+  },
+  introduceSelf() {
+    console.log(`Hi! I'm ${this.name[0]}.`);
+  },
+};</code></pre>
+
+<p>De agora em diante, usaremos essa sintaxe mais curta.</p>
+
+<p>Um objeto como esse é chamado de <strong>objeto literal</strong> — nós literalmente escrevemos o conteúdo do objeto conforme o criamos. Isso é diferente comparado a objetos instanciados de classes, que veremos mais tarde. É muito comum criar um objeto literal quando queremos transferir uma série de itens de dados estruturados e relacionados de alguma maneira, por exemplo, enviando uma requisição ao servidor para ser colocada em um banco de dados. Enviar um único objeto é muito mais eficiente do que enviar vários itens individualmente, e é mais fácil de trabalhar do que um array, quando queremos identificar itens individuais pelo nome.</p>
+
+<h2>Notação de ponto</h2>
+
+<p>Anteriormente, acessamos as propriedades do objeto usando a <strong>notação de ponto</strong>. O nome do objeto (<code>person</code>) atua como o namespace — ele deve ser informado primeiro para acessar qualquer coisa dentro do objeto. Em seguida, escrevemos um ponto, depois o item que desejamos acessar — pode ser uma variável simples, um item de uma lista ou uma chamada a um dos métodos do objeto, por exemplo:</p>
+
+<pre><code>person.age;
+person.bio();</code></pre>
+
+<h3>Objetos como propriedades de objetos</h3>
+
+<p>Uma propriedade de objeto pode ser outro objeto. Exemplo, em vez do nome de nosso <code>person</code> ser uma lista de nomes, poderia ser outro objeto:</p>
+<pre><code>const person = {
+  name: {
+    first: "Bob",
+    last: "Smith",
+  },
+  // …
+};</code></pre>
+
+<p>Para acessarmos esses itens, basta encadear uma propriedade com outra através do ponto:</p>
+
+<pre><code>console.log(person.name.first, person.name.last); // Bob Smith</code></pre>
+
+<p>Agora que alteramos o atributo <code>name</code> de nosso objetos, precisamos alterar seus métodos, substituindo <code>name[0]</code> e <code>name[1]</code> por <code>name.first</code> e <code>name.last</code>, respectivamente...</p>
+
+<h2>Notação de colchetes</h2>
+
+<p>A notação de colchetes fornece uma maneira alternativa de acessar propriedades de objetos. Em vez de usar notação de ponto assim...</p>
+<pre><code>person.age;
+person.name.first;</code></pre>
+<p>... Podemos usar colchetes assim:</p>
+<pre><code>person["age"];
+person["name"]["first"];</code></pre>
+
+<p>Isso parece muito similar a como acessamos os itens em um array, e é basicamente a mesma coisa — em vez de usar um número de índice para selecionar um item, usamos o nome associado ao valor de cada membro. Não é de se espantar que objetos sejam às vezes chamados de <code>arrays associativos</code> — eles mapeiam strings para valores da mesma forma que arrays mapeiam números para valores.</p>
+
+<p>A notação de ponto é geralmente preferida à notação de colchetes porque é mais sucinta e fácil de ler. No entanto, há alguns casos em que você precisa usar colchetes. Por exemplo, se um nome de propriedade de objeto for mantido em uma variável, você não poderá usar a notação de ponto para acessar o valor, mas poderá acessar o valor usando a notação de colchetes. No seguinte exemplo, a função <code>logProperty()</code> pode usar <code>person[propertyName]</code> para recuperar o valor da propriedade nomeada em <code>propertyName</code>:</p>
+<pre><code>const person = {
+  name: ["Bob", "Smith"],
+  age: 32,
+};
+
+function logProperty(propertyName) {
+  console.log(person[propertyName]);
+}
+
+logProperty("name");
+// ["Bob", "Smith"]
+logProperty("age");
+// 32</code></pre>
+
+<h2>Definindo membros de objetos</h2>
+
+<p>Até agora, vimos apenas como obter membros de objetos, mas também podemos definir (atualizar) o valor dos membros de objetos através do operador de atribuição <code>=</code>:</p>
+<pre><code>person.bio(); // Bob Smith is 32 years old.
+
+person.age = 45;
+person["name"]["last"] = "Cratchit";
+
+person.bio(); // Bob Cratchit is 45 years old.</code></pre>
+
+<p>Podemos definir membros não apenas para atualizar valores e métodos existentes, mas também para criar membros completamente novos:</p>
+<pre><code>person["eyes"] = "hazel";
+person.farewell = function () {
+  console.log("Bye everybody!");
+};</code></pre>
+
+<p>Podemos agora testar os novos membros:</p>
+<pre><code>console.log(person["eyes"]); // hazel
+person.farewell(); // Bye everybody!</code></pre>
+
+<p>Uma vantagem da notação de colchetes é que ela pode ser usada para definir não apenas valores de membros dinamicamente, mas também nomes de membros. Suponha que quiséssemos que os usuários pudessem armazenar tipos de valores personalizados em seus dados de pessoas, digitando o nome e o valor do membro em dois campos de texto. Poderíamos fazer algo assim:</p>
+<pre><code>// obtém os valores dos campos de texto
+const myDataName = nameInput.value;
+const myDataValue = nameValue.value;
+
+// adiciona esse novo membro ao objeto
+person[myDataName] = myDataValue;</code></pre>
+
+<p>Exemplificando:</p>
+<pre><code>console.log(person.height); // undefined
+const myDataName = "height";
+const myDataValue = "1.75m";
+person[myDataName] = myDataValue;
+console.log(person.height); // 1.75m</code></pre>
+
+<p>Adicionar uma propriedade a um objeto usando o método acima não é possível com a notação de ponto, que só pode aceitar um nome de membro literal, não um valor de variável apontando para um nome.</p>
+
+<h2>Atribuindo variáveis a objetos</h2>
+
+<p>Podemos criar objetos com membros cujos valores sejam de variáveis já existentes:</p>
+<pre><code>const first = "Alice";
+const last = "Johnson";
+const age = 40;
+const otherperson = { name: { first: first, last: last }, age: age };
+
+console.log(otherperson.name, otherperson.age) // { first: 'Alice', last: 'Johnson' } 40</code></pre>
+
+<p>Quando o nome do membro é igual ao nome da variável que é o valor do membro, podemos omitir os dois-pontos e o valor. O código anterior pode ficar assim:</p>
+
+<pre><code>const first = "Alice";
+const last = "Johnson";
+const age = 40;
+const otherperson = { name: { first, last }, age };
+
+console.log(otherperson.name, otherperson.age) // { first: 'Alice', last: 'Johnson' } 40</code></pre>
+
+<h2>O que é <code>this</code>?</h2>
+
+<p>Notamos uma nova palavra-chave? Atentemos bem:</p>
+<pre><code>introduceSelf() {
+  console.log(`Hi! I'm ${this.name[0]}.`);
+}</code></pre>
+
+<p>A palavra-chave <code>this</code> se refere ao objeto atual em que o código está sendo executado. No contexto de um método de objeto, <code>this</code> se refere ao objeto em que o método foi chamado. Vejamos um exemplo:</p>
+
+<pre><code>const introduceSelf = function () {
+  console.log(`Hi! I'm ${this.name}.`);
+};
+
+const person1 = { name: 'Chris', introduceSelf };
+const person2 = { name: 'Deepti', introduceSelf };
+
+person1.introduceSelf();
+person2.introduceSelf();</code></pre>
+
+<p>Dois objetos são criados, cada um com um atributo <code>name</code> e ambos compartilhando o método <code>introduceSelf()</code>. Quando <code>person1.introduceSelf()</code> e <code>person2.introduceSelf()</code> são chamados, o JavaScript usa a palavra-chave <code>this</code> dentro do método <code>introduceSelf</code> para se referir ao objeto cujo método foi chamado:</p>
+<ul>
+  <li>Para <code>person1.introduceSelf()</code>, <code>this</code> se refere a <code>person1</code>, então <code>this.name</code> se torna <code>'Chris'</code>.</li>
+  <li>Para <code>person2.introduceSelf()</code>, <code>this</code> se refere a <code>person2</code>, então <code>this.name</code> se torna <code>'Deepti'</code>.</li>
+</ul>
+
+<p>Neste código, <code>introduceSelf</code> é uma função que pode ser usada por vários objetos e, cada vez que é invocada, a palavra-chave <code>this</code> se refere ao objeto onde função foi chamada, permitindo que ela acesse a propriedade <code>name</code> correta para cada objeto.</p>
+
+<p>Este padrão permite que a mesma função (<code>introduceSelf</code>) seja reutilizada para diferentes objetos com diferentes propriedades, demonstrando a flexibilidade do JavaScript em contextos orientados a objetos. O <code>this</code> é um conceito fundamental na programação orientada a objetos, utilizado em diversos contextos, como em construtores. Construtores são métodos que permitem criar objetos a partir de uma única definição, um tópico que veremos a seguir.</p>
+
+<h2>Introdução a construtores</h2>
+<p>Usar objetos literais é prático quando precisamos de um ou outro objeto personalizado. Mas se tivermos que criar vários objetos com as mesmas propriedades (mesmo que com valores diferentes), aí já não são o mais adequado. Temos que repetir o mesmo código para cada objeto, e se futuramente quisermos adicionar outra propriedade aos objetos, como <code>height</code>, teríamos que fazer isso para cada objeto criado.</p>
+
+<p>Se vamos criar vários objetos que possuem as mesmas propriedades, seria interessante se pudéssemos definir em um só lugar quais as propriedades em comum desses objetos, e assim, facilitar suas criações. Uma forma de alcançar isso:</p>
+
+<pre><code>function createPerson(name) {
+    const obj = {};
+    obj.name = name;
+    obj.introduceSelf = function () {
+        console.log(`Hi! I'm ${this.name}.`);
+    };
+    return obj;
+}</code></pre>
+
+<p>Essa função cria e retorna um novo objeto toda vez que a chamamos. O objeto terá dois membros, um atributo <code>name</code> e um método <code>introduceSelf()</code>. Observe que a função recebe um parâmetro <code>name</code> para definir o valor da propriedade <code>name</code>, mas o método <code>introduceSelf</code> será o mesmo para todos os objetos criados usando esta função.</p>
+
+<p>Agora podemos criar quantos objetos quisermos:</p>
+
+<pre><code>const person3 = createPerson("Salva");
+person3.introduceSelf(); // "Hi! I'm Salva."
+
+const person4 = createPerson("Frankie");
+person4.introduceSelf(); // "Hi! I'm Frankie."</code></pre>
+
+<p>Como falamos, para poucos objetos e/ou com poucas propriedades, talvez valha mais a pena usar objetos literais. Mas à medida que utilizemos objetos mais complexos ou muitos objetos com mesmas propriedades, ter um "modelo" de criação de objetos se torna essencial. Tanto é que o JavaScript possui uma maneira melhor ainda de criação de objetos: <strong>construtores</strong>.</p>
+<p>Construtores são funções que são chamadas usando a palavra-chave <code>new</code>.</p>
+
+<p>Quando chamamos um construtor, ele irá:</p>
+<ul>
+  <li>criar um novo objeto</li>
+  <li>vincular o <code>this</code> ao novo objeto, para podermos fazer referência ao objeto por meio do <code>this</code> no código do construtor</li>
+  <li>executar seu código</li>
+  <li>retornar o novo objeto (sem você precisar de colocar a palavra-chave <code>return</code>).</li>
+</ul>
+
+<p>Construtores, por convenção, começam com uma letra maiúscula e são nomeados pelo tipo (ou classe) de objetos que criam. Então podemos reescrever nosso exemplo assim:</p>
+
+<pre><code>function Person(name) {
+    this.name = name;
+    this.introduceSelf = function () {
+        console.log(`Hi! I'm ${this.name}.`);
+    };
+}</code></pre>
+
+<p>Agora para criar novos objetos a partir do construtor <code>Person</code>, fazemos assim:</p>
+<pre><code>const person3 = new Person("Salva");
+person3.introduceSelf(); // "Hi! I'm Salva."
+
+const person4 = new Person("Frankie");
+person4.introduceSelf(); // "Hi! I'm Frankie."</code></pre>
+
+<p>Observe que para chamar o construtor usamos a palavra-chave <code>new</code>.</p>
+
+<h2>Com que frequência? O tempo todo!</h2>
+
+<p>Quando definimos a notação de ponto para acessar propriedades de objetos, você pode ter pensado que já tínhamos visto isso em aulas passadas. Acontece que temos usado objetos durante todo o curso! O JavaScript possui muitos objetos integrados à linguagem. Tipos de dados como strings e arrays nada mais são do que objetos!</p>
+<p>Portanto, quando fazemos coisas como:</p>
+<pre><code>const atext = 'foo'
+const alist = [atext]
+alist.push('bar')
+console.log(alist[0].toUpperCase(), alist[1]) // FOO bar</code></pre>
+
+<p>Estamos trabalhando com objetos do tipo string e array, cada qual com seus próprios métodos.</p>
+<p>Mas para criar objetos não usamos o <code>new</code> seguido pelo nome do construtor? Sim, com certeza, mas como strings e arrays são objetos tão comuns da linguagem, eles possuem uma maneira única de serem inicializados, no caso, com aspas e com colchetes, respectivamente. Mas se quisermos, podemos criar string e array chamando explicitamente o construtor:</p>
+<pre><code>const atext = new String('foo')
+const alist = new Array(atext)
+alist.push('bar')
+console.log(alist[0].toUpperCase(), alist[1]) // FOO bar</code></pre>
+<p>Inclusive, quando criamos uma string ou um array usando apenas aspas ou colchetes, internamente o JavaScript chama seus respectivos construtores.</p>
+
+<h2>Resumo</h2>
+<p>Agora temos uma boa ideia do que é e como trabalhar com objetos. Entendemos que objetos são muito úteis como estruturas para armazenar dados e funcionalidades relacionadas — se tentássemos manter as propriedades de vários objetos em variáveis separadas, seria ineficiente e frustrante, além de corremos o risco de nomear variáveis e funções com mesmos nomes. Objetos nos permitem manter informações relacionadas agrupadas em um só lugar.</p>
+
+<h2>Exercícios</h2>
+<p>Façamos os exercícios em <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Test_your_skills:_Object_basics">https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Test_your_skills:_Object_basics</a></p>
+
+<!--
+terminei essa seção https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Basics
+mas falta as outras seções. posso criar um capítulo para cada seção
+-->
