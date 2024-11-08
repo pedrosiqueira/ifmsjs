@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ cssSelector: "code", languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+
+    <style>
+        img {
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .katex {
+            /* o padrão é 1.21, vc pode remover essa configuração se quiser deixar o padrão */
+            font-size: 1.0em;
+        }
+
+        table.custom,
+        table.custom>thead>tr>th,
+        table.custom>tbody>tr>td,
+        table.custom>tbody>tr>th {
+            /* tabela centralizada e com bordas */
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 5px;
+            padding-right: 5px;
+            text-align: center;
+        }
+
+        table pre {
+            /* Remove a margem interna de tags pre dentro de tabelas */
+            margin: 0;
+            padding: 0;
+            text-align: left;
+        }
+
+        td:has(pre) {
+            /* tags pre dentro de tabela são alinhadas no topo à esquerda */
+            vertical-align: top;
+        }
+
+        table.align-left th,
+        table.align-left td {
+            /* alinha à esquerda as células da tabela */
+            text-align: left !important;
+        }
+
+        /* inicia a lista de exercícios */
+        ol.excs {
+            padding-inline-start: 0em;
+            counter-reset: excs;
+            list-style: none;
+        }
+
+        /* põe um numerador num item da lista de exercícios, desde que não seja da classe no-mark */
+        ol.excs>li:not(.no-mark)::before {
+            counter-increment: excs;
+            content: counters(excs, ".") ". ";
+        }
+
+        /* põe uma barra vertical ao lado do item da lista de exercícios */
+        ol.excs>li {
+            /* Change this to adjust the line color and thickness */
+            border-left: 2px solid #000;
+            /* Optional: Add padding to create some space between the bar and content */
+            padding-left: 10px;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+        }
+
+        ol.section {
+            counter-reset: section;
+            list-style-type: none;
+        }
+
+        ol.section li::before {
+            counter-increment: section;
+            content: counters(section, ".") ". ";
+        }
+
+        td.hljs-ln-numbers {
+            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
+            color: #ccc;
+            border-right: 1px solid #999;
+            padding-right: 5px;
+        }
+
+        td.hljs-ln-code {
+            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
+            padding-left: 10px;
+        }
+
+        .info {
+            border-left: 6px solid blue;
+            padding-left: 1%;
+        }
+    </style>
+</head>
+
+<div id="funcoes">
+    <h1>Funções</h1>
+    <q>A forma nunca segue a função. — Louis Henri Sullivan</q>
+
+    <h2>Introdução</h2>
+    <p>Imagine que você tenha que realizar uma mesma tarefa várias vezes. Exemplo: Programa para trocar rodas do carro.</p>
+    <p>
+        <img id='pitstop' alt='pitstop'>
+    </p>
+    <p>O algoritmo poderia ser assim:</p>
+    <pre>Retire os parafusos da roda dianteira esquerda   Retire os parafusos da roda dianteira direita
+Retire-a do carro                                Retire-a do carro
+Coloque a roda nova                              Coloque a roda nova
+Aperte os parafusos na roda nova                 Aperte os parafusos na roda nova
+
+Retire os parafusos da roda traseira esquerda    Retire os parafusos da roda traseira direita
+Retire-a do carro                                Retire-a do carro
+Coloque a roda nova                              Coloque a roda nova
+Aperte os parafusos na roda nova                 Aperte os parafusos na roda nova</pre>
+
+    <p>O procedimento é o mesmo para as quatro rodas do carro</p>
+    <p>Funções são uma forma de reutilização de software que evita repetição de código dentro de um programa.</p>
+    <p>Você pode colocar declarar uma função com todos os passos realizados para trocar uma roda.</p>
+    <p>Sempre quando quiser trocar uma roda, não precisa reescrever todos os passos novamente, você pode usar a função que já contém esses passos.</p>
+    <pre>Função TrocarRoda (roda X)
+    Retire os parafusos da roda X
+    Retire-a do carro
+    Coloque a roda nova
+    Aperte os parafusos na roda nova
+Fim da função
+
+Algoritmo “trocar todas as rodas”
+    TrocarRoda(roda dianteira esquerda)
+    TrocarRoda(roda dianteira direita)
+    TrocarRoda(roda traseira esquerda)
+    TrocarRoda(roda traseira direita)
+Fim do algoritmo</pre>
+
+    <h2>Aplicações</h2>
+    <p>Funções são uma forma de alcançar um dos princípios básicos da computação: dividir para conquistar.</p>
+    <p>Uma tarefa grande e complexa pode ser dividida em tarefas menores e mais fáceis de serem realizadas.</p>
+    <p>Exemplo: faxinar a casa é complicado, mas podemos dividir as tarefas em funções mais específicas:</p>
+    <ol>
+        <li>Limpar a sala</li>
+        <li>Limpar a cozinha</li>
+        <li>Limpar os quartos</li>
+        <li>Limpar os banheiros</li>
+        <li>…</li>
+    </ol>
+    <p>Da mesma forma um programa não é um grande bloco de comandos que vão sendo executados do início ao fim, mas é composto de várias funções, que vão sendo usados à medida que são necessárias.</p>
+    <p>Funções permitem modularizar um programa separando suas tarefas em unidades autocontidas.</p>
+    <p>Funções também ajudam na legibilidade do código. O código fica mais organizado e fácil de escrever, ler, compreender e modificar.</p>
+
+    <h2>Módulos</h2>
+    <p>Podemos organizar um programa Javascript em vários <b>módulos</b>, que são arquivos de código-fonte. Esses módulos, por sua vez, podem ser subdivididos em <b>funções</b>, que contêm as instruções que compõem o código-fonte do programa. Quando você executa uma função, na verdade, está executando as instruções contidas nela. Funções são como caixas-pretas, você não precisa saber o que tem dentro delas para executá-las.</p>
+    <p>Outros termos usados para se referir a funções são métodos, procedimentos ou sub-rotinas (em outras linguagens também podem ser chamadas de módulos, mas, no Javascript, módulos são usados para se referir aos arquivos, e não às funções).</p>
+    <p>Ao executar uma função, usamos o termo <b>invocar</b> a função, ou <b>chamar</b> a função. Uma função pode ser invocada quantas vezes for necessário. Ao invocar uma função, podemos passar dados para ela processá-los. Nos referimos a esses dados como <b>argumentos</b>, ou <b>parâmetros</b>, da função.</p>
+    <p>Quando uma função termina sua tarefa, o fluxo de execução do programa volta para a instrução onde ela foi invocada. Ao terminar sua tarefa, ele também pode entregar o resultado de sua tarefa à instrução onde foi invocada. Quando uma função entrega um resultado, dizemos que ele <b>retornou</b> (devolveu) um valor.</p>
+    <p>Analogia: estrutura hierárquica de gerenciamento. Um chefe (o invocador) solicita que um funcionário (a função invocada) realize uma tarefa e informe (retorne) o resultado depois de completar a tarefa. A função "chefe" não tem conhecimento sobre como a função "funcionária" realiza suas tarefas designadas. A funcionária também pode invocar outras funções funcionárias, sem que o chefe saiba. Esse “ocultamento” dos detalhes de implementação promove uma boa engenharia de software.</p>
+    <p id="hierarquia-funcoes" alt="hierarquia de funções"></p>
+
+    <h2>O objeto <code>Math</code></h2>
+    <p>Um <b>objeto</b> na programação se refere a um tipo especial de dados que possui várias propriedades (suas variáveis) e é capaz de realizar diversas ações (suas funções).</p>
+    <p>O <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math">objeto <code>Math</code></a> possui funções para realizar cálculos matemáticos comuns e constantes matemáticas como o $\pi$ $(3,141592653589793…)$ e o número de Euler $e$ $(2,718281828459045…)$. Este objeto faz parte do conjunto de objetos incorporados (built-in) do Javascript: fazem parte da linguagem, e não precisam do comando <code>import</code> para serem utilizados.</p>
+    <p>A seguinte tabela apresenta algumas das principais funções do objeto <code>Math</code>:</p>
+    <table class='custom'>
+        <thead>
+            <tr>
+                <th>Função</th>
+                <th>Retorno</th>
+                <th>Exemplo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>abs(x)</td>
+                <td>Valor absoluto de x.</td>
+                <td>abs(23.7) é 23.7 abs(-23.7) é 23.7</td>
+            </tr>
+            <tr>
+                <td>ceil(x)</td>
+                <td>Arredonda x para cima.</td>
+                <td>ceil(9.2) é 10.0 ceil(-9.8) é -9.0</td>
+            </tr>
+            <tr>
+                <td>cos(x)</td>
+                <td>Cosseno de x em radianos.</td>
+                <td>cos(0.0) é 1.0</td>
+            </tr>
+            <tr>
+                <td>exp(x)</td>
+                <td>Exponencial de x.</td>
+                <td>exp(1.0) é 2.718…</td>
+            </tr>
+            <tr>
+                <td>floor(x)</td>
+                <td>Arredonda x para baixo.</td>
+                <td>floor(9.2) é 9.0 floor(-9.8) é -10.0</td>
+            </tr>
+            <tr>
+                <td>log(x)</td>
+                <td>Logaritmo de x na base e.</td>
+                <td>log(Math.E) é 1.0</td>
+            </tr>
+            <tr>
+                <td>max(...)</td>
+                <td>Maior valor de qualquer valor informado.</td>
+                <td>max(2.3,12.7) é 12.7 max(-5, -3.2, -2.3, -12.7) é -2.3</td>
+            </tr>
+            <tr>
+                <td>min(...)</td>
+                <td>Menor valor de qualquer valor informado.</td>
+                <td>min(2.3,12.7) é 2.3 min(-5, -3.2, -2.3,-12.7) é -12.7</td>
+            </tr>
+            <tr>
+                <td>pow(x,y)</td>
+                <td>Potência de x elevado a y.</td>
+                <td>pow(2.0,7.0) é 128.0</td>
+            </tr>
+            <tr>
+                <td>sin(x)</td>
+                <td>Seno de x em radianos</td>
+                <td>sin(0.0) é 0.0</td>
+            </tr>
+            <tr>
+                <td>sqrt(x)</td>
+                <td>Raiz quadrada de x.</td>
+                <td>sqrt(900.0) é 30.0</td>
+            </tr>
+            <tr>
+                <td>tan(x)</td>
+                <td>Tangente de x em radianos.</td>
+                <td>tan(0.0) é 0.0</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>Para executar uma função de um objeto, você informa o nome do objeto, seguido por um ponto-final, seguido pelo nome da função, acompanhada de parênteses que podem conter uma lista de argumentos separados por vírgula, necessários para que a função execute sua tarefa.</p>
+    <pre><code>// Ao invocar uma função que retorna um valor, você atribui o valor retornado a uma variável
+const trinta = Math.sqrt(900)
+console.log(trinta) // 30.0
+
+// Você pode usar o valor retornado de uma função diretamente como argumento para outra função
+const tres = Math.sqrt(Math.sqrt(81))
+console.log(tres) // 3.0
+
+// Você pode passar expressões como argumento para uma função
+const a = 13
+const b = 3
+const c = 4
+console.log(Math.sqrt(a + b * c)) // 5.0</code></pre>
+
+    <p>Veja outro exemplo de uso de funções:</p>
+    <pre><code>// Para invocar uma função que retorna um valor, usamos uma variável para armazenar o valor retornado pela função
+const x = Math.pow(2, 5)
+console.log(x)
+
+// Podemos imprimir diretamente o valor retornado por uma função
+console.log(Math.pow(5, 3))
+
+// Podemos passar uma expressão como argumento, desde que seu valor seja equivalente ao argumento esperado pela função
+console.log(Math.pow(2 * 3 - 1, -5 + 16 / 2))
+
+// Podemos até usar o retorno de uma função como argumento para outra função
+const cateto1 = 6
+const cateto2 = 8
+const hipotenusa = Math.sqrt(Math.pow(cateto1, 2) + Math.pow(cateto2, 2))
+console.log(hipotenusa)</code></pre>
+
+    <h2>Declarando suas próprias funções</h2>
+    <p>Você pode declarar suas próprias funções para serem utilizadas posteriormente no módulo onde foram declaradas ou em outros módulos. Você declara uma função usando a (1) palavra-chave <code>function</code> seguida pelo (2) nome da função, que segue a mesma regra de nomeação de variáveis, acompanhada de (3) parênteses, que podem conter uma lista de (4) parâmetros separados por vírgula que a função espera receber para realizar sua tarefa, seguidos pelas (5) chaves que envolvem o corpo da função, isto é, as instruções que ela realizará.</p>
+    <p>Crie um arquivo com o nome <code>modulo_simples.js</code> com o seguinte conteúdo:</p>
+    <pre><code>function soma(x, y) {
+    console.log('calculando soma...')
+    const z = x + y
+    return z
+}
+
+const a = soma(10, 20)
+console.log(a)
+
+const b = 30
+console.log(soma(a, b))</code></pre>
+
+    <p>A função <code>soma</code>, declarada na linha 1, contém as instruções das linhas 2 a 4. Ao declarar uma função, seu código não é executado imediatamente; a função só é executada quando é invocada, como nas linhas 8 e 11.</p>
+    <p>Os <b>parâmetros</b> da função, especificados entre os parênteses, são valores que a função espera receber quando é invocada. (Por razões históricas, os parâmetros são variáveis que você não declara usando <code>let</code> nem <code>const</code>). No exemplo acima, <code>x</code> e <code>y</code> são os parâmetros da função <code>soma</code>. Os parâmetros permitem que você passe informações para a função realizar sua tarefa.</p>
+    <p>Ao invocar uma função, você fornece valores, chamados de <b>argumentos</b>, para esses parâmetros. Por exemplo, na instrução <code>const a = soma(10, 20)</code>, os valores <code>10</code> e <code>20</code> são os argumentos passados para os parâmetros <code>x</code> e <code>y</code>, respectivamente. Cada argumento pode ser um valor literal, constante, variável ou uma expressão.</p>
+    <p>Em resumo, uma função é um bloco de código que realiza uma tarefa específica; os parâmetros são as variáveis que uma função recebe; e os argumentos são os valores fornecidos quando a função é invocada. Observação: frequentemente usamos o termo "parâmetro" de forma intercambiável com "argumento", pois os argumentos correspondem aos parâmetros da função.</p>
+    <p>É claro que nesse exemplo seria melhor realizar a soma diretamente em vez de declarar uma função só para isso. Mas em muitos casos em que não existe um comando específico para a tarefa que precisamos realizar, pode ser vantajoso declarar uma função dedicada a essa finalidade. Dessa forma, podemos reutilizá-la em diferentes partes do nosso código.</p>
+
+    <h2>Exemplos de funções</h2>
+    <h3>Exemplo de função com parâmetro e retorno:</h3>
+    <table>
+        <tr>
+            <td> <img width='80%' id="parametro-e-retorno" alt="parametro-e-retorno"> </td>
+            <td>
+                <pre><code>function eh_impar(x) {
+    if (x % 2 != 0)
+        return true
+    else
+        return false
+}
+
+let resposta = eh_impar(8)
+console.log("Oito é ímpar?", resposta)
+
+if (eh_impar(7))
+    console.log("7 é ímpar!")
+else
+    console.log("7 é par")</code></pre>
+            </td>
+        </tr>
+    </table>
+    <p>Se a função deve retornar um valor, sua última instrução executada deve ser o comando <code>return</code> seguido pelo valor retornado.</p>
+
+    <h3>Exemplo de função com parâmetro e sem retorno:</h3>
+    <table>
+        <tr>
+            <td><img width='80%' id="parametro-e-sem-retorno" alt="parâmetro e sem retorno"> </td>
+            <td>
+                <pre><code>function saudar(nome) {
+    console.log(`Seja muito bem-vindo, ${nome}!`)
+}
+
+saudar("estudante")
+saudar("Siqueira")
+</code></pre>
+            </td>
+        </tr>
+    </table>
+    <p>Para invocar uma função que não retorna nada, basta informar seu nome com os devidos argumentos entre parênteses.</p>
+
+
+    <h3>Exemplo de função sem parâmetro e sem retorno:</h3>
+    <table>
+        <tr>
+            <td> <img width='80%' id="sem-parametros-nem-retorno" alt="sem-parametros-nem-retorno"> </td>
+            <td>
+                <pre><code>function menu() {
+    console.log("Escolha uma opção...")
+    console.log("1) Criar")
+    console.log("2) Buscar")
+    console.log("3) Editar")
+    console.log("4) Remover")
+    console.log("0) Sair")
+}
+
+let opcao = -1
+
+while (opcao != 0) {
+    menu()
+    opcao = scanf("%d")
+    if (opcao == 1) {
+        console.log("Criando...")
+    } else if (opcao == 0) {
+        console.log("Saindo...")
+    } else {
+        console.log("Opção ainda não implementada!")
+    }
+}</code></pre>
+            </td>
+        </tr>
+    </table>
+    <p>Nessa função não é possível passar argumentos nem atribuir o retorno a uma variável.</p>
+
+    <h3>Exemplo de função sem parâmetro e com retorno:</h3>
+    <table>
+        <tr>
+            <td> <img width='80%' id="sem-parametros-com-retorno" alt="sem-parametros-com-retorno"> </td>
+            <td>
+                <pre><code>function random_between_1_and_10() {
+    const d = Math.random() * 10
+    const i = Math.trunc(d) + 1
+    return i
+}
+
+console.log("Gerando 100 números aleatórios entre 1 e 10:")
+
+const v = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+for (let i = 0; i &lt; 100; i++)
+    v[random_between_1_and_10()]++
+
+for (let i = 1; i &lt; v.length; i++)
+    console.log(`Número ${i} gerado ${v[i]} vezes.`)</code></pre>
+            </td>
+        </tr>
+    </table>
+    <p>Esse tipo de função raramente é usado.</p>
+
+    <h2>Declarando funções com múltiplos parâmetros</h2>
+    <p>Se uma função tiver mais de um parâmetro, os parâmetros são especificados como uma lista separada por vírgulas. Deve haver um argumento na invocação da função para cada parâmetro na declaração da função. Além disso, cada argumento deve ser consistente com o tipo do parâmetro correspondente. Se uma função não tiver parâmetros, os parênteses ficam vazios tanto na declaração quanto na invocação.</p>
+    <pre><code>/** torna maiúsculas as letras entre os índices i e j da string s */
+function upper_case_substring(s, i, j) {
+    let before = s.substring(0, i);
+    let uppercase = s.substring(i, j).toUpperCase();
+    let after = s.substring(j);
+    return before + uppercase + after;
+}
+
+let frase = "cada minuto que passa é outra chance de mudar tudo"
+console.log(upper_case_substring(frase, 30, 36))
+
+// erro! nenhum argumento bate com os parâmetros!
+// console.log(upper_case_substring(true, frase))</code></pre>
+    <p>Note que na invocação é obrigatório passar um argumento para cada parâmetro esperado pela função.</p>
+
+    <h2>Função com e sem retorno</h2>
+    <p>Veja o método russo de multiplicação de dois números.</p>
+    <table>
+        <tr>
+            <td>
+                <pre><code>function com_retorno(x, y) {
+    let produto = 0
+    while (x &gt; 0) {
+        if (x % 2 != 0) {
+            produto += y
+        }
+        x = Math.trunc(x / 2)
+        y *= 2
+    }
+    return produto
+}</code></pre>
+            </td>
+            <td>
+                <pre><code>function sem_retorno(x, y) {
+    let produto = 0
+    while (x &gt; 0) {
+        if (x % 2 != 0) {
+            produto += y
+        }
+        x = Math.trunc(x / 2)
+        y *= 2
+    }
+    console.log(produto)
+}</code></pre>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <pre><code>
+
+const [a, b] = scanf("%d%d")
+
+const c = com_retorno(a, b)
+console.log(c)
+
+sem_retorno(a, b)
+
+// Essa instrução até funciona,
+// mas não serve pra nada!
+// O valor retornado por essa função é descartado.
+com_retorno(a, b)
+
+// Instrução errada!!!
+// Essa função não retorna nenhum valor!
+const d = sem_retorno(a, b)
+console.log(d)</code></pre>
+            </td>
+        </tr>
+    </table>
+    <p>O comando <code>return</code> encerra a execução da função atual. Embora seja opcional em funções que não necessitam retornar um valor, sua utilização permite finalizar explicitamente uma função, mesmo quando não há um valor de retorno específico. Essa prática contribui para uma clareza adicional no código, indicando de maneira explícita o término da execução da função.</p>
+
+    <p>O que a seguinte função faz?</p>
+    <pre><code>function o_que_faco(n) {
+    if (n == 1 || n == 0)
+        return false
+
+    for (let i = 2; i &lt;= n / 2; i++)
+        if (n % i == 0)
+            return false
+
+    return true
+}</code></pre>
+    <p>No exemplo anterior, a função sempre retorna um valor booleano, mas pode ser encerrada antes de chegar ao final.</p>
+
+    <p>O que a seguinte função faz?</p>
+    <pre><code>function numeros(A, B) {
+    let E = 0
+    for (let C = 0; C &lt; A; C++) {
+        let D = scanf("%d")
+        if (D == B) {
+            console.log(E)
+            return
+        }
+        E += D
+    }
+    console.log(E)
+}</code></pre>
+
+    <p>Já neste exemplo, a função não retorna nada, mas o comando <code>return</code> pode ser executado para encerrar a função prematuramente.</p>
+
+    <h2>Exportando e importando de módulos</h2>
+    <p>Você pode disponibilizar qualquer recurso, como funções e variáveis, de um módulo para outros módulos. Para isso, é necessário declarar os recursos a serem disponibilizados com a palavra-chave <code>export</code>. Crie e execute o arquivo <code>modulo_importado.js</code>:</p>
+    <pre><code>function funcao_secreta() {
+    console.log("Só posso ser usado dentro do meu módulo")
+}
+
+export function saudacoes(nome) {
+    console.log(`Seja bem-vindo, ${nome}!`)
+}
+
+let variavel_secreta = 'Siqueira'
+export let nome = 'Pedro'
+
+funcao_secreta()
+saudacoes(variavel_secreta)
+
+console.log("Terminei de ser importado ou executado!")</code></pre>
+
+    <p>Agora, crie e execute o arquivo <code>modulo_principal.js</code> na mesma pasta do arquivo <code>modulo_importado.js</code>:</p>
+    <pre><code>import { nome, saudacoes } from './modulo_importado.js'
+
+saudacoes(nome)
+saudacoes('Henrique')</code></pre>
+
+    <p>Conseguimos importar a variável <code>nome</code> e a função <code>saudacoes</code> declaradas de outro módulo! Entretanto, observe que ao importar um módulo, ele também é executado, o que pode levar a executar trechos de código não desejados...</p>
+    <p>Portanto, quando queremos disponibilizar partes de um módulo para outros módulos, devemos tomar cuidado para não incluir instruções que não deveriam ser executadas durante a importação.</p>
+
+    <h2>Escopo das declarações</h2>
+    <p>Em programação, o termo "escopo" se refere à disponibilidade de um recurso, seja variável, função, ou outra declaração, em outras partes do código. O escopo determina onde um recurso pode ser acessado.</p>
+    <p>Uma variável só pode ser acessada depois de ter sido declarada, dentro do módulo onde foi declarada. Já uma função pode ser invocada em qualquer parte do módulo onde foi declarada, até mesmo antes de sua própria declaração. Mas para que um módulo acesse uma variável ou invoque uma função de outro módulo, ele deve importá-la.</p>
+
+    <h3>Variável global</h3>
+    <p>Variáveis globais são aquelas declaradas fora de qualquer corpo de código, como funções ou estruturas condicionais. Elas são acessíveis em qualquer parte do código.</p>
+
+    <p>Crie e execute o arquivo <code>a.js</code>:</p>
+    <pre><code>export let x = 10
+
+export function getX() {
+    console.log(x)
+}
+
+export function setX(newvalue) {
+    x = newvalue
+}
+
+x = 20
+console.log(x)
+
+setX(30)
+getX()</code></pre>
+
+    <p>A variável <code>x</code> é um exemplo de variável global. Como a declaramos com <code>export</code>, ela também é acessível por outros módulos.</p>
+
+    <p>Crie e execute o arquivo <code>b.js</code>:</p>
+    <pre><code>import { x, getX, setX } from "./a.js"
+
+setX(40)
+console.log(x)
+x = 30
+getX()</code></pre>
+
+    <p>No Javascript, variável globais exportadas só podem ser acessadas, mas não modificadas diretamente, por isso o erro na linha 5.</p>
+
+    <h3>Variável local</h3>
+
+    <p>As variáveis locais são as variáveis declaradas dentro de uma função, incluindo seus parâmetros. Elas existem apenas durante a execução da função onde foram declaradas. As variáveis globais continuam existindo após o término de uma função. O escopo de uma variável local é do ponto em que foi declarada até o final da função onde foi declarada.</p>
+
+    <pre><code>// Variáveis declaradas dentro de uma função só existem lá dentro.
+function soma_quadrado(x, y) {
+    let x2 = x * x
+    let y2 = y * y
+    let sq = x2 + y2
+    return sq
+}
+
+let a = 2.5
+let b = 3.0
+let c = soma_quadrado(a, b)  // 15.25
+console.log(`${a}² + ${b}² = ${c}`)
+
+// Erro! As variáveis `x` e `y2` não existem aqui!
+console.log(`${x} ${y2}`)</code></pre>
+
+    <p>Variáveis declaradas dentro de uma estrutura condicional ou repetitiva também deixam de existir depois da estrutura ser finalizada:</p>
+    <pre><code>import scanf from "scanf"
+
+let n = scanf("%d")
+
+for (let i = 2; i &lt;= n / 2; i++)
+    if (n % i == 0)
+        i = n - 1
+
+if (i == n)
+    console.log(n, "não é primo!")
+else
+    console.log(n, "é primo!")</code></pre>
+
+    <p>No código anterior, a variável <code>i</code> só existe dentro do <code>for</code>. Portanto, a linha 9 dará erro. Para garantir que não dê erro, declare a variável <code>i</code> antes do <code>for</code>.</p>
+    <div class="info">
+        <p>Boa prática de programação: Declare as variáveis o mais próximo possível de onde elas foram usadas pela primeira vez.</p>
+    </div>
+
+    <h3>Variáveis global vs local</h3>
+
+    <p>Não é possível declarar no mesmo escopo duas variáveis com o mesmo nome. No entanto, é possível declarar em uma função uma variável local com o mesmo nome de uma variável global. Nesse caso, a variável global permanece sombreada (shadow) até que o escopo da variável local termine. Se estiver rodando o Javascript pelo NodeJS, não é possível mais acessar a variável global depois de declarar uma variável local com o mesmo nome:</p>
+    <pre><code>let a = 10
+let b = 20
+
+function f1() {
+    console.log(a, b)
+}
+
+function f2(a) {
+    console.log(a, b)
+}
+
+function f3(a) {
+    let b = 30
+    console.log(a, b)
+}
+
+f1()
+f2(40)
+f3(50)
+
+console.log(a, b)</code></pre>
+
+    <p>Variáveis de funções diferentes podem ter nomes iguais, pois cada uma está em seu escopo. Qual a saída do seguinte código?</p>
+    <pre><code>function sub(num1, num2) {
+    num1 = num1 - num2
+    return num1
+}
+
+function soma(num1, num2) {
+    const variavel = num1 + num2
+    return variavel
+}
+
+function main() {
+    const num1 = 20, num2 = 10
+    const variavel = soma(num2, num1) * sub(num1, num2)
+    console.log(num1, num2, variavel)
+}
+
+main()</code></pre>
+
+    <p>No exemplo anterior, cada função declara suas próprias variáveis, que não são acessadas pelas outras funções.</p>
+
+    <h3>Funções aninhadas</h3>
+    <p>Embora seja tecnicamente possível declarar funções dentro de funções em Javascript, essa prática não é comum. A declaração de uma função dentro de outra implica que ela só pode ser invocada dentro do escopo da função que a declarou, o que geralmente não é a abordagem mais eficiente ou clara.</p>
+    <p>Exemplo:</p>
+    <pre><code>function funcao_externa() {
+
+    function funcao_interna() {
+        return "Esta é uma função interna."
+    }
+
+    const resultado = funcao_interna()
+    return `A função externa invocou a função interna e obteve: ${resultado}`
+}
+
+console.log(funcao_externa())  // possível
+console.log(funcao_interna())  // impossível</code></pre>
+    <p>Uma função declarada dentro de outra função também pode acessar todas as variáveis declaradas em sua função pai e quaisquer outras variáveis às quais a função pai tenha acesso.</p>
+
+    <h2>Parâmetros opcionais</h2>
+    <p>O Javascript não permite sobrecarga de funções como em outras linguagens, que é funções no mesmo escopo com o mesmo nome. No entanto, você pode alcançar funcionalidades semelhantes usando valores padrão para os parâmetros da função.</p>
+
+    <p>No Javascript, todos os parâmetros são opcionais. Se o parâmetro não for informado na invocação, o valor padrão <code>undefined</code> será atribuído ao parâmetro. Mas você pode declarar um parâmetro com um valor padrão diferente:</p>
+    <pre><code>function saudacoes(nome, msg = "Olá") {
+    return `${msg}, ${nome}!`
+}
+
+console.log(saudacoes("Siqueira"))
+console.log(saudacoes("Siqueira", "Como vai"))
+console.log(saudacoes())</code></pre>
+
+    <p>No código anterior, o valor padrão de <code>msg</code>, caso não seja informada, será <code>"Olá"</code>.</p>
+
+    <pre><code>function construir_nome(primeiro_nome, ultimo_nome, nome_do_meio = "", prefixo = "", sufixo = "") {
+    let nome_completo = ""
+
+    if (prefixo != "")
+        nome_completo = `${prefixo} `
+
+    nome_completo += `${primeiro_nome}`
+
+    if (nome_do_meio != "")
+        nome_completo += ` ${nome_do_meio}`
+
+    nome_completo += ` ${ultimo_nome}`
+
+    if (sufixo != "")
+        nome_completo += ` ${sufixo}`
+
+    return nome_completo
+}
+
+console.log(construir_nome("Maria", "da Silva"))
+console.log(construir_nome("José", "Ferreira", "dos Santos"))
+console.log(construir_nome("Pedro", "de Bragança", "", "Dom", "II"))</code></pre>
+
+    <p>Já neste exemplo, verificamos dentro da função se foram passados valores para determinados parâmetros.</p>
+    <p>Como na invocação da função, os argumentos devem seguir a mesma ordem dos parâmetros, não é possível informar determinados parâmetros sem informar os parâmetros anteriores.</p>
+
+    <p>Na verdade é possível passar explicitamente apenas os argumentos desejados através de <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">atribuição com destruturação</a>, mas isso é assunto para outro momento.</p>
+
+    <h2>Passagem por cópia</h2>
+    <p>Quando uma função é invocada, os valores dos argumentos são atribuídos aos parâmetros correspondentes da função. Isto é, se variáveis forem passadas como argumentos, os parâmetros são uma “cópia” das variáveis, e não as próprias variáveis.</p>
+
+    <p>Qual a saída do seguinte código?</p>
+    <pre><code>function swap(a, b) {
+    console.log(`a=${a} b=${b}`)
+    // alterar essas variáveis não implica alterar as variáveis de quem invocou essa função
+    let c = a
+    a = b
+    b = c
+    console.log(`a=${a} b=${b}`)
+}
+
+function main() {
+    let a = 10
+    let b = 20
+    console.log(`a=${a} b=${b}\n`)
+    swap(a, b) // as variáveis daqui permanecem intactas
+    console.log(`\na=${a} b=${b}\n`)
+    swap(b, a)
+    console.log(`\na=${a} b=${b}\n`)
+}
+
+main()</code></pre>
+
+    <p>Observe que as variáveis <code>a</code> e <code>b</code> da função <code>swap</code> são cópias das variáveis <code>a</code> e <code>b</code> de <code>main</code>.</p>
+
+    <h2>Conversão de tipos</h2>
+    <p>Embora Javascript não seja tipada como algumas linguagens de programação, cada variável ainda possui um tipo de dados associado. Se uma função espera um tipo de dado específico como parâmetro, passar um tipo diferente pode resultar em comportamento inesperado ou erro.</p>
+    <p>Qual a saída do seguinte código?</p>
+    <pre><code>function soma_com_dois(numero) {
+    return numero + 2
+}
+
+function multiplica_por_dois(numero) {
+    return numero * 2
+}
+
+const s = 'dois'
+console.log(soma_com_dois(s))
+console.log(multiplica_por_dois(s))
+console.log()
+
+const n = '2.4'
+console.log(soma_com_dois(n))
+console.log(multiplica_por_dois(n))
+console.log()
+
+const f = parseFloat(n)
+console.log(soma_com_dois(f))
+console.log(multiplica_por_dois(f))
+console.log()
+
+const i = parseInt(n)
+console.log(soma_com_dois(i))
+console.log(multiplica_por_dois(i))</code></pre>
+
+    <p>Você pode realizar a conversão entre tipos de dados utilizando as funções correspondentes, desde que os tipos de dados sejam compatíveis. Por exemplo, <code>parseInt</code> e <code>parseFloat</code> convertem string para número.</p>
+
+    <h2>Observações</h2>
+    <ul>
+        <li>Embora uma função possa retornar no máximo um valor, esse valor pode ser um objeto contendo múltiplos valores, como uma lista.</li>
+        <li>Se a intenção é que seu módulo seja importado por outros, é aconselhável declarar variáveis globais apenas se forem necessárias em várias funções ou compartilhadas entre diferentes partes do código.</li>
+        <li>O uso excessivo de variáveis globais pode comprometer a modularidade e tornar o código mais difícil de entender e manter.</li>
+        <li>Para seguir o princípio de reutilização de software, uma função deve focar na execução de uma única tarefa bem definida, com seu nome refletindo claramente essa tarefa.</li>
+        <li>Se não conseguir escolher um nome conciso que expresse a tarefa de uma função, é possível que esteja tentando realizar tarefas em excesso. Nesse caso, considere dividi-la em mais funções menores.</li>
+    </ul>
+
+    <h2>Principais funções do Javascript</h2>
+    <p>O Javascript possui uma extensa biblioteca de funções e objetos incorporados (built-in). Cada objeto possui um conjunto de funções que realizam tarefas relacionadas. Os principais objetos Javascript são:</p>
+    <ul>
+        <li><b>Math:</b> - Contém funções matemáticas comumente usadas, como seno, cosseno, logaritmos, etc.</li>
+        <li><b>Date:</b> - Contém funções para manipulação de datas e horas.</li>
+        <li><b>JSON:</b> - Contém funções para codificar e decodificar dados JSON, comumente usados para a comunicação entre sistemas web.</li>
+        <li><b>Array:</b> - Contém funções para manipulação de arrays.</li>
+        <li><b>String:</b> - Contém funções para manipulação de strings.</li>
+    </ul>
+
+    <p>Estes são apenas alguns exemplos e existem muitos outros objetos úteis incorporados ao Javascript. Mais informações você encontra na <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects">documentação oficial do Javascript</a>.</p>
+    <p>Além do mais, a comunidade Javascript é muito ativa, e existem muitas outras bibliotecas de objetos e funções desenvolvidas para os mais diversos fins, em especial aqueles que por ventura a biblioteca padrão do Javascript seja limitada.</p>
+
+    <h2>Pilha de invocações de funções</h2>
+    <p>As pilhas são conhecidas como estruturas de dados do tipo "último a entrar, primeiro a sair" (last-in, first-out – LIFO) — o último item inserido na pilha é o primeiro item a ser removido dela.</p>
+    <p>Uma função invocada deve saber como retornar ao seu invocador, portanto o endereço de retorno da função invocadora é colocado na pilha de invocações de funções quando a função é invocada. Se uma série de invocações de funções ocorrer, os sucessivos endereços de retorno são empilhados na ordem “último a entrar, primeiro a sair”, de modo que a última função a executar será a primeira a retornar ao seu invocador.</p>
+    <p>A pilha de invocações de funções contém a memória para as variáveis locais utilizadas em cada invocação de uma função durante a execução de um programa. Esses dados são conhecidos como "registro de ativação" ou "quadro de pilha" da invocação de função. Quando uma função é invocada, o quadro de pilha para ela é colocado na pilha de invocações de funções. Quando a função retorna ao seu invocador, seu quadro de pilha é retirado da pilha e as variáveis locais não são mais acessíveis ao programa.</p>
+    <p>Se mais funções forem invocadas do que a pilha de invocações de funções pode conter, ocorre um erro conhecido como estouro de pilha (<i>stack overflow</i>).</p>
+
+    <h2>Exercícios</h2>
+    <ol class="excs">
+        <li>Qual a saída?
+            <pre><code>function funcaoMisteriosa(x, y) {
+    let resultado = 0;
+    while (y &gt; 0) {
+        if (y % 2 == 1) {
+            resultado += x;
+        }
+        x = x * 2;
+        y = Math.trunc(y / 2);
+    }
+    return resultado;
+}
+
+let x = funcaoMisteriosa(12, 6)
+let y = funcaoMisteriosa(3, 5)
+let z = funcaoMisteriosa(7, 8)
+
+console.log(x, y, z)</code></pre>
+        </li>
+        <li>Qual a saída?
+            <pre><code>function funcaoMisteriosa(a, b) {
+    let resultado = 1;
+    for (let i = 0; i &lt; b; i++) {
+        resultado = (resultado * a) % 100;
+    }
+    return resultado;
+}
+
+let x = funcaoMisteriosa(7, 10)
+let y = funcaoMisteriosa(2, 3)
+let z = funcaoMisteriosa(5, 4)
+
+console.log(x, y, z)</code></pre>
+        </li>
+        <li>Qual a saída?
+            <pre><code>function funcaoMisteriosa(a, b) {
+    let resultado = 0;
+    for (let i = 1; i &lt;= b; i++) {
+        resultado += a % i;
+    }
+    return resultado;
+}
+
+
+let x = funcaoMisteriosa(20, 5)
+let y = funcaoMisteriosa(10, 3)
+let z = funcaoMisteriosa(15, 4)
+
+console.log(x, y, z)</code></pre>
+        </li>
+        <li>Qual a saída?
+            <pre><code>function funcaoMisteriosa(arr) {
+    let s = 0;
+    let p = 1;
+
+    for (let i = 0; i &lt; arr.length; i++) {
+        s += arr[i];
+        p *= arr[i];
+        console.log(`Elemento ${i}: ${arr[i]}, Soma: ${s}, Produto: ${p}`);
+    }
+
+    return s + p
+}
+
+let x = funcaoMisteriosa([2, 3, 4])
+let y = funcaoMisteriosa([1, 5, 7, 4])
+
+console.log(x, y)</code></pre>
+        </li>
+        <li class="no-mark"><b>Testar cada função, invocando-a com argumentos informados pelo usuário, e utilizando seu retorno para dar a resposta ao usuário.</b></li>
+        <li class="no-mark"><b>Uma função pode usar outras como auxiliares.</b></li>
+        <li>Receber dois números e imprimir sua soma.</li>
+        <li>Receber dois números e retornar sua soma.</li>
+        <li>Receber um número e retornar true caso seja primo, ou false, caso contrário.</li>
+        <li>Receber um número natural , e retornar o próximo primo maior que ele.</li>
+        <li>O Máximo Divisor Comum (MDC) é o maior número que divide dois ou mais números simultaneamente, e corresponde ao produto dos divisores comuns entre dois ou mais números inteiros. A decomposição simultâneas é um método para encontrar o MDC de dois ou mais números e consiste em dividir varias vezes os números dados pelo menor fator primo, e se o número não for divisível pelo menor fator, ele deve ser repetido. O MDC é obtido pela multiplicação dos fatores primos comuns, ou seja, os fatores que dividem os números dados simultaneamente.
+            <table style="border-spacing: 0; text-align: center;">
+                <tr>
+                    <td>180</td>
+                    <td>240</td>
+                    <td>270</td>
+                    <td style="text-align: left; border-left: solid;">2 ←</td>
+                </tr>
+                <tr>
+                    <td>90</td>
+                    <td>120</td>
+                    <td>135</td>
+                    <td style="text-align: left; border-left: solid;">2</td>
+                </tr>
+                <tr>
+                    <td>45</td>
+                    <td>60</td>
+                    <td>135</td>
+                    <td style="text-align: left; border-left: solid;">2</td>
+                </tr>
+                <tr>
+                    <td>45</td>
+                    <td>30</td>
+                    <td>135</td>
+                    <td style="text-align: left; border-left: solid;">2</td>
+                </tr>
+                <tr>
+                    <td>45</td>
+                    <td>15</td>
+                    <td>135</td>
+                    <td style="text-align: left; border-left: solid;">3 ←</td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>5</td>
+                    <td>45</td>
+                    <td style="text-align: left; border-left: solid;">3</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>5</td>
+                    <td>15</td>
+                    <td style="text-align: left; border-left: solid;">3</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>5</td>
+                    <td>5</td>
+                    <td style="text-align: left; border-left: solid;">5 ←</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td style="border-left: solid; border-top: solid;">2 x 3 x 5 = 30</td>
+                </tr>
+            </table>
+            <p>MDC(180, 240, 270) = 2 x 3 x 5 = 30.</p>
+            <p>Receber dois naturais e retornar seu MDC.</p>
+        </li>
+        <li>Podemos calcular o MMC de dois naturais através do seu MDC, pela fórmula: $$mmc(a,b)= \dfrac{ab}{mdc(a,b)}$$. Receber dois naturais e retornar seu MMC, usando a função <code>mdc</code> do exercício anterior como base.</li>
+        <li>Receber três números, representando, respectivamente, dia, mês e ano, e retornar a data por extenso. Por exemplo, para os argumentos (7, 12, 2022), retornar a string "7 de dezembro de 2022".</li>
+        <li>Receber três números, representando, respectivamente, dia, mês e ano, e retornar a estação do ano correspondente. Por exemplo, para os argumentos (7, 12, 2022), retornar a string "Primavera".</li>
+        <li>Para construir um triângulo é necessário que a medida de qualquer um dos lados seja menor que a soma das medidas dos outros dois. Receber três números, e retornar true caso eles formem um triângulo válido, ou false, caso contrário.</li>
+        <li>Receber três números e retornar true caso eles formem os lados de um triângulo retângulo (soma dos quadrados dos catetos é igual ao quadrado da hipotenusa), ou false, caso contrário.</li>
+    </ol>
+</div>
