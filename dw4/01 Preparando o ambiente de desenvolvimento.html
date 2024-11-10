@@ -1,32 +1,6 @@
 <!DOCTYPE html>
 
 <head>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            for (el of document.getElementsByClassName('click-to-copy')) {
-                el.style.display = 'inline'
-                el.style.position = 'relative'
-                const template = document.createElement('template')
-                template.innerHTML = '<span style="visibility:hidden; background: rgba(0, 0, 0, .8); border-radius: 5px; bottom: 1em; color: #fff; left: 20%; padding: 5px 5px; position: absolute; z-index: 98;">Click to copy</span><span style="visibility:hidden; border: solid; border-color: #333 transparent; border-width: 6px 6px 0 6px; bottom: .75em; left: 30%; position: absolute; z-index: 99;" />'
-                ballon = template.content.children[0]
-                tail = template.content.children[1]
-                el.prepend(ballon, tail)
-                el.addEventListener('mouseenter', ev => {
-                    ballon.style.visibility = tail.style.visibility = 'visible'
-                })
-                el.addEventListener('click', ev => {
-                    ev.preventDefault()
-                    ballon.innerText = 'Copied!'
-                    navigator.clipboard.writeText(ev.target.innerText.substring(8));
-                })
-                el.addEventListener('mouseleave', ev => {
-                    ballon.style.visibility = tail.style.visibility = 'hidden'
-                    ballon.innerText = 'Click to copy'
-                })
-            }
-        }, false);
-    </script>
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,160 +8,99 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
-    <script defer>hljs.configure({ cssSelector: "code", languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
 
-    <style>
-        img {
-            max-width: 90vw;
-            max-height: 90vh;
-        }
-
-        .center {
-            text-align: center;
-        }
-
-        .katex {
-            /* o padrão é 1.21, vc pode remover essa configuração se quiser deixar o padrão */
-            font-size: 1.0em;
-        }
-
-        table.custom,
-        table.custom>thead>tr>th,
-        table.custom>tbody>tr>td,
-        table.custom>tbody>tr>th {
-            /* tabela centralizada e com bordas */
-            border: 1px solid black;
-            border-collapse: collapse;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 5px;
-            padding-right: 5px;
-            text-align: center;
-        }
-
-        table pre {
-            /* Remove a margem interna de tags pre dentro de tabelas */
-            margin: 0;
-            padding: 0;
-            text-align: left;
-        }
-
-        td:has(pre) {
-            /* tags pre dentro de tabela são alinhadas no topo à esquerda */
-            vertical-align: top;
-        }
-
-        table.align-left th,
-        table.align-left td {
-            /* alinha à esquerda as células da tabela */
-            text-align: left !important;
-        }
-
-        /* inicia a lista de exercícios */
-        ol.excs {
-            padding-inline-start: 0em;
-            counter-reset: excs;
-            list-style: none;
-        }
-
-        /* põe um numerador num item da lista de exercícios, desde que não seja da classe no-mark */
-        ol.excs>li:not(.no-mark)::before {
-            counter-increment: excs;
-            content: counters(excs, ".") ". ";
-        }
-
-        /* põe uma barra vertical ao lado do item da lista de exercícios */
-        ol.excs>li {
-            /* Change this to adjust the line color and thickness */
-            border-left: 2px solid #000;
-            /* Optional: Add padding to create some space between the bar and content */
-            padding-left: 10px;
-            margin-block-start: 1em;
-            margin-block-end: 1em;
-        }
-
-        ol.section {
-            counter-reset: section;
-            list-style-type: none;
-        }
-
-        ol.section li::before {
-            counter-increment: section;
-            content: counters(section, ".") ". ";
-        }
-
-        td.hljs-ln-numbers {
-            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
-            color: #ccc;
-            border-right: 1px solid #999;
-            padding-right: 5px;
-        }
-
-        td.hljs-ln-code {
-            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
-            padding-left: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.js"></script>
 </head>
 
-<div id="preparando-o-ambiente-de-desenvolvimento">
-    <h1>Preparando o ambiente de desenvolvimento</h1>
-    <h2>Instalação</h2>
-    <p>Vamos usar duas coisas para desenvolver nossos aplicativos: (1) O VSCode, onde vamos escrever nossos códigos, e (2) O NodeJS, que vai executar nossos códigos.</p>
-    <p>Para instalar o NodeJS, siga os passos da seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando-nodejs">Instalando um ambiente de execução Javascript</a>. Depois de instalado o NodeJS, execute pelo terminal o comando <code>npm install -g pnpm</code> para instalar o pnpm, versão melhorada do npm.</p>
-    <p>Para instalar o VSCode, siga os passos da seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando-vscode">Ambiente de desenvolvimento integrado</a>.</p>
+<h1>Preparando o ambiente de desenvolvimento</h1>
+<h2>Instalação</h2>
+<p>Tenha certeza de ter instalado tudo de que precisamos conforme exposto na seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando">Instalando um ambiente de execução Javascript</a>.</p>
 
-    <h2>Criando e executando nosso projeto</h2>
-    <p>Se você quiser configurar seu projeto do zero, siga as etapas da Alternativa 1. Se quiser baixar o projeto já configurado, siga as etapas da Alternativa 2. Se você tem o git e quiser clonar o projeto pelo git, siga as etapas da Alternativa 3.</p>
-    <h3>Criando...</h3>
-    <h4 id="alternativa1">Alternativa 1 - Criando o projeto do zero</h4>
-    <p>Abra o terminal onde quer criar o projeto e execute os seguintes comandos:</p>
-    <pre>pnpm create svelte@latest dw4
+<h2>Criando e executando nosso projeto</h2>
+<p>Se você tem o Git e quiser clonar o projeto pelo Git, execute o script da Alternativa 0 ou siga as etapas da Alternativa 1, que faz manualmente o mesmo que o script. Se preferir baixar o projeto já configurado, mas sem usar Git, siga as etapas da Alternativa 2. Se deseja configurar o projeto do zero, siga as etapas da Alternativa 3.</p>
+
+<h3>Criando...</h3>
+
+<h4>Alternativa 0 - Mamão com açúcar</h4>
+<p>Execute um dos seguintes comandos no terminal, conforme teu sistema operacional:</p>
+
+<p><strong>Linux</strong></p>
+<pre>por fazer</pre>
+
+<p><strong>Windows</strong></p>
+<pre><code class="ps">Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/03_dw4_project_setup.ps1'))</code></pre>
+
+<h4 id="alternativa1">Alternativa 1 - Clonando o projeto pelo Git</h4>
+<ol>
+    <li>Copie este link: <a ctc href="https://github.com/pedrosiqueira/dw4.git">https://github.com/pedrosiqueira/dw4.git</a>.</li>
+    <li>No vscode, tecle <kbd>F1</kbd>, digite "clone" e selecione a opção "Git: Clone".</li>
+    <li>Na caixa de entrada que aparece, cole o link copiado anteriormente e tecle <kbd>Enter</kbd>.</li>
+    <li>Escolha um local para o seu projeto e abra-o no vscode.</li>
+    <li>Com o terminal na pasta do projeto, execute <code>pnpm install</code>.</li>
+</ol>
+
+<h4 id="alternativa2">Alternativa 2 - Baixando o projeto já configurado</h4>
+<ol>
+    <li>Baixe o projeto do link <a href="https://github.com/pedrosiqueira/dw4/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/dw4/archive/refs/heads/main.zip</a>.</li>
+    <li>O arquivo baixado está compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto.</li>
+    <li>Abra o projeto no vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</li>
+    <li>Com o terminal na pasta do projeto, execute <code>pnpm install</code>.</li>
+</ol>
+
+<h4 id="alternativa3">Alternativa 3 - Criando o projeto do zero</h4>
+<p>Abra o terminal na pasta onde vai ficar o projeto e execute os seguintes comandos:</p>
+<pre><code class="sh">pnpm dlx sv create dw4
 cd dw4
 pnpm install
-code -r .</pre>
+code -r .
+</code></pre>
 
-    <p>Quando solicitado, escolha as seguintes opções:</p>
-    <pre>    ┌  Welcome to SvelteKit!
-    │
-    ◇  Which Svelte app template?
-    │  Skeleton project
-    │
-    ◇  Add type checking with TypeScript?
-    │  No
-    │
-    ◇  Select additional options (use arrow keys/space bar)
-    │  Add ESLint for code linting, Add Prettier for code formatting
-    │
-    └  Your project is ready!</pre>
+<p>Quando solicitado, escolha as seguintes opções:</p>
+<pre>┌  Welcome to the Svelte CLI! (v0.5.7)
+│
+◇  Which template would you like?
+│  SvelteKit minimal
+│
+◇  Add type checking with Typescript?
+│  No
+│
+◆  Project created
+│
+◇  What would you like to add to your project?
+│  prettier, eslint
+│
+◇  Which package manager do you want to install dependencies with?
+│  pnpm</pre>
 
-    <p>Esses comandos fazem respectivamente: (1) cria um projeto sveltekit com o nome <code>dw4</code>; (2) abre a pasta do projeto; (3) configura o projeto; e (4) abre a pasta do projeto pelo vscode.</p>
+<p>Esses comandos fazem respectivamente: (1) cria um projeto SvelteKit com o nome <code>dw4</code>; (2) entra na pasta do projeto; (3) instala as dependências; e (4) abre a pasta do projeto no vscode.</p>
+<p>Para conseguir executar o aplicativo web pressionando <kbd>F5</kbd> no vscode, crie o arquivo <code ctc>.vscode/launch.json</code>:</p>
+<pre><code class="json">{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "command": "pnpm run dev",
+            "name": "Run development server",
+            "request": "launch",
+            "type": "node-terminal"
+        }
+    ]
+}</code></pre>
 
-    <h4 id="alternativa2">Alternativa 2 - Baixando o projeto já configurado</h4>
-    <ol>
-        <li>Baixe o projeto do link <a href="https://github.com/pedrosiqueira/dw4/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/dw4/archive/refs/heads/main.zip</a>.</li>
-        <li>O arquivo baixado está compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto.</li>
-        <li>Abra o projeto no vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</li>
-        <li>Com o terminal na pasta do projeto, execute <code>pnpm install</code>.</li>
-    </ol>
+<h3>Executando o projeto</h3>
+<p>Após criar o projeto, com o terminal aberto na pasta do mesmo, execute o comando <code>pnpm run dev -- --open</code>. Se tudo ocorreu bem, uma página será aberta automaticamente no navegador web, exibindo seu aplicativo web em execução. Para encerrar o aplicativo, basta voltar ao terminal onde ele está rodando e pressionar <kbd>Ctrl+C</kbd>. Você também pode executar o aplicativo web pressionando <kbd>F5</kbd>, mas deverá copiar/colar o endereço do site no navegador web.</p>
+<p>Se você possuir permissões administrativas, é possível disponibilizar o site para todos os dispositivos da sua rede local utilizando o comando <code>pnpm run dev -- --host 0.0.0.0</code>. Após isso, tente acessar o site pelo teu celular ou outro dispositivo, utilizando o endereço IP exibido no terminal.</p>
+<p>Caso deseje expor o site para a Internet, é possível, mas esse processo está fora do escopo desta aula. Isso demandaria configurações adicionais, como mexer no modem, além de apresentar riscos de segurança, já que seu computador ficaria acessível publicamente na rede.</p>
 
-    <h4 id="alternativa3">Alternativa 3 - Clonando o projeto pelo git</h4>
-    <ol>
-        <li>Copie este link: <a class="click-to-copy" href="https://github.com/pedrosiqueira/dw4.git">https://github.com/pedrosiqueira/dw4.git</a>.</li>
-        <li>No vscode, tecle <kbd>F1</kbd>, digite "clone" e selecione a opção "Git: Clone".</li>
-        <li>Na caixa de entrada que aparece, cole o link copiado anteriormente e tecle <kbd>Enter</kbd>.</li>
-        <li>Escolha um local para o seu projeto e abra-o no vscode.</li>
-        <li>Com o terminal na pasta do projeto, execute <code>pnpm install</code>.</li>
-    </ol>
-
-
-    <h3>Executando...</h3>
-    <p>Após criar o seu projeto, com o terminal na pasta do projeto, execute o comando <code>pnpm run dev -- --open</code>. Se ocorreu tudo bem, será aberta uma página no navegador web com seu aplicativo web rodando!</p>
-
-    <h2>Valendo!</h2>
-    <p>Tudo pronto para iniciarmos nossa jornada! Vamos começar do <a href="https://learn.svelte.dev/tutorial">tutorial oficial Svelte</a>.</p>
-</div>
+<h2>Valendo!</h2>
+<p>Tudo pronto para iniciarmos nossa jornada! Nos vemos no próximo capítulo.</p>
