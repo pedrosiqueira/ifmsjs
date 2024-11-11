@@ -91,7 +91,7 @@
     <p>É sempre recomendável remover qualquer instalação existente do node ou npm antes de instalar um gerenciador de versões, pois diferentes tipos de instalação podem levar a conflitos.</p>
 
     <ol>
-        <li>Instale o nvm: <code>wget -O - https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash</code>.</li>
+        <li>Instale o nvm: <code>wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash</code>.</li>
         <li>Verifique se o nvm foi instalado (talvez seja necessário reiniciar o terminal): <code>nvm --version</code>. Deve aparecer a versão instalada do nvm, que, nesta data, é 0.39.7.</li>
         <li>Liste as versões disponíveis do node: <code>nvm ls</code>.</li>
         <li>Confirme que nenhuma versão do node está instalada: <code>nvm use node</code>. Deve aparecer algo como "not yet installed".</li>
@@ -118,7 +118,7 @@
         <li><a href="https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense">christian-kohler.path-intellisense</a></li>
         <li>Caso esteja usando WSL, pacote de extensões <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">ms-vscode-remote.vscode-remote-extensionpack</a></li>
     </ul>
-    <p>Além disso, o script também instala o <a href="https://pnpm.io/">pnpm</a>, uma alternativa mais rápida e leve ao npm. Os comandos do pnpm, se não idênticos, são similares aos do npm. Para saber mais sobre as diferenças entre os comandos, podemos <a href="https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8">acessar aqui</a>.</p>
+    <p>Além disso, o script também instala o <a href="https://pnpm.io/">pnpm</a>, uma alternativa mais rápida e leve ao npm. Os comandos do pnpm, se não idênticos, são similares aos do npm. Mais sobre as diferenças entre os comandos <a href="https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8">aqui</a>.</p>
 
     <p>Esse script também baixa o esqueleto inicial do nosso projeto do GitHub e o abre no vscode.</p>
 

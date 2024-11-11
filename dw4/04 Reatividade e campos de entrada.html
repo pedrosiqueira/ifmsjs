@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
-    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+    <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 
     <!-- https://github.com/arronhunt/highlightjs-copy -->
     <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
@@ -81,7 +81,7 @@
 
 <h2 id="calculadora-temperatura">Calculadora de temperatura</h2>
 <p>Crie a página <code ctc>src/routes/temperatura/+page.svelte</code>:</p>
-<pre><code class="svelte">&lt;script&gt;
+<pre><code>&lt;script&gt;
     let celsius = 0,
         fahrenheit = 0;
 
@@ -98,10 +98,30 @@ Celsius: &lt;input oninput={c2f} type=&quot;number&quot; bind:value={celsius} /&
 Fahrenheit: &lt;input oninput={f2c} type=&quot;number&quot; bind:value={fahrenheit} /&gt;
 </code></pre>
 
+<p>Explicação:</p>
+<ul>
+    <li><code>let celsius = 0, fahrenheit = 0;</code>: Define duas variáveis reativas (<code>celsius</code> e <code>fahrenheit</code>) que armazenam os valores das temperaturas em Celsius e Fahrenheit.</li>
+    <li><code>function c2f()</code>: Esta função converte a temperatura de Celsius para Fahrenheit, usando a fórmula <code>fahrenheit = celsius * 1.8 + 32</code>, e atualiza a variável <code>fahrenheit</code>.</li>
+    <li><code>function f2c()</code>: Esta função converte a temperatura de Fahrenheit para Celsius, usando a fórmula <code>celsius = ((fahrenheit - 32) * 5) / 9</code>, e atualiza a variável <code>celsius</code>.</li>
+    <li><code>&lt;input oninput={c2f} type="number" bind:value={celsius} /&gt;</code>: Este campo de entrada permite ao usuário inserir um valor em graus Celsius.
+        <ul>
+            <li>O <code>bind:value={celsius}</code> vincula (conecta) o valor do campo à variável <code>celsius</code>, ou seja, quando o valor no campo muda, <code>celsius</code> é atualizado automaticamente.</li>
+            <li><code>oninput={c2f}</code> chama a função <code>c2f</code> a cada vez que o usuário digita, convertendo o valor atualizado de <code>celsius</code> para Fahrenheit e atualizando a variável <code>fahrenheit</code>.</li>
+        </ul>
+    </li>
+    <li><code>&lt;input oninput={f2c} type="number" bind:value={fahrenheit} /&gt;</code>: Este campo permite que o usuário insira um valor em graus Fahrenheit.
+        <ul>
+            <li><code>bind:value={fahrenheit}</code> conecta o valor do campo à variável <code>fahrenheit</code>.</li>
+            <li><code>oninput={f2c}</code> chama a função <code>f2c</code> sempre que o valor de Fahrenheit muda, convertendo-o para Celsius e atualizando a variável <code>celsius</code>.</li>
+        </ul>
+    </li>
+</ul>
+<p>O Svelte automaticamente atualiza os campos de entrada com os novos valores sempre que <code>celsius</code> ou <code>fahrenheit</code> são alterados. Assim, ao inserir um valor em um dos campos, o valor correspondente é calculado e atualizado no outro campo automaticamente.</p>
+
 <h2>Reatividade</h2>
 <p>No Svelte, as variáveis declaradas no bloco <code>&lt;script&gt;</code> podem ser acessadas diretamente no HTML com o uso de chaves <code>{ }</code>. Quando modificamos o valor dessas variáveis, o novo valor é automaticamente atualizado na página, um conceito conhecido como <strong>reatividade</strong>. Isso acontece porque o Svelte monitora as variáveis para atualizar o HTML sempre que seus valores mudam. Para exemplificar, crie o arquivo <code ctc>src/routes/reatividade/+page.svelte</code>:</p>
 
-<pre><code class="svelte">&lt;script&gt;
+<pre><code>&lt;script&gt;
     let counter1 = 0;
     let counter2 = 0;
 &lt;/script&gt;
@@ -116,7 +136,7 @@ Fahrenheit: &lt;input oninput={f2c} type=&quot;number&quot; bind:value={fahrenhe
 
 <p>Observe que, sempre que clicamos em um dos botões, o valor da variável correspondente muda, e a página exibe automaticamente o novo valor. No entanto, monitorar todas as variáveis do site pode ser um processo custoso. Para otimizar a performance, o Svelte 5 introduziu o conceito de <strong>runes</strong>, que são declarações explícitas das variáveis que o Svelte deve observar. Com isso, você pode selecionar apenas as variáveis que realmente precisam de reatividade, melhorando o desempenho do aplicativo. Experimente declarar uma das variáveis com <code>$state</code> para observar que apenas essa variável será atualizada na tela:</p>
 
-<pre><code class="svelte">&lt;script&gt;
+<pre><code>&lt;script&gt;
     let counter1 = 0;
     let counter2 = $state(0);
 &lt;/script&gt;
