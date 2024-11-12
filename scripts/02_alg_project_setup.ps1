@@ -1,5 +1,5 @@
 # habilita executar scripts npm e pnpm no terminal
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
 
 # configura do git
 $username= Read-Host "Qual seu nome de usuário do GitHub?"
