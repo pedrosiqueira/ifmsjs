@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
-    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+    <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 
     <!-- https://github.com/arronhunt/highlightjs-copy -->
     <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
@@ -50,7 +50,7 @@
 
 <h2>Adicionando Bootstrap ao SvelteKit</h2>
 <p>Para utilizar SvelteKit com Bootstrap, modifique o arquivo <code>src/app.html</code> (em verde as modificações, em azul os acréscimos):</p>
-<pre><code class="html">&lt;!doctype html&gt;
+<pre><code>&lt;!doctype html&gt;
 &lt;html lang=&quot;pt&quot;&gt;
 
 &lt;head&gt;
@@ -75,7 +75,7 @@
 <h2>Adicionando uma barra de navegação</h2>
 <p>Vimos no <a href="https://svelte.dev/tutorial/kit/layouts">tutorial do sveltekit</a> como fazer uma barra de navegação personalizada. Mas aqui, utilizaremos a <a href="https://getbootstrap.com/docs/5.3/components/navbar/">barra de navegação</a> do Bootstrap. Crie o arquivo <code ctc>src/routes/+layout.svelte</code>:</p>
 
-<pre><code class="svelte">&lt;script&gt;
+<pre><code>&lt;script&gt;
     let { children } = $props();
 &lt;/script&gt;
 
@@ -106,14 +106,14 @@
 {@render children()}
 </code></pre>
 
-<p>Vejamos o que faz cada linha:</p>
+<p>Explicação:</p>
 <ul>
     <li>Linha 7: O botão da marca do teu site. É aqui que geralmente fica o logotipo do teu site.</li>
     <li>Linhas 8-18: Botão que expande os itens do teu navbar quando a tela fica pequena.</li>
     <li>Linha 20: Os itens do teu navbar. No momento, só temos um, que é a página "Sobre".</li>
 </ul>
 
-<p>Estilizamos nossos elementos com Bootstrap através do atributo <code>class</code>. Vejamos as principais classes usadas aqui:
+<p>Estilizamos nossos elementos com Bootstrap através do atributo <code>class</code>. Explicação das principais classes usadas aqui:
 <ul>
     <li><code>navbar</code>: Estiliza o elemento <code>nav</code>.</li>
     <li><code>navbar-expand-sm</code> Especifica que os itens dentro do <code>div</code> com classe <code>collapse navbar-collapse</code> serão ocultados em telas pequenas. As <a href="https://getbootstrap.com/docs/5.3/layout/breakpoints/">opções de ocultamento</a> são: <code>.navbar-expand{-sm|-md|-lg|-xl|-xxl}</code>, que significam, respectivamente, pequeno, médio, grande, extra grande, extra extra grande.</li>

@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
-    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+    <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 
     <!-- https://github.com/arronhunt/highlightjs-copy -->
     <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
@@ -103,7 +103,7 @@
 
 <p>Vamos criar o arquivo <code ctc>src/routes/boletim/+page.svelte</code> para resolver esse problema:</p>
 
-<pre><code class="svelte">&lt;script&gt;
+<pre><code>&lt;script&gt;
     let np, nt, ns;
     let nf = $state();
 
@@ -142,11 +142,14 @@ Nota do seminário:
     &lt;p&gt;Conceito E, reprovado 😱&lt;/p&gt;
 {/if}</code></pre>
 
-<p>A linha 2 declara as variáveis <code>np</code>, <code>nt</code>, <code>ns</code> para armazenar as notas da prova, trabalho e seminário, respectivamente. A linha 3 declara a variável <code>nf</code> para armazenar a nota final. O uso de <code>$state</code> indica que apenas <code>nf</code> deve ser reativa.</p>
-<p>A linha 5 declara a função <code>calcularnota</code>, que calcula a média ponderada das três notas. O resultado é armazenado em <code>nf</code>, atualizando automaticamente a interface graças à reatividade.</p>
-<p>As linhas 13, 17 e 21 declaram três campos de entrada para notas, limitados entre 0 e 10. O trecho <code>bind:value={variavel}</code> vincula (conecta) o valor do campo de entrada diretamente à variável correspondente. A linha 24 declara um botão que aciona a função <code>calcularnota</code> quando clicado, que atualiza o valor de <code>nf</code> com a média calculada.</p>
-<p>A linha 26 exibe o valor de <code>nf</code> ou <code>...</code> se <code>nf</code> ainda não tiver valor.</p>
-<p>As linhas 28-38 declaram um bloco condicional que mostra o conceito e um emoji com base na nota final (<code>nf</code>).</p>
+<p>Explicação:</p>
+<ul>
+    <li>A linha 2 declara as variáveis <code>np</code>, <code>nt</code>, <code>ns</code> para armazenar as notas da prova, trabalho e seminário, respectivamente. A linha 3 declara a variável <code>nf</code> para armazenar a nota final. O uso de <code>$state</code> indica que apenas <code>nf</code> deve ser reativa.</li>
+    <li>A linha 5 declara a função <code>calcularnota</code>, que calcula a média ponderada das três notas. O resultado é armazenado em <code>nf</code>, atualizando automaticamente a interface graças à reatividade.</li>
+    <li>As linhas 13, 17 e 21 declaram três campos de entrada para notas, limitados entre 0 e 10. O trecho <code>bind:value={variavel}</code> vincula (conecta) o valor do campo de entrada diretamente à variável correspondente. A linha 24 declara um botão que aciona a função <code>calcularnota</code> quando clicado, que atualiza o valor de <code>nf</code> com a média calculada.</li>
+    <li>A linha 26 exibe o valor de <code>nf</code> ou <code>...</code> se <code>nf</code> ainda não tiver valor.</li>
+    <li>As linhas 28-38 declaram um bloco condicional que mostra o conceito e um emoji com base na nota final (<code>nf</code>).</li>
+</ul>
 
 <h2>Exercícios</h2>
 <ol class="excs">
@@ -211,24 +214,24 @@ Nota do seminário:
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Maior ou igual a 8,5</td>
-                        <td>A, Excelente 💪</td>
+                        <td>Maior ou igual a 8</td>
+                        <td>🏆 Super Atleta! Continue brilhando e inspire outros!</td>
                     </tr>
                     <tr>
-                        <td>Maior ou igual a 7 e menor que 8,5</td>
-                        <td>B, Muito bom 🙂</td>
+                        <td>Maior ou igual a 6 e menor que 8</td>
+                        <td>🏋 Determinação Pura! - Você está cada vez mais forte, continue com esse foco!</td>
                     </tr>
                     <tr>
-                        <td>Maior ou igual a 5 e menor que 7</td>
-                        <td>C, Satisfatório 😐</td>
+                        <td>Maior ou igual a 4 e menor que 6</td>
+                        <td>💪 Em Movimento! - Já está pegando o jeito, bora pegar firme!</td>
                     </tr>
                     <tr>
-                        <td>Maior ou igual a 2,5 e menor que 5</td>
-                        <td>D, Abaixo da média 😟</td>
+                        <td>Maior ou igual a 2 e menor que 4</td>
+                        <td>🚶 Ainda Sedentário! Está começando a caminhada. Mantenha o ritmo!</td>
                     </tr>
                     <tr>
-                        <td>Menor que 2,5</td>
-                        <td>E, Insuficiente 😞</td>
+                        <td>Menor que 2</td>
+                        <td>🛋️ Saia do Sofá! - O primeiro passo é levantar e se mexer!</td>
                     </tr>
                 </tbody>
             </table>
