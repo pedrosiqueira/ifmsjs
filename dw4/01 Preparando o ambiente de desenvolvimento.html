@@ -27,13 +27,11 @@
 <h2>Instalação</h2>
 <p>Tenha certeza de ter instalado tudo de que precisamos conforme exposto na seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando">Instalando um ambiente de execução Javascript</a>.</p>
 
-<h2>Criando e executando nosso projeto</h2>
+<h2>Criando o projeto</h2>
 <p>Se você tem o Git e quiser clonar o projeto pelo Git, execute o script da Alternativa 0 ou siga as etapas da Alternativa 1, que faz manualmente o mesmo que o script. Se preferir baixar o projeto já configurado, mas sem usar Git, siga as etapas da Alternativa 2. Se deseja configurar o projeto do zero, siga as etapas da Alternativa 3.</p>
 
-<h3>Criando...</h3>
-
 <div class="info">
-    <h4>Alternativa 0 - Executa um script que faz tudo para você (mamão com açúcar)</h4>
+    <h3>Alternativa 0 - Executa um script que faz tudo para você (mamão com açúcar)</h3>
     <p>Execute um dos seguintes comandos no terminal, conforme teu sistema operacional:</p>
 
     <p><strong>Linux</strong></p>
@@ -43,7 +41,7 @@
     <pre><code class="ps">Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/03_dw4_project_setup.ps1'))</code></pre>
 </div>
 <div class="info">
-    <h4 id="alternativa1">Alternativa 1 - Clonando o projeto pelo Git</h4>
+    <h3 id="alternativa1">Alternativa 1 - Clonando o projeto pelo Git</h3>
     <ol>
         <li>Copie este link: <a ctc href="https://github.com/pedrosiqueira/dw4.git">https://github.com/pedrosiqueira/dw4.git</a>.</li>
         <li>No vscode, tecle <kbd>F1</kbd>, digite "clone" e selecione a opção "Git: Clone".</li>
@@ -53,7 +51,7 @@
     </ol>
 </div>
 <div class="info">
-    <h4 id="alternativa2">Alternativa 2 - Baixando o projeto já configurado</h4>
+    <h3 id="alternativa2">Alternativa 2 - Baixando o projeto já configurado</h3>
     <ol>
         <li>Baixe o projeto do link <a href="https://github.com/pedrosiqueira/dw4/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/dw4/archive/refs/heads/main.zip</a>.</li>
         <li>O arquivo baixado está compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto.</li>
@@ -62,7 +60,7 @@
     </ol>
 </div>
 <div class="info">
-    <h4 id="alternativa3">Alternativa 3 - Criando o projeto do zero (avançado)</h4>
+    <h3 id="alternativa3">Alternativa 3 - Criando o projeto do zero (avançado)</h3>
     <p>Abra o terminal na pasta onde vai ficar o projeto e execute os seguintes comandos:</p>
     <pre><code class="sh">pnpm dlx sv create dw4
 cd dw4
@@ -151,7 +149,7 @@ code -r .
     </ul>
 </div>
 
-<h3>Executando o aplicativo web</h3>
+<h2>Executando o aplicativo web</h2>
 <p>Após criar o projeto, com o terminal aberto na pasta do mesmo, execute o comando <code>pnpm run dev -- --open</code>. Se tudo ocorreu bem, uma página será aberta automaticamente no navegador web, exibindo seu aplicativo web em execução. Para encerrar o aplicativo, basta voltar ao terminal onde ele está rodando e pressionar <kbd>Ctrl+C</kbd>. Você também pode executar o aplicativo web pressionando <kbd>F5</kbd>, mas deverá copiar/colar o endereço do site no navegador web.</p>
 <p>Se você possuir permissões administrativas, é possível disponibilizar o site para todos os dispositivos da sua rede local utilizando o comando <code>pnpm run dev -- --host 0.0.0.0</code>. Após isso, tente acessar o site pelo teu celular ou outro dispositivo, utilizando o endereço IP exibido no terminal.</p>
 <p>Caso deseje expor o site para a Internet, é possível, mas esse processo está fora do escopo desta aula. Isso demandaria configurações adicionais, como mexer no modem, além de apresentar riscos de segurança, já que seu computador ficaria acessível publicamente na rede. Existem outros meios de publicar teu site na Internet, que veremos mais adiante.</p>
