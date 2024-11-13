@@ -2,7 +2,7 @@
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
 # instalação dos programas para desenvolvimento de javascript
-choco install git nodejs vscode
+choco install git nodejs vscode -y
 
 # configuração das variáveis de ambiente
 function Add-PathIfNotExists {
