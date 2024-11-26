@@ -28,131 +28,17 @@
 <p>Tenha certeza de ter instalado tudo de que precisamos conforme exposto na seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando">Instalando um ambiente de execução Javascript</a>.</p>
 
 <h2>Criando o projeto</h2>
-<p>Se você tem o Git e quiser clonar o projeto pelo Git, execute o script da Alternativa 0 ou siga as etapas da Alternativa 1, que faz manualmente o mesmo que o script. Se preferir baixar o projeto já configurado, mas sem usar Git, siga as etapas da Alternativa 2. Se deseja configurar o projeto do zero, siga as etapas da Alternativa 3.</p>
+<p>Vamos executar um script que (1) solicita teu nome de usuário e email do Git, (2) instala algumas extensões no vscode, (3) instala o pnpm e (4) baixa o projeto pronto para uso. Execute no terminal <span id="executando-script">um dos seguintes scripts</span>, conforme teu sistema operacional:</p>
+<h4>Linux</h4>
+<pre><code class="bash">wget -qO- https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/03_dw4_project_setup.sh | bash</code></pre>
 
-<div class="info">
-    <h3>Alternativa 0 - Executa um script que faz tudo para você (mamão com açúcar)</h3>
-    <p>Execute um dos seguintes comandos no terminal, conforme teu sistema operacional:</p>
-
-    <p><strong>Linux</strong></p>
-    <pre><code class="bash">wget -qO- https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/03_dw4_project_setup.sh | bash</code></pre>
-
-    <p><strong>Windows</strong></p>
-    <pre><code class="ps">Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/03_dw4_project_setup.ps1'))</code></pre>
-</div>
-<div class="info">
-    <h3 id="alternativa1">Alternativa 1 - Clonando o projeto pelo Git</h3>
-    <ol>
-        <li>Copie este link: <a ctc href="https://github.com/pedrosiqueira/dw4.git">https://github.com/pedrosiqueira/dw4.git</a>.</li>
-        <li>No vscode, tecle <kbd>F1</kbd>, digite "clone" e selecione a opção "Git: Clone".</li>
-        <li>Na caixa de entrada que aparece, cole o link copiado anteriormente e tecle <kbd>Enter</kbd>.</li>
-        <li>Escolha um local para o seu projeto e abra-o no vscode.</li>
-        <li>Com o terminal na pasta do projeto, execute <code>pnpm install</code>.</li>
-    </ol>
-</div>
-<div class="info">
-    <h3 id="alternativa2">Alternativa 2 - Baixando o projeto já configurado</h3>
-    <ol>
-        <li>Baixe o projeto do link <a href="https://github.com/pedrosiqueira/dw4/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/dw4/archive/refs/heads/main.zip</a>.</li>
-        <li>O arquivo baixado está compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto.</li>
-        <li>Abra o projeto no vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</li>
-        <li>Com o terminal na pasta do projeto, execute <code>pnpm install</code>.</li>
-    </ol>
-</div>
-<div class="info">
-    <h3 id="alternativa3">Alternativa 3 - Criando o projeto do zero (avançado)</h3>
-    <p>Abra o terminal na pasta onde vai ficar o projeto e execute os seguintes comandos:</p>
-    <pre><code class="sh">pnpm dlx sv create dw4
-cd dw4
-pnpm install
-code -r .
-</code></pre>
-
-    <p>Quando solicitado, escolha as seguintes opções:</p>
-    <pre>┌  Welcome to the Svelte CLI! (v0.5.7)
-│
-◇  Which template would you like?
-│  SvelteKit minimal
-│
-◇  Add type checking with Typescript?
-│  No
-│
-◆  Project created
-│
-◇  What would you like to add to your project?
-│  prettier, eslint
-│
-◇  Which package manager do you want to install dependencies with?
-│  pnpm</pre>
-
-    <p>Esses comandos fazem respectivamente: (1) cria um projeto SvelteKit com o nome <code>dw4</code>; (2) entra na pasta do projeto; (3) instala as dependências; e (4) abre a pasta do projeto no vscode.</p>
-
-    <p>Para configurar o vscode para executar o aplicativo web com o atalho <kbd>F5</kbd>, crie o arquivo <code ctc>.vscode/launch.json</code>:</p>
-
-    <pre><code class="json">{
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Run development server",
-            "request": "launch",
-            "command": "pnpm run dev",
-            "type": "node-terminal",
-            "preLaunchTask": "pnpm install"
-        }
-    ]
-}</code></pre>
-
-    <p>A descrição de cada propriedade é:</p>
-    <ul>
-        <li><code>"name": "Run development server"</code>: Nome da configuração, que aparece na aba de execução (atalho <kbd>Ctrl+Shift+D</kbd>).</li>
-        <li><code>"request": "launch"</code>: Executa um comando.</li>
-        <li><code>"command": "pnpm run dev"</code>: O comando a ser executado.</li>
-        <li><code>"type": "node-terminal"</code>: Executa o comando no terminal integrado.</li>
-        <li><code>"preLaunchTask": "pnpm install"</code>: Tarefa a ser executada antes de executar o aplicativo web.</li>
-    </ul>
-
-    <p>A tarefa <code>pnpm install</code> referenciada na propriedade <code>preLaunchTask</code> não é um comando direto, mas uma configuração de tarefa que deve ser criada no arquivo <code>.vscode/tasks.json</code>. Para definir as tarefas que podem ser executadas antes ou depois de executar o aplicativo web, crie o arquivo <code ctc>.vscode/tasks.json</code>:</p>
-
-    <pre><code class="json">{
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "pnpm install",
-            "detail": "Install dependencies from package.json if not already installed",
-            "type": "shell",
-            "windows": {
-                "command": "if (!(pnpm list)) { pnpm install }"
-            },
-            "linux": {
-                "command": "if [ -z \"$(pnpm list 2>/dev/null)\" ]; then pnpm install; fi"
-            },
-            "presentation": {
-                "close": true
-            }
-        }
-    ]
-}</code></pre>
-
-    <p>A descrição de cada propriedade é:</p>
-    <ul>
-        <li><code>"label": "pnpm install"</code>: O nome da tarefa. Deve corresponder ao nome usado no <code>launch.json</code>.</li>
-        <li><code>"detail": "Install dependencies from package.json if not already installed"</code>: Descrição do quê a tarefa faz.</li>
-        <li><code>"type": "shell"</code>: A tarefa será executada no terminal.</li>
-        <li>
-            <ul>
-                <li><code>"windows": { "command": "if (!(pnpm list)) { pnpm install }" }</code>: Comando para verificar e instalar dependências no terminal do Windows.</li>
-                <li><code>"linux": { "command": "if [ -z \"$(pnpm list 2>/dev/null)\" ]; then pnpm install; fi" }</code>: Comando para verificar e instalar dependências no terminal do Linux.</li>
-            </ul>
-            <p>Em ambos os sistemas, o comando executa <code>pnpm list</code> para verificar se as dependências estão instaladas. Caso não estejam, ele executa <code>pnpm install</code> para instalá-las.</p>
-        </li>
-        <li><code>"presentation": { "close": true }</code>: Como toda tarefa abre um terminal extra, fecha o terminal automaticamente após a conclusão da tarefa.</li>
-    </ul>
-</div>
+<h4>Windows</h4>
+<pre><code class="ps">iex((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/03_dw4_project_setup.ps1'))</code></pre>
 
 <h2>Executando o aplicativo web</h2>
 <p>Após criar o projeto, com o terminal aberto na pasta do mesmo, execute o comando <code>pnpm run dev -- --open</code>. Se tudo ocorreu bem, uma página será aberta automaticamente no navegador web, exibindo seu aplicativo web em execução. Para encerrar o aplicativo, basta voltar ao terminal onde ele está rodando e pressionar <kbd>Ctrl+C</kbd>. Você também pode executar o aplicativo web pressionando <kbd>F5</kbd>, mas deverá copiar/colar o endereço do site no navegador web.</p>
-<p>Se você possuir permissões administrativas, é possível disponibilizar o site para todos os dispositivos da sua rede local utilizando o comando <code>pnpm run dev -- --host 0.0.0.0</code>. Após isso, tente acessar o site pelo teu celular ou outro dispositivo, utilizando o endereço IP exibido no terminal.</p>
-<p>Caso deseje expor o site para a Internet, é possível, mas esse processo está fora do escopo desta aula. Isso demandaria configurações adicionais, como mexer no modem, além de apresentar riscos de segurança, já que seu computador ficaria acessível publicamente na rede. Existem outros meios de publicar teu site na Internet, que veremos mais adiante.</p>
+<p>Se você possuir permissões administrativas, pode disponibilizar o site para todos os dispositivos da sua rede local utilizando o comando <code>pnpm run dev -- --host 0.0.0.0</code>. Após isso, tente acessar o site pelo teu celular ou outro dispositivo, utilizando o endereço IP exibido no terminal.</p>
+<p>Caso deseje expor o site para a Internet, também pode, mas esse processo está fora do escopo desta aula. Isso demandaria configurações adicionais, como mexer no modem, além de apresentar riscos de segurança, já que teu computador ficaria acessível publicamente na rede. Existem outros meios de publicar teu site na Internet, que veremos mais adiante.</p>
 
 <h2>Valendo!</h2>
 <p>Tudo pronto para iniciarmos nossa jornada! Nos vemos no próximo capítulo.</p>

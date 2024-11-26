@@ -71,7 +71,7 @@
 <div class="info">Observação: Não confunda o conceito de "componentes" do Svelte com o do Bootstrap: no Svelte, componentes são unidades reutilizáveis de código que podem incluir HTML, CSS e JavaScript. Cada componente no Svelte é basicamente uma função ou classe que representa uma parte da interface do usuário, podendo ser compartilhada, composta e reusada. Já no Bootstrap, "componentes" referem-se a elementos de UI prontos, como botões, formulários, barras de navegação, etc., que são estilizados com as classes CSS fornecidas pelo framework.</div>
 
 <h2>Carregando dados nas páginas</h2>
-<p>Em um aplicativo web de verdade, os dados ficam em um banco de dados ou Content Management System (CMS). Mas para esse tutorial vamos deixar os dados no arquivo <code ctc>src/lib/data.js</code>:</p>
+<p>Em um aplicativo web profissional, os dados ficam em um banco de dados ou Content Management System (CMS). Mas para esse tutorial vamos deixar os dados no arquivo <code ctc>src/lib/data.js</code>:</p>
 <pre><code class="js">export const cards = [
   {
     title: 'Invisibility',
@@ -127,6 +127,6 @@
 
 <h2>Exercícios</h2>
 <ol class="excs">
-  <li>À medida que o projeto cresce, é essencial organizar melhor seus arquivos. Em vez de deixar todos os componentes soltos dentro da pasta <code>lib</code>, é melhor criar uma pasta <code>components</code> para armazená-los de maneira mais estruturada. Mova o componente <code>Poema.svelte</code> para dentro da nova pasta <code>components</code> e atualize o arquivo <code>src/routes/+page.svelte</code> para importar o componente a partir de sua nova localização.</li>
+  <li>À medida que o projeto cresce, é essencial organizar melhor seus arquivos. Em vez de deixar todos os componentes soltos dentro da pasta <code>lib</code>, é melhor criar uma pasta <code>components</code> para armazená-los de maneira mais estruturada. Mova o componente <code>Poema.svelte</code> (do <a href="./03 Introdução ao Svelte.html#poema-component">Capítulo 3</a>) para dentro da nova pasta <code>components</code> e atualize o arquivo <code>src/routes/+page.svelte</code> para importar o componente a partir de sua nova localização.</li>
   <li>Reproduza o exemplo de <i>cards</i> que fizemos, mas com uma lista de outros itens que você desejar. Cada <i>card</i> precisa ter pelo menos um título, subtítulo, conteúdo e imagem. A imagem pode ser um link externo ou pode ser um arquivo salvo na pasta <code>static</code>.</li>
 </ol>
