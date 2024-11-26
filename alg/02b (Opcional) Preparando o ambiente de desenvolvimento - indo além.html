@@ -30,8 +30,17 @@
     <h2>Preparando o ambiente</h2>
 
     <h3>Configuração do git</h3>
-    <p>Defina o nome de usuário e email do git, substituindo <code>username</code> e <code>useremail</code> conforme tua conta do <a href="https://github.com/">GitHub</a> (crie uma conta no GitHub antes, se ainda não tiver uma):</p>
-
+    <div class="info">
+        <p>O <strong>Git</strong> (git) é um sistema de controle de versão usado para rastrear mudanças no código-fonte de projetos. Ele permite que várias pessoas colaborem simultaneamente em um mesmo projeto, registrando alterações de maneira organizada e permitindo voltar a versões anteriores do código, se necessário. Git é amplamente utilizado por desenvolvedores para gerenciar projetos de software, mas também pode ser aplicado a outros tipos de arquivos e projetos que requerem controle de versão.</p>
+    </div>
+    <div class="info">
+        <p>O <strong>GitHub</strong> é uma plataforma online de hospedagem de repositórios Git. Ele expande as funcionalidades do Git, fornecendo uma interface amigável e ferramentas para colaboração, revisão de código, automação de tarefas e gerenciamento de projetos. Além disso, o GitHub serve como uma rede social para desenvolvedores, permitindo que compartilhem projetos e colaborem em código aberto.</p>
+    </div>
+    <div class="info">
+        <p>Em resumo: Git é a tecnologia para controle de versão; GitHub é uma plataforma que utiliza Git e fornece ferramentas adicionais para colaboração e gerenciamento de projetos.</p>
+    </div>
+    <p>Primeiramente, crie uma conta no <a href="https://github.com/">GitHub</a>, se ainda não tiver uma.</p>
+    <p>Depois, defina o nome de usuário e email do git instalado em teu computador, substituindo <code>username</code> e <code>useremail</code> conforme tua conta do <a href="https://github.com/">GitHub</a>. Para isso, execute no terminal:</p>
     <pre><code class="sh">git config --global user.name username
 git config --global user.email useremail
 </code></pre>
@@ -44,11 +53,13 @@ git config --global user.email useremail
         <li><a href="https://marketplace.visualstudio.com/items?itemName=xabikos.JavaScriptSnippets">xabikos.JavaScriptSnippets</a></li>
         <li><a href="https://marketplace.visualstudio.com/items?itemName=christian-kohler.npm-intellisense">christian-kohler.npm-intellisense</a></li>
         <li><a href="https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense">christian-kohler.path-intellisense</a></li>
-        <li>Caso esteja usando WSL ou Docker, Pacote de extensões <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development</a></li>
+        <li><a href="https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode">svelte.svelte-vscode</a></li>
+        <!-- <li>Caso esteja usando WSL, pacote de extensões <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">ms-vscode-remote.vscode-remote-extensionpack</a></li> -->
     </ul>
 
     <h3>Configuração do npm</h3>
-    <p>Instale o pnpm:</p>
+    <p>Vamos instalar o <a href="https://pnpm.io/">pnpm</a>, uma alternativa mais rápida e leve que o npm. Os comandos do pnpm, se não idênticos, são similares aos do npm. Mais sobre as diferenças entre os comandos <a href="https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8">aqui</a>.</p>
+    <p>Para instalar o pnpm, execute no terminal:</p>
     <pre><code class="sh">npm install -g pnpm</code></pre>
 
     <h2>Baixando o projeto</h2>
