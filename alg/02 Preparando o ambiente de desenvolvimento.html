@@ -48,20 +48,20 @@
 
     <h2>Instalando o Ambiente de Desenvolvimento JavaScript</h2>
     <p id="instalando">Vamos executar um script que instalará tudo que precisamos para desenvolver em JavaScript. No terminal, execute um dos seguintes scripts, conforme teu sistema operacional:</p>
-    <div class="info">Observação: Você precisa de privilégios administrativos para executar o script. No Linux, você deve ter acesso ao comando <code>sudo</code>. No Windows, você deve abrir o terminal como administrador.</div>
+    <div class="info">Observação: Você precisa de privilégios administrativos para executar o script. No Linux, você deve ter acesso ao comando <code>sudo</code>. No Windows, você deve abrir o terminal PowerShell como administrador.</div>
 
     <h3>Linux</h3>
     <p><code>Por fazer</code></p>
 
     <h3>Windows</h3>
-    <p>Siga uma das seguintes alternativas:</p>
-    <h4><strong>Alternativa 1 (fácil) – sem WSL</strong></h4>
+    <!-- <p>Siga uma das seguintes alternativas:</p> -->
+    <!-- <h4><strong>Alternativa 1 (fácil) – sem WSL</strong></h4> -->
     <pre><code>Set-ExecutionPolicy RemoteSigned -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_windows_setup.ps1'))</code></pre>
-    <h4><strong>Alternativa 2 (difícil) – com WSL</strong></h4>
-    <pre><code>Por fazer</code></pre>
+    <!-- <h4><strong>Alternativa 2 (difícil) – com WSL</strong></h4> -->
+    <!-- <pre><code>Por fazer</code></pre> -->
 
     <h3>O que o script faz</h3>
-    <p id="programas">Esse script instala os seguintes programas:</p>
+    <p id="programas">Esse script instala (ou atualiza, se já estiver instalado) os seguintes programas:</p>
     <ul>
         <li>
             <p><strong>Node.js (<a href="https://nodejs.org">node</a>)</strong>: O Ambiente de Execução (Runtime Environment) do JavaScript, que oferece um conjunto completo de ferramentas, desde a máquina virtual até o compilador JIT, para desenvolver e executar aplicativos JavaScript sem necessariamente precisar de um navegador web. O Node.js inclui o Node Package Manager (<a href="https://docs.npmjs.com/about-npm">npm</a>), uma ferramenta que permite baixar, instalar e gerenciar pacotes de terceiros.</p>
@@ -81,7 +81,7 @@
     </div>
 
     <p>Além disso, o script também configura algumas variáveis de ambiente que esses programas utilizam.</p>
-    <p>Se você ficou curioso, pode acessar os scripts <a href="https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_linux_setup.ps1" target="_blank">linux</a>, <a href="https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_windows_setup.ps1" target="_blank">windows (alternativa 1)</a> ou <a href="https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_windows2_setup.ps1" target="_blank">windows (alternativa 2)</a> e ver o que cada script faz.</p>
+    <p>Se você ficou curioso, pode acessar os scripts <a href="https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_linux_setup.ps1" target="_blank">linux</a> e <a href="https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_windows_setup.ps1" target="_blank">windows</a> e ver o que cada script faz.</p>
 
     <h2>Configurando o Ambiente de Desenvolvimento JavaScript</h2>
     <p id="configurando">Após a instalação dos programas necessários para desenvolvimento JavaScript, vamos executar um script que os configurará para otimizar nosso ambiente de desenvolvimento. No terminal, execute um dos seguintes scripts, conforme teu sistema operacional:</p>
