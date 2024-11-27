@@ -2,8 +2,8 @@
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
 
 # configura do git
-$username= Read-Host "Qual seu nome de usuário do GitHub?"
-$useremail= Read-Host "Qual seu email do GitHub?"
+$username= Read-Host "Qual teu nome de usuário do GitHub?"
+$useremail= Read-Host "Qual teu email do GitHub?"
 git config --global user.name $username
 git config --global user.email $useremail
 
@@ -12,7 +12,7 @@ code --install-extension VisualStudioExptTeam.vscodeintellicode
 code --install-extension dbaeumer.vscode-eslint
 code --install-extension xabikos.JavaScriptSnippets
 code --install-extension christian-kohler.npm-intellisense
-code --install-extension chrischristian-kohler.path-intellisense
+code --install-extension christian-kohler.path-intellisense
 code --install-extension svelte.svelte-vscode
 
 # instala o pnpm

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Configures Git user information by prompting for the GitHub username and email
-read -p "Qual seu nome de usuário do GitHub? " username
-read -p "Qual seu email do GitHub? " useremail
+read -p "Qual teu nome de usuário do GitHub? " username
+read -p "Qual teu email do GitHub? " useremail
 git config --global user.name "$username"
 git config --global user.email "$useremail"
 
