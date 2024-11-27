@@ -1,9 +1,18 @@
-# habilita executar scripts npm e pnpm no terminal
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
+param (
+    [string]$username,
+    [string]$useremail
+)
+
+# Conditionally read input if parameters are not provided
+if (-not $username) {
+    $username = Read-Host "Qual teu nome de usuário do GitHub?"
+}
+
+if (-not $useremail) {
+    $useremail = Read-Host "Qual teu email do GitHub?"
+}
 
 # configura do git
-$username= Read-Host "Qual teu nome de usuário do GitHub?"
-$useremail= Read-Host "Qual teu email do GitHub?"
 git config --global user.name $username
 git config --global user.email $useremail
 
@@ -14,6 +23,9 @@ code --install-extension xabikos.JavaScriptSnippets
 code --install-extension christian-kohler.npm-intellisense
 code --install-extension christian-kohler.path-intellisense
 code --install-extension svelte.svelte-vscode
+
+# habilita executar scripts npm e pnpm no terminal
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
 
 # instala o pnpm
 npm install -g pnpm
