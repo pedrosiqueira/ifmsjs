@@ -27,68 +27,112 @@
     <h1>(Opcional) Preparando o ambiente de desenvolvimento - indo além</h1>
     <p>No capítulo anterior, <a href="./02 Preparando o ambiente de desenvolvimento.html#configurando">executamos um script</a> que preparava o ambiente, baixava o projeto e o configurava automaticamente, deixando tudo pronto para uso. Para quem deseja se aprofundar, este capítulo mostra os detalhes omitidos do capítulo anterior. Aqui faremos o passo a passo de como preparar o ambiente de desenvolvimento do JavaScript, criar um novo projeto e configura-lo do zero. Para isso, você já precisa ter os <a href="./02 Preparando o ambiente de desenvolvimento.html#programas">programas necessários</a> instalados.</p>
 
-    <h2>Preparando o ambiente</h2>
+    <div>
+        <h2 id="preparando-ambiente">Preparando o ambiente</h2>
 
-    <h3>Configuração do git</h3>
-    <div class="info">
-        <p>O <strong>Git</strong> (git) é um sistema de controle de versão usado para rastrear mudanças no código-fonte de projetos. Ele permite que várias pessoas colaborem simultaneamente em um mesmo projeto, registrando alterações de maneira organizada e permitindo voltar a versões anteriores do código, se necessário. Git é amplamente utilizado por desenvolvedores para gerenciar projetos de software, mas também pode ser aplicado a outros tipos de arquivos e projetos que requerem controle de versão.</p>
-    </div>
-    <div class="info">
-        <p>O <strong>GitHub</strong> é uma plataforma online de hospedagem de repositórios Git. Ele expande as funcionalidades do Git, fornecendo uma interface amigável e ferramentas para colaboração, revisão de código, automação de tarefas e gerenciamento de projetos. Além disso, o GitHub serve como uma rede social para desenvolvedores, permitindo que compartilhem projetos e colaborem em código aberto.</p>
-    </div>
-    <div class="info">
-        <p>Em resumo: Git é a tecnologia para controle de versão; GitHub é uma plataforma que utiliza Git e fornece ferramentas adicionais para colaboração e gerenciamento de projetos.</p>
-    </div>
-    <p>Primeiramente, crie uma conta no <a href="https://github.com/">GitHub</a>, se ainda não tiver uma.</p>
-    <p>Depois, defina o nome de usuário e email do git instalado em teu computador, substituindo <code>username</code> e <code>useremail</code> conforme tua conta do <a href="https://github.com/">GitHub</a>. Para isso, execute no terminal:</p>
-    <pre><code class="sh">git config --global user.name username
+        <h3>Configuração do git</h3>
+        <div class="info">
+            <p>O <strong>Git</strong> (git) é um sistema de controle de versão usado para rastrear mudanças no código-fonte de projetos. Ele permite que várias pessoas colaborem simultaneamente em um mesmo projeto, registrando alterações de maneira organizada e permitindo voltar a versões anteriores do código, se necessário. Git é amplamente utilizado por desenvolvedores para gerenciar projetos de software, mas também pode ser aplicado a outros tipos de arquivos e projetos que requerem controle de versão.</p>
+        </div>
+        <div class="info">
+            <p>O <strong>GitHub</strong> é uma plataforma online de hospedagem de repositórios Git. Ele expande as funcionalidades do Git, fornecendo uma interface amigável e ferramentas para colaboração, revisão de código, automação de tarefas e gerenciamento de projetos. Além disso, o GitHub serve como uma rede social para desenvolvedores, permitindo que compartilhem projetos e colaborem em código aberto.</p>
+        </div>
+        <div class="info">
+            <p>Em resumo: Git é a tecnologia para controle de versão; GitHub é uma plataforma que utiliza Git e fornece ferramentas adicionais para colaboração e gerenciamento de projetos.</p>
+        </div>
+        <p>Primeiramente, crie uma conta no <a href="https://github.com/">GitHub</a>, se ainda não tiver uma.</p>
+        <p>Depois, defina o nome de usuário e email do git instalado em teu computador, substituindo <code>username</code> e <code>useremail</code> conforme tua conta do <a href="https://github.com/">GitHub</a>. Para isso, execute no terminal:</p>
+        <pre><code class="sh">git config --global user.name username
 git config --global user.email useremail
 </code></pre>
 
-    <h3>Configuração do vscode</h3>
-    <p>Instale as seguintes extensões para auxiliar no desenvolvimento do projeto:</p>
-    <ul>
-        <li><a href="https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode">VisualStudioExptTeam.vscodeintellicode</a></li>
-        <li><a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">dbaeumer.vscode-eslint</a></li>
-        <li><a href="https://marketplace.visualstudio.com/items?itemName=xabikos.JavaScriptSnippets">xabikos.JavaScriptSnippets</a></li>
-        <li><a href="https://marketplace.visualstudio.com/items?itemName=christian-kohler.npm-intellisense">christian-kohler.npm-intellisense</a></li>
-        <li><a href="https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense">christian-kohler.path-intellisense</a></li>
-        <li><a href="https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode">svelte.svelte-vscode</a></li>
-        <!-- <li>Caso esteja usando WSL, pacote de extensões <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">ms-vscode-remote.vscode-remote-extensionpack</a></li> -->
-    </ul>
+        <h3>Configuração do vscode</h3>
+        <p>Instale as seguintes extensões para auxiliar no desenvolvimento do projeto:</p>
+        <ul>
+            <li><a href="https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode">VisualStudioExptTeam.vscodeintellicode</a></li>
+            <li><a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">dbaeumer.vscode-eslint</a></li>
+            <li><a href="https://marketplace.visualstudio.com/items?itemName=xabikos.JavaScriptSnippets">xabikos.JavaScriptSnippets</a></li>
+            <li><a href="https://marketplace.visualstudio.com/items?itemName=christian-kohler.npm-intellisense">christian-kohler.npm-intellisense</a></li>
+            <li><a href="https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense">christian-kohler.path-intellisense</a></li>
+            <li><a href="https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode">svelte.svelte-vscode</a></li>
+            <!-- <li>Caso esteja usando WSL, pacote de extensões <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">ms-vscode-remote.vscode-remote-extensionpack</a></li> -->
+        </ul>
 
-    <h3>Configuração do npm</h3>
-    <p>Vamos instalar o <a href="https://pnpm.io/">pnpm</a>, uma alternativa mais rápida e leve que o npm. Os comandos do pnpm, se não idênticos, são similares aos do npm. Mais sobre as diferenças entre os comandos <a href="https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8">aqui</a>.</p>
-    <p>Para instalar o pnpm, execute no terminal:</p>
-    <pre><code class="sh">npm install -g pnpm</code></pre>
+        <h3>Configuração do npm</h3>
+        <p>Vamos instalar o <a href="https://pnpm.io/">pnpm</a>, uma alternativa mais rápida e leve que o npm. Os comandos do pnpm, se não idênticos, são similares aos do npm. Mais sobre as diferenças entre os comandos <a href="https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8">aqui</a>.</p>
+        <p>Para instalar o pnpm, execute no terminal:</p>
+        <pre><code class="sh">npm install -g pnpm</code></pre>
+    </div>
+    <div>
+        <h2>Tornando o npm mais econômico</h2>
+        <p>As duas próximas subseções tratam de alguns detalhes do npm e do pnpm, e mostram como compartilhar os pacotes entre usuários na mesma máquina, útil para economizar espaço em disco. Se você executou o <a href="./02 Preparando o ambiente de desenvolvimento.html#instalando">script de instalação</a> do capítulo anterior, esses passos já foram realizados.</p>
 
-    <h2>Baixando o projeto</h2>
-    <p>Já temos o projeto criado e hospedado no GitHub. Se você quiser baixar o projeto sem o git, pode clicar no seguinte link <a href="https://github.com/pedrosiqueira/alg/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/alg/archive/refs/heads/main.zip</a>. O projeto vem compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto e o abra no vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</p>
+        <h3>Configuração do Node.js</h3>
+        <p>O npm utiliza <a href="https://docs.npmjs.com/cli/v10/configuring-npm/folders">determinadas pastas</a> para gerenciar seus pacotes. O npm instala os pacotes utilizados em cada projeto na pasta <code>node_modules</code> do próprio projeto. O npm instala pacotes utilizados globalmente na pasta <code>prefix</code>, que no Windows fica em <code>%AppData%\npm</code>. O npm também utiliza a pasta <code>cache</code> para armazenar pacotes baixados, que no Windows fica em <code>%LocalAppData%/npm-cache</code>. Em um computador com vários usuários utilizando npm, podemos compartilhar as pastas <code>prefix</code> e <code>cache</code> para economizar espaço em disco. Para isso, podemos modificar as <a href="https://docs.npmjs.com/cli/v10/using-npm/config#prefix">configurações padrão do npm</a> que definem onde os pacotes são instalados. O npm carrega suas configurações de <a href="https://docs.npmjs.com/cli/v10/configuring-npm/npmrc">arquivos <code>npmrc</code></a> ou de variáveis de ambiente do sistema. Podemos editar os arquivos npmrc <a href="https://stackoverflow.com/a/54133101/4072641">via linha de comando</a>, mas isso afeta apenas o usuário que executou o comando. Portanto, aqui, vamos definir variáveis de ambiente do sistema que redirecionam a instalação de pacotes globais e o cache do npm para as pastas <code>C:\npm\npm\</code> e <code>C:\npm\npm-cache\</code>, respectivamente. Além disso, também precisaremos atualizar a variável de ambiente <code>PATH</code> para conseguir executar os pacotes globais pela linha de comando. Isso valerá para todos os usuários, não só para o usuário que executou o comando.</p>
+        <p>No Windows, execute pelo terminal no <i>modo administrativo</i> os seguintes comandos:</p>
+        <pre><code class="language-console">[Environment]::SetEnvironmentVariable("npm_config_prefix", "$env:SYSTEMDRIVE\npm\npm\", "Machine")
+[Environment]::SetEnvironmentVariable("npm_config_cache", "$env:SYSTEMDRIVE\npm\npm-cache\", "Machine")
+    
+$Path = [Environment]::GetEnvironmentVariable("PATH", "Machine")
+[Environment]::SetEnvironmentVariable( "Path", "$Path;$env:SYSTEMDRIVE\npm\npm\", "Machine" )</code></pre>
+        <!-- Sem acesso administrativo
+    <pre>npm -g set prefix %SYSTEMDRIVE%\npm
+    npm -g set cache %SYSTEMDRIVE%\npm-cache
+    
+    $Path = [Environment]::GetEnvironmentVariable("PATH", "User")
+    [Environment]::SetEnvironmentVariable( "Path", "$Path;%SYSTEMDRIVE%\npm\", "User" )</pre> -->
+        <!-- Com acesso administrativo
+    <p>(na verdade, como diz a documentação (https://docs.npmjs.com/cli/v10/configuring-npm/npmrc#built-in-config-file), esse arquivo deve ser alterado via linha de comando, talvez `npm config -g`, ou entao conforme descrito em https://docs.npmjs.com/cli/v10/using-npm/config#npmrc-files?) Altere a localização da pasta onde os pacotes são instalados globalmente e da pasta cache, adicionando as seguintes configurações no arquivo <code>C:\Program Files\nodejs\node_modules\npm\npmrc</code>:</p>
+    <pre>prefix=C:\npm
+    cache=C:\npm-cache</pre>
+    <p>Adicione a pasta nas variáveis de ambiente do sistema, executando no terminal no modo administrador:</p>
+    <pre>$Path = [Environment]::GetEnvironmentVariable("PATH", "Machine")
+    [Environment]::SetEnvironmentVariable( "Path", "$Path;%SYSTEMDRIVE%\npm\", "Machine" )</pre> -->
 
-    <h2>Criando o projeto do zero</h2>
-    <p>Para criar o projeto do zero, siga as seções seguintes.</p>
+        <h3>Instalação e configuração do pnpm</h3>
+        <p>O <a href="https://pnpm.io/">pnpm</a> é uma alternativa mais rápida e leve do npm. Para instalar o pnpm, execute no terminal:</p>
+        <pre><code>npm install -g pnpm</code></pre>
+        <p>Similarmente ao npm, os pacotes são instalados pelo pnpm em <a href="https://pnpm.io/npmrc#global-bin-dir">pastas dentro da pasta do usuário</a>. Em um computador com vários usuários utilizando pnpm, podemos compartilhar essas pastas em comum. Similarmente ao que fizemos na seção anterior, vamos definir algumas variáveis de ambiente de sistema que isso já valerá para todos os usuários.</p>
+        <p>No Windows, execute pelo terminal no <i>modo administrativo</i> os seguintes comandos:</p>
+        <pre><code class="language-console">[Environment]::SetEnvironmentVariable("XDG_DATA_HOME", "$env:SYSTEMDRIVE\npm\", "Machine")
+[Environment]::SetEnvironmentVariable("XDG_STATE_HOME", "$env:SYSTEMDRIVE\npm\pnpm-state\", "Machine")
+[Environment]::SetEnvironmentVariable("XDG_CACHE_HOME", "$env:SYSTEMDRIVE\npm\pnpm-cache\", "Machine")
 
-    <h3>Parte do vscode</h3>
-    <ol>
-        <li>Crie a pasta <code ctc>alg</code> para o projeto. Essa pasta é denominada "pasta raiz", pois todos os arquivos do projeto ficam dentro dela.</li>
-        <li>Abra essa pasta pelo vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</li>
-        <li>Acesse o menu "Run → Add Configuration → Node.js". Isso adiciona uma configuração do vscode ao seu projeto para conseguir executar seus scripts simplesmente teclando <kbd>F5</kbd>, sem precisar digitar comandos no terminal.</li>
-        <li>No arquivo recém-criado <code>.vscode/launch.json</code>, adicione a linha <code ctc>"console": "integratedTerminal",</code> logo acima da linha <code>"type":"node",</code>. Essa linha configura o vscode para executar os arquivos pelo terminal em vez do debug console, pois assim poderemos interagir com nossos programas.</li>
-    </ol>
+$Path = [Environment]::GetEnvironmentVariable("PATH", "Machine")
+[Environment]::SetEnvironmentVariable( "Path", "$Path;$env:SYSTEMDRIVE\npm\pnpm\", "Machine" )</code></pre>
 
-    <h3>Parte do node</h3>
-    <ol>
-        <li>Embora o npm seja o gerenciador de pacotes padrão do node, eu pessoalmente prefiro o gerenciador de pacotes pnpm, por ser mais ágil e ocupar menos espaço que o npm. Execute <code ctc>pnpm init</code> na pasta raiz do projeto. É criado um arquivo <code>package.json</code>, que contém informações do teu projeto, como nome, versão e os pacotes que ele depende para ser executado.
-            <div class="info">
-                <p>(Observação: Se estiver no Windows e o comando anterior der um erro de permissão de execução de scripts pelo terminal, execute <code ctc>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>. Feche todos os terminais, reabra um terminal na pasta raiz do projeto e execute novamente <code ctc>pnpm init</code>).</p>
-            </div>
-        </li>
-        <li>Geralmente projetos grandes são compostos por vários arquivos de código-fonte, além dos pacotes de terceiros. O modo como o JavaScript estrutura e utiliza os arquivos é chamado de <i>module system</i>. Basicamente há dois sistemas de módulo: o <i>CommonJS</i>, que é mais antigo e vem habilitado por padrão; e o <i>ECMAScript Modules</i> (ESM), que é o mais recente e indicado, mas não vem habilitado por padrão. Para configurar o projeto com o ESM, adicione a linha <code ctc>, "type": "module"</code> no final do arquivo <code>package.json</code>, antes da chave de fechamento.</li>
-        <li id="scanf">O node não vem com uma maneira simples de ler entradas digitadas pelo terminal, pelo fato do foco do JavaScript ser desenvolvimento web. Mas para fins de aprendizado de algoritmos, é mais fácil interagirmos com nossos programas diretamente pelo terminal. Portanto, vamos instalar o utilitário de leitura de entradas por terminal <a href="https://github.com/Lellansin/node-scanf">node-scanf</a>. Execute <code ctc>pnpm add scanf</code> na pasta raiz do projeto. Ao instalar um pacote com o pnpm, o pacote é colocado na pasta <code>node_modules</code> e também registrado no arquivo <code>package.json</code>.</li>
-        <li>Por fim, para testar se está tudo em ordem, crie e execute o arquivo <code ctc>cap02/input-output.js</code> com o seguinte código:</li>
-    </ol>
+        <!-- <p>As pastas do pnpm ficam localizadas em:</p>
+    <pre>store-dir: %LocalAppData%\pnpm\store
+    global-dir: %LocalAppData%\pnpm\global
+    global-bin-dir: %LocalAppData%\pnpm
+    state-dir: %LocalAppData%\pnpm-state
+    cache-dir: %LocalAppData%\pnpm-cache</pre> -->
+    </div>
+    <div>
+        <h2>Criando o projeto do zero</h2>
+        <p>Para criar o projeto do zero, siga as seguintes subseções.</p>
 
-    <pre><code>import scanf from 'scanf';
+        <h3>Parte do vscode</h3>
+        <ol>
+            <li>Crie a pasta <code ctc>alg</code> para o projeto. Essa pasta é denominada "pasta raiz", pois todos os arquivos do projeto ficam dentro dela.</li>
+            <li>Abra essa pasta pelo vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</li>
+            <li>Acesse o menu "Run → Add Configuration → Node.js". Isso adiciona uma configuração do vscode ao seu projeto para conseguir executar seus scripts simplesmente teclando <kbd>F5</kbd>, sem precisar digitar comandos no terminal.</li>
+            <li>No arquivo recém-criado <code>.vscode/launch.json</code>, adicione a linha <code ctc>"console": "integratedTerminal",</code> logo acima da linha <code>"type":"node",</code>. Essa linha configura o vscode para executar os arquivos pelo terminal em vez do debug console, pois assim poderemos interagir com nossos programas.</li>
+        </ol>
+
+        <h3>Parte do node</h3>
+        <ol>
+            <li>Embora o npm seja o gerenciador de pacotes padrão do node, eu pessoalmente prefiro o gerenciador de pacotes pnpm, por ser mais ágil e ocupar menos espaço que o npm. Execute <code ctc>pnpm init</code> na pasta raiz do projeto. É criado um arquivo <code>package.json</code>, que contém informações do teu projeto, como nome, versão e os pacotes que ele depende para ser executado.
+                <div class="info">
+                    <p>(Observação: Se estiver no Windows e o comando anterior der um erro de permissão de execução de scripts pelo terminal, execute <code ctc>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>. Feche todos os terminais, reabra um terminal na pasta raiz do projeto e execute novamente <code ctc>pnpm init</code>).</p>
+                </div>
+            </li>
+            <li>Geralmente projetos grandes são compostos por vários arquivos de código-fonte, além dos pacotes de terceiros. O modo como o JavaScript estrutura e utiliza os arquivos é chamado de <i>module system</i>. Basicamente há dois sistemas de módulo: o <i>CommonJS</i>, que é mais antigo e vem habilitado por padrão; e o <i>ECMAScript Modules</i> (ESM), que é o mais recente e indicado, mas não vem habilitado por padrão. Para configurar o projeto com o ESM, adicione a linha <code ctc>, "type": "module"</code> no final do arquivo <code>package.json</code>, antes da chave de fechamento.</li>
+            <li id="scanf">O node não vem com uma maneira simples de ler entradas digitadas pelo terminal, pelo fato do foco do JavaScript ser desenvolvimento web. Mas para fins de aprendizado de algoritmos, é mais fácil interagirmos com nossos programas diretamente pelo terminal. Portanto, vamos instalar o utilitário de leitura de entradas por terminal <a href="https://github.com/Lellansin/node-scanf">node-scanf</a>. Execute <code ctc>pnpm add scanf</code> na pasta raiz do projeto. Ao instalar um pacote com o pnpm, o pacote é colocado na pasta <code>node_modules</code> e também registrado no arquivo <code>package.json</code>.</li>
+            <li>Por fim, para testar se está tudo em ordem, crie e execute o arquivo <code ctc>cap02/input-output.js</code> com o seguinte código:</li>
+        </ol>
+
+        <pre><code>import scanf from 'scanf';
 
 console.log('Please input your name');
 let name = scanf('%s');
@@ -99,48 +143,17 @@ let age = scanf('%d');
 console.log('your name', name, 'is a', typeof name);
 console.log('your age', age, 'is a', typeof age);</code></pre>
 
-    <p>Não se preocupe em entender tudo o que está se passando. Esse capítulo é mais para deixar tudo preparado para começarmos a aprender JavaScript no próximo capítulo. Se este programa estiver funcionando conforme o esperado, ele vai te solicitar um nome e uma idade, e, depois que você informá-los, o programa responde com algumas mensagens.</p>
-
-    <h2>Tornando o npm mais econômico</h2>
-    <p>As duas próximas seções tratam de alguns detalhes do npm e do pnpm, e mostram como compartilhar os pacotes entre usuários na mesma máquina, útil para economizar espaço em disco. Se você executou o <a href="./02 Preparando o ambiente de desenvolvimento.html#instalando">script de instalação</a> do capítulo anterior, esses passos já foram realizados.</p>
-    <h3>Configuração do Node.js</h3>
-    <p>O npm utiliza <a href="https://docs.npmjs.com/cli/v10/configuring-npm/folders">determinadas pastas</a> para gerenciar seus pacotes. O npm instala os pacotes utilizados em cada projeto na pasta <code>node_modules</code> do próprio projeto. O npm instala pacotes utilizados globalmente na pasta <code>prefix</code>, que no Windows fica em <code>%AppData%\npm</code>. O npm também utiliza a pasta <code>cache</code> para armazenar pacotes baixados, que no Windows fica em <code>%LocalAppData%/npm-cache</code>. Em um computador com vários usuários utilizando npm, podemos compartilhar as pastas <code>prefix</code> e <code>cache</code> para economizar espaço em disco. Para isso, podemos modificar as <a href="https://docs.npmjs.com/cli/v10/using-npm/config#prefix">configurações padrão do npm</a> que definem onde os pacotes são instalados. O npm carrega suas configurações de <a href="https://docs.npmjs.com/cli/v10/configuring-npm/npmrc">arquivos <code>npmrc</code></a> ou de variáveis de ambiente do sistema. Podemos editar os arquivos npmrc <a href="https://stackoverflow.com/a/54133101/4072641">via linha de comando</a>, mas isso afeta apenas o usuário que executou o comando. Portanto, aqui, vamos definir variáveis de ambiente do sistema que redirecionam a instalação de pacotes globais e o cache do npm para as pastas <code>C:\npm\npm\</code> e <code>C:\npm\npm-cache\</code>, respectivamente. Além disso, também precisaremos atualizar a variável de ambiente <code>PATH</code> para conseguir executar os pacotes globais pela linha de comando. Isso valerá para todos os usuários, não só para o usuário que executou o comando.</p>
-    <p>No Windows, execute pelo terminal no <i>modo administrativo</i> os seguintes comandos:</p>
-    <pre><code class="language-console">[Environment]::SetEnvironmentVariable("npm_config_prefix", "$env:SYSTEMDRIVE\npm\npm\", "Machine")
-[Environment]::SetEnvironmentVariable("npm_config_cache", "$env:SYSTEMDRIVE\npm\npm-cache\", "Machine")
-    
-$Path = [Environment]::GetEnvironmentVariable("PATH", "Machine")
-[Environment]::SetEnvironmentVariable( "Path", "$Path;$env:SYSTEMDRIVE\npm\npm\", "Machine" )</code></pre>
-    <!-- Sem acesso administrativo
-    <pre>npm -g set prefix %SYSTEMDRIVE%\npm
-    npm -g set cache %SYSTEMDRIVE%\npm-cache
-    
-    $Path = [Environment]::GetEnvironmentVariable("PATH", "User")
-    [Environment]::SetEnvironmentVariable( "Path", "$Path;%SYSTEMDRIVE%\npm\", "User" )</pre> -->
-    <!-- Com acesso administrativo
-    <p>(na verdade, como diz a documentação (https://docs.npmjs.com/cli/v10/configuring-npm/npmrc#built-in-config-file), esse arquivo deve ser alterado via linha de comando, talvez `npm config -g`, ou entao conforme descrito em https://docs.npmjs.com/cli/v10/using-npm/config#npmrc-files?) Altere a localização da pasta onde os pacotes são instalados globalmente e da pasta cache, adicionando as seguintes configurações no arquivo <code>C:\Program Files\nodejs\node_modules\npm\npmrc</code>:</p>
-    <pre>prefix=C:\npm
-    cache=C:\npm-cache</pre>
-    <p>Adicione a pasta nas variáveis de ambiente do sistema, executando no terminal no modo administrador:</p>
-    <pre>$Path = [Environment]::GetEnvironmentVariable("PATH", "Machine")
-    [Environment]::SetEnvironmentVariable( "Path", "$Path;%SYSTEMDRIVE%\npm\", "Machine" )</pre> -->
-
-    <h3>Instalação e configuração do pnpm</h3>
-    <p>O <a href="https://pnpm.io/">pnpm</a> é uma alternativa mais rápida e leve do npm. Para instalar o pnpm, execute no terminal:</p>
-    <pre><code>npm install -g pnpm</code></pre>
-    <p>Similarmente ao npm, os pacotes são instalados pelo pnpm em <a href="https://pnpm.io/npmrc#global-bin-dir">pastas dentro da pasta do usuário</a>. Em um computador com vários usuários utilizando pnpm, podemos compartilhar essas pastas em comum. Similarmente ao que fizemos na seção anterior, vamos definir algumas variáveis de ambiente de sistema que isso já valerá para todos os usuários.</p>
-    <p>No Windows, execute pelo terminal no <i>modo administrativo</i> os seguintes comandos:</p>
-    <pre><code class="language-console">[Environment]::SetEnvironmentVariable("XDG_DATA_HOME", "$env:SYSTEMDRIVE\npm\", "Machine")
-[Environment]::SetEnvironmentVariable("XDG_STATE_HOME", "$env:SYSTEMDRIVE\npm\pnpm-state\", "Machine")
-[Environment]::SetEnvironmentVariable("XDG_CACHE_HOME", "$env:SYSTEMDRIVE\npm\pnpm-cache\", "Machine")
-
-$Path = [Environment]::GetEnvironmentVariable("PATH", "Machine")
-[Environment]::SetEnvironmentVariable( "Path", "$Path;$env:SYSTEMDRIVE\npm\pnpm\", "Machine" )</code></pre>
-
-    <!-- <p>As pastas do pnpm ficam localizadas em:</p>
-    <pre>store-dir: %LocalAppData%\pnpm\store
-    global-dir: %LocalAppData%\pnpm\global
-    global-bin-dir: %LocalAppData%\pnpm
-    state-dir: %LocalAppData%\pnpm-state
-    cache-dir: %LocalAppData%\pnpm-cache</pre> -->
+        <p>Não se preocupe em entender tudo o que está se passando. Esse capítulo é mais para deixar tudo preparado para começarmos a aprender JavaScript no próximo capítulo. Se este programa estiver funcionando conforme o esperado, ele vai te solicitar um nome e uma idade, e, depois que você informá-los, o programa responde com algumas mensagens.</p>
+    </div>
+    <div>
+        <h2>Baixando o projeto</h2>
+        <p>Já temos o projeto criado e hospedado no GitHub. Se você quiser baixar o projeto sem o git, pode clicar no seguinte link <a href="https://github.com/pedrosiqueira/alg/archive/refs/heads/main.zip">https://github.com/pedrosiqueira/alg/archive/refs/heads/main.zip</a>. O projeto vem compactado em <code>.zip</code>. Descompacte o arquivo no local onde deseja armazenar seu projeto e o abra no vscode (atalho <kbd>Ctrl+k Ctrl+o</kbd>).</p>
+        <p>Alternativamente, para baixar usando o git:
+        <ol>
+            <li>Copie este link: <a ctc href="https://github.com/pedrosiqueira/alg.git">https://github.com/pedrosiqueira/alg.git</a>.</li>
+            <li>No vscode, tecle <kbd>F1</kbd>, digite "clone" e selecione a opção "Git: Clone".</li>
+            <li>Na caixa de entrada que aparece, cole o link copiado anteriormente e tecle <kbd>Enter</kbd>.</li>
+            <li>Escolha um local para o seu projeto e abra-o no vscode.</li>
+        </ol>
+    </div>
 </div>
