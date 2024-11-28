@@ -47,7 +47,7 @@
 <pre><code>const person = {
   name: ["Bob", "Smith"],
   age: 32,
-  bio: function () {
+  sayAge: function () {
     console.log(`${this.name[0]} ${this.name[1]} tem ${this.age} anos.`);
   },
   introduceSelf: function () {
@@ -62,14 +62,14 @@
 };</code></pre>
 <p>O valor de uma propriedade do objeto pode ser praticamente qualquer coisa, inclusive outro objeto! No objeto <code>person</code>, temos um número, uma lista e duas funções. As duas primeiras propriedades são valores de dados e são chamadas de <strong>atributos</strong> do objeto. As duas últimas propriedades são funções que permitem que o objeto faça algo com esses dados e são chamadas de <strong>métodos</strong> do objeto. Vamos interagir com nosso objeto:</p>
 <pre><code>console.log(person.name, person.name[0], person.age); // [ 'Bob', 'Smith' ] Bob 32
-person.bio(); // "Bob Smith tem 32 anos."
-person.introduceSelf(); // "Oi! Eu sou Bob."</code></pre>
+person.introduceSelf(); // "Oi! Eu sou Bob."
+person.sayAge(); // "Bob Smith tem 32 anos."</code></pre>
 
-<p>Quando os membros do objeto são funções, há uma sintaxe mais simples. Em vez de <code>bio: function()</code>, podemos escrever <code>bio()</code>. Assim:</p>
+<p>Quando os membros do objeto são funções, há uma sintaxe mais simples. Em vez de <code>sayAge: function()</code>, podemos escrever <code>sayAge()</code>. Assim:</p>
 <pre><code>const person = {
   name: ["Bob", "Smith"],
   age: 32,
-  bio() {
+  sayAge() {
     console.log(`${this.name[0]} ${this.name[1]} tem ${this.age} anos.`);
   },
   introduceSelf() {
@@ -86,7 +86,7 @@ person.introduceSelf(); // "Oi! Eu sou Bob."</code></pre>
 <p>Anteriormente, acessamos as propriedades do objeto usando a <strong>notação de ponto</strong>. O nome do objeto (<code>person</code>) atua como o namespace — ele deve ser informado primeiro para acessar qualquer coisa dentro do objeto. Em seguida, escrevemos um ponto, depois o item que desejamos acessar — pode ser uma variável simples, um item de uma lista ou uma chamada a um dos métodos do objeto, por exemplo:</p>
 
 <pre><code>person.age;
-person.bio();</code></pre>
+person.sayAge();</code></pre>
 
 <h3>Objetos como Propriedades de Objetos</h3>
 
@@ -134,12 +134,12 @@ logProperty("age");
 <h2>Definindo Membros de Objetos</h2>
 
 <p>Até agora, vimos apenas como obter membros de objetos, mas também podemos definir (atualizar) o valor dos membros de objetos através do operador de atribuição <code>=</code>:</p>
-<pre><code>person.bio(); // "Bob Smith tem 32 anos."
+<pre><code>person.sayAge(); // "Bob Smith tem 32 anos."
 
 person.age = 45;
 person["name"]["last"] = "Cratchit";
 
-person.bio(); // "Bob Cratchit tem 45 anos."</code></pre>
+person.sayAge(); // "Bob Cratchit tem 45 anos."</code></pre>
 
 <p>Podemos definir membros não apenas para atualizar valores e métodos existentes, mas também para criar membros completamente novos:</p>
 <pre><code>person["eyes"] = "hazel";
@@ -288,6 +288,29 @@ console.log(alist[0].toUpperCase(), alist[1]); // "FOO bar"</code></pre>
 
 <h2>Resumo</h2>
 <p>Agora temos uma boa ideia do que é e como trabalhar com objetos. Entendemos que objetos são muito úteis como estruturas para armazenar dados e funcionalidades relacionadas — se tentássemos manter as propriedades de vários objetos em variáveis separadas, seria ineficiente e frustrante, além de corremos o risco de nomear variáveis e funções com mesmos nomes. Objetos nos permitem manter informações relacionadas agrupadas em um só lugar.</p>
+<p>Podemos modelar qualquer coisa do mundo real como objeto. Basta extrairmos suas propriedades, que podem ser:</p>
+<table class="custom">
+  <thead>
+    <tr>
+      <th>Atributo</th>
+      <th>Método</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Representa características, o que o objeto <strong>é</strong> ou <strong>tem</strong>.</td>
+      <td>Representa ações, o que o objeto <strong>faz</strong>.</td>
+    </tr>
+    <tr>
+      <td>Correspondem a <strong>variáveis</strong> que armazenam valores associados ao objeto.</td>
+      <td>Correspondem a <strong>funções</strong> que definem comportamentos do objeto.</td>
+    </tr>
+    <tr>
+      <td>Geralmente são descritos por <strong>substantivos</strong>.</td>
+      <td>Geralmente são descritos por <strong>verbos</strong>.</td>
+    </tr>
+  </tbody>
+</table>
 
 <h2>Exercícios</h2>
 <p>Façamos os exercícios em <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Test_your_skills:_Object_basics">https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Test_your_skills:_Object_basics</a></p>
