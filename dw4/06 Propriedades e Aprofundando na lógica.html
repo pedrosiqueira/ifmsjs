@@ -42,91 +42,57 @@
   <li><a href="https://svelte.dev/tutorial/svelte/default-values">Default values</a></li>
   <li><a href="https://svelte.dev/tutorial/svelte/spread-props">Spread props</a></li>
 </ul>
-<p>Leia as seguintes seções de "Logic":</p>
+<p>Leia a seguinte seção de "Logic":</p>
 <ul>
   <li><a href="https://svelte.dev/tutorial/svelte/each-blocks">Each blocks</a></li>
-  <li><a href="https://svelte.dev/tutorial/svelte/keyed-each-blocks">Keyed each blocks</a></li>
 </ul>
 
-<h2>Criando um componente com propriedades</h2>
-<p>Crie o arquivo <code ctc>src/lib/components/CartaMagic.svelte</code>:</p>
+<h2>Percurso em lista</h2>
+<p>Crie o arquivo <code ctc>src/routes/06a-frutas</code>:</p>
 <pre><code>&lt;script&gt;
-  let { img, title, type, text } = $props();
+  const frutas = [&apos;açaí&apos;, &apos;cajá&apos;, &apos;coco&apos;, &apos;figo&apos;, &apos;ingá&apos;];
 &lt;/script&gt;
 
-&lt;div class=&quot;card h-100&quot; style=&quot;width: 18rem;&quot;&gt;
-  &lt;img src={img} class=&quot;card-img-top&quot; alt=&quot;invisibility&quot; width=&quot;200px&quot; /&gt;
-  &lt;div class=&quot;card-body&quot;&gt;
-    &lt;h5 class=&quot;card-title&quot;&gt;{title}&lt;/h5&gt;
-    &lt;h6 class=&quot;card-subtitle mb-2 text-body-secondary&quot;&gt;{type}&lt;/h6&gt;
-    &lt;p class=&quot;card-text&quot;&gt;{text}&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
+&lt;h2&gt;Minhas frutas preferidas&lt;/h2&gt;
+&lt;ul&gt;
+  {#each frutas as fruta}
+    &lt;li&gt;{fruta}&lt;/li&gt;
+  {/each}
+&lt;/ul&gt;</code></pre>
 
 <p>Explicação:</p>
 <ul>
-  <li>Linha 2: essas são as propriedades do nosso componente, que podem ser passadas a ele quando o utilizarmos em alguma página.</li>
-  <li>Linha 5: Nosso componente svelte é feito usando o componente "Card" do Bootstrap. Quando os <i>cards</i> são distribuídos em colunas (que veremos a seguir), a classe <code id="h-100">h-100</code> faz com que <a href="https://getbootstrap.com/docs/5.3/components/card/#grid-cards">todos os <i>cards</i> tenham mesma altura</a>. Para definir uma largura fixa nos <i>cards</i>, usamos <code>style="width: 18rem;"</code> (você pode mudar a largura para outro valor se preferir). Mais sobre <i>cards</i> <a href="https://getbootstrap.com/docs/5.3/components/card/">aqui</a>.</li>
+  <li>Linha 2: Declarada uma lista <code>frutas</code> com várias frutas como itens.</li>
+  <li>Linha 7: Percorre <strong>cada</strong> item <code>fruta</code> da lista <code>frutas</code>.</li>
+  <li>Linha 8: O que está dentro do <code>#each</code> será repetido. Neste caso, vários elementos <code>li</code> serão repetidos, um para cada fruta.</li>
 </ul>
-<div class="info">Observação: Não confunda o conceito de "componentes" do Svelte com o do Bootstrap: no Svelte, componentes são unidades reutilizáveis de código que podem incluir HTML, CSS e JavaScript. Cada componente no Svelte é basicamente uma função ou classe que representa uma parte da interface do usuário, podendo ser compartilhada, composta e reusada. Já no Bootstrap, "componentes" referem-se a elementos de UI prontos, como botões, formulários, barras de navegação, etc., que são estilizados com as classes CSS fornecidas pelo framework.</div>
 
-<h2>Carregando dados nas páginas</h2>
-<p>Em um aplicativo web profissional, os dados ficam em um banco de dados ou Content Management System (CMS). Mas para esse tutorial vamos deixar os dados no arquivo <code ctc>src/lib/data.js</code>:</p>
-<pre><code class="js">export const cards = [
-  {
-    title: 'Invisibility',
-    type: 'Enchant creature',
-    text: "Enchanted creature can't be blocked except by Walls.",
-    img: 'https://www.mtgpics.com/pics/art_th/alp/126.jpg'
-  },
-  {
-    title: 'Copper Tablet',
-    type: 'Artifact',
-    text: "At the beginning of each player's upkeep, Copper Tablet deals 1 damage to that player.",
-    img: 'https://www.mtgpics.com/pics/art/alp/047.jpg'
-  },
-  {
-    title: 'Twiddle',
-    type: 'Instant',
-    text: 'You may tap or untap target artifact, creature, or land.',
-    img: 'https://www.mtgpics.com/pics/art_th/alp/267.jpg'
-  },
-  {
-    title: 'Volcanic Eruption',
-    type: 'Sorcery',
-    text: 'Destroy X target Mountains. Volcanic Eruption deals damage to each creature and each player equal to the number of Mountains put into a graveyard this way.',
-    img: 'https://www.mtgpics.com/pics/art_th/alp/276.jpg'
-  }
-];</code></pre>
-
-<p>Explicação: definimos uma lista <code>cards</code> cujos itens são objetos que contêm informações sobre cartas do jogo <i>Magic</i>.</p>
-
-<p>Crie a página <code ctc>src/routes/cartas/+page.svelte</code>:
+<h2>Lista de tarefas</h2>
+<p>Crie o arquivo <code ctc>src/routes/06b-lista-tarefas</code>:</p>
 <pre><code>&lt;script&gt;
-  import CartaMagic from &apos;$lib/components/CartaMagic.svelte&apos;;
-  import { cards } from &apos;$lib/data.js&apos;;
+  const tarefas = $state([]);
+  let tarefa = $state();
 &lt;/script&gt;
 
-&lt;div class=&quot;row g-4&quot;&gt;
-  {#each cards as card}
-    &lt;div class=&quot;col&quot;&gt;
-      &lt;CartaMagic {...card} /&gt;
-    &lt;/div&gt;
+&lt;h2&gt;Tarefas a fazer&lt;/h2&gt;
+&lt;input placeholder=&quot;Tarefa...&quot; bind:value={tarefa} /&gt;
+&lt;button onclick={() =&gt; tarefas.push(tarefa)}&gt;Adicionar tarefa&lt;/button&gt;
+&lt;ul&gt;
+  {#each tarefas as tarefa, i}
+    &lt;li&gt;{tarefa} (&lt;a href=&quot;#/&quot; onclick={() =&gt; tarefas.splice(i, 1)}&gt;🗑&lt;/a&gt;)&lt;/li&gt;
   {/each}
-&lt;/div&gt;</code></pre>
+&lt;/ul&gt;</code></pre>
 
-<p>Essa página reutiliza o componente <code>Carta.svelte</code> e carrega os dados de <code>data.js</code>. Explicação:</p>
-
+<p>Explicação:</p>
 <ul>
-  <li>Linhas 1-2: Para utilizar recursos de outros arquivos, devemos importá-los nesse arquivo.</li>
-  <li>Linhas 6 e 8: As classes <code>row</code> e <code>col</code> fazem parte do sistema de grades (grid system) do Bootstrap e permitem que os conteúdos da página sejam separados por colunas responsivas. Atribuir a classe <code>h-100</code> aos <i>cards</i> dentro de colunas faz com que <a href="#h-100">todos eles tenham a mesma altura</a>. Mais sobre o sistema de grades <a href="https://getbootstrap.com/docs/5.3/layout/grid/">aqui</a>.
-    <div class="info">Observação: Responsividade é um conceito de design que permite que sites e aplicativos se ajustem automaticamente a diferentes tamanhos de tela e dispositivos. Experimente reduzir a janela do navegador e perceba que os <i>cards</i> vão sendo distribuídos no espaço disponível.</div>
-  </li>
-  <li>Linha 6: A classe <code>g-4</code> define a medianiz (gutter) entre linhas e colunas como nível 3. A medianiz pode variar entre 0 (sem gutter) e 5 (gutter máximo). Mais sobre medianiz <a href="https://getbootstrap.com/docs/5.3/layout/gutters/">aqui</a>.</li>
+  <li>Linha 8: A propriedade <code>onclick</code> executa uma função ao clicar no elemento. Em vez de declararmos a função dentro do <code>script</code> e invocá-la em <code>onclick</code>, podemos declarar uma função anônima diretamente dentro de <code>onclick</code>, usando a expressão <code>()=></code> (<i>arrow function</i>). Mais sobre arrow functions <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">aqui</a>.</li>
+  <li>Linha 8 (continuando): O comando <code>tarefas.push(tarefa)</code> adiciona a variável <code>tarefa</code> à lista <code>tarefas</code>.</li>
+  <li>Linha 10: Ao percorrer por cada item da lista, podemos paralelamente percorrer seus índices, declarando outra variável, que aqui, nomeamos como <code>i</code>.</li>
+  <li>Linha 11: O comando <code>tarefas.splice(i, 1)</code> exclui da lista <code>tarefas</code> o item no índice <code>i</code>.</li>
 </ul>
 
 <h2>Exercícios</h2>
 <ol class="excs">
-  <li>À medida que o projeto cresce, é essencial organizar melhor seus arquivos. Em vez de deixar todos os componentes soltos dentro da pasta <code>lib</code>, é melhor criar uma pasta <code>components</code> para armazená-los de maneira mais estruturada. Mova o componente <code>Poema.svelte</code> (do <a href="./03 Introdução ao Svelte.html#poema-component">Capítulo 3</a>) para dentro da nova pasta <code>components</code> e atualize o arquivo <code>src/routes/+page.svelte</code> para importar o componente a partir de sua nova localização.</li>
-  <li>Reproduza o exemplo de <i>cards</i> que fizemos, mas com uma lista de outros itens que você desejar. Cada <i>card</i> precisa ter pelo menos um título, subtítulo, conteúdo e imagem. A imagem pode ser um link externo ou pode ser um arquivo salvo na pasta <code>static</code>.</li>
+  <li>Na lista de tarefas a fazer, além da opção de excluir um item, adicione uma opção para editar um item.</li>
+  <li>Estilize tua lista de tarefas a fazer.</li>
 </ol>

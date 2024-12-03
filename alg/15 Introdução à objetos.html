@@ -32,9 +32,7 @@
 
 <h1>Introdução a Objetos</h1>
 
-<sub>
-  <p>Adaptado <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects">daqui</a>.</p>
-</sub>
+<p>Adaptado <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects">daqui</a>.</p>
 
 <p>Em JavaScript, a maioria das coisas são objetos, desde os principais recursos, como arrays e strings, até as APIs do navegador construídas sobre o JavaScript. Podemos até mesmo criar nossos próprios objetos para encapsular funções e variáveis relacionadas em pacotes eficientes e atuar como contêineres de dados úteis. Entender a natureza orientada a objetos do JavaScript é fundamental se quisermos aprofundar nosso conhecimento da linguagem.</p>
 
@@ -83,7 +81,7 @@ person.sayAge(); // "Bob Smith tem 32 anos."</code></pre>
 
 <h2>Notação de Ponto</h2>
 
-<p>Anteriormente, acessamos as propriedades do objeto usando a <strong>notação de ponto</strong>. O nome do objeto (<code>person</code>) atua como o namespace — ele deve ser informado primeiro para acessar qualquer coisa dentro do objeto. Em seguida, escrevemos um ponto, depois o item que desejamos acessar — pode ser uma variável simples, um item de uma lista ou uma chamada a um dos métodos do objeto, por exemplo:</p>
+<p>Anteriormente, acessamos as propriedades do objeto usando a <strong>notação de ponto</strong>. O nome do objeto (<code>person</code>) atua como o namespace — ele deve ser informado primeiro para acessar qualquer coisa dentro do objeto. Em seguida, escrevemos um ponto, depois o item que desejamos acessar — pode ser uma variável simples, um item de uma lista ou uma invocação a um dos métodos do objeto, por exemplo:</p>
 
 <pre><code>person.age;
 person.sayAge();</code></pre>
@@ -194,7 +192,7 @@ console.log(anotherPerson.name, anotherPerson.age) // { first: 'Alice', last: 'J
   console.log(`Oi! Eu sou ${this.name[0]}.`);
 }</code></pre>
 
-<p>A palavra-chave <code>this</code> se refere ao objeto atual em que o código está sendo executado. No contexto de um método de objeto, <code>this</code> se refere ao objeto em que o método foi chamado. Vejamos um exemplo:</p>
+<p>A palavra-chave <code>this</code> se refere ao objeto atual em que o código está sendo executado. No contexto de um método de objeto, <code>this</code> se refere ao objeto em que o método foi invocado. Vejamos um exemplo:</p>
 
 <pre><code>const introduceSelf = function () {
   console.log(`Oi! Eu sou ${this.name}.`);
@@ -206,13 +204,13 @@ const person2 = { name: 'Deepti', introduceSelf };
 person1.introduceSelf();
 person2.introduceSelf();</code></pre>
 
-<p>Dois objetos são criados, cada um com um atributo <code>name</code> e ambos compartilhando o método <code>introduceSelf()</code>. Quando <code>person1.introduceSelf()</code> e <code>person2.introduceSelf()</code> são chamados, o JavaScript usa a palavra-chave <code>this</code> dentro do método <code>introduceSelf</code> para se referir ao objeto cujo método foi chamado:</p>
+<p>Dois objetos são criados, cada um com um atributo <code>name</code> e ambos compartilhando o método <code>introduceSelf()</code>. Quando <code>person1.introduceSelf()</code> e <code>person2.introduceSelf()</code> são invocados, o JavaScript usa a palavra-chave <code>this</code> dentro do método <code>introduceSelf</code> para se referir ao objeto cujo método foi invocado:</p>
 <ul>
   <li>Para <code>person1.introduceSelf()</code>, <code>this</code> se refere a <code>person1</code>, então <code>this.name</code> se torna <code>'Chris'</code>.</li>
   <li>Para <code>person2.introduceSelf()</code>, <code>this</code> se refere a <code>person2</code>, então <code>this.name</code> se torna <code>'Deepti'</code>.</li>
 </ul>
 
-<p>Neste código, <code>introduceSelf</code> é uma função que pode ser usada por vários objetos e, cada vez que é invocada, a palavra-chave <code>this</code> se refere ao objeto onde a função foi chamada, permitindo que ela acesse a propriedade <code>name</code> correta para cada objeto.</p>
+<p>Neste código, <code>introduceSelf</code> é uma função que pode ser usada por vários objetos e, cada vez que é invocada, a palavra-chave <code>this</code> se refere ao objeto onde a função foi invocada, permitindo que ela acesse a propriedade <code>name</code> correta para cada objeto.</p>
 
 <p>Este padrão permite que a mesma função (<code>introduceSelf</code>) seja reutilizada para diferentes objetos com diferentes propriedades, demonstrando a flexibilidade do JavaScript em contextos orientados a objetos. O <code>this</code> é um conceito fundamental na programação orientada a objetos, utilizado em diversos contextos, como em construtores. Construtores são métodos que permitem criar objetos a partir de uma única definição, um tópico que veremos a seguir.</p>
 
@@ -230,7 +228,7 @@ person2.introduceSelf();</code></pre>
   return obj;
 }</code></pre>
 
-<p>Essa função cria e retorna um novo objeto toda vez que a chamamos. O objeto terá dois membros, um atributo <code>name</code> e um método <code>introduceSelf()</code>. Observe que a função recebe um parâmetro <code>name</code> para definir o valor da propriedade <code>name</code>, mas o método <code>introduceSelf</code> será o mesmo para todos os objetos criados usando esta função.</p>
+<p>Essa função cria e retorna um novo objeto toda vez que a invocamos. O objeto terá dois membros, um atributo <code>name</code> e um método <code>introduceSelf()</code>. Observe que a função recebe um parâmetro <code>name</code> para definir o valor da propriedade <code>name</code>, mas o método <code>introduceSelf</code> será o mesmo para todos os objetos criados usando esta função.</p>
 
 <p>Agora podemos criar quantos objetos quisermos:</p>
 
@@ -241,9 +239,9 @@ const person4 = createPerson("Frankie");
 person4.introduceSelf(); // "Oi! Eu sou Frankie."</code></pre>
 
 <p>Para poucos objetos e/ou com poucas propriedades, talvez valha mais a pena usar objetos literais. Mas, à medida que utilizarmos objetos mais complexos ou muitos objetos com as mesmas propriedades, ter um "modelo" de criação de objetos se torna essencial. Tanto é que o JavaScript possui uma maneira melhor de criação de objetos: <strong>construtores</strong>.</p>
-<p>Construtores são funções chamadas usando a palavra-chave <code>new</code>.</p>
+<p>Construtores são funções que podem ser invocadas com a palavra-chave <code>new</code>.</p>
 
-<p>Quando chamamos um construtor, ele irá:</p>
+<p>Quando invocamos um construtor, ele irá:</p>
 <ul>
   <li>criar um novo objeto;</li>
   <li>vincular o <code>this</code> ao novo objeto, para podermos fazer referência ao objeto por meio do <code>this</code> no código do construtor;</li>
@@ -267,7 +265,7 @@ person3.introduceSelf(); // "Oi! Eu sou Salva."
 const person4 = new Person("Frankie");
 person4.introduceSelf(); // "Oi! Eu sou Frankie."</code></pre>
 
-<p>Observe que, para chamar o construtor, usamos a palavra-chave <code>new</code>.</p>
+<p>Observe que para invocar o construtor usamos a palavra-chave <code>new</code>.</p>
 
 <h2>Com que Frequência? O Tempo Todo!</h2>
 
@@ -279,12 +277,12 @@ alist.push('bar');
 console.log(alist[0].toUpperCase(), alist[1]); // "FOO bar"</code></pre>
 
 <p>Estamos trabalhando com objetos do tipo string e array, cada qual com seus próprios métodos.</p>
-<p>Mas, para criar objetos, não usamos a palavra-chave <code>new</code> seguida pelo nome do construtor? Sim, com certeza, mas como strings e arrays são objetos tão comuns da linguagem, eles possuem uma maneira única de serem inicializados: com aspas e colchetes, respectivamente. Mas, se quisermos, podemos criar string e array chamando explicitamente o construtor:</p>
+<p>Mas, para criar objetos, não usamos a palavra-chave <code>new</code> seguida pelo nome do construtor? Sim, com certeza, mas como strings e arrays são objetos tão comuns da linguagem, eles possuem uma maneira única de serem inicializados: com aspas e colchetes, respectivamente. Mas, se quisermos, podemos criar string e array invocando explicitamente o construtor:</p>
 <pre><code>const atext = new String('foo');
 const alist = new Array(atext);
 alist.push('bar');
 console.log(alist[0].toUpperCase(), alist[1]); // "FOO bar"</code></pre>
-<p>Inclusive, quando criamos uma string ou um array usando apenas aspas ou colchetes, internamente o JavaScript chama seus respectivos construtores.</p>
+<p>Inclusive, quando criamos uma string ou um array usando apenas aspas ou colchetes, internamente o JavaScript invoca seus respectivos construtores.</p>
 
 <h2>Resumo</h2>
 <p>Agora temos uma boa ideia do que é e como trabalhar com objetos. Entendemos que objetos são muito úteis como estruturas para armazenar dados e funcionalidades relacionadas — se tentássemos manter as propriedades de vários objetos em variáveis separadas, seria ineficiente e frustrante, além de corremos o risco de nomear variáveis e funções com mesmos nomes. Objetos nos permitem manter informações relacionadas agrupadas em um só lugar.</p>
