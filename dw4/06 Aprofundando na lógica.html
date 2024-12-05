@@ -86,53 +86,56 @@
 
 <h2>Exercícios</h2>
 <ol class="excs">
-  <li>Na lista de tarefas a fazer, além da opção de excluir um item, adicione uma opção para editar um item.</li>
-  <p>Uma possível solução:</p>
+  <li>Na lista de tarefas a fazer, além da opção de excluir um item, implementar a opção para editar e cancelar a edição de um item.</li>
+  <p>Uma possível solução (faltou cancelar a edição):</p>
   <pre><code>&lt;script&gt;
-    const tarefas = $state([]);
-    let novaTarefa = $state(&apos;&apos;);
-    let tarefaEditadaIndice = $state();
-    let tarefaEditadaItem = $state();
+    const tarefas = $state([&apos;lavar a louça&apos;, &apos;arrumar o quarto&apos;, &apos;comprar chocolate pro amigo secreto&apos;]);
+    let tarefaNova = $state();
+    let tarefaEditandoIndice = $state();
+    let tarefaEditando = $state();
 
     function adicionarTarefa() {
-        tarefas.push(novaTarefa);
-        novaTarefa = &apos;&apos;;
+        tarefas.push(tarefaNova);
+        tarefaNova = &apos;&apos;;
     }
 
     function excluirTarefa(i) {
         tarefas.splice(i, 1);
     }
 
-    function editarTarefa(tarefa, i) {
-        tarefaEditadaItem = tarefa;
-        tarefaEditadaIndice = i;
+    function editarTarefa(i) {
+        tarefaEditandoIndice = i;
+        tarefaEditando = tarefas[i];
     }
 
     function salvarTarefa(i) {
-        tarefas[i] = tarefaEditadaItem;
-        tarefaEditadaIndice = -1;
+        tarefas[i] = tarefaEditando;
+        tarefaEditandoIndice = null;
     }
+
+    function cancelarEdicao() {}
 &lt;/script&gt;
 
 &lt;h2&gt;Lista de tarefas&lt;/h2&gt;
 &lt;p&gt;
-    &lt;input placeholder=&quot;Digite aqui tua nova tarefa...&quot; bind:value={novaTarefa} /&gt;
-    &lt;button onclick={adicionarTarefa}&gt;+&lt;/button&gt;
+    &lt;input placeholder=&quot;Digite a tarefa...&quot; bind:value={tarefaNova} /&gt;
+    &lt;button onclick={adicionarTarefa}&gt;➕&lt;/button&gt;
 &lt;/p&gt;
 &lt;ul&gt;
     {#each tarefas as tarefa, i}
         &lt;li&gt;
-            {#if tarefaEditadaIndice == i}
-                &lt;input bind:value={tarefaEditadaItem} /&gt;
+            {#if tarefaEditandoIndice == i}
+                &lt;input bind:value={tarefaEditando} /&gt;
                 &lt;button onclick={() =&gt; salvarTarefa(i)}&gt;💾&lt;/button&gt;
+                &lt;button onclick={cancelarEdicao}&gt;❌&lt;/button&gt;
             {:else}
                 {tarefa}
-                &lt;button onclick={() =&gt; editarTarefa(tarefa, i)}&gt;✏&lt;/button&gt;
+                &lt;button onclick={() =&gt; editarTarefa(i)}&gt;✏&lt;/button&gt;
+                &lt;button onclick={() =&gt; excluirTarefa(i)}&gt;🗑&lt;/button&gt;
             {/if}
-            &lt;button onclick={() =&gt; excluirTarefa(i)}&gt;🗑&lt;/button&gt;
         &lt;/li&gt;
     {/each}
 &lt;/ul&gt;</code></pre>
-  <li>Agora, adicione uma opção para marcar o item como concluído. Dica: Você pode manter duas listas, uma de tarefas concluídas e outra de tarefas a fazer. Ao marcar uma tarefa como concluída, a exclui da lista a fazer, e a adiciona na lista de concluídas. Ao desmarcar uma tarefa como concluída, faz o contrário.</li>
+  <li>Agora, implemente uma opção para marcar um item como concluído. Dica: Você pode manter duas listas, uma de tarefas concluídas e outra de tarefas a fazer. Ao marcar uma tarefa como concluída, a exclui da lista a fazer, e a adiciona na lista de concluídas. Ao desmarcar uma tarefa como concluída, faz o contrário.</li>
   <li>Estilize tua lista de tarefas a fazer. Procure na internet por exemplos de <i>todo list</i> para se inspirar.</li>
 </ol>
