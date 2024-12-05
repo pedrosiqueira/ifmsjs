@@ -1,12 +1,12 @@
 # Como publicar teu projeto SvelteKit no GitHub Pages
 
-O SvelteKit possui uma ferramenta [Static Site Generator (SSG)](https://svelte.dev/docs/kit/adapter-static), chamado de adaptador estático, que constrói uma versão estática do teu site. Sites estáticos, apesar de mais simples, têm a vantagem de não precisar de um servidor de back-end processando as requisições. Entretanto, funcionalidades dinâmicas precisam ser implementadas via JavaScript no lado do cliente, o que não é ideal para projetos que exigem muitas interações dinâmicas no servidor (como painéis de controle ou sistemas de login complexos). Os SSGs são excelentes para blogs, portfólios, documentações e outros projetos que não exigem muitas operações dinâmicas no back-end.
+O SvelteKit possui uma ferramenta [Static Site Generator (SSG)](https://svelte.dev/docs/kit/adapter-static), conhecida como adaptador estático, que constrói uma versão estática do teu site. Sites estáticos, apesar de mais simples, têm a vantagem de não precisar de um servidor de back-end processando as requisições. Entretanto, funcionalidades dinâmicas precisam ser implementadas via JavaScript no front-end, o que não é ideal para projetos que exigem muitas interações dinâmicas com o servidor (como painéis de controle ou sistemas de login complexos). Os SSGs são excelentes para blogs, portfólios, documentações e outros projetos que não exigem muitas operações dinâmicas no back-end.
 
-O GitHub Pages é uma solução ideal para hospedar sites estáticos pequenos ou médios de forma gratuita. Ele suporta integração direta com repositórios do GitHub, permitindo que o deploy de novas versões do site seja feito automaticamente sempre que houver alterações no repositório.
+O [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages) é uma solução ideal para hospedar sites estáticos pequenos ou médios de forma gratuita. Ele suporta integração direta com repositórios do GitHub, permitindo que o deploy de novas versões do site seja feito automaticamente sempre que houver alterações no repositório.
 
 Neste tutorial vamos criar um site estático com SvelteKit, e publicá-lo na Internet com o GitHub Pages.
 
-## Criação do projeto e sua publicação no GitHub
+## Criação do projeto
 
 1. Execute no terminal:
 
@@ -18,9 +18,6 @@ Neste tutorial vamos criar um site estático com SvelteKit, e publicá-lo na Int
     pnpm dlx sv create $username".github.io"
     cd $username".github.io"
     pnpm add --save-dev @sveltejs/adapter-static
-    git init 
-    git add -A 
-    git commit -m "Initial commit"
     code -r .
     ```
 
@@ -46,11 +43,7 @@ Neste tutorial vamos criar um site estático com SvelteKit, e publicá-lo na Int
     │  pnpm
     ```
 
-4. No VSCode, Tecle F1, digite e selecione a opção "Publish Branch", depois selecione a opção "Publish to GitHub public repository".
-
-## Publicação do projeto no GitHub Pages
-
-### Parte 1 - Configurando o repositório local
+## Configuração local do projeto com GitHub Pages
 
 1. Altere o adaptador no arquivo `svelte.config.js`:
 
@@ -79,14 +72,14 @@ Neste tutorial vamos criar um site estático com SvelteKit, e publicá-lo na Int
     export const prerender = true;
     ```
 
-3. Crie um workflow de publicação automático no arquivo `.github/workflows/deploy.yml`:
+3. Crie um workflow de implantação automática no arquivo `.github/workflows/deploy.yml`:
 
     ```yml
     name: Deploy to GitHub Pages
     
     on:
       push:
-        branches: ["master"]
+        branches: ["main"]
     
     jobs:
       build_site:
@@ -138,15 +131,15 @@ Neste tutorial vamos criar um site estático com SvelteKit, e publicá-lo na Int
             uses: actions/deploy-pages@v4
     ```
 
-4. Faça o commit e o push das alterações do projeto!
+4. Publique teu site no GitHub! No VSCode, tecle F1, digite "publish", selecione as opções "Publish to GitHub" → "Publish to GitHub public repository".
 
-### Parte 2 - Configurando o repositório remoto
+## Configuração remota do projeto com GitHub Pages
 
 1. Acesse o site https://github.com/UserName/UserName.github.io/settings/pages, substituindo `UserName` pelo teu nome de usuário do GitHub.
 2. Em "Build and deployment" → "Source", selecione "GitHub Actions"
 
-Tudo pronto! Toda vez que você fizer o "push" no repositório remoto, teu projeto será publicado (deployed) no GitHub Pages!
+Tudo pronto! Toda vez que você fizer o "push" no repositório remoto, teu projeto será implantado (deployed) no GitHub Pages!
 
-Para ver os workflows de publicação executados, acesse https://github.com/UserName/UserName.github.io/actions, substituindo `UserName` pelo teu nome de usuário do GitHub.
+Para ver os workflows de implantação executados, acesse https://github.com/UserName/UserName.github.io/actions, substituindo `UserName` pelo teu nome de usuário do GitHub.
 
-Para ver teu site publicado online, acesse https://UserName.github.io, substituindo `UserName` pelo teu nome de usuário do GitHub.
+Para ver teu site online, acesse https://UserName.github.io, substituindo `UserName` pelo teu nome de usuário do GitHub.
