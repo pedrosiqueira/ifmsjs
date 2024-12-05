@@ -6,7 +6,7 @@ O [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pa
 
 Neste tutorial vamos criar um site estático com SvelteKit, e publicá-lo na Internet com o GitHub Pages.
 
-## Criação do projeto
+## Criação do projeto com SvelteKit
 
 1. Execute no terminal:
 
@@ -43,7 +43,7 @@ Neste tutorial vamos criar um site estático com SvelteKit, e publicá-lo na Int
     │  pnpm
     ```
 
-## Configuração local do projeto com GitHub Pages
+## Configuração do projeto com GitHub Pages
 
 1. Altere o adaptador no arquivo `svelte.config.js`:
 
@@ -131,14 +131,14 @@ Neste tutorial vamos criar um site estático com SvelteKit, e publicá-lo na Int
             uses: actions/deploy-pages@v4
     ```
 
-4. Publique teu site no GitHub! No VSCode, tecle F1, digite "publish", selecione as opções "Publish to GitHub" → "Publish to GitHub public repository".
+4. Publique teu site no GitHub. No VSCode, tecle F1, digite "publish", selecione as opções "Publish to GitHub" → "Publish to GitHub public repository", atentando-se para que o nome do repositório seja `UserName.github.io`, substituindo `UserName` pelo teu nome de usuário do GitHub.
 
-## Configuração remota do projeto com GitHub Pages
+<!-- ## Configuração remota do projeto com GitHub Pages
 
 1. Acesse o site https://github.com/UserName/UserName.github.io/settings/pages, substituindo `UserName` pelo teu nome de usuário do GitHub.
-2. Em "Build and deployment" → "Source", selecione "GitHub Actions"
+2. Em "Build and deployment" → "Source", selecione "GitHub Actions" -->
 
-Tudo pronto! Toda vez que você fizer o "push" no repositório remoto, teu projeto será implantado (deployed) no GitHub Pages!
+Tudo pronto! Toda vez que você fizer o "push" para o repositório remoto, teu projeto será implantado (deployed) no GitHub Pages!
 
 Para ver os workflows de implantação executados, acesse https://github.com/UserName/UserName.github.io/actions, substituindo `UserName` pelo teu nome de usuário do GitHub.
 
