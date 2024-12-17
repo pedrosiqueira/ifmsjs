@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
-  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 
-  <!-- https://github.com/arronhunt/highlightjs-copy -->
-  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
-  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
-  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
 
-  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
-  <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
-  <script defer>hljs.highlightLinesAll([
-      // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
-    ]);
-  </script>
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+    <script defer>hljs.highlightLinesAll([
+            // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
+        ]);
+    </script>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.css">
-  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.js"></script>
 </head>
 
 <h1>Aprofundando na lógica</h1>
@@ -37,7 +37,7 @@
 
 <p>Leia a seguinte seção de "Logic":</p>
 <ul>
-  <li><a href="https://svelte.dev/tutorial/svelte/each-blocks">Each blocks</a></li>
+    <li><a href="https://svelte.dev/tutorial/svelte/each-blocks">Each blocks</a></li>
 </ul>
 
 <h2>Percurso em lista</h2>
@@ -55,9 +55,9 @@
 
 <p>Explicação:</p>
 <ul>
-  <li>Linha 2: Declarada uma lista <code>frutas</code> com várias frutas como itens.</li>
-  <li>Linha 7: Percorre <strong>cada</strong> item <code>fruta</code> da lista <code>frutas</code>.</li>
-  <li>Linha 8: O que está dentro do <code>#each</code> será repetido. Neste caso, vários elementos <code>li</code> serão repetidos, um para cada fruta.</li>
+    <li>Linha 2: Declarada uma lista <code>frutas</code> com várias frutas como itens.</li>
+    <li>Linha 7: Percorre <strong>cada</strong> item <code>fruta</code> da lista <code>frutas</code>.</li>
+    <li>Linha 8: O que está dentro do <code>#each</code> será repetido. Neste caso, vários elementos <code>li</code> serão repetidos, um para cada fruta.</li>
 </ul>
 
 <h2>Lista de tarefas</h2>
@@ -78,25 +78,27 @@
 
 <p>Explicação:</p>
 <ul>
-  <li>Linha 8: A propriedade <code>onclick</code> executa uma função ao clicar no elemento. Em vez de declararmos a função dentro do <code>script</code> e invocá-la em <code>onclick</code>, podemos declarar uma função anônima diretamente dentro de <code>onclick</code>, usando a expressão <code>()=></code> (<i>arrow function</i>). Mais sobre arrow functions <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">aqui</a>.</li>
-  <li>Linha 8 (continuando): O comando <code>tarefas.push(tarefa)</code> adiciona a variável <code>tarefa</code> à lista <code>tarefas</code>.</li>
-  <li>Linha 10: Ao percorrer por cada item da lista, podemos paralelamente percorrer seus índices, declarando outra variável, que aqui, nomeamos como <code>i</code>.</li>
-  <li>Linha 11: O comando <code>tarefas.splice(i, 1)</code> exclui da lista <code>tarefas</code> o item no índice <code>i</code>.</li>
+    <li>Linha 8: A propriedade <code>onclick</code> executa uma função ao clicar no elemento. Em vez de declararmos a função dentro do <code>script</code> e invocá-la em <code>onclick</code>, podemos declarar uma função anônima diretamente dentro de <code>onclick</code>, usando a expressão <code>()=></code> (<i>arrow function</i>). Mais sobre arrow functions <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">aqui</a>.</li>
+    <li>Linha 8 (continuando): O comando <code>tarefas.push(tarefa)</code> adiciona a variável <code>tarefa</code> à lista <code>tarefas</code>.</li>
+    <li>Linha 10: Ao percorrer por cada item da lista, podemos paralelamente percorrer seus índices, declarando outra variável, que aqui, nomeamos como <code>i</code>.</li>
+    <li>Linha 11: O comando <code>tarefas.splice(i, 1)</code> exclui da lista <code>tarefas</code> o item no índice <code>i</code>.</li>
 </ul>
 
 <h2>Exercícios</h2>
 <ol class="excs">
-  <li>Na lista de tarefas a fazer, além da opção de excluir um item, implementar a opção para editar e cancelar a edição de um item.</li>
-  <p>Uma possível solução (faltou cancelar a edição):</p>
-  <pre><code>&lt;script&gt;
+    <li>Na lista de tarefas a fazer, além da opção de excluir um item, implementar a opção para editar e cancelar a edição de um item.</li>
+    <p>Uma possível solução (faltou cancelar a edição):</p>
+    <pre><code>&lt;script&gt;
     const tarefas = $state([&apos;lavar a louça&apos;, &apos;arrumar o quarto&apos;, &apos;comprar chocolate pro amigo secreto&apos;]);
-    let tarefaNova = $state();
-    let tarefaEditandoIndice = $state();
-    let tarefaEditando = $state();
+    let tarefaNova = $state(&apos;&apos;);
+    let tarefaEditandoIndice = $state(null);
+    let tarefaEditando = $state(&apos;&apos;);
 
     function adicionarTarefa() {
-        tarefas.push(tarefaNova);
-        tarefaNova = &apos;&apos;;
+        if (tarefaNova.trim()) {
+            tarefas.push(tarefaNova);
+            tarefaNova = &apos;&apos;;
+        }
     }
 
     function excluirTarefa(i) {
@@ -109,7 +111,7 @@
     }
 
     function salvarTarefa(i) {
-        tarefas[i] = tarefaEditando;
+        tarefas[i] = tarefaEditando.trim();
         tarefaEditandoIndice = null;
     }
 
@@ -136,6 +138,14 @@
         &lt;/li&gt;
     {/each}
 &lt;/ul&gt;</code></pre>
-  <li>Agora, implemente uma opção para marcar um item como concluído. Dica: Você pode manter duas listas, uma de tarefas concluídas e outra de tarefas a fazer. Ao marcar uma tarefa como concluída, a exclui da lista a fazer, e a adiciona na lista de concluídas. Ao desmarcar uma tarefa como concluída, faz o contrário.</li>
-  <li>Estilize tua lista de tarefas a fazer. Procure na internet por exemplos de <i>todo list</i> para se inspirar.</li>
+    <p>Explicação:
+    <ul>
+        <li>No bloco <code>{#each}</code> da linha 37, as variáveis <code>tarefa</code> e <code>i</code> são declaradas localmente para cada iteração da lista <code>tarefas</code>. Elas estão disponíveis apenas dentro do bloco <code>{#each}</code> e não podem ser acessadas diretamente no <code>script</code>.</li>
+        <li>Assim, devemos passar a variável <code>i</code> como argumento para as funções <code>salvarTarefa</code>, <code>editarTarefa</code> e <code>excluirTarefa</code>, que são executadas no <code>script</code>.</li>
+        <li>Entretanto, com o Svelte, para invocar dentro da propriedade <code>onclick</code> uma função que recebe argumentos, devemos envolvê-la (<i>wrap</i>) em <i>arrow functions</i>.</li>
+        <li>Para funções que não recebem argumentos, como as funções <code>adicionarTarefa</code> e <code>cancelarEdicao</code> das linhas 34 e 42, não precisamos envolvê-las em <i>arrow functions</i>.</li>
+        <li>Mais sobre essa explicação <a href="https://stackoverflow.com/a/61025286/4072641">aqui</a>.</li>
+    </ul>
+    <li>Agora, implemente uma opção para marcar um item como concluído. Dica: Você pode manter duas listas, uma de tarefas concluídas e outra de tarefas a fazer. Ao marcar uma tarefa como concluída, a exclui da lista a fazer, e a adiciona na lista de concluídas. Ao desmarcar uma tarefa como concluída, faz o contrário.</li>
+    <li>Estilize tua lista de tarefas a fazer. Procure na internet por exemplos de <i>todo list</i> para se inspirar.</li>
 </ol>

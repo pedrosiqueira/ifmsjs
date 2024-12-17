@@ -56,15 +56,19 @@
         <p id="instalando">Vamos executar um script que instalará tudo que precisamos para desenvolver em JavaScript. No terminal, execute um dos seguintes scripts, conforme teu sistema operacional:</p>
         <div class="info">Observação: Você precisa de privilégios administrativos para executar o script. No Linux, você deve ter acesso ao comando <code>sudo</code>. No Windows, você deve abrir o terminal PowerShell como administrador.</div>
 
-        <h3>Linux</h3>
-        <p><code>Por fazer</code></p>
-
-        <h3>Windows</h3>
-        <!-- <p>Siga uma das seguintes alternativas:</p> -->
-        <!-- <h4><strong>Alternativa 1 (fácil) – sem WSL</strong></h4> -->
-        <pre><code>Set-ExecutionPolicy RemoteSigned -Scope Process -Force; iex((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_windows_setup.ps1'))</code></pre>
-        <!-- <h4><strong>Alternativa 2 (difícil) – com WSL</strong></h4> -->
-        <!-- <pre><code>Por fazer</code></pre> -->
+        <div class="custom-tabs">
+            <div class="custom-tabs-bar">
+                <button class="custom-tabs-btn" aria-custom-tabs-tab="windows-tab">🪟 Windows</button>
+                <button class="custom-tabs-btn" aria-custom-tabs-tab="linux-tab">🐧 Linux</button>
+            </div>
+            <div id="windows-tab" class="custom-tabs-tab">
+                <pre><code>Set-ExecutionPolicy RemoteSigned -Scope Process -Force; iex((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_windows_setup.ps1'))</code></pre>
+            </div>
+            <div id="linux-tab" class="custom-tabs-tab">
+                # por fazer...
+            </div>
+            <!-- poderia colocar uma versão para windows+wsl tbm... -->
+        </div>
 
         <h3>O que o script faz</h3>
         <p id="programas">Esse script instala (ou atualiza, se já estiver instalado) os seguintes programas:</p>
@@ -94,9 +98,17 @@
         <p id="configurando">Após a instalação dos programas necessários para desenvolvimento JavaScript, vamos executar um script que (1) solicita teu nome de usuário e email do GitHub, (2) instala algumas extensões no vscode, (3) instala o pnpm e (4) baixa o projeto pronto para uso. Execute no terminal <span id="executando-script">um dos seguintes scripts</span>, conforme teu sistema operacional:</p>
         <div class="info">Observação: Ao solicitar teu nome de usuário e email do GitHub, se você não tiver uma conta, pode digitar qualquer coisa. Esse passo é opcional, apenas para aqueles que quiserem salvar seu projeto no GitHub.</div>
 
-        <h4>Linux</h4>
-        <p><code>Por fazer</code></p>
-        <!-- <p>Vamos instalar o <a href="https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating">Node Version Manager</a> (nvm) e usá-lo para instalar o node e o npm. Recomendamos o uso de um gerenciador de versões, pois as versões mudam muito rapidamente. Você provavelmente precisará alternar entre várias versões do node com base nas necessidades dos diferentes projetos em que está trabalhando. O Node Version Manager (nvm) é um gerenciador de versões do node muito popular.</p>
+        <div class="custom-tabs">
+            <div class="custom-tabs-bar">
+                <button class="custom-tabs-btn" aria-custom-tabs-tab="windows-tab-2">🪟 Windows</button>
+                <button class="custom-tabs-btn" aria-custom-tabs-tab="linux-tab-2">🐧 Linux</button>
+            </div>
+            <div id="windows-tab-2" class="custom-tabs-tab">
+                <pre><code>iex((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/02_alg_project_setup.ps1'))</code></pre>
+            </div>
+            <div id="linux-tab-2" class="custom-tabs-tab">
+                # por fazer...
+                <!-- <p>Vamos instalar o <a href="https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating">Node Version Manager</a> (nvm) e usá-lo para instalar o node e o npm. Recomendamos o uso de um gerenciador de versões, pois as versões mudam muito rapidamente. Você provavelmente precisará alternar entre várias versões do node com base nas necessidades dos diferentes projetos em que está trabalhando. O Node Version Manager (nvm) é um gerenciador de versões do node muito popular.</p>
     <p>É sempre recomendável remover qualquer instalação existente do node ou npm antes de instalar um gerenciador de versões, pois diferentes tipos de instalação podem levar a conflitos.</p>
 
     <ol>
@@ -108,9 +120,8 @@
         <li>Verifique se o node foi instalado: <code>node --version</code>. Verifique também se o npm foi instalado junto com o node: <code>npm --version</code>.</li>
         <li>Para alterar a versão do node, por exemplo, para a versão 18.2.0: <code>nvm use v18.2.0</code>. Lembrando que a versão deve estar instalada antes de mudar para ela. Para alterar para a última versão LTS: <code>nvm use --lts</code>.</li>
     </ol> -->
-
-        <h4>Windows</h4>
-        <pre><code>iex((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/02_alg_project_setup.ps1'))</code></pre>
+            </div>
+        </div>
     </div>
     <div>
         <h2>Conhecendo nosso projeto</h2>
