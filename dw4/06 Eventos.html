@@ -61,18 +61,309 @@
     <pre><code>&lt;element onevent={function}&gt;</code></pre>
     <p>Um evento sempre ocorre em algum elemento HTML, portanto, ele é declarado como um atributo do elemento pelo qual queremos reagir. Esse atributo sempre começa com <code>on</code> seguido pelo nome do evento. Dentro das chaves colocamos apenas o nome da função que reagirá ao evento, é nesta função que fica o código a ser executado quando o evento ocorrer.</p>
 
+    <h4>Exemplo 1</h4>
+    <p>Cada botão executará uma função diferente ao ser clicado:</p>
+    <pre><code>&lt;script&gt;
+    function f() { alert(&apos;Você clicou no botão A!&apos;); }
+    function g() { alert(&apos;Você clicou no botão B!&apos;); }
+&lt;/script&gt;
+
+&lt;button onclick={f}&gt;A&lt;/button&gt;
+&lt;button onclick={g}&gt;B&lt;/button&gt;</code></pre>
+
+    <h4>Exemplo 2</h4>
+    <p>Poderíamos fazer ambos os botões executarem a mesma função ao serem clicados:</p>
+    <pre><code>&lt;script&gt;
+    function f() { alert(&apos;Você clicou em algum botão!&apos;); }
+&lt;/script&gt;
+
+&lt;button onclick={f}&gt;A&lt;/button&gt;
+&lt;button onclick={f}&gt;B&lt;/button&gt;</code></pre>
+    <p>Só que assim não saberíamos qual botão foi clicado.
+
+    <h4>Exemplo 3</h4>
+    <p>Para passar parâmetros à função, devemos usar <i>arrow functions</i>:</p>
+    <pre><code>&lt;script&gt;
+    function f(param) { alert(`Você clicou no botão ${param}!`); }
+&lt;/script&gt;
+
+&lt;button onclick={() =&gt; f(&apos;A&apos;)}&gt;A&lt;/button&gt;
+&lt;button onclick={() =&gt; f(&apos;B&apos;)}&gt;B&lt;/button&gt;</code></pre>
     <div class="info">
-        <h4>O problema dos coelhos de Fibonacci</h4>
-        <p>Leonardo Fibonacci em seu livro “Liber Abaci” de 1202 propôs o seguinte problema matemático:</p>
-        <p>Imagine que você tem um casal de coelhos recém-nascidos, um macho e uma fêmea, que são colocados em um campo para se reproduzir. A reprodução segue as seguintes condições:</p>
-        <ol>
-            <li>Um casal de coelhos leva 1 mês para atingir a maturidade reprodutiva.</li>
-            <li>Após atingir a maturidade, cada casal de coelhos gera um novo casal (um macho e uma fêmea) a cada mês.</li>
-            <li>Os coelhos nunca morrem, e cada casal continua se reproduzindo indefinidamente.</li>
-        </ol>
-        <p>A pergunta de Fibonacci era: quantos casais de coelhos haverá após <code>X</code> meses?</p>
-        <p>O problema dos coelhos ilustra a sequência de Fibonacci, uma sequência numérica em que cada número é a soma dos dois anteriores, começando com 0 e 1. Essa sequência tem relação com o número de ouro, ou proporção áurea, um padrão amplamente encontrado na natureza, como na disposição das pétalas das flores, nas conchas de moluscos e até em galáxias. Além disso, a sequência de Fibonacci tem aplicações significativas nas ciências (algoritmos eficientes) e na arte (proporções estéticas).</p>
+        <p>Observação: Se tentarmos passar parâmetros a uma função assim...</p>
+        <pre><code>&lt;button onclick={f(&apos;A&apos;)}&gt;A&lt;/button&gt;</code></pre>
+        <p>... na realidade a função será executada apenas na primeira vez. Mais sobre essa característica do Svelte é <a href="https://stackoverflow.com/a/61025286/4072641">discutida aqui</a>.</p>
     </div>
+
+    <h4>Exemplo 4</h4>
+    <p>Com <i>arrow function</i>, em vez de declarar a função dentro do <code>script</code> e invocá-la em <code>onclick</code>, podemos colocar o código diretamente na declaração do evento:</p>
+    <pre><code>&lt;button onclick={() =&gt; alert(`Você clicou no botão A!`)}&gt;A&lt;/button&gt;
+&lt;button onclick={() =&gt; alert(`Você clicou no botão B!`)}&gt;B&lt;/button&gt;</code></pre>
+    <p>Mais sobre arrow functions <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">aqui</a>.</p>
+</div>
+<div>
+    <h2>Propriedades de um evento</h2>
+    <p>Sempre que uma função reage a um evento, o Svelte passa como parâmetro um objeto contendo as propriedades daquele evento. Opcionalmente a função pode receber e tratar esse parâmetro (nos exemplos anteriores ignoramos esse parâmetro). Por exemplo, poderíamos ter um <code>input</code> que execute alguma coisa quando o usuário teclar <kbd>Enter</kbd>:</p>
+    <pre><code>&lt;script&gt;
+    let { text, upperText } = $state(&apos;&apos;);
+    function f(event) {
+        console.log(event);
+        if (event.key == &apos;Enter&apos;) upperText = text.toUpperCase();
+    }
+&lt;/script&gt;
+
+&lt;input placeholder=&quot;Digite algo e tecle Enter&quot; onkeydown={f} bind:value={text} /&gt;
+&lt;p&gt;{upperText}&lt;/p&gt;</code></pre>
+    <p>Na linha 9, o evento <code>onkeydown</code> ocorre sempre que o usuário teclar algo no elemento <code>input</code>. Na linha 4, serão escritas no terminal as propriedades do evento. Na linha 5, se a tecla pressionada for <kbd>Enter</kbd>, a variável <code>upperText</code> receberá o valor em maiúsculo da variável <code>text</code>.</p>
+    <p>Mais sobre eventos HTML <a href="https://www.w3schools.com/tags/ref_eventattributes.asp">aqui</a>. Exemplos de uso de eventos HTML <a href="https://www.w3schools.com/js/js_events_examples.asp">aqui</a>.</p>
+</div>
+<div>
+    <h2>O problema dos coelhos de Fibonacci</h2>
+    <p>Leonardo Fibonacci em seu livro “Liber Abaci” de 1202 propôs o seguinte problema matemático:</p>
+    <p>Imagine que você tem um casal de coelhos recém-nascidos, um macho e uma fêmea, que são colocados em um campo para se reproduzir. A reprodução segue as seguintes condições:</p>
+    <ol>
+        <li>Um casal de coelhos leva 1 mês para atingir a maturidade reprodutiva.</li>
+        <li>Após atingir a maturidade, cada casal de coelhos gera um novo casal (um macho e uma fêmea) a cada mês.</li>
+        <li>Os coelhos nunca morrem, e cada casal continua se reproduzindo indefinidamente.</li>
+    </ol>
+    <p>A pergunta de Fibonacci é: quantos casais de coelhos haverá após <code>X</code> meses?</p>
+    <p>O problema dos coelhos ilustra a sequência de Fibonacci, uma sequência numérica em que cada número é a soma dos dois anteriores, começando com 0 e 1. Essa sequência tem relação com o número de ouro, ou proporção áurea, um padrão amplamente encontrado na natureza, como na disposição das pétalas das flores, nas conchas de moluscos e até em galáxias. Além disso, a sequência de Fibonacci tem aplicações significativas nas ciências (algoritmos eficientes) e na arte (proporções estéticas).</p>
+    <p>Na seguinte tabela, cada linha representa um mês, e cada coluna representa uma geração de coelhos. Brancos são coelhos filhotes, e pretos são coelhos adultos.</p>
+    
+    <table>
+        <tr>
+            <td>0</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>⚪️</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>⚫</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>⚫</td>
+            <td>⚪️</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚪️</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚪️</td>
+            <td>⚪️</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚪️</td>
+            <td>⚪️</td>
+            <td>⚪️</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚪️</td>
+            <td>⚪️</td>
+            <td>⚪️</td>
+            <td>⚪️</td>
+            <td>⚪️</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚫</td>
+            <td>⚪️</td>
+            <td>⚪️</td>
+            <td>⚪️</td>
+            <td>⚪️</td>
+            <td>⚪️</td>
+            <td>⚪️</td>
+            <td>⚪️</td>
+            <td>⚪️</td>
+        </tr>
+    </table>
+    <p>Vamos implementar uma página para ilustrar o problema dos coelhos. Crie o arquivo <code ctc>src/routes/cap06/coelhos/+page.svelte</code>:</p>
+    <pre><code>&lt;script&gt;
+    let fibonacciNumbers = $state([0, 1]);
+
+    function increaseFibonacciNumbers() {
+        let last = fibonacciNumbers[fibonacciNumbers.length - 1];
+        let secondlast = fibonacciNumbers[fibonacciNumbers.length - 2];
+        fibonacciNumbers.push(last + secondlast);
+    }
+&lt;/script&gt;
+
+Mês: &lt;input type=&quot;number&quot; min=&quot;0&quot; /&gt;
+&lt;button onclick={increaseFibonacciNumbers}&gt;Próximo mês&lt;/button&gt;
+&lt;p&gt;Após {fibonacciNumbers.length - 1} meses
+haverá {fibonacciNumbers[fibonacciNumbers.length - 1]} ninhadas de coelhos!&lt;/p&gt;</code></pre>
+</div>
 </div>
 <div>
     <h2>Diferença entre eventos no HTML puro e no Svelte</h2>
@@ -116,17 +407,10 @@
     </table>
 
     <p>No HTML puro, <code>onclick</code> executa o que estiver entre aspas sempre que seu elemento for clicado. No Svelte, <code>onclick</code> deve ser uma referência a uma função que será invocada com o objeto <code>event</code> como parâmetro, sempre que seu elemento for clicado.</p>
-    <p>Para invocar uma função com outros parâmetros, usamos <em>arrow functions</em>, conforme a linha 3.</p>
-    <p>Em vez de declarar a função dentro do <code>script</code> e invocá-la em <code>onclick</code>, podemos usar <i>arrow function</i> para colocar o código diretamente na declaração do evento, conforme a linha 6.</p>
-    <p>Mais sobre arrow functions <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">aqui</a>.</p>
-
-    <div class="info">
-        <p>Observação: Se tentarmos passar parâmetros a uma função da seguinte forma...</p>
-        <pre><code>&lt;button onclick={h('só uma vez')}&gt;h&lt;/button&gt;</code></pre>
-        <p>... na realidade a função será executada apenas na primeira vez. Mais sobre essa característica do Svelte é <a href="https://stackoverflow.com/a/61025286/4072641">discutida aqui</a>.</p>
-    </div>
 </div>
+<div>
+    <h2>Exercícios</h2>
+    <ol class="excs">
 
-
-
-<p>Leia as <a href="https://www.w3schools.com/tags/ref_eventattributes.asp">propriedades de eventos</a>.</p>
+    </ol>
+</div>
