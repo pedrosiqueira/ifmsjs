@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+    <script defer>hljs.highlightLinesAll([
+            // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
+        ]);
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.js"></script>
+</head>
+
+<h1>Manipulação de eventos</h1>
+
+<div>
+    <h2>Leitura</h2>
+
+    <p>Leia as seções de "Events":</p>
+    <ul>
+        <li><a href="https://svelte.dev/tutorial/svelte/dom-events">DOM events</a></li>
+        <li><a href="https://svelte.dev/tutorial/svelte/inline-handlers">Inline handlers</a></li>
+        <li><a href="https://svelte.dev/tutorial/svelte/capturing">Capturing</a></li>
+        <li><a href="https://svelte.dev/tutorial/svelte/component-events">Component events</a></li>
+        <li><a href="https://svelte.dev/tutorial/svelte/spreading-events">Spreading events</a></li>
+    </ul>
+</div>
+<div>
+    <h2>Eventos HTML</h2>
+    <p>Um <strong>evento</strong> HTML é alguma ação do navegador ou interação do usuário que ocorre em algum elemento na página web. Alguns exemplos de eventos podem ser:</p>
+    <ul>
+        <li>Uma página acaba de ser carregada;</li>
+        <li>Uma página é fechada;</li>
+        <li>Uma imagem é carregada;</li>
+        <li>Um campo de entrada é preenchido;</li>
+        <li>Uma tecla é pressionada;</li>
+        <li>Um botão é clicado.</li>
+    </ul>
+    <p>Quando um evento ocorre, podemos querer fazer alguma coisa, ou seja, <strong>reagir</strong> a esse evento. Reagimos a eventos HTML usando código JavaScript.</p>
+    <p>No Svelte, para reagir a um evento ocorrido em um elemento, fazemos assim:</p>
+    <pre><code>&lt;element onevent={function}&gt;</code></pre>
+    <p>Um evento sempre ocorre em algum elemento HTML, portanto, ele é declarado como um atributo do elemento pelo qual queremos reagir. Esse atributo sempre começa com <code>on</code> seguido pelo nome do evento. Dentro das chaves colocamos apenas o nome da função que reagirá ao evento, é nesta função que fica o código a ser executado quando o evento ocorrer.</p>
+
+    <div class="info">
+        <h4>O problema dos coelhos de Fibonacci</h4>
+        <p>Leonardo Fibonacci em seu livro “Liber Abaci” de 1202 propôs o seguinte problema matemático:</p>
+        <p>Imagine que você tem um casal de coelhos recém-nascidos, um macho e uma fêmea, que são colocados em um campo para se reproduzir. A reprodução segue as seguintes condições:</p>
+        <ol>
+            <li>Um casal de coelhos leva 1 mês para atingir a maturidade reprodutiva.</li>
+            <li>Após atingir a maturidade, cada casal de coelhos gera um novo casal (um macho e uma fêmea) a cada mês.</li>
+            <li>Os coelhos nunca morrem, e cada casal continua se reproduzindo indefinidamente.</li>
+        </ol>
+        <p>A pergunta de Fibonacci era: quantos casais de coelhos haverá após <code>X</code> meses?</p>
+        <p>O problema dos coelhos ilustra a sequência de Fibonacci, uma sequência numérica em que cada número é a soma dos dois anteriores, começando com 0 e 1. Essa sequência tem relação com o número de ouro, ou proporção áurea, um padrão amplamente encontrado na natureza, como na disposição das pétalas das flores, nas conchas de moluscos e até em galáxias. Além disso, a sequência de Fibonacci tem aplicações significativas nas ciências (algoritmos eficientes) e na arte (proporções estéticas).</p>
+    </div>
+</div>
+<div>
+    <h2>Diferença entre eventos no HTML puro e no Svelte</h2>
+    <p>No Svelte, o uso de eventos tem algumas diferenças de sua contrapartida de HTML puro. Por exemplo, considere o seguinte script:</p>
+
+    <pre><code>&lt;script&gt;
+    function f() { console.log(&quot;run!&quot;); }
+    function g(event) { console.log(event); }
+    function h(param) { console.log(param) }
+    function i(event, param) { console.log(event, param); }
+    function j() { return f; }
+&lt;/script&gt;</code></pre>
+
+    <p>Códigos "equivalentes" entre HTML e Svelte seriam:</p>
+    <table class="custom">
+        <thead>
+            <tr>
+                <th>HTML Puro</th>
+                <th>Svelte</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <pre><code class="html">&lt;button onclick=&quot;f()&quot;&gt;f&lt;/button&gt;
+&lt;button onclick=&quot;g(event)&quot;&gt;g&lt;/button&gt;
+&lt;button onclick=&quot;h(&apos;arg&apos;)&quot;&gt;h&lt;/button&gt;
+&lt;button onclick=&quot;i(event, &apos;arg&apos;)&quot;&gt;i&lt;/button&gt;
+&lt;button onclick=&quot;j()()&quot;&gt;j&lt;/button&gt;
+&lt;button onclick=&quot;console.log(&apos;run!&apos;)&quot;&gt;k&lt;/button&gt;</code></pre>
+                </td>
+                <td>
+                    <pre><code>&lt;button onclick={f}&gt;f&lt;/button&gt;
+&lt;button onclick={g}&gt;g&lt;/button&gt;
+&lt;button onclick={() =&gt; h(&apos;arg&apos;)}&gt;h&lt;/button&gt;
+&lt;button onclick={(event) =&gt; i(event, &apos;arg&apos;)}&gt;i&lt;/button&gt;
+&lt;button onclick={j()}&gt;j&lt;/button&gt;
+&lt;button onclick={() =&gt; console.log(&apos;run!&apos;)}&gt;k&lt;/button&gt;</code></pre>
+                </td>
+        </tbody>
+    </table>
+
+    <p>No HTML puro, <code>onclick</code> executa o que estiver entre aspas sempre que seu elemento for clicado. No Svelte, <code>onclick</code> deve ser uma referência a uma função que será invocada com o objeto <code>event</code> como parâmetro, sempre que seu elemento for clicado.</p>
+    <p>Para invocar uma função com outros parâmetros, usamos <em>arrow functions</em>, conforme a linha 3.</p>
+    <p>Em vez de declarar a função dentro do <code>script</code> e invocá-la em <code>onclick</code>, podemos usar <i>arrow function</i> para colocar o código diretamente na declaração do evento, conforme a linha 6.</p>
+    <p>Mais sobre arrow functions <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">aqui</a>.</p>
+
+    <div class="info">
+        <p>Observação: Se tentarmos passar parâmetros a uma função da seguinte forma...</p>
+        <pre><code>&lt;button onclick={h('só uma vez')}&gt;h&lt;/button&gt;</code></pre>
+        <p>... na realidade a função será executada apenas na primeira vez. Mais sobre essa característica do Svelte é <a href="https://stackoverflow.com/a/61025286/4072641">discutida aqui</a>.</p>
+    </div>
+</div>
+
+
+
+<p>Leia as <a href="https://www.w3schools.com/tags/ref_eventattributes.asp">propriedades de eventos</a>.</p>
