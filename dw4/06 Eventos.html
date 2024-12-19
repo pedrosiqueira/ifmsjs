@@ -188,17 +188,24 @@
     }
 &lt;/script&gt;
 
+&lt;svelte:head&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js&quot;&gt;&lt;/script&gt;
+&lt;/svelte:head&gt;
+
 &lt;div class=&quot;text-center&quot;&gt;
     &lt;h1&gt;Eventos de mouse&lt;/h1&gt;
     &lt;p&gt;{msg}&lt;/p&gt;
-    &lt;button onmouseover={entrando} onmouseout={saindo} onclick={clicando} class=&quot;btn btn-outline-primary&quot; 
+    &lt;button class=&quot;btn btn-outline-primary&quot; onclick={clicando}
+            onmouseover={entrando} onmouseout={saindo}
             onfocus={entrando}     onblur={saindo}&gt;BOTÃO&lt;/button&gt;
 &lt;/div&gt;
 
-&lt;svelte:head&gt;
-    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js&quot;&gt;&lt;/script&gt;
-&lt;/svelte:head&gt;</code></pre>
-    <p>Na linha 30, os eventos <code>onmouseover</code> e <code>onmouseout</code> são acionados quando o mouse passa sobre o elemento e quando sai dele, respectivamente. O SvelteKit recomenda que esses eventos sejam acompanhados pelos eventos <code>onfocus</code> e <code>onblur</code>, da linha 31, que são acionados quando o elemento recebe ou perde o foco, geralmente por meio do teclado. Isso ajuda a garantir que qualquer funcionalidade acionada por esses eventos de mouse também seja acessível a usuários de teclado.</p>
+&lt;style&gt;
+    button { transition: transform 0.3s ease; }
+    button:hover { transform: scale(1.3); }
+&lt;/style&gt;</code></pre>
+    <p>Na linha 35, os eventos <code>onmouseover</code> e <code>onmouseout</code> são acionados quando o mouse passa sobre o elemento e quando sai dele, respectivamente. O SvelteKit recomenda que esses eventos sejam acompanhados pelos eventos <code>onfocus</code> e <code>onblur</code>, da linha 36, que são acionados quando o elemento recebe ou perde o foco, geralmente por meio do teclado. Isso ajuda a garantir que qualquer funcionalidade acionada por esses eventos de mouse também seja acessível a usuários de teclado.</p>
+    <p>Quando queremos mudar o estilo de algum elemento ao passar o mouse sobre ele, podemos usar CSS, como nas linhas 40-41. Mas para executar alguma lógica ou ações mais complexas, só conseguimos com o evento <code>onmouseover</code>.</p>
     <p>Para carregar um script externo em uma página específica no Svelte, usamos o elemento especial <code>&lt;svelte:head&gt;</code>. Mais sobre esse elemento <a href="https://v4.svelte.dev/docs/special-elements#svelte-head">aqui</a>.</p>
 
     <p>Mais sobre eventos HTML <a href="https://www.w3schools.com/tags/ref_eventattributes.asp">aqui</a>. Exemplos de uso de eventos HTML <a href="https://www.w3schools.com/js/js_events_examples.asp">aqui</a>.</p>
