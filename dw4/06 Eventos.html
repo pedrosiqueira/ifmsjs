@@ -87,8 +87,8 @@
     function f(param) { alert(`Você clicou no botão ${param}!`); }
 &lt;/script&gt;
 
-&lt;button onclick={() =&gt; f(&apos;A&apos;)}&gt;A&lt;/button&gt;
-&lt;button onclick={() =&gt; f(&apos;B&apos;)}&gt;B&lt;/button&gt;</code></pre>
+&lt;button onclick={() =&gt; f(&apos;X&apos;)}&gt;A&lt;/button&gt;
+&lt;button onclick={() =&gt; f(&apos;Y&apos;)}&gt;B&lt;/button&gt;</code></pre>
     <div class="info">
         <p>Observação: Se tentarmos passar parâmetros a uma função assim...</p>
         <pre><code>&lt;button onclick={f(&apos;A&apos;)}&gt;A&lt;/button&gt;</code></pre>
@@ -115,6 +115,92 @@
 &lt;input placeholder=&quot;Digite algo e tecle Enter&quot; onkeydown={f} bind:value={text} /&gt;
 &lt;p&gt;{upperText}&lt;/p&gt;</code></pre>
     <p>Na linha 9, o evento <code>onkeydown</code> ocorre sempre que o usuário teclar algo no elemento <code>input</code>. Na linha 4, serão escritas no terminal as propriedades do evento. Na linha 5, se a tecla pressionada for <kbd>Enter</kbd>, a variável <code>upperText</code> receberá o valor em maiúsculo da variável <code>text</code>.</p>
+</div>
+<div>
+    <h2>Diferença entre eventos no HTML puro e no Svelte</h2>
+    <p>No Svelte, o uso de eventos tem algumas diferenças de sua contrapartida de HTML puro. Por exemplo, considere o seguinte script:</p>
+
+    <pre><code>&lt;script&gt;
+    function f() { console.log(&quot;run!&quot;); }
+    function g(event) { console.log(event); }
+    function h(param) { console.log(param) }
+    function i(event, param) { console.log(event, param); }
+    function j() { return f; }
+&lt;/script&gt;</code></pre>
+
+    <p>Códigos "equivalentes" entre HTML e Svelte seriam:</p>
+    <table class="custom">
+        <thead>
+            <tr>
+                <th>HTML Puro</th>
+                <th>Svelte</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <pre><code class="html">&lt;button onclick=&quot;f()&quot;&gt;f&lt;/button&gt;
+&lt;button onclick=&quot;g(event)&quot;&gt;g&lt;/button&gt;
+&lt;button onclick=&quot;h(&apos;arg&apos;)&quot;&gt;h&lt;/button&gt;
+&lt;button onclick=&quot;i(event, &apos;arg&apos;)&quot;&gt;i&lt;/button&gt;
+&lt;button onclick=&quot;j()()&quot;&gt;j&lt;/button&gt;
+&lt;button onclick=&quot;console.log(&apos;run!&apos;)&quot;&gt;k&lt;/button&gt;</code></pre>
+                </td>
+                <td>
+                    <pre><code>&lt;button onclick={f}&gt;f&lt;/button&gt;
+&lt;button onclick={g}&gt;g&lt;/button&gt;
+&lt;button onclick={() =&gt; h(&apos;arg&apos;)}&gt;h&lt;/button&gt;
+&lt;button onclick={(event) =&gt; i(event, &apos;arg&apos;)}&gt;i&lt;/button&gt;
+&lt;button onclick={j()}&gt;j&lt;/button&gt;
+&lt;button onclick={() =&gt; console.log(&apos;run!&apos;)}&gt;k&lt;/button&gt;</code></pre>
+                </td>
+        </tbody>
+    </table>
+
+    <p>No HTML puro, <code>onclick</code> executa o que estiver entre aspas sempre que seu elemento for clicado. No Svelte, <code>onclick</code> deve ser uma referência a uma função que será invocada com o objeto <code>event</code> como parâmetro, sempre que seu elemento for clicado.</p>
+</div>
+<div>
+    <h2>Mais alguns eventos</h2>
+    <p>Além do clique do mouse, podemos reagir a outros eventos do mouse:</p>
+    <pre><code>&lt;script&gt;
+    let msg = $state(&apos;Passe o mouse sobre o botão e essa mensagem nunca mais será a mesma!&apos;),
+        clicado = $state(false);
+
+    function entrando() {
+        msg = &apos;Agora clique no botão!&apos;;
+    }
+
+    function saindo() {
+        if (clicado) msg = &apos;Você clicou no botão!&apos;;
+        else msg = &apos;Ok, da próxima vez faça o que eu te disser...&apos;;
+        clicado = false;
+    }
+
+    function clicando() {
+        clicado = true;
+
+        // Gera o confete com canvas-confetti
+        confetti({
+            particleCount: 100, // Quantidade de partículas
+            spread: 70, // Abertura do confete
+            origin: { y: 0.6 } // Origem do confete (altura relativa)
+        });
+    }
+&lt;/script&gt;
+
+&lt;div class=&quot;text-center&quot;&gt;
+    &lt;h1&gt;Eventos de mouse&lt;/h1&gt;
+    &lt;p&gt;{msg}&lt;/p&gt;
+    &lt;button onmouseover={entrando} onmouseout={saindo} onclick={clicando} class=&quot;btn btn-outline-primary&quot; 
+            onfocus={entrando}     onblur={saindo}&gt;BOTÃO&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;svelte:head&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js&quot;&gt;&lt;/script&gt;
+&lt;/svelte:head&gt;</code></pre>
+    <p>Na linha 30, os eventos <code>onmouseover</code> e <code>onmouseout</code> são acionados quando o mouse passa sobre o elemento e quando sai dele, respectivamente. O SvelteKit recomenda que esses eventos sejam acompanhados pelos eventos <code>onfocus</code> e <code>onblur</code>, da linha 31, que são acionados quando o elemento recebe ou perde o foco, geralmente por meio do teclado. Isso ajuda a garantir que qualquer funcionalidade acionada por esses eventos de mouse também seja acessível a usuários de teclado.</p>
+    <p>Para carregar um script externo em uma página específica no Svelte, usamos o elemento especial <code>&lt;svelte:head&gt;</code>. Mais sobre esse elemento <a href="https://v4.svelte.dev/docs/special-elements#svelte-head">aqui</a>.</p>
+
     <p>Mais sobre eventos HTML <a href="https://www.w3schools.com/tags/ref_eventattributes.asp">aqui</a>. Exemplos de uso de eventos HTML <a href="https://www.w3schools.com/js/js_events_examples.asp">aqui</a>.</p>
 </div>
 <div>
@@ -503,18 +589,18 @@
                 <td>🟩</td>
                 <td>🟦</td>
                 <td>🟦</td>
-                <td>🟥</td>
-                <td>🟩</td>
-                <td>🟩</td>
-                <td>🟩</td>
-                <td>🟦</td>
-                <td>🟩</td>
-                <td>🟦</td>
-                <td>🟦</td>
-                <td>🟩</td>
-                <td>🟦</td>
-                <td>🟦</td>
-                <td>🟦</td>
+                <td>🔴</td>
+                <td>🟢</td>
+                <td>🟢</td>
+                <td>🟢</td>
+                <td>🔵</td>
+                <td>🟢</td>
+                <td>🔵</td>
+                <td>🔵</td>
+                <td>🟢</td>
+                <td>🔵</td>
+                <td>🔵</td>
+                <td>🔵</td>
                 <td>🟡</td>
                 <td>34</td>
             </tr>
@@ -539,49 +625,6 @@
 &lt;/p&gt;
 &lt;p&gt;Ap&oacute;s {fibonacciNumbers.length - 1} meses,
 haver&aacute; {fibonacciNumbers[fibonacciNumbers.length - 1]} ninhadas de coelhos!&lt;/p&gt;</code></pre>
-</div>
-<div>
-    <h2>Diferença entre eventos no HTML puro e no Svelte</h2>
-    <p>No Svelte, o uso de eventos tem algumas diferenças de sua contrapartida de HTML puro. Por exemplo, considere o seguinte script:</p>
-
-    <pre><code>&lt;script&gt;
-    function f() { console.log(&quot;run!&quot;); }
-    function g(event) { console.log(event); }
-    function h(param) { console.log(param) }
-    function i(event, param) { console.log(event, param); }
-    function j() { return f; }
-&lt;/script&gt;</code></pre>
-
-    <p>Códigos "equivalentes" entre HTML e Svelte seriam:</p>
-    <table class="custom">
-        <thead>
-            <tr>
-                <th>HTML Puro</th>
-                <th>Svelte</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <pre><code class="html">&lt;button onclick=&quot;f()&quot;&gt;f&lt;/button&gt;
-&lt;button onclick=&quot;g(event)&quot;&gt;g&lt;/button&gt;
-&lt;button onclick=&quot;h(&apos;arg&apos;)&quot;&gt;h&lt;/button&gt;
-&lt;button onclick=&quot;i(event, &apos;arg&apos;)&quot;&gt;i&lt;/button&gt;
-&lt;button onclick=&quot;j()()&quot;&gt;j&lt;/button&gt;
-&lt;button onclick=&quot;console.log(&apos;run!&apos;)&quot;&gt;k&lt;/button&gt;</code></pre>
-                </td>
-                <td>
-                    <pre><code>&lt;button onclick={f}&gt;f&lt;/button&gt;
-&lt;button onclick={g}&gt;g&lt;/button&gt;
-&lt;button onclick={() =&gt; h(&apos;arg&apos;)}&gt;h&lt;/button&gt;
-&lt;button onclick={(event) =&gt; i(event, &apos;arg&apos;)}&gt;i&lt;/button&gt;
-&lt;button onclick={j()}&gt;j&lt;/button&gt;
-&lt;button onclick={() =&gt; console.log(&apos;run!&apos;)}&gt;k&lt;/button&gt;</code></pre>
-                </td>
-        </tbody>
-    </table>
-
-    <p>No HTML puro, <code>onclick</code> executa o que estiver entre aspas sempre que seu elemento for clicado. No Svelte, <code>onclick</code> deve ser uma referência a uma função que será invocada com o objeto <code>event</code> como parâmetro, sempre que seu elemento for clicado.</p>
 </div>
 <div>
     <h2>Exercícios</h2>
@@ -619,9 +662,5 @@ haver&aacute; {fibonacciNumbers[fibonacciNumbers.length - 1]} ninhadas de coelho
 mais eventos a colocar na aula
 
 onchange	An HTML element has been changed
-onclick	The user clicks an HTML element
-onmouseover	The user moves the mouse over an HTML element
-onmouseout	The user moves the mouse away from an HTML element
-onkeydown	The user pushes a keyboard key
 onload	The browser has finished loading the page
 -->
