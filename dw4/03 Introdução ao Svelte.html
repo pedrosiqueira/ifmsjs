@@ -56,3 +56,48 @@
 <p>Componentes compartilhados entre páginas devem residir na pasta <code>src/lib</code>. Crie o componente <code id="poema-component" ctc>src/lib/Poema.svelte</code>, que deve conter um poema e um elemento <code>style</code> que estilize o poema. Depois, adicione esse componente à página inicial, conforme descrito em <a href="https://svelte.dev/tutorial/svelte/nested-components">Nested components</a> e em <a href="https://svelte.dev/tutorial/kit/lib">The $lib alias</a>.</p>
 <p>Exemplo de página inicial para se inspirar:</p>
 <p><img id="exemplo-1" alt="Página inicial com um poema"></p>
+
+<h2 id="alterando-estilo">Alterando o estilo dinamicamente</h2>
+<p>Você pode usar variáveis para definir as classes de estilos dos seus elementos. Crie a página <code ctc>src/routes/personalizacao/+page.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+    let fontsize = 6;
+    let fundo = &apos;bg-primary-subtle&apos;;
+
+    function aumentarFonte() {
+        if (fontsize &gt; 2) fontsize--;
+    }
+    function diminuirFonte() {
+        if (fontsize &lt; 5) fontsize++;
+    }
+    function mudarFundo() {
+        if (fundo == &apos;bg-primary-subtle&apos;) fundo = &apos;bg-danger-subtle&apos;;
+        else fundo = &apos;bg-primary-subtle&apos;;
+    }
+&lt;/script&gt;
+
+&lt;div&gt;
+    &lt;button class=&quot;btn btn-primary&quot; onclick={diminuirFonte}&gt;Diminuir fonte&lt;/button&gt;
+    &lt;button class=&quot;btn btn-primary&quot; onclick={aumentarFonte}&gt;Aumentar fonte&lt;/button&gt;
+    &lt;button class=&quot;btn btn-primary&quot; onclick={mudarFundo}&gt;Mudar fundo&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;fs-{fontsize} p-3 text-primary-emphasis {fundo} border border-primary-subtle rounded-3&quot;&gt;
+    Example element with utilities
+&lt;/div&gt;
+</code></pre>
+
+<p>Não se esqueça de adicionar essa página, bem como as demais, na barra de navegação!</p>
+
+<p>Explicação das classes:</p>
+<ul>
+    <li><code>btn btn-primary</code>: A classe <code>.btn</code> sozinha oferece o estilo básico, mas geralmente é usada em conjunto com uma classe de cor, como <code>btn-primary</code>, para definir o tema do botão. Mais sobre botões <a href="https://getbootstrap.com/docs/5.3/components/buttons/">aqui</a>.</li>
+    <li><code>fs-{fontsize}</code>: Define o tamanho da fonte de acordo com o valor da variável, que pode variar entre 1 (maior tamanho) e 6 (menor tamanho). Não confunda, à medida que o número aumenta, a fonte diminui. Mais sobre tamanho de fonte <a href="https://getbootstrap.com/docs/5.3/utilities/text/#font-size">aqui</a>.</li>
+    <li><code>text-primary-emphasis</code>: Define a cor do texto como azul escuro. Mais opções de cores <a href="https://getbootstrap.com/docs/5.3/utilities/colors/">aqui</a>.</li>
+    <li><code>border border-primary-subtle rounded-3</code>: Adiciona borda ao elemento atual, com cor azul claro e cantos arredondados. Mais sobre bordas <a href="https://getbootstrap.com/docs/5.3/utilities/borders/">aqui</a>.</li>
+    <li><code>p-3</code>: Adiciona enchimento (padding) de nível 3. O enchimento pode variar entre 0 (sem padding) e 5 (padding máximo). Mais sobre espaçamentos <a href="https://getbootstrap.com/docs/5.3/utilities/spacing/#margin-and-padding">aqui</a>.</li>
+</ul>
+
+<h2>Exercícios</h2>
+<ol class="excs">
+    <li>A documentação do Bootstrap oferece várias opções para modificar estilos de <a href="https://getbootstrap.com/docs/5.3/utilities/text/">texto</a>, <a href="https://getbootstrap.com/docs/5.3/utilities/borders/">borda</a> e <a href="https://getbootstrap.com/docs/5.3/utilities/background/">fundo</a> usando o atributo <code>class</code>. Explore essas possibilidades ampliando o exemplo de <a href="#alterando-estilo">alteração de estilo</a> com mais opções de personalização.</li>
+</ol>

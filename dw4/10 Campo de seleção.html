@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([
+      // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
+    ]);
+  </script> -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Aprofundando campos de entrada</h1>
+
+<h2>Leitura</h2>
+
+<p>Leia a seguinte seção de "Bindings":</p>
+<ul>
+  <li><a href="https://svelte.dev/tutorial/svelte/select-bindings">Select bindings</a></li>
+</ul>
+
+<h2>Conversão de moedas melhorado</h2>
+<p>Crie o arquivo <code ctc>src/routes/2b/10a/+page.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+  let moedas = [
+      { nome: &apos;Dólar americano&apos;, código: &apos;USD&apos; },
+      { nome: &apos;Real brasileiro&apos;, código: &apos;BRL&apos; },
+      { nome: &apos;Euro&apos;, código: &apos;EUR&apos; },
+      { nome: &apos;Libra esterlina&apos;, código: &apos;GBP&apos; },
+      { nome: &apos;Iene japonês&apos;, código: &apos;JPY&apos; },
+      { nome: &apos;Peso argentino&apos;, código: &apos;ARS&apos; }
+  ];
+
+  let código1 = $state(moedas[0].código);
+  let código2 = $state(moedas[1].código);
+  let valor1 = $state(0);
+  let valor2 = $state(0);
+  let moedaPadrao = $state();
+
+  async function mudarMoeda() {
+      const resposta = await fetch(`https://open.er-api.com/v6/latest/${código1}`);
+      moedaPadrao = await resposta.json();
+      converterDe();
+  }
+
+  function converterDe() {
+      valor2 = (valor1 * moedaPadrao.rates[código2]).toFixed(2);
+  }
+
+  function converterPara() {
+      valor1 = (valor2 / moedaPadrao.rates[código2]).toFixed(2);
+  }
+
+  mudarMoeda();
+&lt;/script&gt;
+
+&lt;div class=&quot;container&quot;&gt;
+  &lt;h1 class=&quot;text-center&quot;&gt;Cotação de moedas&lt;/h1&gt;
+  &lt;div class=&quot;input-group&quot;&gt;
+      &lt;select class=&quot;form-select&quot; bind:value={código1} onchange={mudarMoeda}&gt;
+          {#each moedas as moeda}
+              &lt;option value={moeda.código} title={moeda.nome}&gt;{moeda.código}&lt;/option&gt;
+          {/each}
+      &lt;/select&gt;
+      &lt;input placeholder=&quot;0,00&quot; type=&quot;number&quot; class=&quot;form-control w-25&quot; oninput={converterDe} bind:value={valor1} /&gt;
+      &lt;button class=&quot;btn btn-outline-secondary&quot; type=&quot;button&quot;&gt;⇄&lt;/button&gt;
+      &lt;input placeholder=&quot;0,00&quot; type=&quot;number&quot; class=&quot;form-control w-25&quot; oninput={converterPara} bind:value={valor2} /&gt;
+      &lt;select class=&quot;form-select&quot; bind:value={código2} onchange={converterPara}&gt;
+          {#each moedas as moeda}
+              &lt;option value={moeda.código} title={moeda.nome}&gt;{moeda.código}&lt;/option&gt;
+          {/each}
+      &lt;/select&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;position-fixed bottom-0 end-0 m-3&quot;&gt;
+      &lt;a href=&quot;https://www.exchangerate-api.com&quot;&gt;Rates By Exchange Rate API&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<h4>Explicação do HTML:</h4>
+<p>Linha 34: Geralmente colocamos o conteúdo da página dentro do <a href="https://getbootstrap.com/docs/5.3/layout/containers/">div com a classe <code>container</code></a>.</p>
+<p>Linha 35: Para alinhar um texto, usamos <a href="https://getbootstrap.com/docs/5.3/utilities/text/#text-alignment">a classe <code>text-center</code></a>.</p>
+<p>Linha 36: Para agrupar campos de entrada, os colocamos dentro de um <a href="https://getbootstrap.com/docs/5.3/forms/input-group/">div com a classe <code>input-group</code></a></p>
+<p>Linhas 42,44: <a href="https://getbootstrap.com/docs/5.3/utilities/sizing/#relative-to-the-parent">A classe <code>w-25</code></a> expande o elemento para 25% do tamanho de seu elemento pai.</p>
+<p>Temos dois <i>select</i>s, o primeiro se refere à moeda padrão, e o segundo, à moeda de comparação.</p>
+<p>Linha 52: <a href="https://getbootstrap.com/docs/5.3/utilities/position/">Posicionamos no canto inferior direito</a> a referência à API utilizada (<a href="https://www.exchangerate-api.com/docs/free">porque eles pedem</a>).</p>
+
+<h4>Explicação do JavaScript:</h4>
+<p>Vamos usar a API REST <a href="https://www.exchangerate-api.com/docs/free">https://www.exchangerate-api.com/docs/free</a>, que fornece um serviço grátis de consulta de cotação de moedas. Interagimos com uma API REST através do protocolo HTTP: fazemos uma consulta HTTP e a API nos responde com um JSON.</p>
+<p>Para consumir uma API REST, usamos a função <code>fetch</code>, que retorna uma resposta. Dessa resposta, extraímos o objeto JSON com a função <code>json</code>. Devido à natureza assíncronas dessas funções, usamos as palavras-chaves <code>async</code> e <code>await</code>, cuja explicação foge do escopo desta aula. Para obter as informações de determinada moeda com essa API REST, acessamos o serviço <code>https://open.er-api.com/v6/latest/${código1}</code>, onde <code>${código1}</code> é o código da moeda que queremos consultar, <a href="https://www.exchangerate-api.com/docs/supported-currencies">conforme listado aqui</a>.</p>
+<p>Toda vez que mudamos a moeda padrão, fazemos uma nova consulta à API para obter os dados daquela moeda, através da função <code>mudarMoeda</code>. Na linha 31, executamos a função <code>mudarMoeda</code> para carregar a moeda padrão assim que a página é carregada.</p>
+<p>As funções <code>converterDe</code> e <code>converterPara</code> são responsáveis por converter o valor de uma moeda para outra. A primeira converte o valor da moeda padrão para a moeda de comparação, e a segunda, o contrário.</p>
+
+<h2>Exercícios</h2>
+<ol class="excs">
+  <li>Implemente o botão <code>⇄</code> que deve inverter as moedas e seus valores.</li>
+  <li>Estilize teu conversor de moedas. Procure exemplos na internet para se inspirar, como: <a href="https://wise.com/br/currency-converter/usd-to-brl-rate?amount=1">https://wise.com/br/currency-converter/usd-to-brl-rate?amount=1</a>.</li>
+</ol>

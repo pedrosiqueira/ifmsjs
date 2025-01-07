@@ -18,7 +18,7 @@
 
     <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
     <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
-    <script defer>hljs.highlightLinesAll([[], [], [], [{ start: 3, end: 3, color: 'lightgreen' }]]);</script>
+    <script defer>hljs.highlightLinesAll([[], [], [{ start: 3, end: 3, color: 'lightgreen' }]]);</script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
@@ -35,48 +35,11 @@
     <li><a href="https://svelte.dev/tutorial/svelte/state">State</a></li>
     <li><a href="https://svelte.dev/tutorial/svelte/deep-state">Deep state</a></li>
     <li><a href="https://svelte.dev/tutorial/svelte/derived-state">Derived state</a></li>
+    <li><a href="https://svelte.dev/tutorial/svelte/inspecting-state">Inspecting state</a></li>
+    <li><a href="https://svelte.dev/tutorial/svelte/effects">Effects</a></li>
+    <li><a href="https://svelte.dev/tutorial/svelte/universal-reactivity">Universal reactivity</a></li>
     <li><a href="https://svelte.dev/tutorial/svelte/text-inputs">Text inputs</a></li>
     <li><a href="https://svelte.dev/tutorial/svelte/numeric-inputs">Numeric inputs</a></li>
-</ul>
-
-<h2 id="alterando-estilo">Alterando o estilo dinamicamente</h2>
-<p>Você pode usar variáveis para definir as classes de estilos dos seus elementos. Crie a página <code ctc>src/routes/personalizacao/+page.svelte</code>:</p>
-<pre><code>&lt;script&gt;
-    let fontsize = 6;
-    let fundo = &apos;bg-primary-subtle&apos;;
-
-    function aumentarFonte() {
-        if (fontsize &gt; 2) fontsize--;
-    }
-    function diminuirFonte() {
-        if (fontsize &lt; 5) fontsize++;
-    }
-    function mudarFundo() {
-        if (fundo == &apos;bg-primary-subtle&apos;) fundo = &apos;bg-danger-subtle&apos;;
-        else fundo = &apos;bg-primary-subtle&apos;;
-    }
-&lt;/script&gt;
-
-&lt;div&gt;
-    &lt;button class=&quot;btn btn-primary&quot; onclick={diminuirFonte}&gt;Diminuir fonte&lt;/button&gt;
-    &lt;button class=&quot;btn btn-primary&quot; onclick={aumentarFonte}&gt;Aumentar fonte&lt;/button&gt;
-    &lt;button class=&quot;btn btn-primary&quot; onclick={mudarFundo}&gt;Mudar fundo&lt;/button&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;fs-{fontsize} p-3 text-primary-emphasis {fundo} border border-primary-subtle rounded-3&quot;&gt;
-    Example element with utilities
-&lt;/div&gt;
-</code></pre>
-
-<p>Não se esqueça de adicionar essa página, bem como as demais, na barra de navegação!</p>
-
-<p>Explicação das classes:</p>
-<ul>
-    <li><code>btn btn-primary</code>: A classe <code>.btn</code> sozinha oferece o estilo básico, mas geralmente é usada em conjunto com uma classe de cor, como <code>btn-primary</code>, para definir o tema do botão. Mais sobre botões <a href="https://getbootstrap.com/docs/5.3/components/buttons/">aqui</a>.</li>
-    <li><code>fs-{fontsize}</code>: Define o tamanho da fonte de acordo com o valor da variável, que pode variar entre 1 (maior tamanho) e 6 (menor tamanho). Não confunda, à medida que o número aumenta, a fonte diminui. Mais sobre tamanho de fonte <a href="https://getbootstrap.com/docs/5.3/utilities/text/#font-size">aqui</a>.</li>
-    <li><code>text-primary-emphasis</code>: Define a cor do texto como azul escuro. Mais opções de cores <a href="https://getbootstrap.com/docs/5.3/utilities/colors/">aqui</a>.</li>
-    <li><code>border border-primary-subtle rounded-3</code>: Adiciona borda ao elemento atual, com cor azul claro e cantos arredondados. Mais sobre bordas <a href="https://getbootstrap.com/docs/5.3/utilities/borders/">aqui</a>.</li>
-    <li><code>p-3</code>: Adiciona enchimento (padding) de nível 3. O enchimento pode variar entre 0 (sem padding) e 5 (padding máximo). Mais sobre espaçamentos <a href="https://getbootstrap.com/docs/5.3/utilities/spacing/#margin-and-padding">aqui</a>.</li>
 </ul>
 
 <h2 id="calculadora-temperatura">Calculadora de temperatura</h2>
@@ -153,8 +116,30 @@ Fahrenheit: &lt;input oninput={f2c} type=&quot;number&quot; bind:value={fahrenhe
 
 <p>Para mais sobre o assunto, veja a <a href="https://youtu.be/AdNJ3fydeao?si=loxeTsL8p8JSZ_n6">palestra de Rich Harris</a>, criador do Svelte.</p>
 
+<h2>Variávels derivadas</h2>
+
+<p>Crie o arquivo <code ctc>src/routes/1b/04c/+page.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+  let bits = $state(0);
+
+  let bytes = $derived(bits / 8);
+  let kilobytes = $derived(bits / 8 / 1024);
+  let megabytes = $derived(bits / 8 / 1024 / 1024);
+  let gigabytes = $derived(bits / 8 / 1024 / 1024 / 1024);
+&lt;/script&gt;
+
+&lt;h1&gt;Conversor de bits&lt;/h1&gt;
+
+&lt;input type=&quot;number&quot; bind:value={bits} placeholder=&quot;Enter bits&quot; /&gt;
+
+&lt;p&gt;Bytes: {bytes}&lt;/p&gt;
+&lt;p&gt;Kilobytes: {kilobytes}&lt;/p&gt;
+&lt;p&gt;Megabytes: {megabytes}&lt;/p&gt;
+&lt;p&gt;Gigabytes: {gigabytes}&lt;/p&gt;</code></pre>
+
+<p>O valor da variável <code>bits</code> é de acordo com o que o usuário digitar. E os valores das demais variáveis são derivados da variável <code>bit</code>.</p>
+
 <h2>Exercícios</h2>
 <ol class="excs">
-    <li>A documentação do Bootstrap oferece várias opções para modificar estilos de <a href="https://getbootstrap.com/docs/5.3/utilities/text/">texto</a>, <a href="https://getbootstrap.com/docs/5.3/utilities/borders/">borda</a> e <a href="https://getbootstrap.com/docs/5.3/utilities/background/">fundo</a> usando o atributo <code>class</code>. Explore essas possibilidades ampliando o exemplo de <a href="#alterando-estilo">alteração de estilo</a> com mais opções de personalização.</li>
     <li>Com base no exemplo de <a href="#calculadora-temperatura">Calculadora de temperatura</a>, faça uma página de conversão entre as moedas dólas e real, tomando como base a cotação do dólar de hoje.</li>
 </ol>
