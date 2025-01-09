@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
-  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 
-  <!-- https://github.com/arronhunt/highlightjs-copy -->
-  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
-  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
-  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
 
-  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
-  <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
   <script defer>hljs.highlightLinesAll([
       // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
     ]);
   </script> -->
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
-  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 
 <h1>Campos de múltipla escolha</h1>
@@ -37,10 +37,111 @@
 
 <p>Leia as seguintes seções de "Bindings":</p>
 <ul>
-  <li><a href="https://svelte.dev/tutorial/svelte/group-inputs">Group inputs</a></li>
-  <li><a href="https://svelte.dev/tutorial/svelte/multiple-select-bindings">Select multiple</a></li>
-  <li><a href="https://svelte.dev/tutorial/svelte/textarea-inputs">Textarea inputs</a></li>
+    <li><a href="https://svelte.dev/tutorial/svelte/group-inputs">Group inputs</a></li>
+    <li><a href="https://svelte.dev/tutorial/svelte/multiple-select-bindings">Select multiple</a></li>
+    <li><a href="https://svelte.dev/tutorial/svelte/textarea-inputs">Textarea inputs</a></li>
 </ul>
 
+<p>Leia a seguinte seção de "Logic":</p>
+<li><a href="https://svelte.dev/tutorial/svelte/await-blocks">Await blocks</a></li>
+
 <h2>Quiz</h2>
-<p>Vamos usar a API <a href="https://opentdb.com/api_config.php">Open Trivia Database</a> para gerar nosso Quiz</p>
+<p>Crie o arquivo <code ctc>src/routes/11/quiz/+page.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+  let promise = $state();
+  let questionario = $state([]);
+  let respostas = $state([]);
+  let respondeu = $state(false);
+
+  function gerarNovoQuiz() {
+      respondeu = false;
+      promise = fetch(&apos;https://opentdb.com/api.php?amount=5&amp;category=9&amp;type=multiple&apos;)
+          .then((response) =&gt; response.json())
+          .then((data) =&gt; {
+              questionario = data.results;
+              for (const pergunta of questionario) {
+                  const i = Math.floor(Math.random() * pergunta.incorrect_answers.length + 1);
+                  pergunta.incorrect_answers.splice(i, 0, pergunta.correct_answer);
+              }
+          });
+  }
+
+  function verificarRespostas() {
+      respondeu = true;
+      let acertos = 0;
+      for (let i = 0; i &lt; questionario.length; i++) {
+          if (respostas[i] === questionario[i].correct_answer) {
+              acertos++;
+          }
+      }
+      alert(`Você acertou ${acertos} de ${questionario.length} questões!`);
+  }
+&lt;/script&gt;
+
+&lt;div class=&quot;container&quot;&gt;
+  &lt;button class=&quot;btn btn-info&quot; onclick={gerarNovoQuiz}&gt;Gerar novo quiz&lt;/button&gt;
+
+  {#await promise}
+      &lt;p&gt;Gerando novo questionário...&lt;/p&gt;
+  {:then}
+      &lt;ol&gt;
+          {#each questionario as pergunta, i}
+              &lt;h4&gt;&lt;li&gt;{@html pergunta.question}&lt;/li&gt;&lt;/h4&gt;
+              {#each pergunta.incorrect_answers as alternativa}
+                  &lt;div class=&quot;form-check&quot;&gt;
+                      &lt;input class=&quot;form-check-input&quot; type=&quot;radio&quot; id={alternativa} bind:group={respostas[i]} value={alternativa} oninput={() =&gt; (respondeu = false)} /&gt;
+                      &lt;label class=&quot;form-check-label&quot; for={alternativa}&gt;{@html alternativa}&lt;/label&gt;
+
+                      {#if respondeu &amp;&amp; alternativa == respostas[i]}
+                          {#if alternativa == pergunta.correct_answer}
+                              &lt;span class=&quot;badge bg-success&quot;&gt;Correto&lt;/span&gt;
+                          {:else}
+                              &lt;span class=&quot;badge bg-danger&quot;&gt;Incorreto&lt;/span&gt;
+                          {/if}
+                      {/if}
+                  &lt;/div&gt;
+              {/each}
+          {/each}
+      &lt;/ol&gt;
+      &lt;button onclick={verificarRespostas} class=&quot;btn btn-success&quot;&gt;Confirmar!&lt;/button&gt;
+  {:catch error}
+      &lt;p style=&quot;color: red&quot;&gt;{error.message}&lt;/p&gt;
+  {/await}
+&lt;/div&gt;</code></pre>
+
+<h4>Explicação Geral:</h4>
+<p>Este código cria um quiz com 5 perguntas de categoria 9 (Geral) e de múltipla escolha. As perguntas são embaralhadas e as respostas corretas são misturadas com as incorretas. O usuário pode responder as perguntas e, ao final, clicar no botão "Confirmar!" para verificar quantas questões acertou.</p>
+<p>Vamos usar a API <a href="https://opentdb.com/api_config.php">Open Trivia Database</a> para gerar nosso Quiz.</p>
+
+<h4>Explicação do HTML:</h4>
+<ul>
+    <li>Linha 33: Quando clicado no botão para gerar um novo quiz, a função <code>gerarNovoQuiz</code> é executada.</li>
+    <li>Linha 35: Um bloco <code>{#await promise}</code> é criado para exibir uma mensagem enquanto o quiz está sendo gerado. Quando o quiz é gerado, o bloco <code>{:then}</code> é executado.</li>
+    <li>Linha 38: Uma lista enumerada é criada para exibir as perguntas.</li>
+    <li>Linha 39: Percorre cada pergunta (juntamente com seu índice) do questionário.</li>
+    <li>Linha 40: Como a API traz o questionário com alguns caracteres codificados como <a href="https://www.w3schools.com/html/html_entities.asp">entidades HTML</a>, usamos a sintaxe <code>@html</code> para decodificar as entidades HTML.</li>
+    <li>Linha 41: Percorre cada alternativa da pergunta.</li>
+    <li>Linha 43: Um campo de seleção de múltipla escolha é criado para cada alternativa. O campo é vinculado à lista <code>respostas</code> no índice <code>i</code> e o valor é a alternativa. Quando o campo é alterado, é executada uma função flecha que modifica a variável <code>respondeu = false</code>.</li>
+    <li>Linhas 46-52: Se o usuário respondeu à pergunta e a alternativa atual é a resposta correta, uma insígnia (badge) verde com a mensagem "Correto" é exibida. Se a alternativa é a resposta incorreta, uma insígnia vermelha com a mensagem "Incorreto" é exibida.</li>
+    <li>Linha 57: Quando clicado no botão "Confirmar!", a função <code>verificarRespostas</code> é executada.</li>
+    <li>Linha 58: Se ocorrer um erro ao gerar o quiz, por exemplo, site fora do ar, uma mensagem de erro é exibida.</li>
+</ul>
+
+<h4>Explicação do JavaScript:</h4>
+<ul>
+    <li>Linha 2: Alternativamente às palavras-chaves <code>await</code> e <code>async</code> vistas no capítulo anterior para lidar com funções assíncronas, vamos usar <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises">um objeto <code>Promise</code></a>, que encapsula uma função de callback que será executada quando a função assíncrona terminar.</li>
+    <li>Linhas 3-5: A variável <code>questionario</code> armazena cada pergunta do quiz. A variável <code>respostas</code> armazena a alternativa escolhida de cada pergunta do quiz. A variável <code>respondeu</code> armazena se o usuário já respondeu ao quiz.</li>
+    <li>Linhas 9-11: Quando fazemos uma requisição HTTP através da função <code>fetch</code> (linha 9), esta retorna uma promessa de que em algum momento nos dará uma resposta. Quando a função <code>fetch</code> tiver a resposta, o método <code>then</code> da promessa (linha 10) é executado com a resposta passada como parâmetro. Como sabemos que a resposta deve conter um json, o extraímos através do método <code>json</code>, que também retorna uma promessa de que em algum momento o json será extraído. Quando o json for extraído, aí o método <code>then</code> da segunda promessa (linha 11) é executado, com o json já extraído passado como parâmetro.</li>
+    <li>Linha 12: O json da API possui a propriedade <code>results</code>, que contém o questionário.</li>
+    <li>Linhas 13-16: Como a API traz a alternativa correta separada das alternativas erradas, para cada pergunta, embaralhamos a alternativa correta no meio das alternativas erradas.</li>
+    <li>Linhas 20-29: Percorre cada pergunta do questionário e verifica se a resposta do usuário é igual à resposta correta. Se for, incrementa a variável <code>acertos</code>.</li>
+    <li>Linha 28: Exibe um alerta com a quantidade de acertos do usuário.</li>
+</ul>
+
+<h2>Exercícios</h2>
+<ol class="excs">
+    <li>Implemente um formulário onde o usuário possa selecionar o número de perguntas, categorias disponíveis na API, nível de dificuldade, e o tipo de pergunta (múltipla escolha ou verdadeiro/falso).</li>
+    <li>Utilize CSS e/ou Bootstrap para dar uma aparência mais atraente ao quiz, tornando-o visualmente agradável e fácil de usar.</li>
+    <li>Adicione um cronômetro para o quiz, aumentando o desafio. Caso o tempo esgote, a pergunta é automaticamente marcada como incorreta.</li>
+    <li>Em vez de apenas contar acertos, implemente um sistema de pontuação que varie de acordo com a dificuldade da pergunta. Além disso, adicione feedback ao final do quiz com uma mensagem motivacional baseada na pontuação do usuário.</li>
+</ol>
