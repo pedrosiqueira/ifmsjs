@@ -11,7 +11,6 @@ export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # Load nvm bash_completion
 nvm install --lts
 
-
 # https://code.visualstudio.com/docs/setup/linux
 wget -O vscode-linux.deb "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64"
 echo "$sudopassword" | sudo -S bash -c 'echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections' # Preconfigure debconf to auto-accept the repository addition
