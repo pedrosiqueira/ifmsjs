@@ -24,6 +24,8 @@
 $useremail = Read-Host "Qual teu email do GitHub?"
 git config --global user.name $username
 git config --global user.email $useremail
+$desktopPath = [Environment]::GetFolderPath('Desktop')
+Set-Location -Path $desktopPath
 pnpm dlx sv create $username".github.io"
 cd $username".github.io"
 pnpm add --save-dev @sveltejs/adapter-static
@@ -106,7 +108,7 @@ jobs:
         env:
           BASE_PATH: "/${{ github.event.repository.name }}"
         run: |
-          npm run build
+          pnpm run build
 
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v3
