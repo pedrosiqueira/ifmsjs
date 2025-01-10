@@ -2,6 +2,8 @@
 
 # instalação do node, vscode e git, versão 2025-10-01
 
+read -sp "Senha sudo: " sudopassword
+
 # https://github.com/nvm-sh/nvm?tab=readme-ov-file#install--update-script 
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
 export NVM_DIR="$HOME/.config/nvm"
@@ -9,7 +11,6 @@ export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # Load nvm bash_completion
 nvm install --lts
 
-read -sp "Senha sudo: " sudopassword
 
 # https://code.visualstudio.com/docs/setup/linux
 wget -O vscode-linux.deb "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64"
