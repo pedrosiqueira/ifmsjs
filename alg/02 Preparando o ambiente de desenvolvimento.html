@@ -65,9 +65,9 @@
                 <pre><code>Set-ExecutionPolicy RemoteSigned -Scope Process -Force; iex((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_windows_setup.ps1'))</code></pre>
             </div>
             <div id="linux-tab" class="custom-tabs-tab">
-                # por fazer...
+                <pre><code class="sh">wget https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_debian_setup.sh && bash 01_debian_setup.sh && rm 01_debian_setup.sh && exit</code></pre>
             </div>
-            <!-- poderia colocar uma versão para windows+wsl tbm... -->
+            <!-- por fazer: poderia colocar uma versão para windows+wsl tbm... -->
         </div>
 
         <h3>O que o script faz</h3>
@@ -91,7 +91,7 @@
         </div>
 
         <p>Além disso, o script também configura algumas variáveis de ambiente que esses programas utilizam.</p>
-        <p>Se você ficou curioso, pode acessar os scripts <a href="https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_linux_setup.ps1" target="_blank">linux</a> e <a href="https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_windows_setup.ps1" target="_blank">windows</a> e ver o que cada script faz.</p>
+        <p>Se você ficou curioso, pode acessar os scripts <a href="https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_debian_setup.sh" target="_blank">linux</a> e <a href="https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_windows_setup.ps1" target="_blank">windows</a> e ver o que cada script faz.</p>
     </div>
     <div>
         <h2>Configurando o Ambiente de Desenvolvimento JavaScript</h2>
@@ -104,22 +104,10 @@
                 <button class="custom-tabs-btn" aria-custom-tabs-tab="linux-tab-2">🐧 Linux</button>
             </div>
             <div id="windows-tab-2" class="custom-tabs-tab">
-                <pre><code>iex((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/02_alg_project_setup.ps1'))</code></pre>
+                <pre><code>Invoke-Command -ScriptBlock ([scriptblock]::Create(((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/02_project_setup.ps1')))) -ArgumentList "alg"</code></pre>
             </div>
             <div id="linux-tab-2" class="custom-tabs-tab">
-                # por fazer...
-                <!-- <p>Vamos instalar o <a href="https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating">Node Version Manager</a> (nvm) e usá-lo para instalar o node e o npm. Recomendamos o uso de um gerenciador de versões, pois as versões mudam muito rapidamente. Você provavelmente precisará alternar entre várias versões do node com base nas necessidades dos diferentes projetos em que está trabalhando. O Node Version Manager (nvm) é um gerenciador de versões do node muito popular.</p>
-    <p>É sempre recomendável remover qualquer instalação existente do node ou npm antes de instalar um gerenciador de versões, pois diferentes tipos de instalação podem levar a conflitos.</p>
-
-    <ol>
-        <li>Instale o nvm: <code>wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash</code>.</li>
-        <li>Verifique se o nvm foi instalado (talvez seja necessário reiniciar o terminal): <code>nvm --version</code>. Deve aparecer a versão instalada do nvm, que, nesta data, é 0.39.7.</li>
-        <li>Liste as versões disponíveis do node: <code>nvm ls</code>.</li>
-        <li>Confirme que nenhuma versão do node está instalada: <code>nvm use node</code>. Deve aparecer algo como "not yet installed".</li>
-        <li>Instale a versão LTS estável atual do node (recomendada para aplicativos em produção): <code>nvm install --lts</code>.</li>
-        <li>Verifique se o node foi instalado: <code>node --version</code>. Verifique também se o npm foi instalado junto com o node: <code>npm --version</code>.</li>
-        <li>Para alterar a versão do node, por exemplo, para a versão 18.2.0: <code>nvm use v18.2.0</code>. Lembrando que a versão deve estar instalada antes de mudar para ela. Para alterar para a última versão LTS: <code>nvm use --lts</code>.</li>
-    </ol> -->
+                <pre><code class="sh">wget https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/02_project_setup.sh && bash 02_project_setup.sh --project alg && rm 02_project_setup.sh && exit</code></pre>
             </div>
         </div>
     </div>

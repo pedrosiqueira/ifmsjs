@@ -25,16 +25,16 @@ if ($help) {
 }
 
 # Prompt for missing parameters
+if (-not $projectName) {
+    $projectName = Read-Host "Qual o nome do projeto?"
+}
+
 if (-not $username) {
     $username = Read-Host "Qual teu nome de usuário do GitHub?"
 }
 
 if (-not $useremail) {
     $useremail = Read-Host "Qual teu email do GitHub?"
-}
-
-if (-not $projectName) {
-    $projectName = Read-Host "Qual o nome do projeto?"
 }
 
 Write-Output "Configuring Git with username: $username and email: $useremail..."
