@@ -1,7 +1,7 @@
 param (
+    [string]$projectName,
     [string]$username,
     [string]$useremail,
-    [string]$projectName,
     [switch]$help
 )
 
@@ -11,9 +11,9 @@ function Show-Help {
 Usage: 02_project_setup.ps1 [OPTIONS]
 
 Options:
+  -projectName Project name to clone
   -username    GitHub username
   -useremail   GitHub email
-  -projectName Project name to clone
   -help        Show this help message and exit
 "@
     exit
