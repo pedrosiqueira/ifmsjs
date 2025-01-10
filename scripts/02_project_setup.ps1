@@ -18,7 +18,7 @@ param (
 
 # Conditionally read input if parameters are not provided
 if (-not $username) {
-    $username = Read-Host "Qual teu nome de usu√°rio do GitHub?"
+    $username = Read-Host "Qual teu nome de usu·rio do GitHub?"
 }
 
 if (-not $useremail) {
