@@ -1,22 +1,30 @@
-# Function to display help message
-function Show-Help {
-    Write-Output "Usage: script.ps1 [OPTIONS]"
-    Write-Output ""
-    Write-Output "Options:"
-    Write-Output "  --username USERNAME       GitHub username"
-    Write-Output "  --useremail EMAIL         GitHub email"
-    Write-Output "  --project PROJECT_NAME    Project name to clone"
-    Write-Output "  --help                    Show this help message and exit"
-    exit
-}
-
 param (
     [string]$username,
     [string]$useremail,
-    [string]$projectName
+    [string]$projectName,
+    [switch]$help
 )
 
-# Conditionally read input if parameters are not provided
+# Function to display help message
+function Show-Help {
+    Write-Output @"
+Usage: 02_project_setup.ps1 [OPTIONS]
+
+Options:
+  -username    GitHub username
+  -useremail   GitHub email
+  -projectName Project name to clone
+  -help        Show this help message and exit
+"@
+    exit
+}
+
+# Show help if requested
+if ($help) {
+    Show-Help
+}
+
+# Prompt for missing parameters
 if (-not $username) {
     $username = Read-Host "Qual teu nome de usuário do GitHub?"
 }
@@ -29,7 +37,7 @@ if (-not $projectName) {
     $projectName = Read-Host "Qual o nome do projeto?"
 }
 
-Write-Output "Configuring Git..."
+Write-Output "Configuring Git with username: $username and email: $useremail..."
 git config --global user.name $username
 git config --global user.email $useremail
 
@@ -48,16 +56,16 @@ Write-Output "Installing pnpm..."
 npm install -g pnpm
 
 $desktopPath = [Environment]::GetFolderPath('Desktop')  # Get Desktop path
-Write-Output "Working in Desktop directory: $desktopPath"
-Set-Location $desktopPath  # Navigate to Desktop
+Write-Output "Navigating to Desktop directory: $desktopPath"
+Set-Location $desktopPath
 
 Write-Output "Removing existing project folder if exists..."
 Remove-Item $projectName -Recurse -Force -ErrorAction SilentlyContinue
 
-Write-Output "Cloning project '$projectName'..."
+Write-Output "Cloning project '$projectName' from GitHub..."
 git clone "https://github.com/pedrosiqueira/$projectName.git"
 
-Set-Location $projectName  # Enter the project folder
+Set-Location $projectName  # Navigate to the project folder
 Write-Output "Installing project dependencies with pnpm..."
 pnpm install
 
