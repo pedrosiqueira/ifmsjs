@@ -30,7 +30,7 @@ if (-not $projectName) {
 }
 
 if (-not $username) {
-    $username = Read-Host "Qual teu nome de usuário do GitHub?"
+    $username = Read-Host "Qual teu nome de usuï¿½rio do GitHub?"
 }
 
 if (-not $useremail) {
@@ -50,7 +50,7 @@ code --install-extension christian-kohler.path-intellisense
 code --install-extension svelte.svelte-vscode
 
 Write-Output "Setting execution policy for scripts..."
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 Write-Output "Installing pnpm..."
 npm install -g pnpm
