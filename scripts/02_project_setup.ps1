@@ -30,7 +30,7 @@ if (-not $projectName) {
 }
 
 if (-not $username) {
-    $username = Read-Host "Qual teu nome de usu�rio do GitHub?"
+    $username = Read-Host "Qual teu nome de usuário do GitHub?"
 }
 
 if (-not $useremail) {
