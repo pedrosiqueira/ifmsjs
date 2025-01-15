@@ -43,7 +43,7 @@
 </ul>
 
 <h2 id="calculadora-temperatura">Calculadora de temperatura</h2>
-<p>Crie a página <code ctc>src/routes/temperatura/+page.svelte</code>:</p>
+<p>Crie a página <code ctc>src/routes/04/temperatura/+page.svelte</code>:</p>
 <pre><code>&lt;script&gt;
     let celsius = 0,
         fahrenheit = 0;
@@ -82,7 +82,7 @@ Fahrenheit: &lt;input oninput={f2c} type=&quot;number&quot; bind:value={fahrenhe
 <p>O Svelte automaticamente atualiza os campos de entrada com os novos valores sempre que <code>celsius</code> ou <code>fahrenheit</code> são alterados. Assim, ao inserir um valor em um dos campos, o valor correspondente é calculado e atualizado no outro campo automaticamente.</p>
 
 <h2>Reatividade</h2>
-<p>No Svelte, as variáveis declaradas no bloco <code>&lt;script&gt;</code> podem ser acessadas diretamente no HTML com o uso de chaves <code>{ }</code>. Quando modificamos o valor dessas variáveis, o novo valor é automaticamente atualizado na página, um conceito conhecido como <strong>reatividade</strong>. Isso acontece porque o Svelte monitora as variáveis para atualizar o HTML sempre que seus valores mudam. Para exemplificar, crie o arquivo <code ctc>src/routes/reatividade/+page.svelte</code>:</p>
+<p>No Svelte, as variáveis declaradas no bloco <code>&lt;script&gt;</code> podem ser acessadas diretamente no HTML com o uso de chaves <code>{ }</code>. Quando modificamos o valor dessas variáveis, o novo valor é automaticamente atualizado na página, um conceito conhecido como <strong>reatividade</strong>. Isso acontece porque o Svelte monitora as variáveis para atualizar o HTML sempre que seus valores mudam. Para exemplificar, crie o arquivo <code ctc>src/routes/04/reatividade/+page.svelte</code>:</p>
 
 <pre><code>&lt;script&gt;
     let counter1 = 0;
@@ -118,7 +118,7 @@ Fahrenheit: &lt;input oninput={f2c} type=&quot;number&quot; bind:value={fahrenhe
 
 <h2>Variávels derivadas</h2>
 
-<p>Crie o arquivo <code ctc>src/routes/1b/04c/+page.svelte</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/04/derivada/+page.svelte</code>:</p>
 <pre><code>&lt;script&gt;
   let bits = $state(0);
 
