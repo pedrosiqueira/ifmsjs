@@ -95,7 +95,7 @@ export const filmes = [
   {#each gêneros as gênero}
       &lt;div class=&quot;col&quot;&gt;
           &lt;div class=&quot;form-check form-check-inline&quot;&gt;
-              &lt;input oninput={filtrarGenero} class=&quot;form-check-input&quot; type=&quot;checkbox&quot; id={gênero} value={gênero} /&gt;
+              &lt;input type=&quot;checkbox&quot; oninput={filtrarGenero} class=&quot;form-check-input&quot; id={gênero} value={gênero} /&gt;
               &lt;label class=&quot;form-check-label&quot; for={gênero}&gt;{gênero}&lt;/label&gt;
           &lt;/div&gt;
       &lt;/div&gt;
