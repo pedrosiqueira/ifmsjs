@@ -49,6 +49,19 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Prompt for missing inputs
+
+# Check if username is empty
+# if [[ -z "$username" ]]; then
+#     # Get the default username from Git config
+#     default_username=$(git config --global user.name)
+
+#     # Prompt the user for input, showing the default value
+#     read -p "Qual teu nome de usuário do GitHub? (${default_username}): " input_username
+
+#     # Use the input value if provided, otherwise use the default
+#     username="${input_username:-$default_username}"
+# fi
+
 username=$(prompt_input "username" "Qual teu nome de usuário do GitHub? " "$username")
 useremail=$(prompt_input "useremail" "Qual teu email do GitHub? " "$useremail")
 project_name=$(prompt_input "project_name" "Qual o nome do projeto? " "$project_name")

@@ -30,11 +30,15 @@ if (-not $projectName) {
 }
 
 if (-not $username) {
-    $username = Read-Host "Qual teu nome de usuário do GitHub?"
+    $defaultUsername = git config --global user.name
+    $username = Read-Host "Qual teu nome de usuário do GitHub? ($defaultUsername)"
+    $username = if ($username) { $username } else { $defaultUsername }
 }
 
 if (-not $useremail) {
-    $useremail = Read-Host "Qual teu email do GitHub?"
+    $defaultUseremail = git config --global user.email
+    $useremail = Read-Host "Qual teu email do GitHub? ($defaultUseremail)"
+    $useremail = if ($useremail) { $useremail } else { $defaultUseremail }
 }
 
 Write-Output "Configuring Git with username: $username and email: $useremail..."
