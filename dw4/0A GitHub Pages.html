@@ -59,7 +59,7 @@ code -r .</code></pre>
 
     <div>
         <h2 id="configuracao-do-projeto">Configuração do Projeto</h2>
-        <p>O SvelteKit possui uma ferramenta <a href="https://svelte.dev/docs/kit/adapter-static">Static Site Generator (SSG)</a>, conhecida como adaptador estático, que constrói uma versão estática do teu site. Sites estáticos, apesar de mais simples, têm a vantagem de não precisar de um servidor de back-end processando as requisições. Entretanto, funcionalidades dinâmicas precisam ser implementadas via JavaScript no front-end, o que não é ideal para projetos que exigem muitas interações dinâmicas com o servidor (como painéis de controle ou sistemas de login complexos). Os SSGs são excelentes para blogs, portfólios, documentações e outros projetos que não exigem muitas operações dinâmicas no back-end.</p>
+        <p>O SvelteKit oferece uma ferramenta <a href="https://svelte.dev/docs/kit/adapter-static">Static Site Generator (SSG)</a>, chamada de adaptador estático, que cria uma versão estática do teu site. Sites estáticos, embora mais simples, têm a vantagem de não necessitarem de um servidor de back-end para processar as requisições. No entanto, funcionalidades dinâmicas precisam ser implementadas via JavaScript no front-end, o que pode não ser ideal para projetos que exigem interações dinâmicas com o servidor (como painéis de controle ou sistemas de login complexos). Os SSGs são excelentes para blogs, portfólios, documentações e outros projetos que não requerem operações dinâmicas no back-end. Além disso, é possível <a href="#implantacao-github-pages">hospedar sites estáticos no GitHub Pages</a> gratuitamente!</p>
         <p>Para configurar o site como estático, siga estes passos:</p>
         <ol>
             <li>
@@ -89,9 +89,9 @@ export default {
         <p>O GitHub é uma plataforma de desenvolvimento colaborativo que permite que programadores armazenem, compartilhem e colaborem em projetos de software. O GitHub é baseado no Git, um sistema de controle de versão. Dentre suas funcionalidades, encontram-se: Controle de versão, Gestão de projetos, Colaboração, Contribuição em projetos de código aberto, Documentar o software, Rastrear problemas e gerenciar falhas.</p>
         <p>Para publicar o projeto no GitHub, siga estes passos:</p>
         <ol>
-            <li>No VSCode, pressione F1, digite "publish" e selecione "Publish to GitHub".</li>
+            <li>No vscode, tecle F1, digite "publish" e selecione "Publish to GitHub".</li>
             <li>Se solicitado, conecte-se à tua conta GitHub, que te redirecionará à página de confirmação.</li>
-            <li>De volta ao VSCode, selecione "Publish to GitHub <strong>public</strong> repository" (escolha o <strong>public</strong>, e não o <em>private</em>).</li>
+            <li>De volta ao vscode, selecione "Publish to GitHub <strong>public</strong> repository" (escolha o <strong>public</strong>, e não o <em>private</em>).</li>
         </ol>
         <p>Pronto, teu projeto está publicado no GitHub! Agora você pode acessar o <a href="javascript:;" onclick="abrirURL('github.com/${username}/${username}.github.io')">repositório remoto</a> do projeto no GitHub.</p>
     </div>
@@ -104,16 +104,16 @@ export default {
 
         <h3>Principais Comandos do Git</h3>
         <h4>Commits</h4>
-        <p>Para salvar uma nova versão, isto é, fazer um commit, clique no botão "Commit". Será aberto um arquivo para você descrever as novidades dessa nova versão. É obrigatório você escrever alguma mensagem. Depois feche o arquivo para salvar essa nova versão.</p>
+        <p>Para salvar uma nova versão, isto é, fazer um commit, clique no botão "Commit" na aba do git, ou tecle F1, digite "commit" e selecione "Git: Commit". Será aberto um arquivo para você descrever as novidades dessa nova versão. É obrigatório você escrever alguma mensagem. Depois feche o arquivo para salvar essa nova versão.</p>
         <h4>Sync = Push + Pull</h4>
-        <p>Os commits salvos no teu computador (repositório local) não são enviados automaticamente para o GitHub (repositório remoto). Para enviar os commits para o repositório remoto, clique no botão "Sync changes". Este botão realiza duas operações, conhecidas como "pull" e "push". Pull é receber todos os commits do repositório remoto para teu repositório local. E push é enviar todos os commits do teu repositório local para o repositório remoto.</p>
-        <p>Se você quiser fazer o pull, isto é, receber algum commit do GitHub que não está no teu repositório local, você pode, no vscode, teclar F1, digitar "pull" e selecionar "Git: pull".</p>
+        <p>Os commits salvos no teu computador (repositório local) não são enviados automaticamente para o GitHub (repositório remoto). Para enviar os commits para o repositório remoto, clique no botão "Sync changes", ou tecle F1, digite "sync e selecione "Git: Sync". A operação "sync" é realizada em duas etapas, conhecidas como "pull" e "push". Pull é receber todos os commits do repositório remoto para teu repositório local. E push é enviar todos os commits do teu repositório local para o repositório remoto.</p>
+        <p>Para apenas fazer o pull, isto é, receber algum commit do GitHub que não está no teu repositório local, você pode, no vscode, teclar F1, digitar "pull" e selecionar "Git: pull".</p>
         <h4>Clone</h4>
         <p>Se você já tem um projeto salvo no GitHub e deseja abri-lo em outro computador, você pode acessar a página do <a href="javascript:;" onclick="abrirURL('github.com/${username}/${username}.github.io')">repositório remoto</a> no GitHub, clicar no botão "Code" e copiar o link do repositório. No vscode, tecle F1, digite "clone", selecione a opção "Git: clone", cole o link copiado anteriormente, e tecle enter. Escolha o local onde salvar o projeto em teu computador. Na janela que abrir, clique em "Open".</p>
     </div>
 
     <div>
-        <h2>Implantação do Site no GitHub Pages</h2>
+        <h2 id="implantacao-github-pages">Implantação do Site no GitHub Pages</h2>
         <p>O <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages">GitHub Pages</a> é uma solução gratuita para hospedar sites estáticos pequenos ou médios. Ele suporta integração direta com repositórios do GitHub, permitindo que a implantação (deploy) de novas versões do site seja feita automaticamente sempre que houver modificações no repositório remoto.</p>
         <p>Para configurar o GitHub Pages, siga estes passos:</p>
         <ol>
