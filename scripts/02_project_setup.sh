@@ -49,21 +49,18 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Prompt for missing inputs
+if [[ -z "$username" ]]; then
+    default_username=$(git config --global user.name) # Get the default username from Git config
+    read -p "Qual teu nome de usuário do GitHub? (${default_username}): " input_username # Prompt the user for input, showing the default value
+    username="${input_username:-$default_username}" # Use the input value if provided, otherwise use the default
+fi
 
-# Check if username is empty
-# if [[ -z "$username" ]]; then
-#     # Get the default username from Git config
-#     default_username=$(git config --global user.name)
+if [[ -z "$useremail" ]]; then
+    default_useremail=$(git config --global user.email) # Get the default useremail from Git config
+    read -p "Qual teu email do GitHub? (${default_useremail}): " input_useremail # Prompt the user for input, showing the default value
+    useremail="${input_useremail:-$default_useremail}" # Use the input value if provided, otherwise use the default
+fi
 
-#     # Prompt the user for input, showing the default value
-#     read -p "Qual teu nome de usuário do GitHub? (${default_username}): " input_username
-
-#     # Use the input value if provided, otherwise use the default
-#     username="${input_username:-$default_username}"
-# fi
-
-username=$(prompt_input "username" "Qual teu nome de usuário do GitHub? " "$username")
-useremail=$(prompt_input "useremail" "Qual teu email do GitHub? " "$useremail")
 project_name=$(prompt_input "project_name" "Qual o nome do projeto? " "$project_name")
 
 # Configures Git
@@ -82,7 +79,7 @@ code --install-extension svelte.svelte-vscode
 npm install -g pnpm
 
 # Sets up the project
-desktop_path="$HOME/Desktop"  # Gets the desktop path
+desktop_path="$(xdg-user-dir DESKTOP)"  # Gets the desktop path
 
 cd "$desktop_path" || exit 1 # Navigates to the desktop directory
 rm -rf "$project_name"       # Removes the existing project directory

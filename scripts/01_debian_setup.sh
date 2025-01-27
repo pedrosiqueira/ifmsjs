@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# instalação do node, vscode e git, versão 2025-10-01
+# instalação do node, vscode e git, versão 2025-01-01
 
 read -sp "Senha sudo: " sudopassword
 
