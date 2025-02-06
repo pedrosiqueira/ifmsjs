@@ -22,7 +22,14 @@
         <ol>
             <li>
                 <p>Execute no terminal:</p>
-                <pre><code class="ps">$username = Read-Host "Qual teu nome de usuário do GitHub?"
+                <div class="custom-tabs">
+                    <div class="custom-tabs-bar">
+                        <button class="custom-tabs-btn" aria-custom-tabs-tab="windows-tab">🪟 Windows</button>
+                        <button class="custom-tabs-btn" aria-custom-tabs-tab="linux-tab">🐧 Linux</button>
+                    </div>
+
+                    <div id="windows-tab" class="custom-tabs-tab">
+                        <pre><code class="ps">$username = Read-Host "Qual teu nome de usuário do GitHub?"
 $useremail = Read-Host "Qual teu email do GitHub?"
 git config --global user.name $username
 git config --global user.email $useremail
@@ -32,6 +39,19 @@ pnpm dlx sv create $username".github.io"
 cd $username".github.io"
 pnpm add --save-dev @sveltejs/adapter-static
 code -r .</code></pre>
+                    </div>
+                    <div id="linux-tab" class="custom-tabs-tab">
+                        <pre><code class="sh">read -p "Qual teu nome de usuário do GitHub? " input_username
+read -p "Qual teu email do GitHub? " input_useremail
+git config --global user.name "$input_username"
+git config --global user.email "$input_useremail"
+desktop_path="$(xdg-user-dir DESKTOP)"
+cd "$desktop_path"
+pnpm dlx sv create "$input_username.github.io"
+cd "$input_username.github.io"
+pnpm add --save-dev @sveltejs/adapter-static
+code -r .</code></pre>
+                    </div>
             </li>
             <li>
                 <p>Quando solicitado, informe teu nome de usuário e email do GitHub.</p>
@@ -65,17 +85,8 @@ code -r .</code></pre>
             <li>
                 <p>Substitua o conteúdo do arquivo <code>svelte.config.js</code> pelo seguinte:</p>
                 <pre><code>import adapter from '@sveltejs/adapter-static';
-export default {
-  kit: {
-      adapter: adapter({
-          pages: 'build',
-          assets: 'build',
-          fallback: undefined,
-          precompress: false,
-          strict: true
-      })
-  }
-};</code></pre>
+
+export default { kit: { adapter: adapter(), paths: { base: '/teste' } } };</code></pre>
             </li>
             <li>
                 <p>Crie o arquivo <code ctc>src/routes/+layout.js</code> com o seguinte conteúdo:</p>
@@ -117,7 +128,7 @@ export default {
         <p>O <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages">GitHub Pages</a> é uma solução gratuita para hospedar sites estáticos pequenos ou médios. Ele suporta integração direta com repositórios do GitHub, permitindo que a implantação (deploy) de novas versões do site seja feita automaticamente sempre que houver modificações no repositório remoto.</p>
         <p>Para configurar o GitHub Pages, siga estes passos:</p>
         <ol>
-            <li>Acesse o <a href="javascript:;" onclick="abrirURL('github.com/${username}/${username}.github.io')">repositório remoto</a> no GitHub e vá para "Settings" → "Pages" → "Build and deployment" → "Source" → "GitHub Actions".</li>
+            <li>Acesse o <a href="javascript:;" onclick="abrirURL('github.com/${username}/${username}.github.io')">repositório remoto</a> no GitHub e vá para "Settings" → "Pages" → "Build and deployment" → "Source". Altere de "Deploy from a branch" para "GitHub Actions".</li>
             <li>Selecione "create your own" quando aparecer logo embaixo.</li>
             <li>Na página que abrir, nomeie o arquivo como <code ctc>deploy.yml</code> e adicione o seguinte conteúdo:</p>
                 <pre><code class="yml">name: Deploy to GitHub Pages
@@ -185,9 +196,9 @@ jobs:
         <p>Para ver o andamento da implantação do site, acesse a aba "Actions" do teu <a href="javascript:;" onclick="abrirURL('github.com/${username}/${username}.github.io/actions')">repositório remoto</a> e selecione a implantação em andamento.</p>
         <p>Para ver teu site online, acesse o <a href="javascript:;" onclick="abrirURL('${username}.github.io')">endereço do teu site</a>.</p>
     </div>
-  </div>
-  
-  <script>
+</div>
+
+<script>
     let username = null;
     function abrirURL(url) {
         if (username == null) {
@@ -196,4 +207,4 @@ jobs:
         url = url.replaceAll("${username}", username);
         window.open("https://" + url, "_blank");
     }
-  </script>
+</script>
