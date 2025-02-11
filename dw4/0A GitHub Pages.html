@@ -86,7 +86,7 @@ code -r .</code></pre>
                 <p>Substitua o conteúdo do arquivo <code>svelte.config.js</code> pelo seguinte:</p>
                 <pre><code>import adapter from '@sveltejs/adapter-static';
 
-export default { kit: { adapter: adapter(), paths: { base: '/teste' } } };</code></pre>
+export default { kit: { adapter: adapter() } };</code></pre>
             </li>
             <li>
                 <p>Crie o arquivo <code ctc>src/routes/+layout.js</code> com o seguinte conteúdo:</p>
