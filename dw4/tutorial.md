@@ -1,5 +1,9 @@
 # Como publicar teu site construído com SvelteKit no GitHub Pages
 
+tbm devo falar do package.json, e dos scripts que dá pra executar de lá
+
+falar sobre debug https://svelte.dev/docs/kit/debugging
+
 ## 01 - SvelteKit e GitHub: Preparação do Ambiente de Desenvolvimento
 
 Nesse tutorial vamos aprender a como construir um site com SvelteKit, como publicar o site no GitHub, e como implantar o site no GitHub Pages.
