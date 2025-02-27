@@ -30,5 +30,8 @@ Remove-SystemPath "$env:SYSTEMDRIVE\npm\pnpm\"
 [Environment]::SetEnvironmentVariable("XDG_STATE_HOME", $null, "Machine")
 [Environment]::SetEnvironmentVariable("XDG_CACHE_HOME", $null, "Machine")
 
+# remove a pasta npm
+Remove-Item -Path "$env:SYSTEMDRIVE\npm" -Recurse -Force
+
 # recarrega as variáveis de ambiente modificadas
 exit # sair do terminal é mais garantido para recarregar as variáveis de ambiente
