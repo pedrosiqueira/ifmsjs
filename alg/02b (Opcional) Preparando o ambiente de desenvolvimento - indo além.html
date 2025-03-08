@@ -136,7 +136,7 @@ $Path = [Environment]::GetEnvironmentVariable("PATH", "Machine")
 
         <h3>Parte do node</h3>
         <ol>
-            <li>Embora o npm seja o gerenciador de pacotes padrão do node, eu pessoalmente prefiro o gerenciador de pacotes pnpm, por ser mais ágil e ocupar menos espaço que o npm. Execute <code ctc>pnpm init</code> na pasta raiz do projeto. É criado um arquivo <code>package.json</code>, que contém informações do teu projeto, como nome, versão e os pacotes que ele depende para ser executado.
+            <li>Embora o npm seja o gerenciador de pacotes padrão do node, eu pessoalmente prefiro o gerenciador de pacotes pnpm, por ser mais ágil e ocupar menos espaço que o npm. Para instalar o pnpm, execute <code ctc>npm install -g pnpm</code>. Com o pnpm instalado, execute <code ctc>pnpm init</code> na pasta raiz do projeto. É criado um arquivo <code>package.json</code>, que contém informações do teu projeto, como nome, versão e os pacotes que ele depende para ser executado.
                 <div class="info">
                     <p>(Observação: Se estiver no Windows e o comando anterior der um erro de permissão de execução de scripts pelo terminal, execute <code ctc>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>. Feche todos os terminais, reabra um terminal na pasta raiz do projeto e execute novamente <code ctc>pnpm init</code>).</p>
                 </div>
