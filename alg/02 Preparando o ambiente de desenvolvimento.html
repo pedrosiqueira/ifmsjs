@@ -34,7 +34,7 @@
         <p>Nosso foco neste curso será o desenvolvimento de aplicativos web, onde o JavaScript pode ser utilizado tanto no lado do cliente (navegadores web) quanto no lado do servidor (Node.js).</p>
 
         <h3>Executando JavaScript via Navegador Web</h3>
-        <p>As páginas web utilizam as linguagens HTML, CSS e JavaScript. Portanto, todos os navegadores modernos já vêm com um interpretador de JavaScript embutido. Isso significa que você pode executar código JavaScript diretamente no seu navegador web. Para isso, acesse as Ferramentas de Desenvolvimento do seu navegador (na maioria dos navegadores, pode ser através da tecla <kbd>F12</kbd>) e abra a aba "Console".</p>
+        <p>As páginas web utilizam as linguagens HTML, CSS e JavaScript. Portanto, todos os navegadores modernos já vêm com um interpretador de JavaScript embutido. Isso significa que você pode executar código JavaScript diretamente no teu navegador web. Para isso, acesse as Ferramentas de Desenvolvimento do teu navegador (na maioria dos navegadores, pode ser através da tecla <kbd>F12</kbd>) e abra a aba "Console".</p>
         <p>Esta aba é um terminal interativo para digitar e executar comandos JavaScript. Agora, digite <code>5+3</code> e tecle <kbd>Enter</kbd> para ver o resultado. Surpreendente, não? Um <code>8</code>. Mas isso parece uma calculadora simples, e o JavaScript é muito mais que isso. Agora, digite <code>new Date()</code> e tecle <kbd>Enter</kbd> para ver a data atual. Ótimo!</p>
 
         <h4>Exemplo de HTML + JavaScript</h4>
@@ -52,7 +52,7 @@
 &lt;/script&gt;</code></pre>
 
         <p>As duas primeiras linhas são campos de entrada onde o usuário pode digitar dois números. A terceira linha é um botão que, ao ser clicado, executará o comando JavaScript <code>somar</code>. Em uma página HTML, o código JavaScript deve estar dentro do elemento <code>&lt;script&gt;</code>. Aqui definimos o comando `somar`, composto por três linhas: a primeira obtém os números digitados pelo usuário, a segunda realiza a soma dos números e a terceira exibe a soma dos números no parágrafo definido na linha 4. Não precisa se preocupar em entender o que cada linha de código faz, muito menos em decorar. Aqui é só para demonstrar o uso de HTML com JavaScript.</p>
-        <p>Agora, salve o arquivo teclando o atalho <kbd>Ctrl+S</kbd>. Clique na área de trabalho, clique no campo "Nome", digite <code ctc>pagina.html</code> e, atenção, por padrão, o bloco de notas salva o arquivo como TXT, mas você precisa clicar no campo "Tipo" e escolher "Todos os arquivos". Agora, clique em "Salvar" para salvar sua página web na área de trabalho. Abra a área de trabalho e clique no arquivo <code>pagina.html</code>. Ele será aberto no seu navegador web padrão. Digite alguns números e clique em "Somar" para ver o resultado!</p>
+        <p>Agora, salve o arquivo teclando o atalho <kbd>Ctrl+S</kbd>. Clique na área de trabalho, clique no campo "Nome", digite <code ctc>pagina.html</code> e, atenção, por padrão, o bloco de notas salva o arquivo como TXT, mas você precisa clicar no campo "Tipo" e escolher "Todos os arquivos". Agora, clique em "Salvar" para salvar sua página web na área de trabalho. Abra a área de trabalho e clique no arquivo <code>pagina.html</code>. Ele será aberto no teu navegador web padrão. Digite alguns números e clique em "Somar" para ver o resultado!</p>
     </div>
     <div>
         <h2>Instalando o Ambiente de Desenvolvimento JavaScript</h2>
@@ -105,7 +105,7 @@
         <p>Se você ficou curioso, pode acessar os scripts <a href="https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_debian_setup.sh" target="_blank">linux</a> e <a href="https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_windows_setup.ps1" target="_blank">windows</a> e ver o que cada script faz.</p>
 
         <h3>Desinstalando o Ambiente de Desenvolvimento JavaScript</h3>
-        <p>Se você instalou o ambiente de desenvolvimento JavaScript usando o script anterior, pode desinstalar executando como administrador o seguinte script no terminal:</p>
+        <p>Se você instalou o ambiente de desenvolvimento JavaScript usando o script anterior, a qualquer momento pode desinstalar executando como administrador o seguinte script no terminal:</p>
         <div class="custom-tabs">
             <div class="custom-tabs-bar">
                 <button class="custom-tabs-btn" aria-custom-tabs-tab="windows-tab-uninstall">🪟 Windows</button>
@@ -121,7 +121,7 @@
         </div>
     </div>
     <div>
-        <h2>Configurando o Ambiente de Desenvolvimento JavaScript</h2>
+        <h2>Criando o projeto</h2>
         <p id="configurando">Após a instalação dos programas necessários para desenvolvimento JavaScript, vamos executar um script que (1) solicita teu nome de usuário e email do GitHub, (2) instala algumas extensões no vscode, (3) instala o pnpm e (4) baixa o projeto pronto para uso. Execute no terminal <span id="executando-script">um dos seguintes scripts</span>, conforme teu sistema operacional:</p>
         <div class="info">
             <p>Observação: O <strong><a href="https://github.com">GitHub</a></strong> é uma plataforma online de hospedagem de repositórios Git que amplia suas funcionalidades com uma interface intuitiva e ferramentas para colaboração, revisão de código, automação e gerenciamento de projetos. Além disso, funciona como uma rede social para desenvolvedores, facilitando o compartilhamento e a colaboração em projetos de código aberto.</p>
@@ -145,53 +145,17 @@
     </div>
     <div>
         <h2>Conhecendo nosso projeto</h2>
-        <p>De início, o projeto vem com dois arquivos de configuração. O arquivo <code>.vscode/launch.json</code> possui configurações do vscode para o projeto, como como compilá-lo e executá-lo. O arquivo <code>package.json</code> possui configurações do node para o projeto, como o nome dos autores do projeto, descrição do projeto e pacotes de terceiros utilizados pelo projeto.</p>
+        <p>De início, o projeto vem com dois arquivos de configuração. O arquivo <code>.vscode/launch.json</code> contém as configurações do vscode para o projeto, incluindo detalhes sobre como compilar, executar e depurar o aplicativo. O arquivo <code>package.json</code> contém configurações do node para o projeto, como nome, versão, descrição e os pacotes dos quais ele depende para ser executado.</p>
         <p>O projeto também vem com a pasta <code>node_modules</code>, onde ficam os pacotes de terceiros. No momento, o único pacote que utilizaremos é o <code>scanf</code>, que nos auxilia a ler dados digitados pelo usuário.</p>
         <div class="info">
-            <p>ATENÇÃO: Você nunca deve mexer na pasta <code>node_modules</code>! Ela é gerenciada automaticamente pelo npm.</p>
+            <p>ATENÇÃO: Nunca mexa na pasta <code>node_modules</code>, sob risco de comprometer teu projeto! Ela é gerenciada automaticamente pelo npm.</p>
         </div>
     </div>
     <div>
         <h2>Criando nosso primeiro script</h2>
         <p>É fundamental mantermos nosso projeto organizado. Estruturaremos nosso projeto em pastas. Criaremos uma pasta para cada capítulo, onde colocaremos os códigos desenvolvidos naquele capítulo. Como estamos no segundo capítulo, crie a pasta <code ctc>cap02</code> na pasta raiz do projeto. Você pode fazer isso no vscode clicando com o botão direito no espaço vazio da aba de explorador e selecionando "New folder...".</p>
         <p>Agora, crie o arquivo <code ctc>hello-world.js</code> dentro da pasta <code>cap02</code>. Você pode fazer isso no vscode clicando com o botão direito em cima da pasta <code>cap02</code> e selecionando "New file...". Observe que todos os arquivos de código-fonte em JavaScript devem terminar com a extensão <code>.js</code>.</p>
-        <p>Escreva o código <code ctc>console.log('hello, world!')</code> dentro do arquivo recém-criado. Para executar esse arquivo, abra o terminal na pasta raiz do projeto (atalho <kbd>Ctrl+j</kbd>) e execute <code ctc>node cap02/hello-world.js</code>. Parabéns, esse é seu primeiro programa em JavaScript!</p>
+        <p>Escreva o código <code ctc>console.log('hello, world!')</code> dentro do arquivo recém-criado. Para executar esse arquivo, abra o terminal na pasta raiz do projeto (atalho <kbd>Ctrl+j</kbd>) e execute <code ctc>node cap02/hello-world.js</code>. Parabéns, esse é teu primeiro programa em JavaScript! O programa "Hello, world!" é uma tradição desde os primórdios da programação, usada para apresentar a linguagem a novatos e testar se a instalação está correta.</p>
         <p>Você também pode executar qualquer arquivo <code>.js</code> aberto no vscode simplesmente teclando <kbd>F5</kbd>.</p>
-    </div>
-    <div>
-        <h2>Debugging</h2>
-        <p>Errar faz parte do processo de aprendizagem, especialmente na programação. No entanto, às vezes é difícil encontrar a fonte de um erro no código. É aí que entra a arte de <b>debugging</b>. Debugging, ou depuração de código, é o processo de identificar, isolar e corrigir erros em um programa de computador. Quando um programa apresenta comportamentos inesperados, é necessário depurar o código para encontrar e resolver o problema. Isso envolve pausar a execução do programa, observar variáveis e valores em diferentes pontos do código e identificar onde ocorrem os erros. O debugging também é útil para entender o funcionamento do programa, permitindo que você o execute passo a passo, no seu próprio ritmo.</p>
-        <p>Crie o arquivo <code ctc>cap02/factorials.js</code> com o seguinte código:</p>
-        <div class="info">
-            <p>Observação: as barras em um caminho de arquivo significam as pastas onde o arquivo se encontra. Portanto, <code>cap02/factorials.js</code> significa que o arquivo <code>factorials.js</code> está dentro da pasta <code>cap02</code>.</p>
-        </div>
-        <pre><code>function calculateSumOfFactorials(argument1, argument2) {
-    let factorial1 = calculateFactorial(argument1);
-    let factorial2 = calculateFactorial(argument2);
-    let result = calculateSum(factorial1, factorial2);
-    return result;
-}
-
-function calculateFactorial(argument) {
-    let factorialResult = 1;
-    for (let i = 1; i &lt;= argument; i++) {
-        factorialResult *= i;
-    }
-    return factorialResult;
-}
-
-function calculateSum(argument1, argument2) {
-    return argument1 + argument2;
-}
-
-let a = 5;
-let b = 10;
-let sumOfFactorials = calculateSumOfFactorials(a, b);
-console.log("The sum of factorials of the entered integers is", sumOfFactorials);</code></pre>
-        <p>Veja se você consegue entender o que esse código está fazendo. Agora, antes de executá-lo de uma vez, experimente colocar um <b>breakpoint</b> na linha 20.</p>
-        <p>Dentre as opções de depuração no vscode, você pode continuar a execução até o próximo breakpoint (<kbd>F5</kbd>), avançar (<kbd>F10</kbd>), entrar (<kbd>F11</kbd>) e sair (<kbd>Shift + F11</kbd>).</p>
-        <p>Na aba de depuração, você pode ver os valores das variáveis atuais, definir observadores (watch) de variáveis ou expressões, consultar a pilha de chamadas de funções e os breakpoints.</p>
-        <p>Na aba "Debug Console", você pode escrever linhas de código que são executadas no contexto do programa atual, com acesso às suas variáveis e funções.</p>
-        <p>No momento, essas informações podem parecer abstratas se você ainda está no início de sua jornada como programador. No entanto, depurar é uma ferramenta essencial para programadores e, à medida que você aprender mais, tudo ficará mais claro e fará mais sentido. Por isso, convido você a revisitar essa seção após adquirir mais maturidade em programação. Com o tempo e o conhecimento adquirido, essas práticas e termos farão mais sentido e serão uma parte natural do teu fluxo de trabalho como desenvolvedor.</p>
     </div>
 </div>
