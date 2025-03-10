@@ -71,23 +71,43 @@ Se você quiser executar o site simplesmente teclando F5, sem precisar de digita
             "name": "Run development server",
             "request": "launch",
             "command": "pnpm run dev",
-            "type": "node-terminal",
-            "preLaunchTask": "pnpm install"
+            "type": "node-terminal"
         }
     ]
 }
 ```
 
-
-
+Pode fechar o arquivo teclando Ctrl+W, e salvando-o. Agora tecle F5, e quando o site estiver rodando, volte ao navegador e atualize a página localhost:5173 para acessá-lo novamente.
 
 ## Estrutura do projeto
 
-Inicialmente um projeto SvelteKit já vem com um esqueleto montado e com vários arquivos de configuração. A [documentação oficial](https://svelte.dev/docs/kit/project-structure) explica a estrutura de pastas e arquivos de um projeto SvelteKit.
+Inicialmente um projeto SvelteKit já vem com uma estrutura básica configurada, contendo diversos arquivos essenciais. A [documentação oficial](https://svelte.dev/docs/kit/project-structure) detalha a organização dessas pastas e arquivos.
 
+Mas o que importa para nós é a pasta `src`, que significa "source", ou "código-fonte". É nela onde reside, adivinhe só, todo o código-fonte do nosso aplicativo. Dentro dela ficam duas pastas:
 
+- A pasta routes - onde ficam as páginas do site.
+- A pasta `lib`, de library, ou biblioteca, onde ficam códigos utilitários ou componentes genéricos que as páginas em routes podem utilizar.
 
+Além da pasta routes, também temos a pasta `static`, onde residem arquivos estáticos como como imagens, fontes e estilos CSS.
 
-Uma última coisa que queria fazer antes de concluir este capítulo é adicionar uma configuração no VSCode para conseguirmos executar os programas simplesmente teclando F5, sem precisar digitar comandos no terminal. Acesse o menu "Run → Add Configuration → Node.js".
+## Navegando entre as páginas
 
-O arquivo recém-criado ".vscode/launch.json" contém as configurações do VS Code para o projeto, incluindo detalhes sobre como compilar, executar e depurar o aplicativo. Neste arquivo, adicione a linha `"console": "integratedTerminal",` logo acima da linha `"type": "node"`. E confirme que a linha que começa com "program" esteja assim, modificando se necessário: `"program": "${file}"`. Salve o arquivo teclando Ctrl+S e pode fechá-lo teclando Ctrl+W. Agora, com o programa "interacao2.js" aberto, tecle F5 para executá-lo. Deve abrir o terminal com o programa em execução. Tecle Ctrl+J duas vezes para focar no terminal, ou simplesmente clique nele, para poder interagir com o programa.
+Dentro da pasta routes, há o arquivo `+page.svelte`, que é a página inicial do site. Abra esse arquivo e modifique para o seguinte conteúdo:
+
+```html
+<p>Bem vindo ao meu site! Saiba mais <a href="/sobre">clicando aqui</a>.</p>
+```
+
+Aqui, colocamos um link para a página "sobre", que ainda não existe. Crie essa página clicando com o botão direito em routes, novo arquivo, e digitando `sobre/+page.svelte`. Observe que foi criado o arquivo `+page.svelte` dentro da pasta `sobre`. Coloque o seguinte conteúdo neste arquivo:
+
+```html
+<p>Aprendendo SvelteKit. <a href="/">Clique aqui</a> para voltar à página inicial.</p>´
+```
+
+Observe que no sistema de navegação de páginas do SvelteKit, a barra representa a página inicial, e "/sobre" corresponde à página sobre. Cada pasta dentro de routes deve ter um arquivo +page.svelte, que representa a página que será aberta ao acessar o caminho daquela pasta no navegador. Isso mesmo, no SvelteKit, as páginas não possuem a extensão `.html`, mas sim a extensão `.svelte`.
+
+Volte ao navegador e verifique se consegue navegar entre as duas páginas do teu site.
+
+## O arquivo src/app.html
+
+Você pode estar se perguntando: onde estão os elementos `<html>`, `<head>` e `<body>` que normalmente compõem uma página? Na verdade, esses elementos nem podem estar presentes nos arquivos `.svelte`, pois todas as páginas utilizam como base o template definido no arquivo `app.html`, dentro da pasta `src`. É nesse arquivo que os elementos `<html>`, `<head>` e `<body>` são estruturados, servindo de modelo para todas as páginas do projeto.
