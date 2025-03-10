@@ -122,7 +122,7 @@
     </div>
     <div>
         <h2>Criando o projeto</h2>
-        <p id="configurando">Após a instalação dos programas necessários para desenvolvimento JavaScript, vamos executar um script que (1) solicita teu nome de usuário e email do GitHub, (2) instala algumas extensões no vscode, (3) instala o pnpm e (4) baixa o projeto pronto para uso. Execute no terminal <span id="executando-script">um dos seguintes scripts</span>, conforme teu sistema operacional:</p>
+        <p id="configurando">Após a instalação dos programas necessários para desenvolvimento JavaScript, vamos executar um script que (1) solicita teu nome de usuário e email do GitHub, (2) instala algumas extensões no vscode, (3) instala o pnpm e (4) baixa na área de trabalho o projeto pronto para uso. Execute no terminal <span id="executando-script">um dos seguintes scripts</span>, conforme teu sistema operacional:</p>
         <div class="info">
             <p>Observação: O <strong><a href="https://github.com">GitHub</a></strong> é uma plataforma online de hospedagem de repositórios Git que amplia suas funcionalidades com uma interface intuitiva e ferramentas para colaboração, revisão de código, automação e gerenciamento de projetos. Além disso, funciona como uma rede social para desenvolvedores, facilitando o compartilhamento e a colaboração em projetos de código aberto.</p>
         </div>
@@ -145,7 +145,7 @@
     </div>
     <div>
         <h2>Conhecendo nosso projeto</h2>
-        <p>De início, o projeto vem com dois arquivos de configuração. O arquivo <code>.vscode/launch.json</code> contém as configurações do vscode para o projeto, incluindo detalhes sobre como compilar, executar e depurar o aplicativo. O arquivo <code>package.json</code> contém configurações do node para o projeto, como nome, versão, descrição e os pacotes dos quais ele depende para ser executado.</p>
+        <p>Como mencionamos anteriormente, um projeto nada mais é do que uma pasta que agrupa todos os arquivos relacionados ao aplicativo que estamos desenvolvendo. Por isso que essa pasta do projeto também é denominada "pasta raiz". Na aba Explorer do vscode são exibidos todos os arquivos do projeto. De início, o projeto vem com dois arquivos de configuração. O arquivo <code>.vscode/launch.json</code> contém as configurações do vscode para o projeto, incluindo detalhes sobre como compilar, executar e depurar o aplicativo. O arquivo <code>package.json</code> contém configurações do node para o projeto, como nome, versão, descrição e os pacotes dos quais ele depende para ser executado.</p>
         <p>O projeto também vem com a pasta <code>node_modules</code>, onde ficam os pacotes de terceiros. No momento, o único pacote que utilizaremos é o <code>scanf</code>, que nos auxilia a ler dados digitados pelo usuário.</p>
         <div class="info">
             <p>ATENÇÃO: Nunca mexa na pasta <code>node_modules</code>, sob risco de comprometer teu projeto! Ela é gerenciada automaticamente pelo npm.</p>
@@ -153,9 +153,25 @@
     </div>
     <div>
         <h2>Criando nosso primeiro script</h2>
-        <p>É fundamental mantermos nosso projeto organizado. Estruturaremos nosso projeto em pastas. Criaremos uma pasta para cada capítulo, onde colocaremos os códigos desenvolvidos naquele capítulo. Como estamos no segundo capítulo, crie a pasta <code ctc>cap02</code> na pasta raiz do projeto. Você pode fazer isso no vscode clicando com o botão direito no espaço vazio da aba de explorador e selecionando "New folder...".</p>
-        <p>Agora, crie o arquivo <code ctc>hello-world.js</code> dentro da pasta <code>cap02</code>. Você pode fazer isso no vscode clicando com o botão direito em cima da pasta <code>cap02</code> e selecionando "New file...". Observe que todos os arquivos de código-fonte em JavaScript devem terminar com a extensão <code>.js</code>.</p>
-        <p>Escreva o código <code ctc>console.log('hello, world!')</code> dentro do arquivo recém-criado. Para executar esse arquivo, abra o terminal na pasta raiz do projeto (atalho <kbd>Ctrl+j</kbd>) e execute <code ctc>node cap02/hello-world.js</code>. Parabéns, esse é teu primeiro programa em JavaScript! O programa "Hello, world!" é uma tradição desde os primórdios da programação, usada para apresentar a linguagem a novatos e testar se a instalação está correta.</p>
+        <p>É fundamental mantermos nosso projeto organizado. Estruturaremos nosso projeto em pastas. Criaremos uma pasta para cada capítulo, onde colocaremos os arquivos de código-fonte desenvolvidos naquele capítulo.
+        <p>Vamos criar nosso primeiro arquivo de código-fonte. Clique com o botão direito no espaço vazio da aba de explorador e selecione "New file...". Digite <code ctc>cap02/meu-primeiro-programa.js</code>, sem espaços, e tecle Enter.</p>
+        <div class="info">
+            <p>Observação: as barras em um caminho de arquivo significam as pastas onde o arquivo se encontra. Portanto, <code>cap02/meu-primeiro-programa.js</code> significa que o arquivo <code>meu-primeiro-programa.js</code> está dentro da pasta <code>cap02</code>.</p>
+        </div>
+        <div class="info">
+            <p>Observação: Não é recomendável usar espaços nos nomes dos arquivos do projeto por motivos que veremos adiante.</p>
+        </div>
+        <div class="info">
+            <p>Observação: Todos os arquivos de código-fonte em JavaScript devem terminar com a extensão <code>.js</code>.</p>
+        </div>
+        <p>Escreva o código <code ctc>console.log('hello, world!')</code> dentro do arquivo recém-criado.</p>
+        <div class="info">
+            <p>Observação: Perceba uma bolinha ao lado do nome do arquivo: isso significa que você ainda não salvou o arquivo desde a última edição. Tecle Ctrl+S para salvar o arquivo. Perceba que a bolinha sumiu, indicando que o arquivo agora está salvo.</p>
+            <p>Sempre que você terminar de editar um arquivo, não se esqueça de salvá-lo!</p>
+        </div>
+        <p>Para executar esse arquivo, abra o terminal na pasta raiz do projeto (atalho <kbd>Ctrl+j</kbd>), digite <code ctc>node cap02/meu-primeiro-programa.js</code> e tecle Enter.
+        <div class="info">Dica: Você pode teclar Tab no terminal para completar o comando sendo digitado.</div>
+        <p>Parabéns, esse é teu primeiro programa em JavaScript! O programa "Hello, world!" é uma tradição desde os primórdios da programação, que simplesmente exibe a mensagem "Hello, world!" quando executado. Essa tradição serve para apresentar a linguagem a novatos e testar se a instalação está correta.</p>
         <p>Você também pode executar qualquer arquivo <code>.js</code> aberto no vscode simplesmente teclando <kbd>F5</kbd>.</p>
     </div>
 </div>

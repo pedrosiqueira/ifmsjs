@@ -6,7 +6,7 @@ Olá, pessoal! Neste curso, aprenderemos a desenvolver software utilizando a lin
 
 Nosso foco neste curso será o desenvolvimento de aplicativos web, onde o JavaScript pode ser utilizado tanto no lado do cliente (navegadores web) quanto no lado do servidor (Node.js).
 
-Para acompanhar o curso, acesse o site <https://pedrosiqueira.github.io/ifmsjs>. Vamos começar na página "Algoritmos", capítulo 2: Preparando o ambiente de desenvolvimento.
+Para acompanhar essa aula, acesse o site <https://pedrosiqueira.github.io/ifmsjs>, página "Algoritmos", capítulo 2: Preparando o ambiente de desenvolvimento.
 
 ## Executando JavaScript via Navegador Web
 
