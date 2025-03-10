@@ -33,10 +33,8 @@
 <p>Tenha certeza de ter instalado tudo de que precisamos conforme exposto na seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando">Instalando o ambiente de execução Javascript</a>.</p>
 
 <h2>Criando o projeto</h2>
-<p>Vamos executar um script que (1) solicita teu nome de usuário e email do GitHub, (2) instala algumas extensões no vscode, (3) instala o pnpm e (4) baixa o projeto pronto para uso. Execute no terminal <span id="executando-script">um dos seguintes scripts</span>, conforme teu sistema operacional:</p>
-<div class="info">
-    <p>Observação: Ao solicitar teu nome de usuário e email do GitHub, se você não tiver uma conta, pode digitar qualquer coisa. Esse passo é opcional, apenas para aqueles que quiserem salvar seu projeto no GitHub.</p>
-</div>
+<p>Vamos executar um script que (1) solicita teu nome de usuário e email do Git, (2) instala algumas extensões no vscode, (3) instala o pnpm e (4) baixa o projeto pronto para uso. Execute no terminal <span id="executando-script">um dos seguintes scripts</span>, conforme teu sistema operacional:</p>
+
 <div class="custom-tabs">
     <div class="custom-tabs-bar">
         <button class="custom-tabs-btn" aria-custom-tabs-tab="windows-tab">🪟 Windows</button>
@@ -44,18 +42,22 @@
     </div>
 
     <div id="windows-tab" class="custom-tabs-tab">
-        <pre><code class="ps">Invoke-Command -ScriptBlock ([scriptblock]::Create(((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/02_project_setup.ps1')))) -ArgumentList "dw4"</code></pre>
+        <pre><code class="ps">Invoke-Command -ScriptBlock ([scriptblock]::Create(((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/02_project_setup.ps1')))) -ArgumentList "curso_sveltekit"</code></pre>
     </div>
 
     <div id="linux-tab" class="custom-tabs-tab">
-        <pre><code class="bash">wget https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/02_project_setup.sh && bash 02_project_setup.sh --project dw4 && rm 02_project_setup.sh && exit</code></pre>
+        <pre><code class="bash">wget https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/02_project_setup.sh && bash 02_project_setup.sh --project curso_sveltekit && rm 02_project_setup.sh && exit</code></pre>
     </div>
 </div>
 
+<p>Crie o arquivo <code ctc>.env</code>:</p>
+<pre><code class="language-ini">DATABASE_URL=file:local.db</code></pre>
+
+<p>Crie o banco de dados, executando no terminal:</p>
+<pre><code class="bash">pnpm run db:push</code></pre>
+
 <h2>Executando o aplicativo web</h2>
 <p>Após criar o projeto, com o terminal aberto na pasta do mesmo, execute o comando <code>pnpm run dev -- --open</code>. Se tudo ocorreu bem, uma página será aberta automaticamente no navegador web, exibindo seu aplicativo web em execução. Para encerrar o aplicativo, basta voltar ao terminal onde ele está rodando e pressionar <kbd>Ctrl+C</kbd>. Você também pode executar o aplicativo web pressionando <kbd>F5</kbd>, mas deverá copiar/colar o endereço do site no navegador web.</p>
-<p>Se você possuir permissões administrativas, pode disponibilizar o site para todos os dispositivos da sua rede local utilizando o comando <code>pnpm run dev -- --host 0.0.0.0</code>. Após isso, tente acessar o site pelo teu celular ou outro dispositivo, utilizando o endereço IP exibido no terminal.</p>
-<p>Caso deseje expor o site para a Internet, também pode, mas esse processo está fora do escopo desta aula. Isso demandaria configurações adicionais, como mexer no modem, além de apresentar riscos de segurança, já que teu computador ficaria acessível publicamente na rede. Existem outros meios de publicar teu site na Internet, que veremos mais adiante.</p>
 
 <h2>Valendo!</h2>
 <p>Tudo pronto para iniciarmos nossa jornada! Nos vemos no próximo capítulo.</p>
