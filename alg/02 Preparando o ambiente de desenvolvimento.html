@@ -30,13 +30,15 @@
         <h2>Introdução</h2>
 
         <h3>A Linguagem de Programação JavaScript</h3>
-        <p>Para este curso, utilizaremos a linguagem de programação JavaScript. JavaScript é amplamente conhecido por sua flexibilidade e diversidade de aplicações, como desenvolvimento de aplicativos web, móveis e desktop. No desenvolvimento de aplicativos web, o JavaScript pode ser utilizado tanto do lado do cliente (navegadores web) quanto do lado do servidor (Node.js), o que o torna uma ferramenta poderosa para o desenvolvimento de software moderno.</p>
+        <p>Neste curso, aprenderemos a desenvolver software utilizando a linguagem de programação JavaScript. O JavaScript é uma linguagem moderna, versátil e poderosa. É uma das linguagens mais utilizadas atualmente, podendo ser empregada no desenvolvimento de diversos tipos de software, como aplicativos web, móveis e desktop.</p>
+        <p>Nosso foco neste curso será o desenvolvimento de aplicativos web, onde o JavaScript pode ser utilizado tanto no lado do cliente (navegadores web) quanto no lado do servidor (Node.js).</p>
 
         <h3>Executando JavaScript via Navegador Web</h3>
-        <p>As páginas web utilizam HTML, CSS e JavaScript. Navegadores modernos já vêm com um interpretador de JavaScript embutido. Para executar códigos JavaScript, acesse as Ferramentas do Desenvolvedor do seu navegador (na maioria dos navegadores, use a tecla <kbd>F12</kbd>) e abra a aba "Console". Esta aba é um terminal interativo para inserir e executar comandos JavaScript.</p>
+        <p>As páginas web utilizam as linguagens HTML, CSS e JavaScript. Portanto, todos os navegadores modernos já vêm com um interpretador de JavaScript embutido. Isso significa que você pode executar código JavaScript diretamente no seu navegador web. Para isso, acesse as Ferramentas de Desenvolvimento do seu navegador (na maioria dos navegadores, pode ser através da tecla <kbd>F12</kbd>) e abra a aba "Console".</p>
+        <p>Esta aba é um terminal interativo para digitar e executar comandos JavaScript. Agora, digite <code>5+3</code> e tecle <kbd>Enter</kbd> para ver o resultado. Surpreendente, não? Um <code>8</code>. Mas isso parece uma calculadora simples, e o JavaScript é muito mais que isso. Agora, digite <code>new Date()</code> e tecle <kbd>Enter</kbd> para ver a data atual. Ótimo!</p>
 
-        <h4>Exemplo HTML + JavaScript</h4>
-        <p>Podemos criar uma página web simples com código HTML e JavaScript e abri-la no navegador para ver o código executando:</p>
+        <h4>Exemplo de HTML + JavaScript</h4>
+        <p>Vamos criar uma página web simples para ver o JavaScript em ação junto com o HTML. Abra um bloco de notas e digite o seguinte código:</p>
         <pre class="html"><code>&lt;input type=&quot;number&quot; placeholder=&quot;Digite um número&quot;&gt;
 &lt;input type=&quot;number&quot; placeholder=&quot;Digite outro número&quot;&gt;
 &lt;button onclick=&quot;somar()&quot;&gt;Somar!&lt;/button&gt;
@@ -48,13 +50,37 @@
         document.querySelector("p").textContent = resultado;
     }
 &lt;/script&gt;</code></pre>
+
+        <p>As duas primeiras linhas são campos de entrada onde o usuário pode digitar dois números. A terceira linha é um botão que, ao ser clicado, executará o comando JavaScript <code>somar</code>. Em uma página HTML, o código JavaScript deve estar dentro do elemento <code>&lt;script&gt;</code>. Aqui definimos o comando `somar`, composto por três linhas: a primeira obtém os números digitados pelo usuário, a segunda realiza a soma dos números e a terceira exibe a soma dos números no parágrafo definido na linha 4. Não precisa se preocupar em entender o que cada linha de código faz, muito menos em decorar. Aqui é só para demonstrar o uso de HTML com JavaScript.</p>
+        <p>Agora, salve o arquivo teclando o atalho <kbd>Ctrl+S</kbd>. Clique na área de trabalho, clique no campo "Nome", digite <code ctc>pagina.html</code> e, atenção, por padrão, o bloco de notas salva o arquivo como TXT, mas você precisa clicar no campo "Tipo" e escolher "Todos os arquivos". Agora, clique em "Salvar" para salvar sua página web na área de trabalho. Abra a área de trabalho e clique no arquivo <code>pagina.html</code>. Ele será aberto no seu navegador web padrão. Digite alguns números e clique em "Somar" para ver o resultado!</p>
     </div>
     <div>
         <h2>Instalando o Ambiente de Desenvolvimento JavaScript</h2>
-        <p>Se quisermos avançar no desenvolvimento de aplicativos com JavaScript, não podemos nos limitar apenas às ferramentas disponíveis no navegador. É essencial instalar um ambiente de desenvolvimento JavaScript completo. Esse ambiente nos permitirá utilizar bibliotecas, frameworks e recursos modernos, além de facilitar a automação de tarefas e o gerenciamento de dependências, criando uma base sólida para projetos mais robustos e escaláveis.</p>
+        <p>Se você deseja avançar no desenvolvimento de aplicativos com JavaScript, não pode se limitar apenas ao bloco de notas e às ferramentas disponíveis no navegador. É essencial instalar um ambiente de desenvolvimento JavaScript completo. Esse ambiente permitirá utilizar bibliotecas, frameworks e recursos modernos, além de facilitar a automação de tarefas e o gerenciamento de dependências, criando uma base sólida para projetos mais robustos e escaláveis.</p>
 
-        <p id="instalando">Vamos executar um script que instalará tudo que precisamos para desenvolver em JavaScript. No terminal, execute um dos seguintes scripts, conforme teu sistema operacional:</p>
-        <div class="info"><p>Observação: Você precisa de privilégios administrativos para executar o script. No Linux, você deve ter acesso ao comando <code>sudo</code>. No Windows, você deve abrir o terminal PowerShell como administrador.</p></div>
+        <p>Para o nosso ambiente de desenvolvimento JavaScript, vamos usar os seguintes programas:</p>
+        <ul>
+            <li>
+                <p><strong>Node.js (<a href="https://nodejs.org">node</a>)</strong>: O Ambiente de Execução (Runtime Environment) do JavaScript, que oferece um conjunto completo de ferramentas, desde a máquina virtual até o compilador JIT, para desenvolver e executar aplicativos JavaScript sem necessariamente precisar de um navegador web. O Node.js inclui o Node Package Manager (<a href="https://docs.npmjs.com/about-npm">npm</a>), uma ferramenta que permite baixar, instalar e gerenciar pacotes de terceiros.</p>
+            </li>
+            <div class="info">
+                <p>Observação: Pacotes de terceiros são projetos desenvolvidos por outros desenvolvedores e que podem ser adicionados ao nosso próprio projeto. Um projeto, neste contexto, nada mais é do que uma pasta que agrupa todos os arquivos relacionados ao aplicativo que estamos desenvolvendo.</p>
+            </div>
+            <div class="info">
+                <p>Usamos um gerenciador de pacotes pois seguimos o princípio de não reinventar a roda: quando formos desenvolver um aplicativo, nunca começamos do zero, pois muito do que vamos precisar já está pronto.</p>
+            </div>
+            <li>
+                <p><strong>Git (<a href="https://git-scm.com">git</a>)</strong>: Sistema de controle de versões que rastreia mudanças no código-fonte, permitindo a colaboração simultânea de múltiplos desenvolvedores. Ele registra alterações de forma organizada, mantendo um histórico de versões e possibilitando a restauração de versões anteriores quando necessário. Amplamente utilizado no desenvolvimento de software, o Git também pode ser aplicado a outros tipos de projetos que exigem controle eficiente de versões.</p>
+            </li>
+            <li>
+                <p><strong>Visual Studio Code (<a href="https://code.visualstudio.com">vscode</a>)</strong>: Ambiente de Desenvolvimento Integrado (IDE) poderoso e extensível, que integra recursos para editar, depurar, compilar e gerenciar código. Ele possui suporte a extensões (plugins) que ampliam suas funcionalidades, como integração com Node.js e Git.</p>
+            </li>
+        </ul>
+
+        <p id="instalando">Você pode instalar manualmente cada um desses programas ou pode executar um dos seguintes scripts no terminal, conforme teu sistema operacional:</p>
+        <div class="info">
+            <p>Observação: Você precisa de privilégios administrativos para executar o script, pois só o administrador do sistema tem permissão de instalação. No Linux, você deve ter acesso ao comando <code>sudo</code>. No Windows, você deve abrir o terminal PowerShell como administrador.</p>
+        </div>
 
         <div class="custom-tabs">
             <div class="custom-tabs-bar">
@@ -67,30 +93,15 @@
             <div id="linux-tab" class="custom-tabs-tab">
                 <pre><code class="sh">wget https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_debian_setup.sh && bash 01_debian_setup.sh && rm 01_debian_setup.sh && exit</code></pre>
             </div>
-            <!-- por fazer: poderia colocar uma versão para windows+wsl tbm... -->
+            <!-- a fazer: poderia colocar uma versão para windows+wsl tbm... -->
         </div>
 
-        <h3>O que o script faz</h3>
-        <p id="programas">Esse script instala (ou atualiza, se já estiver instalado) os seguintes programas:</p>
-        <ul>
-            <li>
-                <p><strong>Node.js (<a href="https://nodejs.org">node</a>)</strong>: O Ambiente de Execução (Runtime Environment) do JavaScript, que oferece um conjunto completo de ferramentas, desde a máquina virtual até o compilador JIT, para desenvolver e executar aplicativos JavaScript sem necessariamente precisar de um navegador web. O Node.js inclui o Node Package Manager (<a href="https://docs.npmjs.com/about-npm">npm</a>), uma ferramenta que permite baixar, instalar e gerenciar pacotes de terceiros.</p>
-            </li>
-            <div class="info">
-                <p>Observação: Pacotes de terceiros são projetos desenvolvidos por outros desenvolvedores e que podem ser adicionados ao nosso próprio projeto. Um projeto, no contexto do nosso curso, nada mais é do que uma pasta que agrupa todos os arquivos relacionados ao aplicativo que estamos desenvolvendo.</p>
-            </div>
-            <li>
-                <p><strong>Git (<a href="https://git-scm.com">git</a>)</strong>: Sistema de controle de versões que rastreia mudanças no código-fonte, permitindo a colaboração simultânea de múltiplos desenvolvedores. Ele registra alterações de forma organizada, possibilitando a restauração de versões anteriores quando necessário. Amplamente utilizado no desenvolvimento de software, o Git também pode ser aplicado a outros tipos de projetos que exigem controle eficiente de versões.</p>
-            </li>
-            <li>
-                <p><strong>Visual Studio Code (<a href="https://code.visualstudio.com">vscode</a>)</strong>: Ambiente de Desenvolvimento Integrado (IDE) poderoso e extensível, que integra recursos para editar, depurar, compilar e gerenciar código. Ele possui suporte a extensões (plugins) que ampliam suas funcionalidades, como integração com Node.js e Git.</p>
-            </li>
-        </ul>
+        <p id="programas">Esse script instala (ou atualiza, se já estiver instalado) os programas node, git e vscode. Além disso, o script também configura algumas variáveis de ambiente que esses programas utilizam.</p>
+
         <div class="info">
             <p>Observação: No Windows, o script também instala o <strong>Chocolatey</strong> (<a href="https://chocolatey.org/install">choco</a>), um gerenciador de pacotes para Windows que facilita a instalação de softwares. Ele funciona de maneira similar ao npm, permitindo instalar programas de forma rápida e automatizada.</p>
         </div>
 
-        <p>Além disso, o script também configura algumas variáveis de ambiente que esses programas utilizam.</p>
         <p>Se você ficou curioso, pode acessar os scripts <a href="https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_debian_setup.sh" target="_blank">linux</a> e <a href="https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_windows_setup.ps1" target="_blank">windows</a> e ver o que cada script faz.</p>
 
         <h3>Desinstalando o Ambiente de Desenvolvimento JavaScript</h3>
@@ -106,16 +117,18 @@
             <div id="linux-tab-uninstall" class="custom-tabs-tab">
                 <pre><code class="sh">wget https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/01_debian_uninstall.sh && bash 01_debian_uninstall.sh && rm 01_debian_uninstall.sh && exit</code></pre>
             </div>
-            <!-- por fazer: poderia colocar uma versão para windows+wsl tbm... -->
+            <!-- a fazer: poderia colocar uma versão para windows+wsl tbm... -->
         </div>
-
-
     </div>
     <div>
         <h2>Configurando o Ambiente de Desenvolvimento JavaScript</h2>
         <p id="configurando">Após a instalação dos programas necessários para desenvolvimento JavaScript, vamos executar um script que (1) solicita teu nome de usuário e email do GitHub, (2) instala algumas extensões no vscode, (3) instala o pnpm e (4) baixa o projeto pronto para uso. Execute no terminal <span id="executando-script">um dos seguintes scripts</span>, conforme teu sistema operacional:</p>
-        <div class="info"><p>Observação: O <strong><a href="https://github.com">GitHub</a></strong> é uma plataforma online de hospedagem de repositórios Git que amplia suas funcionalidades com uma interface intuitiva e ferramentas para colaboração, revisão de código, automação e gerenciamento de projetos. Além disso, funciona como uma rede social para desenvolvedores, facilitando o compartilhamento e a colaboração em projetos de código aberto.</p></div>
-        <div class="info"><p>Observação: Ao solicitar teu nome de usuário e email do GitHub, se você não tiver uma conta, pode digitar qualquer coisa. Esse passo é opcional, apenas para aqueles que quiserem salvar seu projeto no GitHub.</p></div>
+        <div class="info">
+            <p>Observação: O <strong><a href="https://github.com">GitHub</a></strong> é uma plataforma online de hospedagem de repositórios Git que amplia suas funcionalidades com uma interface intuitiva e ferramentas para colaboração, revisão de código, automação e gerenciamento de projetos. Além disso, funciona como uma rede social para desenvolvedores, facilitando o compartilhamento e a colaboração em projetos de código aberto.</p>
+        </div>
+        <div class="info">
+            <p>Observação: Ao solicitar teu nome de usuário e email do GitHub, se você não tiver uma conta, pode digitar qualquer coisa. Esse passo é opcional, apenas para aqueles que quiserem salvar seu projeto no GitHub.</p>
+        </div>
 
         <div class="custom-tabs">
             <div class="custom-tabs-bar">
