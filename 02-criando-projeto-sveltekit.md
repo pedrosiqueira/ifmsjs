@@ -10,11 +10,11 @@ O SvelteKit é um framework para desenvolvimento de aplicativos web que utiliza 
 
 Para acompanhar essa aula, acesse o site <https://pedrosiqueira.github.io/ifmsjs/sveltekit>, capítulo 0A: Criando um projeto SvelteKit.
 
-## Configurando o Ambiente
+## Preparando o Ambiente
 
 Abra o terminal na pasta onde deseja criar o projeto. No meu caso, vou criar o projeto na área de trabalho. Para isso, no Windows, abra o Explorador de Arquivos, acesse a Área de Trabalho, clique em "Arquivo" e selecione "Abrir o PowerShell". O terminal deve indicar que está aberto na área de trabalho, mostrando o caminho para a área de trabalho, que é o Desktop.
 
-Como vamos desenvolver nosso projeto com o VSCode, vamos instalar algumas extensões para nos auxiliar no desenvolvimento. Execute os seguintes comandos no terminal:
+Como utilizaremos o VSCode para desenvolver nosso projeto, vamos instalar algumas extensões para nos auxiliar no desenvolvimento. Execute os seguintes comandos no terminal:
 
 ```sh
 code --install-extension VisualStudioExptTeam.vscodeintellicode
@@ -27,9 +27,9 @@ code --install-extension svelte.svelte-vscode
 
 Copie os comandos clicando neste ícone, cole no terminal teclando Ctrl+V e tecle Enter.
 
-## Criando o Projeto SvelteKit
+## Criando o Projeto do Zero
 
-Conforme as instruções na documentação do [Svelte](https://svelte.dev/docs/kit/creating-a-project), que podemos acessar através desse link, para criar um projeto SvelteKit, podemos usar npm, que é o gerenciador de pacotes padrão do Node. Mas eu pessoalmente prefiro o gerenciador de pacotes [pnpm](https://pnpm.io/) por ser mais ágil e ocupar menos espaço que o npm. Os comandos do pnpm, se não idênticos, são similares aos do npm. Para saber mais sobre as diferenças entre os comandos do pnpm e npm, [clique aqui](https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8). Para instalar o pnpm, execute `npm install -g pnpm`.
+Conforme as instruções na documentação do [Svelte](https://svelte.dev/docs/kit/creating-a-project), que podemos acessar através desse link, para criar um projeto SvelteKit, podemos usar npm, que é o gerenciador de pacotes padrão do Node. Mas eu pessoalmente prefiro o gerenciador de pacotes [pnpm](https://pnpm.io/) por ser mais ágil e ocupar menos espaço que o npm. Os comandos do pnpm, se não idênticos, são similares aos do npm. Para saber mais sobre as diferenças entre os comandos do pnpm e npm, você pode clicar [neste link](https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8). Para instalar o pnpm, execute `npm install -g pnpm`.
 
 Se no PowerShell aparecer a mensagem de erro "A execução de scripts foi desabilitada neste sistema", é porque, por padrão, o Windows bloqueia a execução de scripts por motivos de segurança. Execute `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser` para habilitar a execução de scripts. Tecle "A" e Enter para confirmar. Em seguida, execute `npm install -g pnpm` para instalar o pnpm. No terminal, você pode navegar entre os comandos já executados usando as teclas direcionais para cima e para baixo.
 
@@ -44,13 +44,7 @@ code -r .
 
 Copie os comandos clicando neste ícone, cole no terminal teclando Ctrl+V e tecle Enter.
 
-## Configurando o Projeto
-
 Agora ele vai perguntar algumas informações sobre o projeto SvelteKit que estamos criando. Em “template”, selecione “SvelteKit minimal”. Em “type checking”, selecione “No”. Em “add”, selecione, com a tecla espaço, as opções “prettier” e “eslint”. Em seguida, pressione Enter. Em “package manager”, selecione “pnpm”. A pasta "meu-projeto-sveltekit" será criada na área de trabalho, os pacotes necessários serão instalados e o projeto será aberto no VSCode. Se aparecer uma janela de confirmação, clique na caixa de seleção e em "Sim" para confiar nas pastas da área de trabalho.
-
-Claro, Família! Vou revisar e melhorar o texto para você. Aqui está a versão aprimorada:
-
----
 
 ## O arquivo package.json
 
@@ -124,7 +118,7 @@ Você pode estar se perguntando: onde estão os elementos `<html>`, `<head>` e `
 
 O `app.html` serve como o esqueleto base para todas as páginas do site. Nele, estão definidos os elementos `<html>`, `<head>` e `<body>`. Dessa forma, o SvelteKit centraliza o gerenciamento dessas partes da página e permite que você se concentre apenas no conteúdo e na lógica específica de cada página.
 
-Assim, ao invés de repetir a estrutura básica em cada arquivo de página, o SvelteKit garante que toda o site siga um padrão consistente, enquanto você tem flexibilidade para personalizar o conteúdo dentro da área do `<body>` por meio dos arquivos `.svelte`. Isso também facilita a inclusão de meta tags, títulos e links globais no `<head>`, como o título da página ou folhas de estilo, de forma centralizada.
+Assim, ao invés de repetir a estrutura básica em cada arquivo de página, o SvelteKit garante que todo o site siga um padrão consistente, enquanto você tem flexibilidade para personalizar o conteúdo dentro da área do `<body>` por meio dos arquivos `.svelte`. Isso também facilita a inclusão de meta tags, títulos e links globais no `<head>`, como o título da página ou folhas de estilo, de forma centralizada.
 
 ## Conclusão
 
