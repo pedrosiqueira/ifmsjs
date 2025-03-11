@@ -9,11 +9,11 @@
         text-align: center;
     }
 </style>
-<h1>Apresentação da Disciplina</h1>
+<h1>Frameworks</h1>
 
 <h2>EMENTA</h2>
 
-<p>Programação Orientada a Objetos para WEB. Utilização de banco de dados. Uso de sessões e cookies. Geração de relatórios. Novas tecnologias para desenvolvimento de aplicações para WEB. Técnicas para proteção de aplicações Web. Utilização das linguagens de programação JavaScript.</p>
+<p>Uso de sessões e cookies. Utilização de bancos de dados. Mapeamento objeto-relacional. Autenticação e autorização.</p>
 
 <h2>REFERÊNCIAS</h2>
 
@@ -22,6 +22,8 @@
     <li>Mozilla Developer Network Guide. Disponível em <a href="https://developer.mozilla.org/pt-BR/docs/Learn">https://developer.mozilla.org/pt-BR/docs/Learn</a>.</li>
     <li>SvelteKit. Disponível em <a href="https://kit.svelte.dev/docs/">https://kit.svelte.dev/docs/</a>.</li>
     <li>Tutorial do SvelteKit. Disponível em <a href="https://learn.svelte.dev/">https://learn.svelte.dev/</a></li>
+    <li>Drizzle ORM. Disponível em <a href="https://orm.drizzle.team/">https://orm.drizzle.team/</a>.</li>
+    <li>Lucia Auth. Disponível em <a href="https://lucia-auth.com/">https://lucia-auth.com/</a>.</li>
 </ul>
 
 <h2>CONTATO</h2>
@@ -30,37 +32,45 @@
     <li>Meu e-mail: <a href="mailto:pedro.siqueira@ifms.edu.br">pedro.siqueira@ifms.edu.br</a> (ATENÇÃO: use teu email institucional para não cair no SPAM!).</li>
     <li>Horário de atendimento (PE):
         <ul>
-            <li>Manhã: terça-feira das 11h05 às 12h10</li>
-            <li>Tarde: terça-feira das 13h20 às 14h30.</li>
+            <li>Manhã: terça-feira das 10h00 às 11h00</li>
+            <li>Tarde: sexta-feira das 14h30 às 15h30.</li>
         </ul>
     </li>
-    <li>Link para os materiais: <a href="https://pedrosiqueira.github.io/ifmsjs/dw4">pedrosiqueira.github.io/ifmsjs/dw4</a></li>
-    <li>Link para o moodle:
+    <li>Link para os materiais: <a href="https://pedrosiqueira.github.io/ifmsjs/">pedrosiqueira.github.io/ifmsjs/</a></li>
+    <!-- <li>Link para o moodle:
         <ul>
             <li>Turma 1A (matutino): <a href="https://ead.ifms.edu.br/course/view.php?id=40069">https://ead.ifms.edu.br/course/view.php?id=40069</a></li>
             <li>Turma 1B (matutino): <a href="https://ead.ifms.edu.br/course/view.php?id=40068">https://ead.ifms.edu.br/course/view.php?id=40068</a></li>
             <li>Turma 2A (vespertino): <a href="https://ead.ifms.edu.br/course/view.php?id=40071">https://ead.ifms.edu.br/course/view.php?id=40071</a></li>
             <li>Turma 2B (vespertino): <a href="https://ead.ifms.edu.br/course/view.php?id=40070">https://ead.ifms.edu.br/course/view.php?id=40070</a></li>
         </ul>
-    </li>
+    </li> -->
 </ul>
 
 <h2>AVALIAÇÕES</h2>
 
-<p>Provas:</p>
-
 <ul>
-    <li>NF = (P1+B1)/2 + (P2+B2)/2</li>
-    <li>Legenda: NF=Nota Final, P1=Prova 1, P2=Prova 2, B1=Bônus 1, B2=Bônus 2, R1=Recuperação 1, R2=Recuperação 2.</li>
+    <li>NF = (0.7*P1 + 0.3*C1)/2 + (0.7*P2 + 0.3*C2)/2</li>
+    <li>Legenda:
+        <ul>
+            <li>NF=Nota Final,</li>
+            <li>P1=Prova do 1º bimestre,</li>
+            <li>P2=Prova do 2º bimestre,</li>
+            <li>C1=Contribuições do 1º bimestre,</li>
+            <li>C2=Contribuições do 2º bimestre,</li>
+            <li>R1=Recuperação do 1º bimestre,</li>
+            <li>R2=Recuperação do 2º bimestre.</li>
+        </ul>
+    </li>
 </ul>
 
 <p>Observações:</p>
 
 <ul>
-    <li>Cada avaliação, com exceção dos bônus, vale de 0 a 10 pontos.</li>
+    <li>Cada prova vale de 0 a 10 pontos.</li>
     <li>O Conteúdo de cada avaliação será o que foi ministrado em aulas até o dia da avaliação.</li>
     <li>Haverá uma recuperação para cada bimestre, que substituirá a nota daquele bimestre.</li>
-    <li>Os bônus englobam contribuições feitas pelos estudantes em aula, demonstrando proatividade e interesse pelo conteúdo, resolução de desafios propostos em aula e resolução de atividades passadas como tarefa a serem entregues no mínimo até a próxima aula, contribuindo para uma avaliação contínua e cumulativa. Os bônus valem de acordo com seu grau de dificuldade ou trabalho, e são somados à prova do bimestre.</li>
+    <li>As contribuições englobam participações dos estudantes em aula, demonstrando proatividade e interesse pelo conteúdo, resolução de desafios propostos em aula e resolução de atividades passadas como tarefa a serem entregues no mínimo até a próxima aula, contribuindo para uma avaliação contínua e cumulativa.</li>
 </ul>
 
 <p>Datas previstas:</p>
@@ -69,35 +79,40 @@
     <thead>
         <tr>
             <th>Avaliação</th>
-            <th>Turmas 1A e 1B</th>
-            <th>Turma 2A</th>
-            <th>Turma 2B</th>
+            <th>Turma AA</th>
+            <th>Turma AB</th>
+            <th>Turma BA</th>
+            <th>Turma BB</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <th>p1</th>
-            <td>14/11/2024</td>
-            <td>13/11/2024</td>
-            <td>19/11/2024</td>
+            <td>29/04/2025</td>
+            <td>30/04/2025</td>
+            <td>29/04/2025</td>
+            <td>09/05/2025</td>
         </tr>
         <tr>
             <th>r1</th>
-            <td>21/11/2024</td>
-            <td>20/11/2024</td>
-            <td>26/11/2024</td>
+            <td>13/05/2025</td>
+            <td>09/05/2025</td>
+            <td>06/05/2025</td>
+            <td>16/05/2025</td>
         </tr>
         <tr>
             <th>p2</th>
-            <td>30/01/2025</td>
-            <td>29/01/2025</td>
-            <td>28/01/2025</td>
+            <td>01/07/2025</td>
+            <td>04/07/2025</td>
+            <td>01/07/2025</td>
+            <td>04/07/2025</td>
         </tr>
         <tr>
             <th>r2</th>
-            <td>06/02/2025</td>
-            <td>05/02/2025</td>
-            <td>04/02/2025</td>
+            <td>08/07/2025</td>
+            <td>11/07/2025</td>
+            <td>08/07/2025</td>
+            <td>11/07/2025</td>
         </tr>
     </tbody>
 </table>
