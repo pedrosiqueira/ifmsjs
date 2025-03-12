@@ -42,4 +42,7 @@ Add-PathIfNotExists -newPath "$env:SYSTEMDRIVE\npm\pnpm\"
 
 # recarrega as variáveis de ambiente modificadas
 # refreshenv
+
+Read-Host "Instalação finalizada. Tecle algo para sair..."
+
 exit # sair do terminal é mais garantido para recarregar as variáveis de ambiente
