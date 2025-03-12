@@ -16,7 +16,6 @@
     <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
-    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 
 <h1 id="criando-um-projeto-sveltekit-com-capacitor-drizzle-orm-e-sqlite">Criando um projeto SvelteKit com Capacitor, Drizzle ORM e SQLite</h1>
@@ -26,7 +25,7 @@
 <pre><code>pnpm dlx sv create meu-projeto-capacitor</code></pre>
 <ul>
     <li>Usa <code>pnpm dlx</code> para rodar o comando <strong>sem instalar globalmente</strong>.</li>
-    <li><code>sv create &lt;nome-do-projeto&gt;</code> → Cria um novo projeto <strong>Svelte</strong> chamado <code>meu-projeto-capacitor</code>.</li>
+    <li><code>sv create meu-projeto-capacitor</code> → Cria um novo projeto <strong>Svelte</strong><foot-note href="https://svelte.dev/docs/kit/creating-a-project"></foot-note> chamado <code>meu-projeto-capacitor</code>.</li>
 </ul>
 <hr />
 <pre><code>cd meu-projeto-capacitor/</code></pre>
@@ -38,8 +37,8 @@
 <ul>
     <li>Instala como <strong>dependência de desenvolvimento (<code>-D</code>)</strong>:
         <ul>
-            <li><code>@capacitor/cli</code> → CLI do Capacitor (para gerar builds e rodar comandos).</li>
-            <li><code>drizzle-kit</code> → Ferramenta para geração e migração de banco de dados Drizzle.</li>
+            <li><code>@capacitor/cli</code> → CLI do Capacitor<foot-note href="https://capacitorjs.com/docs/getting-started"></foot-note> (para gerar builds e rodar comandos).</li>
+            <li><code>drizzle-kit</code> → Ferramenta para geração e migração de banco de dados Drizzle<foot-note href='https://orm.drizzle.team/docs/kit-overview'></foot-note>.</li>
         </ul>
     </li>
 </ul>
@@ -49,7 +48,7 @@
 <ul>
     <li>Instala como <strong>dependência do projeto</strong>:
         <ul>
-            <li><code>@capacitor/core</code> → Core do Capacitor, necessário para qualquer app Capacitor.</li>
+            <li><code>@capacitor/core</code> → Core do Capacitor<foot-note href="https://capacitorjs.com/docs/getting-started"></foot-note>, necessário para qualquer app Capacitor.</li>
             <li><code>@capacitor/android</code> → Plugin para gerar um app Android.</li>
             <li><code>@capacitor/filesystem</code> → API do Capacitor para manipular arquivos (útil para SQLite).</li>
             <li><code>drizzle-orm</code> → Biblioteca ORM para manipulação de banco de dados.</li>
@@ -100,3 +99,27 @@
     <li><strong>Abre o projeto no VS Code</strong>.</li>
 </ol>
 <p>Agora o projeto está pronto para desenvolvimento com <strong>Svelte + Capacitor + Drizzle ORM + SQLite</strong>. 🎯🔥</p>
+
+<script>
+    class FootNote extends HTMLElement {
+        static count = 0; // Shared counter for all footnotes
+        static footnotes = {};
+        static externalLinks = {};
+        connectedCallback() {
+            const href = this.getAttribute('href');
+            if (!(href in FootNote.footnotes)) {
+                FootNote.footnotes[href] = ++FootNote.count;
+                try {
+                    document.querySelector(`${href}`)?.insertAdjacentHTML('afterbegin', `<sup>[${FootNote.footnotes[href]}]</sup>`);
+                } catch {
+                    FootNote.externalLinks[href] = true;
+                }
+            }
+            this.innerHTML = `<sup><a href="${href}" ${FootNote.externalLinks[href] ? 'target="_blank"' : ''}>[${FootNote.footnotes[href]}]</a></sup>`;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        customElements.define('foot-note', FootNote);
+    }, false);
+</script>
