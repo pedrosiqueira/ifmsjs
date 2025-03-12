@@ -1,0 +1,106 @@
+<h2 id="o-que-é-o-capacitor"><strong>📌 O que é o Capacitor?</strong></h2>
+<p>O <strong>Capacitor</strong> é um runtime de aplicativos criado pela <strong>Ionic Team</strong> que permite desenvolver <strong>aplicativos híbridos</strong> e <strong>Progressive Web Apps (PWAs)</strong> usando <strong>HTML, CSS e JavaScript</strong>. Ele funciona como uma <strong>ponte entre o código web e funcionalidades nativas</strong>, permitindo acessar APIs do dispositivo, como câmera, GPS, armazenamento e notificações.</p>
+<p>🔹 <strong>Plataformas suportadas</strong>:<br />
+    ✔️ Web<br />
+    ✔️ Android<br />
+    ✔️ iOS<br />
+    ✔️ Electron (Desktop)</p>
+<p>🔹 <strong>Principais vantagens</strong>:<br />
+    ✅ Fácil integração com frameworks modernos (<strong>Svelte, React, Vue, Angular</strong>).<br />
+    ✅ Acesso direto a funcionalidades nativas sem necessidade de WebView.<br />
+    ✅ Pode ser usado para transformar um PWA em um app instalável.<br />
+    ✅ Compatível com APIs modernas do navegador e suporta plugins personalizados.</p>
+<h3 id="o-que-é-um-progressive-web-app¹"><strong>O que é um Progressive Web App?<a href="https://capacitorjs.com/docs/web/progressive-web-apps#what-is-a-progressive-web-app">¹</a></strong></h3>
+<p>De forma simples, um <strong>Progressive Web App (PWA)</strong> é um aplicativo web que utiliza recursos modernos da web para oferecer uma experiência semelhante a um aplicativo nativo. Esses aplicativos são hospedados em servidores web tradicionais, acessíveis por meio de URLs e podem ser indexados por mecanismos de busca.</p>
+<p>Para fins práticos, um <strong>PWA é essencialmente um site otimizado para desempenho em dispositivos móveis</strong>, aproveitando novas APIs da Web para fornecer funcionalidades semelhantes às de aplicativos nativos, como <strong>notificações push e armazenamento offline</strong>.</p>
+<hr />
+<h2 id="o-que-são-aplicativos-nativos-e-híbridos"><strong>📱 O que são Aplicativos Nativos e Híbridos?</strong></h2>
+<h3 id="aplicativos-nativos"><strong>🟢 Aplicativos Nativos</strong></h3>
+<p>São apps desenvolvidos especificamente para <strong>uma plataforma (Android/iOS)</strong> usando linguagens nativas:</p>
+<ul>
+    <li><strong>Android</strong> → Java/Kotlin</li>
+    <li><strong>iOS</strong> → Swift/Objective-C</li>
+</ul>
+<p>🔹 <strong>Vantagens</strong>:<br />
+    ✔️ Melhor desempenho e acesso total ao hardware.<br />
+    ✔️ Melhor experiência do usuário (UI nativa).</p>
+<p>🔹 <strong>Desvantagens</strong>:<br />
+    ❌ Desenvolvimento mais complexo e caro (duas bases de código).<br />
+    ❌ Exige mais conhecimento específico de cada plataforma.</p>
+<hr />
+<h3 id="aplicativos-híbridos"><strong>🔵 Aplicativos Híbridos</strong></h3>
+<p>São apps construídos com tecnologias <strong>web (HTML, CSS, JavaScript)</strong>, mas que rodam dentro de um container nativo usando <strong>WebView</strong> ou outras abordagens.</p>
+<p><strong>Exemplos de tecnologias híbridas</strong>:</p>
+<ul>
+    <li><strong>Capacitor</strong> (usa WebView apenas quando necessário, diferente do Cordova).</li>
+    <li><strong>Ionic</strong> (baseado em Capacitor ou Cordova).</li>
+    <li><strong>React Native</strong> (usa componentes nativos, mas com JavaScript).</li>
+    <li><strong>Flutter</strong> (usa o framework Dart para compilar código nativo).</li>
+</ul>
+<p>🔹 <strong>Vantagens</strong>:<br />
+    ✔️ Código único para Android e iOS.<br />
+    ✔️ Menor custo de desenvolvimento.<br />
+    ✔️ Atualizações mais rápidas.</p>
+<p>🔹 <strong>Desvantagens</strong>:<br />
+    ❌ Pode ter desempenho inferior a apps 100% nativos (depende da implementação).<br />
+    ❌ Algumas funcionalidades avançadas exigem plugins ou código nativo.</p>
+<hr />
+<h2 id="capacitor-vs-cordova-qual-a-diferença"><strong>🚀 Capacitor vs Cordova: Qual a diferença?</strong></h2>
+<table>
+    <colgroup>
+        <col style="width: 36%" />
+        <col style="width: 43%" />
+        <col style="width: 19%" />
+    </colgroup>
+    <thead>
+        <tr class="header">
+            <th>🔹 Característica</th>
+            <th>✅ Capacitor</th>
+            <th>❌ Cordova</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="odd">
+            <td><strong>Arquitetura</strong></td>
+            <td>Prioriza PWA e integração com web moderna</td>
+            <td>Baseado em WebView</td>
+        </tr>
+        <tr class="even">
+            <td><strong>Acesso a Plugins</strong></td>
+            <td>Plugins nativos diretos + Web APIs</td>
+            <td>Depende de WebView para muitos recursos</td>
+        </tr>
+        <tr class="odd">
+            <td><strong>Integração com Frameworks</strong></td>
+            <td>Melhor suporte para <strong>Svelte, React, Vue, Angular</strong></td>
+            <td>Focado no Ionic e Cordova</td>
+        </tr>
+        <tr class="even">
+            <td><strong>Desempenho</strong></td>
+            <td>Melhor integração nativa</td>
+            <td>Pode ser mais lento em certos casos</td>
+        </tr>
+        <tr class="odd">
+            <td><strong>Modo de Desenvolvimento</strong></td>
+            <td>Funciona no navegador como um PWA antes da conversão para app</td>
+            <td>Precisa ser testado sempre no dispositivo</td>
+        </tr>
+    </tbody>
+</table>
+<hr />
+<h2 id="como-o-capacitor-funciona-na-prática"><strong>📲 Como o Capacitor Funciona na Prática?</strong></h2>
+<p>1️⃣ Você desenvolve a aplicação como um site (Svelte, React, Vue, Angular, ou puro HTML/JS).<br />
+    2️⃣ O Capacitor adiciona <strong>camadas nativas</strong> e permite rodar o app como <strong>Android, iOS ou PWA</strong>.<br />
+    3️⃣ Com plugins do Capacitor, você acessa recursos nativos como <strong>câmera, GPS, arquivos</strong> e notificações.</p>
+<hr />
+<h2 id="capacitor-e-pwas"><strong>🌍 Capacitor e PWAs</strong></h2>
+<p>O Capacitor também permite transformar <strong>Progressive Web Apps (PWAs)</strong> em aplicativos instaláveis, mantendo o suporte a APIs nativas. Isso significa que você pode:<br />
+    ✅ Criar um app web responsivo.<br />
+    ✅ Publicá-lo como PWA na web.<br />
+    ✅ Gerar versões nativas para Android/iOS sem reescrever o código.</p>
+<hr />
+<h2 id="conclusão"><strong>🎯 Conclusão</strong></h2>
+<p>🔹 Se você quer criar um app para <strong>Android e iOS rapidamente</strong> sem precisar aprender Java/Kotlin ou Swift, <strong>Capacitor é uma excelente opção</strong>.<br />
+    🔹 Ele combina <strong>o melhor do desenvolvimento web com acesso a APIs nativas</strong>.<br />
+    🔹 Comparado ao Cordova, o Capacitor oferece <strong>melhor suporte para PWAs, integração moderna e melhor desempenho</strong>.</p>
+<p>💡 <strong>Se você já usa Svelte, React ou Vue, o Capacitor pode transformar seus projetos web em apps móveis com poucas modificações!</strong> 🚀</p>
