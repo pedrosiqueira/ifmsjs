@@ -63,7 +63,7 @@ A propriedade "scripts" do `package.json` define atalhos para comandos que podem
 
 Além desses comandos definidos no arquivo package.json, também há outros comandos, como o `pnpm install`, que instala os pacotes necessários do projeto. Esse comando deve ser executado sempre que um novo pacote for adicionado ao projeto ou quando o repositório for clonado em uma nova máquina, garantindo que todas as dependências especificadas no package.json sejam corretamente instaladas.
 
-Execute `pnpm run dev` para iniciar o projeto em modo desenvolvimento. Depois que ele terminar de carregar, aparecerá o link `http://localhost:5173`, que você pode copiar e colar no navegador web para ver o site em funcionamento. Aqui está, a página inicial de um site recém-criado com o SvelteKit!
+Abra o terminal no vscode, teclando Ctrl+j. Execute `pnpm run dev` para iniciar o projeto em modo desenvolvimento. Depois que ele terminar de carregar, aparecerá o link `http://localhost:5173`, que você pode copiar e colar no navegador web para ver o site em funcionamento. Aqui está, a página inicial de um site recém-criado com o SvelteKit!
 
 Para encerrar a execução do site, você pode voltar ao terminal e teclar Ctrl+C. Agora, se você voltar ao navegador e atualizar a página, verá que o site estará fora do ar.
 

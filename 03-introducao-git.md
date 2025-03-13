@@ -10,6 +10,8 @@ O GitHub é uma plataforma online de hospedagem de repositórios Git que amplia 
 
 Em resumo: Git é a tecnologia para controle de versão; GitHub é uma plataforma que utiliza Git e fornece ferramentas adicionais para colaboração e gerenciamento de projetos.
 
+Para acompanhar esse tutorial, acesse o site <https://pedrosiqueira.github.io/ifmsjs/sveltekit>, capítulo 0B Introdução ao Git.
+
 ## Criando uma Conta no GitHub
 
 Primeiramente, vamos criar uma conta no GitHub, ou acessá-la, se você já tiver uma. Acesse o site <https://github.com>. Se você já tem uma conta, pode clicar em "Sign in". Caso contrário, clique em "Sign up" para criar uma. Como eu já tenho minha conta, vou acessá-la agora. Depois de acessar ou criar sua conta, clique no ícone do teu usuário e anote o nome do usuário que aparecer.
