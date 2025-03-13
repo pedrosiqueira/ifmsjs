@@ -52,6 +52,6 @@ Para o nosso ambiente de desenvolvimento JavaScript, vamos usar os seguintes pro
 
 Você pode instalar manualmente cada um desses programas ou pode executar o seguinte script. Mas atenção, você precisa de privilégios administrativos para executar o script, pois só o administrador do sistema tem permissão de instalação. No Linux, você deve ter acesso ao comando `sudo`. No Windows, você deve abrir o terminal PowerShell como administrador.
 
-Copie o comando do script clicando nesse ícone no canto direito. Clique no menu "Iniciar", digite PowerShell e clique na opção "Executar como administrador". Na janela de confirmação, clique em "Sim". Ao abrir o terminal, cole o comando teclando Ctrl+V e execute teclando Enter. O script instalará os programas e configurará algumas variáveis de ambiente que esses programas utilizam. Você saberá que a instalação terminou quando a janela do terminal fechar.
+Copie o comando do script clicando nesse ícone no canto direito. Clique no menu "Iniciar", digite PowerShell e clique na opção "Executar como administrador". Na janela de confirmação, clique em "Sim". Ao abrir o terminal, cole o comando teclando Ctrl+V e execute teclando Enter. O script instalará os programas e configurará algumas variáveis de ambiente que esses programas utilizam. Quando a instalação terminar, aparecerá essa mensagem, e você pode fechar o terminal teclando Enter.
 
 Se você instalou o ambiente de desenvolvimento JavaScript usando o script anterior, a qualquer momento pode desinstalar executando como administrador o seguinte script no terminal.

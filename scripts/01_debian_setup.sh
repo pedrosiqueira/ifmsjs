@@ -19,4 +19,6 @@ rm vscode-linux.deb
 
 echo $sudopassword | sudo -S apt install git -y
 
+read -p "Instalação finalizada. Tecle Enter para sair..."
+
 exit
