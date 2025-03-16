@@ -62,7 +62,7 @@ Para visualizar essas alterações, abra a aba do GitHub, clicando neste ícone 
 
 Para salvar essa nova versão, clique em "Commit". Se abrir essa janela, você pode clicar em "Always" para que essa mensagem não apareça novamente. Sempre que realizamos um commit, o Git solicita uma breve descrição das alterações realizadas. Essa descrição é importante, pois o Git mantém um histórico completo de todas as versões do projeto, incluindo os detalhes de cada commit, e é bom termos uma descrição geral do que foi mudado de uma versão para outra. Escreva uma mensagem (adicionada página de contato) e tecle Ctrl+W para fechar esse arquivo, salvando em seguida.
 
-## Sync = Push + Pull
+## Sync = Pull + Push
 
 Quando todas as alterações estão salvas (commited), o botão "Commit" é substituído por "Sync Changes". Esse botão sincroniza o repositório local com o repositório remoto, isto é, envia as alterações do repositório local para o repositório remoto no GitHub, e vice-versa. A sincronia é bidirecional, pois várias pessoas, cada uma com seu próprio repositório local, podem estar compartilhando o mesmo repositório remoto. Assim, se alguém fizer uma alteração no repositório remoto, essa alteração também poderá ser enviada ao repositório local de todos.
 
