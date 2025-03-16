@@ -96,6 +96,8 @@ Mas o que importa para nós é a pasta `src`, que significa "source" ou "código
 
 Além da pasta `src`, também temos a pasta `static`, onde residem arquivos estáticos, como imagens, fontes e estilos CSS.
 
+Já a pasta `node_modules` contém os pacotes dos quais o projeto depende. Essa pasta é gerenciada automaticamente pelo pnpm, e não devemos mexer nela.
+
 ## Navegando Entre as Páginas
 
 Dentro da pasta `routes`, há o arquivo `+page.svelte`, que é a página inicial do site. Abra esse arquivo e modifique-o para o seguinte conteúdo:
