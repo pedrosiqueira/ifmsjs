@@ -1,65 +1,48 @@
-## **Aula: Funções Assíncronas no JavaScript**  
+## Funções Assíncronas no JavaScript
 
-### **1. Introdução: O que é Assíncrono?**  
+### Funções síncronas vs assíncronas
 
-👉 **Pergunta para os alunos:** O que significa "assíncrono" para vocês?  
+👉 **Pergunta:** Qual o conceito de síncrono e de assíncrono?
 
-📢 **Explicação:**  
-No JavaScript, código normalmente executa de forma síncrona, linha por linha. Mas algumas operações, como buscar dados na internet, podem demorar. Se esperássemos o resultado antes de seguir para a próxima linha, o código ficaria travado.  
+No JavaScript, código normalmente executa de forma síncrona, linha por linha. Mas algumas operações, como buscar dados na internet, podem demorar. Se esperássemos o resultado antes de seguir para a próxima linha, o código ficaria travado.
 
-🎯 **Exemplo prático (Síncrono)**  
+Exemplo de código síncrono:
+
 ```js
 console.log("Primeiro");
 console.log("Segundo");
 console.log("Terceiro");
 ```
-**Saída:**  
-```
-Primeiro  
-Segundo  
-Terceiro  
-```
-Agora, vejamos um código assíncrono.  
 
----
+### A função assíncrona `setTimeout`
 
-### **2. Introdução ao `setTimeout`**  
+`setTimeout` é um exemplo clássico de função assíncrona. Ela agenda uma função para rodar depois de um tempo.
 
-📢 **Explicação:**  
-`setTimeout` é um exemplo clássico de função assíncrona. Ele agenda uma função para rodar depois de um tempo.  
+Código exemplo:
 
-💻 **Código exemplo:**  
 ```js
-console.log("Antes do setTimeout");
+console.log("Antes de setTimeout");
 
 setTimeout(() => {
-  console.log("Dentro do setTimeout");
+  console.log("Dentro de setTimeout");
 }, 2000);
 
-console.log("Depois do setTimeout");
-```
-📌 **Pergunta para os alunos:** Qual será a ordem de execução?  
-
-🧐 **Explicação:**  
-O `setTimeout` agenda a execução do código para o futuro, mas não bloqueia o restante do programa. Por isso, a saída será:  
-```
-Antes do setTimeout  
-Depois do setTimeout  
-(DOIS SEGUNDOS DEPOIS...)  
-Dentro do setTimeout  
+console.log("Depois de setTimeout");
 ```
 
----
+📌 **Pergunta:** Qual será a ordem de execução?
 
-### **3. Introdução às Promises**  
+O `setTimeout` agenda a execução do código para o futuro, mas não bloqueia o restante do programa.
 
-📢 **Explicação:**  
-Uma **Promise** é um objeto que representa um valor que estará disponível no futuro. Pode estar em três estados:  
-✅ **Pending** (pendente)  
-✅ **Fulfilled** (resolvida)  
-✅ **Rejected** (rejeitada)  
+### Introdução às `Promise`s
 
-Antes das Promises, a abordagem mais comum para lidar com operações assíncronas (como requisições HTTP, leitura de arquivos ou interações com bancos de dados) era usar funções de callback. No entanto, essa abordagem apresentava diversos problemas, como o famoso Callback hell: Quando uma função de callback também chama outra função de callback, criando uma cadeia de funções aninhadas (uma dentro da outra).
+Uma `Promise` é um objeto que representa um valor que estará disponível no futuro. Pode estar em três estados:
+
+- **Pending** (pendente)
+- **Fulfilled** (resolvida)
+- **Rejected** (rejeitada)
+
+Antes das `Promise`s, a abordagem mais comum para lidar com operações assíncronas (como requisições HTTP, leitura de arquivos ou interações com bancos de dados) era usar funções **callback**. No entanto, essa abordagem apresentava diversos problemas, como o famoso **Callback hell**: Quando uma função callback também chama outra função callback, criando uma cadeia de funções aninhadas (uma dentro da outra).
 
 ```js
 buscarDados((dados) => {
@@ -73,7 +56,7 @@ buscarDados((dados) => {
 
 Observação: Callbacks são funções passadas como argumento para outras funções e executadas posteriormente, geralmente após a conclusão de uma operação assíncrona.
 
-Promises surgiram no JavaScript para resolver problemas relacionados ao código assíncrono, como o Callback hell:
+`Promise`s surgiram no JavaScript para resolver problemas relacionados ao código assíncrono, como o Callback hell:
 
 ```js
 buscarDados()
@@ -83,12 +66,12 @@ buscarDados()
   .catch((erro) => console.error("Erro:", erro));
 ```
 
-Com Promises, a cadeia de funções não fica mais aninhada, mas sim serializada, o que simplifica o desenvolvimento e melhora a legibilidade.
+Com `Promise`s, a cadeia de funções não fica mais aninhada, mas sim serializada, o que simplifica o desenvolvimento e melhora a legibilidade.
 
-💻 **Exemplo de uma Promise simples:**  
+Exemplo de uma `Promise` simples:
 
 ```js
-const promessa = new Promise((resolve, reject) => {
+const promessa = new `Promise`((resolve, reject) => {
     let senha = prompt('Senha?');
     if (senha === '1234') resolve('O segredo é "43"!');
     else reject('Não te conto o segredo!');
@@ -105,18 +88,22 @@ promessa
     });
 ```
 
-📢 **Explicação:**  
-- **`then()`**: Executado quando a **Promise** é cumprida (resolvida), recebendo o valor passado no `resolve`.
-- **`catch()`**: Executado quando a **Promise** é rejeitada (não cumprida), recebendo o erro passado no `reject`.
+📢 **Explicação:**
+
+- O código entre as chaves de um objeto `Promise` é executado.
+- Se a promessa for cumprida, então `resolve` deve ser executado, passando um valor para o `then`.
+- Se a promessa não puder ser cumprida, então `reject` deve ser executado, passando um valor para o `catch`.
+- O `then` é executado quando a promessa é cumprida (resolvida), recebendo o valor passado no `resolve`.
+- O `catch` é executado quando a promessa é rejeitada (não cumprida), recebendo o valor passado no `reject`.
 
 ---
 
-### **4. O `fetch()` e Requisições HTTP**  
+### A função assíncrona `fetch`
 
-📢 **Explicação:**  
-O `fetch()` é uma função que retorna uma Promise e é usada para fazer requisições HTTP a um servidor. Para testar o `fetch`, vamos requisitar objetos fictícios do servidor https://jsonplaceholder.typicode.com/.
+A função `fetch` é usada para fazer requisições HTTP a um servidor, e retorna uma `Promise`. Para testar o `fetch`, vamos requisitar objetos fictícios do servidor https://jsonplaceholder.typicode.com/.
 
-💻 **Exemplo básico:**  
+Código exemplo:
+
 ```js
 import { onMount } from 'svelte';
 
@@ -133,57 +120,55 @@ onMount(async () => {
     console.log('depois da requisição');
 });
 ```
-📌 **Explicação passo a passo:**  
-1. `fetch(url)` faz a requisição.
-2. O primeiro `then` obtém a resposta da requisição.
-3. `resposta.json()` extrai um objeto da resposta.
-4. O segundo `.then()` obtém o objeto após a extração.
-5. O `.catch()` captura possíveis erros.
 
----
+📌 **Explicação:**
 
-### **5. Transformando código assíncrono em síncrono com `async/await`**  
-📢 **Explicação:**  
+- `fetch(url)` faz a requisição a um objeto "tarefa.
+- O primeiro `then` obtém a resposta da requisição.
+- `resposta.json()` extrai o objeto da resposta.
+- O segundo `then` obtém o objeto após a extração.
+- O `catch` captura possíveis erros.
 
-O `async/await` simplifica o uso de Promises. Ele permite que código assíncrono seja executado de modo síncrono.
+### Transformando código assíncrono em síncrono com `async/await`
 
-💻 **Exemplo básico:**  
+O `async/await` simplifica o uso de `Promise`s. Ele permite que código assíncrono seja executado de modo síncrono.
+
+Código exemplo:
+
 ```js
-import { onMount } from 'svelte';
-
-onMount(async () => {
-    async function requisicaoSincrona() {
-        try {
-            let resposta = await fetch('https://jsonplaceholder.typicode.com/todos/1');
-            let dados = await resposta.json();
-            console.log(dados);
-        } catch (erro) {
-            console.error('Erro!', erro);
+    (async () => {
+        async function requisicaoSincrona() {
+            try {
+                let resposta = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+                let dados = await resposta.json();
+                console.log(dados);
+            } catch (erro) {
+                console.error('Erro!', erro);
+            }
         }
-    }
 
-    console.log('antes da requisição');
-    await requisicaoSincrona();
-    console.log('depois da requisição');
-});
+        console.log('antes da requisição');
+        await requisicaoSincrona();
+        console.log('depois da requisição');
+    })();
 ```
-📌 **O que acontece aqui?**  
-- `await` pausa a execução até que a Promise seja resolvida.  
-- `try/catch` ajuda a capturar erros de rede.  
 
-O que acontece se você tirar o `await` de `await requisicaoSincrona();`
+📌 **Explicação:**
+- Toda função que usa `await` deve ser declarada com `async`.
+- `await` pausa a execução até que a `Promise` seja resolvida.
+- `try/catch` ajuda a capturar possíveis erros.
+
+O que acontece se você tirar o `await` de `await requisicaoSincrona();`?
+
+### Recapitulando
+
+- `setTimeout` agenda funções sem travar o código.
+- `Promise`s ajudam a trabalhar com valores futuros.
+- `fetch` faz requisições HTTP e retorna uma `Promise`.
+- `async`/`await` facilita o trabalho com código assíncrono.
 
 ---
 
-### **6. Recapitulando**  
-✅ **setTimeout** agenda funções sem travar o código.  
-✅ **Promises** ajudam a trabalhar com valores futuros.  
-✅ **fetch()** faz requisições HTTP e retorna uma Promise.  
-✅ **async/await** facilita o trabalho com código assíncrono.  
+### Exercícios
 
----
-
-### **7. Exercício Prático**  
-🚀 **Desafio:** Crie uma função que faça uma requisição para buscar usuários de `https://jsonplaceholder.typicode.com/users` e exiba apenas os nomes no console.  
-
-💡 **Dica:** Use `async/await`, `fetch()` e `.map()`.  
+1. Crie uma função que faça uma requisição para buscar usuários de `https://jsonplaceholder.typicode.com/users` e exiba apenas os nomes.

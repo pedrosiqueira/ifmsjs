@@ -10,11 +10,12 @@
 ---
 
 ### Gerador de Senhas Seguras 🔑
-- Botões de copiar e gerar nova senha.
-- Escolher tamanho da senha.
-- Incluir ou excluir classes maiúsculos, minúsculos, numéricos e especiais.
-- Especificar quantidade mínima de cada classe.
-- Listar várias alternativas de senha por vez, em vez de uma por vez.
+- Botão de gerar nova senha
+- Botão de copiar senha
+- Slider e campo de tamanho de senha
+- Caixas de seleção (checkbox) para inclur classes maiúsculos, minúsculos, numéricos e símbolos
+- Botão que habilita a geração de várias senhas de uma vez, com cada senha em uma linha e com botão de copiar
+- Cada classe ter um campo para especificar uma quantidade mínima de caracteres.
 - Permite salvar senhas localmente com criptografia.  
 - Funciona offline e sem necessidade de login.  
 

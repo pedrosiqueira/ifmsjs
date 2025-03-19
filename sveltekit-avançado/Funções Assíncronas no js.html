@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([
+      // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
+    ]);
+  </script> -->
+
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h2 id="fun-es-ass-ncronas-no-javascript">Funções Assíncronas no JavaScript</h2>
+<h3 id="fun-es-s-ncronas-vs-ass-ncronas">Funções síncronas vs assíncronas</h3>
+<p>👉 <strong>Pergunta:</strong> Qual o conceito de síncrono e de assíncrono?</p>
+<p>No JavaScript, código normalmente executa de forma síncrona, linha por linha. Mas algumas operações, como buscar dados na internet, podem demorar. Se esperássemos o resultado antes de seguir para a próxima linha, o código ficaria travado.</p>
+<p>Exemplo de código síncrono:</p>
+<pre><code class="js">console.log("Primeiro");
+console.log("Segundo");
+console.log("Terceiro");</code></pre>
+<h3 id="a-fun-o-ass-ncrona-settimeout-">A função assíncrona <code>setTimeout</code></h3>
+<p><code>setTimeout</code> é um exemplo clássico de função assíncrona. Ela agenda uma função para rodar depois de um tempo.</p>
+<p>Código exemplo:</p>
+<pre><code class="js">console.log("Antes de setTimeout");
+
+setTimeout(() => {
+  console.log("Dentro de setTimeout");
+}, 2000);
+
+console.log("Depois de setTimeout");</code></pre>
+<p>📌 <strong>Pergunta:</strong> Qual será a ordem de execução?</p>
+<p>O <code>setTimeout</code> agenda a execução do código para o futuro, mas não bloqueia o restante do programa.</p>
+<h3 id="introdu-o-s-promise-s">Introdução às <code>Promise</code>s</h3>
+<p>Uma <code>Promise</code> é um objeto que representa um valor que estará disponível no futuro. Pode estar em três estados:</p>
+<ul>
+  <li><strong>Pending</strong> (pendente)</li>
+  <li><strong>Fulfilled</strong> (resolvida)</li>
+  <li><strong>Rejected</strong> (rejeitada)</li>
+</ul>
+<p>Antes das <code>Promise</code>s, a abordagem mais comum para lidar com operações assíncronas (como requisições HTTP, leitura de arquivos ou interações com bancos de dados) era usar funções <strong>callback</strong>. No entanto, essa abordagem apresentava diversos problemas, como o famoso <strong>Callback hell</strong>: Quando uma função callback também chama outra função callback, criando uma cadeia de funções aninhadas (uma dentro da outra).</p>
+<pre><code class="js">buscarDados((dados) => {
+  processarDados(dados, (resultado) => {
+    salvarNoBanco(resultado, (res) => {
+      console.log("Dados salvos!");
+    });
+  });
+});</code></pre>
+<p>Observação: Callbacks são funções passadas como argumento para outras funções e executadas posteriormente, geralmente após a conclusão de uma operação assíncrona.</p>
+<p><code>Promise</code>s surgiram no JavaScript para resolver problemas relacionados ao código assíncrono, como o Callback hell:</p>
+<pre><code class="js">buscarDados()
+  .then(processarDados)
+  .then(salvarNoBanco)
+  .then(() => console.log("Dados salvos!"))
+  .catch((erro) => console.error("Erro:", erro));</code></pre>
+<p>Com <code>Promise</code>s, a cadeia de funções não fica mais aninhada, mas sim serializada, o que simplifica o desenvolvimento e melhora a legibilidade.</p>
+<p>Exemplo de uma <code>Promise</code> simples:</p>
+<pre><code class="js">const promessa = new `Promise`((resolve, reject) => {
+    let senha = prompt('Senha?');
+    if (senha === '1234') resolve('O segredo é "43"!');
+    else reject('Não te conto o segredo!');
+});
+
+promessa
+    .then((resultado) => {
+        console.log("Acesso liberado...")
+        console.log(resultado);
+    })
+    .catch((erro) => {
+        console.log("Acesso proibido...")
+        console.error(erro);
+    });</code></pre>
+<p>📢 <strong>Explicação:</strong></p>
+<ul>
+  <li>O código entre as chaves de um objeto <code>Promise</code> é executado.</li>
+  <li>Se a promessa for cumprida, então <code>resolve</code> deve ser executado, passando um valor para o <code>then</code>.</li>
+  <li>Se a promessa não puder ser cumprida, então <code>reject</code> deve ser executado, passando um valor para o <code>catch</code>.</li>
+  <li>O <code>then</code> é executado quando a promessa é cumprida (resolvida), recebendo o valor passado no <code>resolve</code>.</li>
+  <li>O <code>catch</code> é executado quando a promessa é rejeitada (não cumprida), recebendo o valor passado no <code>reject</code>.</li>
+</ul>
+<hr>
+<h3 id="a-fun-o-ass-ncrona-fetch-">A função assíncrona <code>fetch</code></h3>
+<p>A função <code>fetch</code> é usada para fazer requisições HTTP a um servidor, e retorna uma <code>Promise</code>. Para testar o <code>fetch</code>, vamos requisitar objetos fictícios do servidor <a href="https://jsonplaceholder.typicode.com/">https://jsonplaceholder.typicode.com/</a>.</p>
+<p>Código exemplo:</p>
+<pre><code class="js">function iniciar() {
+    function requisicaoAssincrona() {
+        fetch('https://jsonplaceholder.typicode.com/todos/1')
+            .then((resposta) => resposta.json())
+            .then((dados) => console.log(dados))
+            .catch((erro) => console.error('Erro!', erro));
+    }
+
+    console.log('antes da requisição');
+    requisicaoAssincrona();
+    console.log('depois da requisição');
+}
+iniciar();</code></pre>
+
+<p>📌 <strong>Explicação:</strong></p>
+<ul>
+  <li><code>fetch(url)</code> faz a requisição a um objeto &quot;tarefa.</li>
+  <li>O primeiro <code>then</code> obtém a resposta da requisição.</li>
+  <li><code>resposta.json()</code> extrai o objeto da resposta.</li>
+  <li>O segundo <code>then</code> obtém o objeto após a extração.</li>
+  <li>O <code>catch</code> captura possíveis erros.</li>
+</ul>
+<h3 id="transformando-c-digo-ass-ncrono-em-s-ncrono-com-async-await-">Transformando código assíncrono em síncrono com <code>async/await</code></h3>
+<p>O <code>async/await</code> simplifica o uso de <code>Promise</code>s. Ele permite que código assíncrono seja executado de modo síncrono.</p>
+<p>Código exemplo:</p>
+<pre><code class="js">async function iniciar() {
+    async function requisicaoSincrona() {
+        try {
+            let resposta = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+            let dados = await resposta.json();
+            console.log(dados);
+        } catch (erro) {
+            console.error('Erro!', erro);
+        }
+    }
+
+    console.log('antes da requisição');
+    await requisicaoSincrona();
+    console.log('depois da requisição');
+}
+iniciar();</code></pre>
+
+<p>📌 <strong>Explicação:</strong></p>
+<ul>
+  <li>Toda função que usa <code>await</code> deve ser declarada com <code>async</code>.</li>
+  <li><code>await</code> pausa a execução até que a <code>Promise</code> seja resolvida.</li>
+  <li><code>try/catch</code> ajuda a capturar possíveis erros.</li>
+</ul>
+<p>O que acontece se você tirar o <code>await</code> de <code>await requisicaoSincrona();</code>?</p>
+<h3 id="recapitulando">Recapitulando</h3>
+<ul>
+  <li><code>setTimeout</code> agenda funções sem travar o código.</li>
+  <li><code>Promise</code>s ajudam a trabalhar com valores futuros.</li>
+  <li><code>fetch</code> faz requisições HTTP e retorna uma <code>Promise</code>.</li>
+  <li><code>async</code>/<code>await</code> facilita o trabalho com código assíncrono.</li>
+</ul>
+<hr>
+<h3 id="exerc-cios">Exercícios</h3>
+<ol>
+  <li>Crie uma função que faça uma requisição para buscar usuários de <code>https://jsonplaceholder.typicode.com/users</code> e exiba apenas os nomes.</li>
+</ol>
