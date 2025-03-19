@@ -152,7 +152,7 @@ iniciar();</code></pre>
   <li><code>try/catch</code> ajuda a capturar possíveis erros.</li>
 </ul>
 <p>O que acontece se você tirar o <code>await</code> de <code>await requisicaoSincrona();</code>?</p>
-<p>O <code>async/await</code> também permite que <strong>código síncrono seja executado de modo assíncrono</strong>:</p>
+<p>Outro exemplo de código assíncrono sendo executado de modo síncrono:</p>
 <pre><code class="js">    async function iniciar() {
         function freezeForSeconds(seconds) {
             return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
@@ -169,6 +169,55 @@ iniciar();</code></pre>
   <li>Após o tempo especificado <code>seconds * 1000</code>, o comando <code>resolve</code> será executado, indicando que a promessa foi cumprida (resolvida).</li>
 </ul>
 
+<!-- <h3 id="transformando-c-digo-ass-ncrono-em-s-ncrono-com-async-await-">Transformando código síncrono em assíncrono com <code>async/await</code></h3>
+
+<h1>Antes de falar sobre isso eu preciso de um capítulo que fala sobre o onMount do svelte</h1>
+
+<p>O <code>async/await</code> também permite que <strong>código síncrono seja executado de modo assíncrono</strong></p>
+<p>Esse código trava na função youShallNotPass:</p>
+<pre><code class="svelte">&lt;script&gt;
+    import { onMount } from 'svelte';
+
+    onMount(() =&gt; {
+        function youShallNotPass() {
+            while (prompt('Senha?') !== '1234') {
+                alert('Senha incorreta');
+            }
+            alert('Liberado!');
+        }
+
+        alert('Vamos come&ccedil;ar');
+        youShallNotPass();
+        alert('Fim');
+    });
+&lt;/script&gt;</code></pre>
+<p>📢 <strong>Explicação:</strong></p>
+<ul>
+  <li>Esse código foi adaptado para svelte. Para usar funções nativas javascript com svelte, temos que garantir que a página já foi carregada, por isso usammos o onmount.</li>
+</ul>
+<p>Para transformá-lo em assíncrono, podemos usar uma promessa:</p>
+<pre><code class="svelte">&lt;script&gt;
+    import { onMount } from 'svelte';
+
+    onMount(async () =&gt; {
+        async function youShallNotPass() {
+            return new Promise((resolve) =&gt; {
+                setTimeout(() =&gt; {
+                    while (prompt('Senha?') !== '1234') {
+                        alert('Senha incorreta');
+                    }
+                    alert('Liberado!');
+                    resolve();
+                }, 0);
+            });
+        }
+
+        alert('Vamos come&ccedil;ar');
+        youShallNotPass();
+        alert('Fim');
+    });
+&lt;/script&gt;</code></pre>
+<p>Agora que a função youShallNotPass é assíncrona, a qualquer momento que quisermos chamá-la de modo assíncrono, é só colocar o await ao chamá-la, como <code>await youShallNotPass()</code>.</p> -->
 <h3 id="recapitulando">Recapitulando</h3>
 <ul>
   <li><code>setTimeout</code> agenda funções sem travar o código.</li>
