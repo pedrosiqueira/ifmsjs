@@ -31,15 +31,15 @@
   <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 
-<h2 id="fun-es-ass-ncronas-no-javascript">Funções Assíncronas no JavaScript</h2>
-<h3 id="fun-es-s-ncronas-vs-ass-ncronas">Funções síncronas vs assíncronas</h3>
+<h1 id="fun-es-ass-ncronas-no-javascript">Funções Assíncronas no JavaScript</h1>
+<h2 id="fun-es-s-ncronas-vs-ass-ncronas">Funções síncronas vs assíncronas</h2>
 <p><strong>Pergunta:</strong> Qual o conceito de síncrono e de assíncrono?</p>
 <p>No JavaScript, código normalmente executa de forma síncrona, linha por linha. Mas algumas operações, como buscar dados na internet, podem demorar. Se esperássemos o resultado antes de seguir para a próxima linha, o código ficaria travado.</p>
 <p>Exemplo de código síncrono:</p>
 <pre><code class="js">console.log("Primeiro");
 console.log("Segundo");
 console.log("Terceiro");</code></pre>
-<h3 id="a-fun-o-ass-ncrona-settimeout-">A função assíncrona <code>setTimeout</code></h3>
+<h2 id="a-fun-o-ass-ncrona-settimeout-">A função assíncrona <code>setTimeout</code></h2>
 <p><code>setTimeout</code> é um exemplo clássico de função assíncrona. Ela agenda uma função para rodar depois de um tempo.</p>
 <p>Código exemplo:</p>
 <pre><code class="js">console.log("Antes de setTimeout");
@@ -51,7 +51,7 @@ setTimeout(() => {
 console.log("Depois de setTimeout");</code></pre>
 <p><strong>Pergunta:</strong> Qual será a ordem de execução?</p>
 <p>O <code>setTimeout</code> agenda a execução do código para o futuro, mas não bloqueia o restante do programa.</p>
-<h3 id="introdu-o-s-promise-s">Introdução às <code>Promise</code>s</h3>
+<h2 id="introdu-o-s-promise-s">Introdução às <code>Promise</code>s</h2>
 <p>Uma <code>Promise</code> é um objeto que representa um valor que estará disponível no futuro. Pode estar em três estados:</p>
 <ul>
   <li><strong>Pending</strong> (pendente)</li>
@@ -99,8 +99,7 @@ promessa
   <li>O <code>then</code> é executado quando a promessa é cumprida (resolvida), recebendo o valor passado no <code>resolve</code>.</li>
   <li>O <code>catch</code> é executado quando a promessa é rejeitada (não cumprida), recebendo o valor passado no <code>reject</code>.</li>
 </ul>
-<hr>
-<h3 id="a-fun-o-ass-ncrona-fetch-">A função assíncrona <code>fetch</code></h3>
+<h2 id="a-fun-o-ass-ncrona-fetch-">A função assíncrona <code>fetch</code></h2>
 <p>A função <code>fetch</code> é usada para fazer requisições HTTP a um servidor, e retorna uma <code>Promise</code>. Para testar o <code>fetch</code>, vamos requisitar objetos fictícios do servidor <a href="https://jsonplaceholder.typicode.com/">https://jsonplaceholder.typicode.com/</a>.</p>
 <p>Código exemplo:</p>
 <pre><code class="js">function iniciar() {
@@ -125,7 +124,7 @@ iniciar();</code></pre>
   <li>O segundo <code>then</code> obtém o objeto após a extração.</li>
   <li>O <code>catch</code> captura possíveis erros.</li>
 </ul>
-<h3 id="convertendo-c-digo-ass-ncrono-em-s-ncrono-com-async-await-">Convertendo código assíncrono em síncrono com <code>async/await</code></h3>
+<h2 id="convertendo-c-digo-ass-ncrono-em-s-ncrono-com-async-await-">Convertendo código assíncrono em síncrono com <code>async/await</code></h2>
 <p>O <code>async/await</code> simplifica o uso de <code>Promise</code>s. Ele permite que <strong>código assíncrono seja executado de modo síncrono</strong>.</p>
 <p>Código exemplo:</p>
 <pre><code class="js">async function iniciar() {
@@ -169,7 +168,7 @@ iniciar();</code></pre>
   <li>Após o tempo especificado <code>seconds * 1000</code>, o comando <code>resolve</code> será executado, indicando que a promessa foi cumprida (resolvida).</li>
 </ul>
 
-<h3 id="convertendo-c-digo-ass-ncrono-em-s-ncrono-com-async-await-">Convertendo código síncrono em assíncrono com <code>async/await</code></h3>
+<h2 id="convertendo-c-digo-ass-ncrono-em-s-ncrono-com-async-await-">Convertendo código síncrono em assíncrono com <code>async/await</code></h2>
 
 <!-- a-fazer<h1>Antes de falar sobre isso eu preciso de um capítulo que fala sobre o onMount do svelte</h1> -->
 
@@ -225,15 +224,14 @@ iniciar();</code></pre>
   <li>Linha 18: A qualquer momento podemos executar a função de modo síncrono com <code>await youShallNotPass();</code>.</li>
 </ul>
 
-<h3 id="recapitulando">Recapitulando</h3>
+<h2 id="recapitulando">Recapitulando</h2>
 <ul>
   <li><code>setTimeout</code> agenda funções sem travar o código.</li>
   <li><code>Promise</code>s ajudam a trabalhar com valores futuros.</li>
   <li><code>fetch</code> faz requisições HTTP e retorna uma <code>Promise</code>.</li>
   <li><code>async/await</code> facilita o trabalho com código assíncrono.</li>
 </ul>
-<hr>
-<h3 id="exerc-cios">Exercícios</h3>
+<h2 id="exerc-cios">Exercícios</h2>
 <ol class="excs">
   <li>Crie uma página de contagem regressiva de 10 segundos.
     <ol>
