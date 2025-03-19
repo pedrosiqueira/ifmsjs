@@ -33,7 +33,7 @@
 
 <h2 id="fun-es-ass-ncronas-no-javascript">Funções Assíncronas no JavaScript</h2>
 <h3 id="fun-es-s-ncronas-vs-ass-ncronas">Funções síncronas vs assíncronas</h3>
-<p>👉 <strong>Pergunta:</strong> Qual o conceito de síncrono e de assíncrono?</p>
+<p><strong>Pergunta:</strong> Qual o conceito de síncrono e de assíncrono?</p>
 <p>No JavaScript, código normalmente executa de forma síncrona, linha por linha. Mas algumas operações, como buscar dados na internet, podem demorar. Se esperássemos o resultado antes de seguir para a próxima linha, o código ficaria travado.</p>
 <p>Exemplo de código síncrono:</p>
 <pre><code class="js">console.log("Primeiro");
@@ -49,7 +49,7 @@ setTimeout(() => {
 }, 2000);
 
 console.log("Depois de setTimeout");</code></pre>
-<p>📌 <strong>Pergunta:</strong> Qual será a ordem de execução?</p>
+<p><strong>Pergunta:</strong> Qual será a ordem de execução?</p>
 <p>O <code>setTimeout</code> agenda a execução do código para o futuro, mas não bloqueia o restante do programa.</p>
 <h3 id="introdu-o-s-promise-s">Introdução às <code>Promise</code>s</h3>
 <p>Uma <code>Promise</code> é um objeto que representa um valor que estará disponível no futuro. Pode estar em três estados:</p>
@@ -91,7 +91,7 @@ promessa
         console.log("Acesso proibido...")
         console.error(erro);
     });</code></pre>
-<p>📢 <strong>Explicação:</strong></p>
+<p><strong>Explicação:</strong></p>
 <ul>
   <li>O código entre as chaves de um objeto <code>Promise</code> é executado.</li>
   <li>Se a promessa for cumprida, então <code>resolve</code> deve ser executado, passando um valor para o <code>then</code>.</li>
@@ -117,7 +117,7 @@ promessa
 }
 iniciar();</code></pre>
 
-<p>📌 <strong>Explicação:</strong></p>
+<p><strong>Explicação:</strong></p>
 <ul>
   <li><code>fetch(url)</code> faz a requisição a um objeto &quot;tarefa.</li>
   <li>O primeiro <code>then</code> obtém a resposta da requisição.</li>
@@ -125,7 +125,7 @@ iniciar();</code></pre>
   <li>O segundo <code>then</code> obtém o objeto após a extração.</li>
   <li>O <code>catch</code> captura possíveis erros.</li>
 </ul>
-<h3 id="transformando-c-digo-ass-ncrono-em-s-ncrono-com-async-await-">Transformando código assíncrono em síncrono com <code>async/await</code></h3>
+<h3 id="convertendo-c-digo-ass-ncrono-em-s-ncrono-com-async-await-">Convertendo código assíncrono em síncrono com <code>async/await</code></h3>
 <p>O <code>async/await</code> simplifica o uso de <code>Promise</code>s. Ele permite que <strong>código assíncrono seja executado de modo síncrono</strong>.</p>
 <p>Código exemplo:</p>
 <pre><code class="js">async function iniciar() {
@@ -145,7 +145,7 @@ iniciar();</code></pre>
 }
 iniciar();</code></pre>
 
-<p>📌 <strong>Explicação:</strong></p>
+<p><strong>Explicação:</strong></p>
 <ul>
   <li>Toda função que usa <code>await</code> deve ser declarada com <code>async</code>.</li>
   <li><code>await</code> pausa a execução até que a <code>Promise</code> seja resolvida.</li>
@@ -163,18 +163,18 @@ iniciar();</code></pre>
         console.log('End freezing after 3 seconds');
     }
     iniciar();</code></pre>
-<p>📢 <strong>Explicação:</strong></p>
+<p><strong>Explicação:</strong></p>
 <ul>
   <li>O <code>setTimeout</code> é assíncrono por natureza, mas se o colocarmos dentro de uma promessa, podemos usar o recurso <code>async/await</code> para esperar pela promessa ser cumprida.</li>
   <li>Após o tempo especificado <code>seconds * 1000</code>, o comando <code>resolve</code> será executado, indicando que a promessa foi cumprida (resolvida).</li>
 </ul>
 
-<!-- <h3 id="transformando-c-digo-ass-ncrono-em-s-ncrono-com-async-await-">Transformando código síncrono em assíncrono com <code>async/await</code></h3>
+<h3 id="convertendo-c-digo-ass-ncrono-em-s-ncrono-com-async-await-">Convertendo código síncrono em assíncrono com <code>async/await</code></h3>
 
-<h1>Antes de falar sobre isso eu preciso de um capítulo que fala sobre o onMount do svelte</h1>
+<!-- a-fazer<h1>Antes de falar sobre isso eu preciso de um capítulo que fala sobre o onMount do svelte</h1> -->
 
 <p>O <code>async/await</code> também permite que <strong>código síncrono seja executado de modo assíncrono</strong></p>
-<p>Esse código trava na função youShallNotPass:</p>
+<p>O seguinte código bloqueia a execução até que o usuário insira a senha correta:</p>
 <pre><code class="svelte">&lt;script&gt;
     import { onMount } from 'svelte';
 
@@ -191,33 +191,40 @@ iniciar();</code></pre>
         alert('Fim');
     });
 &lt;/script&gt;</code></pre>
-<p>📢 <strong>Explicação:</strong></p>
+<p><strong>Explicação:</strong></p>
 <ul>
-  <li>Esse código foi adaptado para svelte. Para usar funções nativas javascript com svelte, temos que garantir que a página já foi carregada, por isso usammos o onmount.</li>
+  <li>As funções <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt"><code>prompt</code></a> e <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Window/alert"><code>alert</code></a> fazem parte da interface <a target="_blank" href='https://developer.mozilla.org/en-US/docs/Web/API/Window'><code>Window</code></a>, que, no Svelte, só é carregada depois do componente ser montado. Para garantir que o componente foi montado, usamos a função <a href="https://svelte.dev/docs/svelte/lifecycle-hooks#onMount" target="_blank"><code>onMount</code></a> do Svelte.</li>
+  <li>As funções <code>prompt</code> e <code>alert</code> são bloqueantes: o código pára a execução até que o usuário interaja com elas.</li>
 </ul>
-<p>Para transformá-lo em assíncrono, podemos usar uma promessa:</p>
+<p>Para evitar o bloqueio, podemos converter a função <code>youShallNotPass</code> em assíncrona, usando promessa:</p>
 <pre><code class="svelte">&lt;script&gt;
-    import { onMount } from 'svelte';
+    import { onMount } from &apos;svelte&apos;;
 
-    onMount(async () =&gt; {
+    onMount(() =&gt; {
         async function youShallNotPass() {
             return new Promise((resolve) =&gt; {
                 setTimeout(() =&gt; {
-                    while (prompt('Senha?') !== '1234') {
-                        alert('Senha incorreta');
+                    while (prompt(&apos;Senha?&apos;) !== &apos;1234&apos;) {
+                        alert(&apos;Senha incorreta&apos;);
                     }
-                    alert('Liberado!');
+                    alert(&apos;Liberado!&apos;);
                     resolve();
                 }, 0);
             });
         }
 
-        alert('Vamos come&ccedil;ar');
+        alert(&apos;Vamos começar&apos;);
         youShallNotPass();
-        alert('Fim');
+        alert(&apos;Fim&apos;);
     });
 &lt;/script&gt;</code></pre>
-<p>Agora que a função youShallNotPass é assíncrona, a qualquer momento que quisermos chamá-la de modo assíncrono, é só colocar o await ao chamá-la, como <code>await youShallNotPass()</code>.</p> -->
+<p><strong>Explicação:</strong></p>
+<ul>
+  <li>Linha 6: A função <code>youShallNotPass</code> agora retorna uma <code>Promise</code>, tornando-a assíncrona.</li>
+  <li>Linha 7: O <code>setTimeout</code> adia a execução do <code>prompt</code>, permitindo que o código não fique bloqueado na linha 18.</li>
+  <li>Linha 18: A qualquer momento podemos executar a função de modo síncrono com <code>await youShallNotPass();</code>.</li>
+</ul>
+
 <h3 id="recapitulando">Recapitulando</h3>
 <ul>
   <li><code>setTimeout</code> agenda funções sem travar o código.</li>

@@ -16,6 +16,7 @@
     <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 
 <h1 id="criando-um-projeto-sveltekit-com-capacitor-drizzle-orm-e-sqlite">Criando um projeto SvelteKit com Capacitor, Drizzle ORM e SQLite</h1>
@@ -99,27 +100,3 @@
     <li><strong>Abre o projeto no VS Code</strong>.</li>
 </ol>
 <p>Agora o projeto está pronto para desenvolvimento com <strong>Svelte + Capacitor + Drizzle ORM + SQLite</strong>. 🎯🔥</p>
-
-<script>
-    class FootNote extends HTMLElement {
-        static count = 0; // Shared counter for all footnotes
-        static footnotes = {};
-        static externalLinks = {};
-        connectedCallback() {
-            const href = this.getAttribute('href');
-            if (!(href in FootNote.footnotes)) {
-                FootNote.footnotes[href] = ++FootNote.count;
-                try {
-                    document.querySelector(`${href}`)?.insertAdjacentHTML('afterbegin', `<sup>[${FootNote.footnotes[href]}]</sup>`);
-                } catch {
-                    FootNote.externalLinks[href] = true;
-                }
-            }
-            this.innerHTML = `<sup><a href="${href}" ${FootNote.externalLinks[href] ? 'target="_blank"' : ''}>[${FootNote.footnotes[href]}]</a></sup>`;
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        customElements.define('foot-note', FootNote);
-    }, false);
-</script>
