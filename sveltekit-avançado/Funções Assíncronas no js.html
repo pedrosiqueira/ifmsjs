@@ -59,6 +59,7 @@ console.log("Depois de setTimeout");</code></pre>
   <li><strong>Rejected</strong> (rejeitada)</li>
 </ul>
 <p>Antes das <code>Promise</code>s, a abordagem mais comum para lidar com operações assíncronas (como requisições HTTP, leitura de arquivos ou interações com bancos de dados) era usar funções <strong>callback</strong>. No entanto, essa abordagem apresentava diversos problemas, como o famoso <strong>Callback hell</strong>: Quando uma função callback também chama outra função callback, criando uma cadeia de funções aninhadas (uma dentro da outra).</p>
+<p>Exemplo de "callback hell":</p>
 <pre><code class="js">buscarDados((dados) => {
   processarDados(dados, (resultado) => {
     salvarNoBanco(resultado, (res) => {
@@ -75,9 +76,9 @@ console.log("Depois de setTimeout");</code></pre>
   .catch((erro) => console.error("Erro:", erro));</code></pre>
 <p>Com <code>Promise</code>s, a cadeia de funções não fica mais aninhada, mas sim serializada, o que simplifica o desenvolvimento e melhora a legibilidade.</p>
 <p>Exemplo de uma <code>Promise</code> simples:</p>
-<pre><code class="js">const promessa = new `Promise`((resolve, reject) => {
+<pre><code class="js">const promessa = new Promise((resolve, reject) => {
     let senha = prompt('Senha?');
-    if (senha === '1234') resolve('O segredo é "43"!');
+    if (senha === '1234') resolve('O segredo é "42"!');
     else reject('Não te conto o segredo!');
 });
 
@@ -125,7 +126,7 @@ iniciar();</code></pre>
   <li>O <code>catch</code> captura possíveis erros.</li>
 </ul>
 <h3 id="transformando-c-digo-ass-ncrono-em-s-ncrono-com-async-await-">Transformando código assíncrono em síncrono com <code>async/await</code></h3>
-<p>O <code>async/await</code> simplifica o uso de <code>Promise</code>s. Ele permite que código assíncrono seja executado de modo síncrono.</p>
+<p>O <code>async/await</code> simplifica o uso de <code>Promise</code>s. Ele permite que <strong>código assíncrono seja executado de modo síncrono</strong>.</p>
 <p>Código exemplo:</p>
 <pre><code class="js">async function iniciar() {
     async function requisicaoSincrona() {
@@ -151,15 +152,47 @@ iniciar();</code></pre>
   <li><code>try/catch</code> ajuda a capturar possíveis erros.</li>
 </ul>
 <p>O que acontece se você tirar o <code>await</code> de <code>await requisicaoSincrona();</code>?</p>
+<p>O <code>async/await</code> também permite que <strong>código síncrono seja executado de modo assíncrono</strong>:</p>
+<pre><code class="js">    async function iniciar() {
+        function freezeForSeconds(seconds) {
+            return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+        }
+
+        console.log('Start freezing...');
+        await freezeForSeconds(3);
+        console.log('End freezing after 3 seconds');
+    }
+    iniciar();</code></pre>
+<p>📢 <strong>Explicação:</strong></p>
+<ul>
+  <li>O <code>setTimeout</code> é assíncrono por natureza, mas se o colocarmos dentro de uma promessa, podemos usar o recurso <code>async/await</code> para esperar pela promessa ser cumprida.</li>
+  <li>Após o tempo especificado <code>seconds * 1000</code>, o comando <code>resolve</code> será executado, indicando que a promessa foi cumprida (resolvida).</li>
+</ul>
+
 <h3 id="recapitulando">Recapitulando</h3>
 <ul>
   <li><code>setTimeout</code> agenda funções sem travar o código.</li>
   <li><code>Promise</code>s ajudam a trabalhar com valores futuros.</li>
   <li><code>fetch</code> faz requisições HTTP e retorna uma <code>Promise</code>.</li>
-  <li><code>async</code>/<code>await</code> facilita o trabalho com código assíncrono.</li>
+  <li><code>async/await</code> facilita o trabalho com código assíncrono.</li>
 </ul>
 <hr>
 <h3 id="exerc-cios">Exercícios</h3>
-<ol>
-  <li>Crie uma função que faça uma requisição para buscar usuários de <code>https://jsonplaceholder.typicode.com/users</code> e exiba apenas os nomes.</li>
+<ol class="excs">
+  <li>Crie uma página de contagem regressiva de 10 segundos.
+    <ol>
+      <li>Melhore a página de modo que o usuário possa colocar a quantidade de segundos.</li>
+    </ol>
+
+  </li>
+  <li>Crie as seguintes funções que façam requisições ao serviço <a href="https://jsonplaceholder.typicode.com/users">https://jsonplaceholder.typicode.com/users</a>:
+    <ol>
+      <li>Buscar usuários e exibir apenas os nomes.</li>
+      <li>Buscar uma postagem com um id específico e exibir apenas o título.</li>
+      <li>Buscar um usuário por id, e exibir o título de suas postagens.</li>
+      <li>Buscar usuários por email, e exibir o título de suas postagens.</li>
+      <li>Buscar uma postagem, e exibir seu título, conteúdo e seus comentários.</li>
+      <li>Buscar usuários por cidade.</li>
+    </ol>
+  </li>
 </ol>
