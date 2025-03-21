@@ -141,7 +141,7 @@
     <ul>
         <li>No bloco <code>{#each}</code> da linha 37, as variáveis <code>tarefa</code> e <code>i</code> são declaradas localmente para cada iteração da lista <code>tarefas</code>. Elas estão disponíveis apenas dentro do bloco <code>{#each}</code> e não podem ser acessadas diretamente no <code>script</code>.</li>
         <li>Assim, devemos passar a variável <code>i</code> como argumento para as funções <code>salvarTarefa</code>, <code>editarTarefa</code> e <code>excluirTarefa</code>, que são executadas no <code>script</code>.</li>
-        <li>Entretanto, com o Svelte, para invocar dentro da propriedade <code>onclick</code> uma função que recebe argumentos, devemos envolvê-la (<i>wrap</i>) em <i>arrow functions</i>.</li>
+        <li>Entretanto, com o Svelte, para invocar dentro da propriedade <code>onclick</code> uma função que recebe argumentos, devemos envolvê-la (<i>wrap</i>) em funções flecha (<i>arrow functions</i>).</li>
         <li>Para funções que não recebem argumentos, como as funções <code>adicionarTarefa</code> e <code>cancelarEdicao</code> das linhas 34 e 42, não precisamos envolvê-las em <i>arrow functions</i>.</li>
         <li>Mais sobre essa explicação <a href="https://stackoverflow.com/a/61025286/4072641">aqui</a>.</li>
     </ul>

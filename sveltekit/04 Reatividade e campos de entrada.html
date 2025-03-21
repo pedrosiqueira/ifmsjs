@@ -69,13 +69,13 @@ Fahrenheit: &lt;input oninput={f2c} type=&quot;number&quot; bind:value={fahrenhe
     <li><code>&lt;input oninput={c2f} type="number" bind:value={celsius} /&gt;</code>: Este campo de entrada permite ao usuário inserir um valor em graus Celsius.
         <ul>
             <li>O <code>bind:value={celsius}</code> vincula (conecta) o valor do campo à variável <code>celsius</code>, ou seja, quando o valor no campo muda, <code>celsius</code> é atualizado automaticamente.</li>
-            <li><code>oninput={c2f}</code> chama a função <code>c2f</code> a cada vez que o usuário digita, convertendo o valor atualizado de <code>celsius</code> para Fahrenheit e atualizando a variável <code>fahrenheit</code>.</li>
+            <li><code>oninput={c2f}</code> executa a função <code>c2f</code> a cada vez que o usuário digita, convertendo o valor atualizado de <code>celsius</code> para Fahrenheit e atualizando a variável <code>fahrenheit</code>.</li>
         </ul>
     </li>
     <li><code>&lt;input oninput={f2c} type="number" bind:value={fahrenheit} /&gt;</code>: Este campo permite que o usuário insira um valor em graus Fahrenheit.
         <ul>
             <li><code>bind:value={fahrenheit}</code> conecta o valor do campo à variável <code>fahrenheit</code>.</li>
-            <li><code>oninput={f2c}</code> chama a função <code>f2c</code> sempre que o valor de Fahrenheit muda, convertendo-o para Celsius e atualizando a variável <code>celsius</code>.</li>
+            <li><code>oninput={f2c}</code> executa a função <code>f2c</code> sempre que o valor de Fahrenheit muda, convertendo-o para Celsius e atualizando a variável <code>celsius</code>.</li>
         </ul>
     </li>
 </ul>

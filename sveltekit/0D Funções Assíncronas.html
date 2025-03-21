@@ -32,15 +32,28 @@
 </head>
 
 <h1 id="fun-es-ass-ncronas-no-javascript">Funções Assíncronas no JavaScript</h1>
+<p>Recomendação de leitura: Vamos usar bastante <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">Funções Flecha (arrow functions)</a>.</p>
 <h2 id="fun-es-s-ncronas-vs-ass-ncronas">Funções Síncronas vs Assíncronas</h2>
-<p><strong>Pergunta:</strong> Qual é o conceito dos termos "síncrono" e "assíncrono"?</p>
+<p>Na <strong>comunicação síncrona</strong>, o emissor envia uma mensagem e aguarda uma resposta imediata antes de continuar. Exemplos:</p>
+<ul>
+  <li>Conversa presencial – Duas pessoas dialogam cara a cara, respondendo uma à outra em tempo real.</li>
+  <li>Chamada telefônica – Uma pessoa liga para outra e ambas precisam estar disponíveis ao mesmo tempo.</li>
+  <li>Videoconferência – Uma reunião online onde os participantes interagem em tempo real.</li>
+</ul>
+<p>Na <strong>comunicação assíncrona</strong>, o emissor envia uma mensagem e continua sua execução sem precisar esperar uma resposta imediata. Exemplos:</p>
+<ul>
+  <li>Carta – O remetente manda uma mensagem, mas o destinatário pode ler e responder quando quiser.</li>
+  <li>Comentários em redes sociais – Alguém faz uma publicação e as respostas podem vir minutos, horas ou dias depois.</li>
+  <li>E-mail – Alguém envia uma mensagem e a outra pessoa pode responder horas ou dias depois.</li>
+</ul>
+<p>Uma <strong>operação síncrona</strong> ocorre de forma sequencial, ou seja, uma tarefa só começa depois que a anterior for concluída. Isso garante ordem e previsibilidade, mas pode causar bloqueios se uma tarefa demorar muito. Uma <strong>operação assíncrona</strong> ocorre independentemente das outras, permitindo que múltiplas tarefas sejam executadas ao mesmo tempo sem esperar que uma termine antes da outra. Isso melhora a eficiência, mas pode tornar a coordenação mais complexa.</p>
 <p>No JavaScript, o código normalmente é executado de forma síncrona, linha por linha. Mas algumas operações podem demorar, como requisições HTTP, leitura de arquivos ou interações com bancos de dados. Se o código precisasse esperar essas operações antes de continuar, a execução ficaria travada.</p>
 <p>Exemplo de código síncrono:</p>
 <pre><code class="js">console.log("Primeiro");
 console.log("Segundo");
 console.log("Terceiro");</code></pre>
 <h2 id="a-fun-o-ass-ncrona-settimeout-">A função assíncrona <code>setTimeout</code></h2>
-<p>A função <code>setTimeout</code> é um exemplo clássico de função assíncrona. Ela adia a execução de uma função sem bloquear o restante do programa.</p>
+<p>A função <code>setTimeout</code> é um exemplo clássico de função assíncrona. Ela adia a execução de uma função sem bloquear o restante do código.</p>
 <p><strong>Pergunta:</strong> Qual a saída do seguinte código?</p>
 <pre><code class="js">console.log("Antes de setTimeout");
  
@@ -49,18 +62,20 @@ setTimeout(() => {
 }, 2000);
  
 console.log("Depois de setTimeout");</code></pre>
+<p><strong>Explicação:</strong></p>
+<p>O <code>setTimeout</code> executa o primeiro argumento (o código dentro das chaves) após o tempo determinado em milisegundos do segundo argumento (o <code>2000</code>).</p>
 <h2 id="introdu-o-s-promise-s">Introdução a <code>Promise</code></h2>
-<p>Uma <code>Promise</code> é um objeto que representa um valor que estará disponível no futuro. Pode estar em três estados:</p>
+<p>Uma <code>Promise</code> é um objeto que representa a eventual conclusão (ou falha) de uma operação assíncrona, resultando em um valor. Pode estar em três estados:</p>
 <ul>
   <li><strong>Pending</strong> (pendente)</li>
   <li><strong>Fulfilled</strong> (resolvida)</li>
   <li><strong>Rejected</strong> (rejeitada)</li>
 </ul>
-<p>Antes das <code>Promise</code>s, o código assíncrono era tratado com funções <strong>callback</strong>, mas isso frequentemente levava a diversos problemas, como o conhecido <strong>Callback Hell</strong>: Quando uma função callback também executa outra função callback, criando uma cadeia de funções aninhadas (uma dentro da outra).</p>
+<p>Antes das <code>Promise</code>s, o código assíncrono era tratado com funções <strong>callback</strong>, mas isso frequentemente levava a diversos problemas, como o famigerado <strong>Callback Hell</strong>: Quando uma função callback também executa outra função callback, criando uma cadeia de funções aninhadas (uma dentro da outra).</p>
 <p>Exemplo de "callback hell":</p>
-<pre><code class="js">buscarDados((dados) => {
-  processarDados(dados, (resultado) => {
-    salvarNoBanco(resultado, (res) => {
+<pre><code class="js">buscarDados(dados => {
+  processarDados(dados, resultado => {
+    salvarNoBanco(resultado, () => {
       console.log("Dados salvos!");
     });
   });
@@ -117,7 +132,7 @@ saudacao("Carlos", () => console.log("Como foi seu dia?"));</code></pre>
 </table>
 <p>Com <code>Promise</code>s, a cadeia de funções não fica mais aninhada, mas serializada, o que melhora a legibilidade e simplifica o desenvolvimento.</p>
 
-<h3 id="o-objeto-promise">Criando uma <code>Promise</code>:</h3>
+<h3 id="o-objeto-promise">Criando uma <code>Promise</code></h3>
 <pre><code class="js">const promessa = new Promise((resolve, reject) => {
     let senha = prompt('Senha?');
     if (senha === '1234') resolve('O segredo é "42"!');
