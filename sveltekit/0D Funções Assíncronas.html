@@ -144,7 +144,7 @@ promessa
 <p>Na prática, raramente precisamos criar objetos <code>Promise</code> manualmente. Geralmente, utilizamos funções que já retornam uma <code>Promise</code>, permitindo que lidemos com seus resultados por meio dos métodos <code>then</code> e <code>catch</code>.</p>
 
 <h2 id="a-fun-o-ass-ncrona-fetch-">A função assíncrona <code>fetch</code></h2>
-<p>A função <code>fetch</code> é usada para fazer requisições HTTP a um servidor, retornando uma <code>Promise</code>. Para testar o <code>fetch</code>, vamos requisitar objetos fictícios do servidor <a target="_blank" href="https://jsonplaceholder.typicode.com/">https://jsonplaceholder.typicode.com/</a>.</p>
+<p>A função <code>fetch</code> é usada para fazer requisições HTTP a um servidor, retornando uma <code>Promise</code>. Como a promessa pode demorar a ser cumprida e o <code>fetch</code> é assíncrono, o restante do código continua sua execução sem ficar bloqueado aguardando a promessa. Para testar o <code>fetch</code>, vamos requisitar objetos fictícios do servidor <a target="_blank" href="https://jsonplaceholder.typicode.com/">https://jsonplaceholder.typicode.com/</a>.</p>
 <p>Exemplo:</p>
 <pre><code class="js">function iniciar() {
   function requisicaoAssincrona() {
@@ -162,12 +162,15 @@ iniciar();</code></pre>
 
 <p><strong>Explicação:</strong></p>
 <ul>
-  <li><code>fetch</code> faz a requisição a um objeto "tarefa", promentendo uma resposta.</li>
+  <li>O <code>fetch</code> faz a requisição a um objeto "tarefa", promentendo uma resposta.</li>
   <li>O primeiro <code>then</code> obtém a resposta da requisição.</li>
   <li><code>resposta.json()</code> "promete" extrair o objeto da resposta.</li>
   <li>O segundo <code>then</code> obtém o objeto após a extração.</li>
-  <li>O <code>catch</code> captura possíveis erros.</li>
+  <li>O <code>catch</code> captura possíveis erros, como perda da conexão com o servidor.</li>
 </ul>
+
+<p><strong>Pergunta:</strong> Qual a saída do código anterior?</p>
+
 <h2 id="convertendo-c-digo-ass-ncrono-em-s-ncrono-com-async-await-">Convertendo código assíncrono em síncrono com <code>async/await</code></h2>
 <p>O <code>async/await</code> simplifica o uso de <code>Promise</code>s. Ele permite <strong>executar código assíncrono de modo síncrono</strong>.</p>
 <p>Exemplo:</p>
