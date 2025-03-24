@@ -114,7 +114,7 @@ saudacao("Carlos", () => console.log("Como foi seu dia?"));</code></pre>
       <td>
         <pre><code class="js">buscarDados((dados) => {
   processarDados(dados, (resultado) => {
-    salvarNoBanco(resultado, (res) => {
+    salvarNoBanco(resultado, () => {
       console.log("Dados salvos!");
     });
   });
@@ -217,16 +217,35 @@ iniciar();</code></pre>
 </div>
 <p>O que acontece, na linha 13, se você executar a função <code>requisicaoSincrona()</code> sem o <code>await</code>?</p>
 <p id="funcao-bloquear">Outro exemplo de código assíncrono sendo executado de modo síncrono:</p>
-<pre><code class="js">async function iniciar() {
-    function bloquear(segundos) {
-        return new Promise((resolve) => setTimeout(resolve, segundos * 1000));
-    }
- 
-    console.log('Bloqueando...');
-    await bloquear(3);
-    console.log('Desbloqueado após 3 segundos');
+<table>
+  <tr>
+    <td><pre><code class="js">function bloquear(segundos) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            console.log("Desbloqueando...")
+            resolve()
+        }, segundos * 1000);
+    });
 }
-iniciar();</code></pre>
+
+console.log('Bloqueando...');
+await bloquear(3);
+console.log('Desbloqueado!');</code></pre></td>
+    <td><pre><code class="js">function esperar(segundos) {
+
+    setTimeout(() => {
+        console.log("Desbloqueando...")
+
+    }, segundos * 1000);
+
+}
+
+console.log('Bloqueando...');
+esperar(3);
+console.log('Desbloqueado!');</code></pre></td>
+  </tr>
+</table>
+
 <p><strong>Explicação:</strong></p>
 <ul>
   <li>O <code>setTimeout</code> é assíncrono por natureza, mas se o colocarmos dentro de uma promessa, podemos usar o recurso <code>async/await</code> para esperar pela promessa ser cumprida.</li>
