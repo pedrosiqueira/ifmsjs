@@ -161,19 +161,16 @@ promessa
 <h2 id="a-fun-o-ass-ncrona-fetch-">A função assíncrona <code>fetch</code></h2>
 <p>A função <code>fetch</code> é usada para fazer requisições HTTP a um servidor, retornando uma <code>Promise</code>. Como a promessa pode demorar a ser cumprida e o <code>fetch</code> é assíncrono, o restante do código continua sua execução sem ficar bloqueado aguardando a promessa. Para testar o <code>fetch</code>, vamos requisitar objetos fictícios do servidor <a target="_blank" href="https://jsonplaceholder.typicode.com/">https://jsonplaceholder.typicode.com/</a>.</p>
 <p>Exemplo:</p>
-<pre><code class="js">function iniciar() {
-  function requisicaoAssincrona() {
-      fetch('https://jsonplaceholder.typicode.com/todos/1')
-          .then((resposta) => resposta.json())
-          .then((dados) => console.log(dados))
-          .catch((erro) => console.error('Erro!', erro));
-  }
-
-  console.log('Antes da requisição');
-  requisicaoAssincrona();
-  console.log('Depois da requisição');
+<pre><code class="js">function requisicaoAssincrona() {
+    fetch('https://jsonplaceholder.typicode.com/todos/1')
+        .then((resposta) => resposta.json())
+        .then((dados) => console.log(dados))
+        .catch((erro) => console.error('Erro!', erro));
 }
-iniciar();</code></pre>
+
+console.log('Antes da requisição');
+requisicaoAssincrona();
+console.log('Depois da requisição');</code></pre>
 
 <p><strong>Explicação:</strong></p>
 <ul>
@@ -189,49 +186,39 @@ iniciar();</code></pre>
 <h2 id="convertendo-c-digo-ass-ncrono-em-s-ncrono-com-async-await-">Convertendo código assíncrono em síncrono com <code>async/await</code></h2>
 <p>O <code>async/await</code> simplifica o uso de <code>Promise</code>s. Ele permite <strong>executar código assíncrono de modo síncrono</strong>.</p>
 <p>Exemplo:</p>
-<pre><code class="js">async function iniciar() {
-    async function requisicaoSincrona() {
-        try {
-            let resposta = await fetch('https://jsonplaceholder.typicode.com/todos/1');
-            let dados = await resposta.json();
-            console.log(dados);
-        } catch (erro) {
-            console.error('Erro!', erro);
-        }
-    }
- 
-    console.log('Antes da requisição');
-    await requisicaoSincrona();
-    console.log('Depois da requisição');
+<pre><code class="js">async function requisicaoSincrona() {
+    let resposta = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+    let dados = await resposta.json();
+    console.log(dados);
 }
-iniciar();</code></pre>
+
+console.log('Antes da requisição');
+await requisicaoSincrona();
+console.log('Depois da requisição');</code></pre>
 <p><strong>Explicação:</strong></p>
 <ul>
   <li>O <code>await</code> pausa a execução até que a <code>Promise</code> seja resolvida.</li>
   <li>O <code>await</code> só pode ser usado dentro de funções declaradas com <code>async</code> ou no nível superior de módulos JavaScript (arquivos <code>.js</code>)<foot-note href='#await-svelte'></foot-note>.</li>
   <li>Tanto o <code>fetch</code> quanto <code>resposta.json()</code> retornam promessas. Mas usando <code>await</code>, esperamos sincronamente a promessa ser cumprida, sem a necessidade do <code>then</code>.</li>
-  <li>O bloco <code>try/catch</code> ajuda a capturar possíveis erros (quebras de promessas).</li>
+  <li>Podemos capturar possíveis erros (quebras de promessas) com o bloco <code>try/catch</code>, que aqui omitimos por simplicidade.</li>
 </ul>
 <div class="info">
-  <p id="await-svelte"><strong>Observação:</strong> Como o código dentro do elemento <code>&lt;script&gt;</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Bad_await#top-level_await" target="_blank">não é considerado um módulo</a> onde <code>await</code> pode ser usado diretamente no nível superior, encapsulamos o código dentro da função <code>async iniciar</code> para conseguirmos usar o <code>await</code>.</p>
+  <p id="await-svelte"><strong>Observação:</strong> Como o código dentro do elemento <code>&lt;script&gt;</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Bad_await#top-level_await" target="_blank">não é considerado um módulo</a>, o <code>await</code> não pode ser usado diretamente no nível superior. Para adaptar esse código para componentes Svelte (arquivos que terminam com <code>.svelte</code>), devemos encapsulá-lo dentro de outra função <code>async</code>.</p>
 </div>
-<p>O que acontece, na linha 13, se você executar a função <code>requisicaoSincrona()</code> sem o <code>await</code>?</p>
+<p>O que acontece, na linha 8, se você executar a função <code>requisicaoSincrona()</code> sem o <code>await</code>?</p>
 <p id="funcao-bloquear">Outro exemplo de código assíncrono sendo executado de modo síncrono:</p>
 <table>
-  <tr>
-    <td><pre><code class="js">function bloquear(segundos) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            console.log("Desbloqueando...")
-            resolve()
-        }, segundos * 1000);
-    });
-}
-
-console.log('Bloqueando...');
-await bloquear(3);
-console.log('Desbloqueado!');</code></pre></td>
-    <td><pre><code class="js">function esperar(segundos) {
+  <thead>
+    <tr>
+      <th>Versão Assíncrona</th>
+      <th>Versão Síncrona</th>
+      <th>Versão Assíncrona novamente</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class="js">function esperar(segundos) {
 
     setTimeout(() => {
         console.log("Desbloqueando...")
@@ -242,8 +229,38 @@ console.log('Desbloqueado!');</code></pre></td>
 
 console.log('Bloqueando...');
 esperar(3);
-console.log('Desbloqueado!');</code></pre></td>
-  </tr>
+console.log('Desbloqueado!');</code></pre>
+      </td>
+      <td>
+        <pre><code class="js">function bloquear(segundos) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            console.log("Desbloqueando...")
+            resolve()
+        }, segundos * 1000);
+    });
+}
+
+console.log('Bloqueando...');
+await bloquear(3);
+console.log('Desbloqueado!');</code></pre>
+      </td>
+      <td>
+        <pre><code class="js">function bloquear(segundos) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            console.log("Desbloqueando...")
+            resolve()
+        }, segundos * 1000);
+    });
+}
+
+console.log('Bloqueando...');
+bloquear(3);
+console.log('Desbloqueado!');</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 <p><strong>Explicação:</strong></p>
