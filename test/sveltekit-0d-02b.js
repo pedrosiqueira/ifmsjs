@@ -8,5 +8,5 @@ function bloquear(segundos) {
 }
 
 console.log('Bloqueando...');
-bloquear(3);
+await bloquear(3);
 console.log('Desbloqueado!');

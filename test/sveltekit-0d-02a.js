@@ -11,7 +11,8 @@ function b(param) {
 }
 
 console.log('antes')
-b('two')
+a('two')
 console.log('durante')
-a('first')
+b('first')
 console.log('depois')
+a('dos')
