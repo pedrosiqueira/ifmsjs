@@ -314,10 +314,15 @@ alert("Já terminou?!");</code></pre>
 
 <h2 id="recapitulando">Recapitulando</h2>
 <ul>
-  <li><code>setTimeout</code> adia funções sem travar o código.</li>
-  <li><code>Promise</code>s ajudam a trabalhar com assincronia.</li>
+  <li><code>setTimeout</code> adia a execução de funções sem bloquear o restante do código.</li>
+  <li><code>Promise</code>s facilitam o trabalho com operações assíncronas.</li>
+  <li>Há duas maneiras de lidar com promessas:
+    <ul>
+      <li>Com <code>then</code>, que executa assincronamente uma função quando a promessa for cumprida.</li>
+      <li>Com <code>async/await</code>, que permite aguardar a promessa ser cumprida antes de continuar a execução.</li>
+    </ul>
+  </li>
   <li><code>fetch</code> faz requisições HTTP e retorna uma <code>Promise</code>.</li>
-  <li><code>async/await</code> facilita o trabalho com código assíncrono.</li>
 </ul>
 <h2 id="exerc-cios">Exercícios</h2>
 <ol class="excs">

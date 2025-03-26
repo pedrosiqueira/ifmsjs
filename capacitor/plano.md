@@ -23,7 +23,7 @@
 
 ### Conversor de Unidades 📏
 - Converte peso, temperatura, distância, etc.
-- Interface simples e intuitiva.
+- O mais completo que conseguir.
 - Funciona offline sem necessidade de APIs externas.
 
 ---
