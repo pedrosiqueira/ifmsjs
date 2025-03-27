@@ -1,409 +1,428 @@
-# SQLite Crash Course Cheat Sheet** with the **top commands** for quick reference
+# **Guia Rápido do SQLite** com os **principais comandos** para referência rápida
 
-This cheat sheet covers the essential SQLite commands you need to interact with your database, create tables, manipulate data, and use key SQL functionalities.
+Este guia cobre os comandos essenciais do SQLite para interagir com o banco de dados, criar tabelas, manipular dados e utilizar funcionalidades-chave do SQL.
 
-### Data Definition Language (DDL)
+---
 
-#### Create Database
+## Linguagem de Definição de Dados (DDL)
 
-SQLite automatically creates a database when you try to open it.
+### Criar Banco de Dados
 
+O SQLite cria automaticamente um banco de dados ao tentar abri-lo.
+
+```sh
+sqlite3 meubanco.db
 ```
-sqlite3 mydatabase.db
-```
 
-#### Create Table
+### Criar Tabela
 
-Create a new table with columns and data types.
+Cria uma nova tabela com colunas e tipos de dados.
 
 ```sql
-CREATE TABLE atable (
-    anumber INTEGER,
-    afloat REAL,
-    atext TEXT,
-    ablob BLOB
+CREATE TABLE umatabela (
+    um_numero INTEGER,
+    um_decimal REAL,
+    um_texto TEXT,
+    um_arquivo BLOB
 );
 ```
 
-#### Alter Table
+### Alterar Tabela
 
-Add a column to an existing table.
+Adicionar uma coluna a uma tabela existente.
 
 ```sql
-ALTER TABLE atable ADD COLUMN id INTEGER;
+ALTER TABLE umatabela ADD COLUMN id INTEGER;
 ```
 
-Add a foreign key column to an existing table.
+Adicionar uma chave estrangeira a uma tabela existente.
 
 ```sql
-ALTER TABLE atable ADD COLUMN atable_id INTEGER REFERENCES atable(id);
+ALTER TABLE umatabela ADD COLUMN umatabela_id INTEGER REFERENCES umatabela(id);
 ```
 
-#### Drop Table
+### Excluir Tabela
 
-Remove a table from the database.
+Remove uma tabela do banco de dados.
 
 ```sql
-DROP TABLE atable;
+DROP TABLE umatabela;
 ```
 
-### SQLite Constraints
+---
 
-#### Primary Key
+## Restrições no SQLite
 
-Define a primary key on a column.
+### Chave Primária
+
+Define uma chave primária para uma coluna.
 
 ```sql
-CREATE TABLE category (
-    label TEXT PRIMARY KEY
+CREATE TABLE categoria (
+    rotulo TEXT PRIMARY KEY
 );
 ```
 
-#### Autoincrement
+### Autoincremento
 
-Use `AUTOINCREMENT` with `INTEGER PRIMARY KEY` to automatically generate unique values.
+Usar `AUTOINCREMENT` com `INTEGER PRIMARY KEY` para gerar valores únicos automaticamente.
 
 ```sql
-CREATE TABLE users (
+CREATE TABLE usuarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL,
+    nome_usuario TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
-    birthdate TEXT,
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+    data_nascimento TEXT,
+    criado_em TEXT DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
-#### Unique Constraint
+### Restrição Única
 
-Ensure all values in a column are unique.
+Garante que todos os valores de uma coluna sejam únicos.
 
 ```sql
-CREATE TABLE users (
+CREATE TABLE usuarios (
     id INTEGER PRIMARY KEY,
     email TEXT UNIQUE
 );
 ```
 
-#### Not Null Constraint
+### Restrição NOT NULL
 
-Ensure a column cannot have `NULL` values.
+Garante que uma coluna não possa ter valores `NULL`.
 
 ```sql
-CREATE TABLE users (
+CREATE TABLE usuarios (
     id INTEGER PRIMARY KEY,
-    username TEXT NOT NULL
+    nome_usuario TEXT NOT NULL
 );
 ```
 
-#### Foreign Key
+### Chave Estrangeira
 
-Define a foreign key to enforce relationships between tables.
+Define uma chave estrangeira para impor relacionamentos entre tabelas.
 
 ```sql
 CREATE TABLE posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
-    body TEXT NOT NULL,
-    user_id INTEGER NOT NULL,
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-    updated_at TEXT DEFAULT CURRENT_TIMESTAMP CHECK(updated_at >= created_at),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    titulo TEXT NOT NULL,
+    conteudo TEXT NOT NULL,
+    usuario_id INTEGER NOT NULL,
+    criado_em TEXT DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em TEXT DEFAULT CURRENT_TIMESTAMP CHECK(atualizado_em >= criado_em),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 ```
 
-#### Check Constraint
+### Restrição CHECK
 
-Add a check to validate data input.
+Adiciona uma validação de dados na entrada.
 
 ```sql
 CREATE TABLE posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    updated_at TEXT DEFAULT CURRENT_TIMESTAMP CHECK(updated_at >= created_at)
+    atualizado_em TEXT DEFAULT CURRENT_TIMESTAMP CHECK(atualizado_em >= criado_em)
 );
 ```
 
-### Data Manipulation Language (DML)
+---
 
-#### Insert Data
+## Linguagem de Manipulação de Dados (DML)
 
-Insert a new record into a table.
+### Inserir Dados
+
+Inserir um novo registro em uma tabela.
 
 ```sql
-INSERT INTO users (username, email) 
+INSERT INTO usuarios (nome_usuario, email)
 VALUES ('maria_silva', 'maria@silva.com.br');
 ```
 
-Insert several records into a table.
+Inserir vários registros de uma vez.
 
 ```sql
-INSERT INTO users (username, email, birthdate)
+INSERT INTO usuarios (nome_usuario, email, data_nascimento)
 VALUES
-    ('francisca_pereira','francisca@pereira.com', '2002-11-05'),
-    ('jose_santos','jose@santos.com', '2004-02-29'),
-    ('joao_souza','joao@souza.com', '2001-12-31'),
+    ('francisca_pereira', 'francisca@pereira.com', '2002-11-05'),
+    ('jose_santos', 'jose@santos.com', '2004-02-29'),
+    ('joao_souza', 'joao@souza.com', '2001-12-31'),
     ('ana_oliveira', 'ana@oliveira.com', '2002-11-05');
 
-INSERT INTO posts (title, body, user_id)
+INSERT INTO posts (titulo, conteudo, usuario_id)
 VALUES
-    ('primeiro artigo','conteúdo do primeiro artigo', '1'),
-    ('segundo artigo','conteúdo do segundo artigo', '2'),
-    ('terceiro artigo','conteúdo do terceiro artigo', '2'),
-    ('quarto artigo','conteúdo do quarto artigo', '1'),
-    ('quinto artigo','conteúdo do quinto artigo', '2');
+    ('primeiro artigo', 'conteúdo do primeiro artigo', 1),
+    ('segundo artigo', 'conteúdo do segundo artigo', 2),
+    ('terceiro artigo', 'conteúdo do terceiro artigo', 2),
+    ('quarto artigo', 'conteúdo do quarto artigo', 1),
+    ('quinto artigo', 'conteúdo do quinto artigo', 2);
 ```
 
-#### Update Data
+### Atualizar Dados
 
-Update an existing record.
+Atualizar um registro existente.
 
 ```sql
-UPDATE posts SET updated_at = '2025-03-28 00:00:00' WHERE id = 1;
+UPDATE posts SET atualizado_em = '2025-03-28 00:00:00' WHERE id = 1;
 ```
 
-#### Delete Data
+### Excluir Dados
 
-Delete a record from the table.
+Excluir um registro de uma tabela.
 
 ```sql
-DELETE FROM users WHERE username = 'maria_silva';
+DELETE FROM usuarios WHERE nome_usuario = 'maria_silva';
 ```
 
-### Data Query Language (DQL)
+---
 
-#### Select Data
+## Linguagem de Consulta de Dados (DQL)
 
-Retrieve data from a table.
+### Selecionar Dados
+
+Recuperar todos os registros de uma tabela.
 
 ```sql
-SELECT * FROM users;
+SELECT * FROM usuarios;
 ```
 
-#### Select Specific Columns
+### Selecionar Colunas Específicas
 
-Retrieve specific columns from a table.
+Recuperar colunas específicas de uma tabela.
 
 ```sql
-SELECT username, email FROM users;
+SELECT nome_usuario, email FROM usuarios;
 ```
 
-#### Where Clause
+### Filtro com WHERE
 
-Filter results based on conditions.
+Filtrar resultados com base em condições.
 
 ```sql
-SELECT * FROM users WHERE username = 'maria_silva';
+SELECT * FROM usuarios WHERE nome_usuario = 'maria_silva';
 ```
 
-#### Order By
+### Ordenação (ORDER BY)
 
-Sort the result set by one or more columns.
+Ordenar os resultados por uma ou mais colunas.
 
-Sort by the `username` column in ascending order (default).
+Ordenar por `nome_usuario` em ordem ascendente (padrão).
 
 ```sql
-SELECT * FROM users ORDER BY username;
+SELECT * FROM usuarios ORDER BY nome_usuario;
 ```
 
-Sort by the `birthdate` column in descending order.
+Ordenar por `data_nascimento` em ordem descendente.
 
 ```sql
-SELECT * FROM users ORDER BY birthdate DESC;
+SELECT * FROM usuarios ORDER BY data_nascimento DESC;
 ```
 
-Sort first by `birthdate` in descending order, then by `email` in ascending order.
+Ordenar primeiro por `data_nascimento` em ordem descendente e, em seguida, por `email` em ordem ascendente.
 
 ```sql
-SELECT * FROM users ORDER BY birthdate DESC, email ASC;
+SELECT * FROM usuarios ORDER BY data_nascimento DESC, email ASC;
 ```
 
-#### Pagination
+### Paginação (LIMIT e OFFSET)
 
-Retrieve the first 10 users.
+Recuperar os primeiros 10 usuários.
 
 ```sql
-SELECT * FROM users LIMIT 10;
+SELECT * FROM usuarios LIMIT 10;
 ```
 
-To skip the first 10 users and retrieve the next 10, you can use `LIMIT` with `OFFSET`.
+Pular os primeiros 10 usuários e recuperar os próximos 10.
 
 ```sql
-SELECT * FROM users LIMIT 10 OFFSET 10;
+SELECT * FROM usuarios LIMIT 10 OFFSET 10;
 ```
 
-#### Order By and Pagination Together
+### Ordenação e Paginação Juntas
 
-Retrieve users sorted by `username` in ascending order, and paginate the results to get the first 10 users.
+Ordenar usuários pelo `nome_usuario` e paginar os resultados para obter os primeiros 10 registros.
 
 ```sql
-SELECT * FROM users ORDER BY username ASC LIMIT 10 OFFSET 0;
+SELECT * FROM usuarios ORDER BY nome_usuario ASC LIMIT 10 OFFSET 0;
 ```
 
-Retrieve users sorted by `username` in ascending order and paginate through the pages.
+Paginação por páginas:
 
 ```sql
--- Page 1
-SELECT * FROM users ORDER BY username ASC LIMIT 10 OFFSET 0;
+-- Página 1
+SELECT * FROM usuarios ORDER BY nome_usuario ASC LIMIT 10 OFFSET 0;
 
--- Page 2
-SELECT * FROM users ORDER BY username ASC LIMIT 10 OFFSET 10;
+-- Página 2
+SELECT * FROM usuarios ORDER BY nome_usuario ASC LIMIT 10 OFFSET 10;
 
--- Page 3
-SELECT * FROM users ORDER BY username ASC LIMIT 10 OFFSET 20;
+-- Página 3
+SELECT * FROM usuarios ORDER BY nome_usuario ASC LIMIT 10 OFFSET 20;
 ```
 
-### Joins
+---
 
-#### Inner Join
+## Joins (Junções de Tabelas)
 
-Combine rows from two tables based on a condition.
+### INNER JOIN
+
+Combinar registros de duas tabelas com base em uma condição.
 
 ```sql
-SELECT posts.title, users.username
-FROM users
-INNER JOIN posts ON users.id = posts.user_id;
+SELECT posts.titulo, usuarios.nome_usuario
+FROM usuarios
+INNER JOIN posts ON usuarios.id = posts.usuario_id;
 ```
 
-#### Left Join
+### LEFT JOIN
 
-Return all rows from the left table, and matching rows from the right table.
+Retornar todos os registros da tabela à esquerda e os correspondentes da direita.
 
 ```sql
-SELECT posts.title, users.username
-FROM users
-LEFT JOIN posts ON users.id = posts.user_id;
+SELECT posts.titulo, usuarios.nome_usuario
+FROM usuarios
+LEFT JOIN posts ON usuarios.id = posts.usuario_id;
 ```
 
-#### Right Join
+### RIGHT JOIN (Simulado)
 
-Return all rows from the right table, and matching rows from the left table. (SQLite doesn't support `RIGHT JOIN`, but you can achieve similar results using `LEFT JOIN` by switching the table order.)
+O SQLite não suporta `RIGHT JOIN`, mas é possível inverter a ordem das tabelas usando `LEFT JOIN`.
 
 ```sql
-SELECT posts.title, users.username
+SELECT posts.titulo, usuarios.nome_usuario
 FROM posts
-LEFT JOIN users ON users.id = posts.user_id;
+LEFT JOIN usuarios ON usuarios.id = posts.usuario_id;
 ```
 
-### Aggregates & Grouping
+---
 
-#### Count
+## Agregação e Agrupamento
 
-Count the number of rows.
+### Contagem
+
+Conta o número de linhas.
 
 ```sql
-SELECT COUNT(*) FROM users;
+SELECT COUNT(*) FROM usuarios;
 ```
 
-#### Group By
+### Agrupar por
 
-Group rows based on column(s).
+Agrupa linhas com base em uma ou mais colunas.
 
 ```sql
-SELECT user_id, COUNT(*) FROM posts GROUP BY user_id;
+SELECT usuario_id, COUNT(*) FROM posts GROUP BY usuario_id;
 ```
 
-#### Sum
+### Soma
 
-Sum the values in a column.
+Soma os valores de uma coluna.
 
 ```sql
-SELECT SUM(amount) FROM orders;
+SELECT SUM(total) FROM pedidos;
 ```
 
-#### Max/Min
+### Máximo/Mínimo
 
-Find the maximum or minimum value in a column.
+Encontra o maior ou menor valor em uma coluna.
 
 ```sql
-SELECT MAX(birthdate) FROM users;
-SELECT MIN(birthdate) FROM users;
+SELECT MAX(data_nascimento) FROM usuarios;
+SELECT MIN(data_nascimento) FROM usuarios;
 ```
 
-### Transactions
+## Transações
 
-#### Begin Transaction
+### Iniciar Transação
 
-Start a transaction.
+Inicia uma transação.
 
 ```sql
 BEGIN TRANSACTION;
 ```
 
-#### Commit
+### Confirmar
 
-Commit the current transaction.
+Confirma a transação atual.
 
 ```sql
 COMMIT;
 ```
 
-#### Rollback
+### Reverter
 
-Rollback the current transaction.
+Desfaz a transação atual.
 
 ```sql
 ROLLBACK;
 ```
 
+---
 
-### Indexing & Performance
+## Índices e Otimização
 
-#### Create Index
+### Criar Índice
 
-Create an index to speed up queries.
-
-```sql
-CREATE INDEX idx_username ON users (username);
-```
-
-#### Drop Index
-
-Remove an index.
+Criar um índice para acelerar as consultas.
 
 ```sql
-DROP INDEX idx_username;
+CREATE INDEX idx_nome_usuario ON usuarios (nome_usuario);
 ```
 
-### Exporting & Importing Data
+### Remover Índice
 
-#### Export to SQL file
+Excluir um índice existente.
 
-Export the database content into an SQL file.
+```sql
+DROP INDEX idx_nome_usuario;
+```
+
+---
+
+### Exportando e Importando Dados
+
+#### Exportando para arquivo SQL
+
+Exportar o banco de dados para um arquivo SQL.
 
 ```sql
 .output dump.sql
 .dump
 ```
 
-#### Import from SQL file
+#### Importando de arquivo SQL
 
-Import SQL file into the database.
+Importando o banco de dados de um arquivo SQL.
 
 ```sql
 .read dump.sql
 ```
 
-### SQLite Shell Commands
+---
 
-#### List Tables
+## Comandos do SQLite Shell
 
-Display all tables in the database.
+### Listar Tabelas
+
+Mostrar todas as tabelas do banco de dados.
 
 ```sql
 .tables
 ```
 
-#### Show Schema
+### Exibir Estrutura da Tabela
 
-Show the schema (structure) of a table.
+Mostrar a estrutura de uma tabela.
 
 ```sql
-.schema users
+.schema usuarios
 ```
 
-#### Exit SQLite
+### Sair do SQLite
 
-Exit the SQLite shell.
+Sai do SQLite Shell.
 
 ```sql
 .exit
 ```
+
+---
