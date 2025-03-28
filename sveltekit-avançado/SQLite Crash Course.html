@@ -996,108 +996,21 @@ CREATE UNIQUE INDEX email_idx ON usuarios(email);</code></pre>
     </tbody>
 </table>
 <hr>
-<h3 id="exportando-e-importando-dados">Exportando e Importando Dados</h3>
-<h4 id="exportando-para-arquivo-sql">Exportando para arquivo SQL</h4>
-<p>Exportar o banco de dados para um arquivo SQL.</p>
-<table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>.output dump.sql
-.dump</code></pre>
-            </td>
-            <td>
-                <pre><code></code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<h4 id="importando-de-arquivo-sql">Importando de arquivo SQL</h4>
-<p>Importando o banco de dados de um arquivo SQL.</p>
-<table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>.read dump.sql</code></pre>
-            </td>
-            <td>
-                <pre><code></code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<hr>
 <h2 id="comandos-do-sqlite-shell">Comandos do SQLite Shell</h2>
-<h3 id="listar-tabelas">Listar Tabelas</h3>
-<p>Mostrar todas as tabelas do banco de dados.</p>
-<table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>.tables</code></pre>
-            </td>
-            <td>
-                <pre><code></code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<h3 id="exibir-estrutura-da-tabela">Exibir Estrutura da Tabela</h3>
-<p>Mostrar a estrutura de uma tabela.</p>
-<table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>.schema usuarios</code></pre>
-            </td>
-            <td>
-                <pre><code></code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<h3 id="sair-do-sqlite">Sair do SQLite</h3>
+<p>Exporta o banco de dados para um arquivo SQL.</p>
+<pre><code class='sql'>.output dump.sql
+.dump</code></pre>
+
+<p>Importa o banco de dados de um arquivo SQL.</p>
+<pre><code class='sql'>.read dump.sql</code></pre>
+
+<p>Mostra todas as tabelas do banco de dados.</p>
+<pre><code class='sql'>.tables</code></pre>
+
+<p>Mostra a estrutura de uma tabela.</p>
+<pre><code class='sql'>.schema usuarios</code></pre>
+
 <p>Sai do SQLite Shell.</p>
-<table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>.exit</code></pre>
-            </td>
-            <td>
-                <pre><code></code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
+
+<pre><code class='sql'>.exit</code></pre>
 <hr>
