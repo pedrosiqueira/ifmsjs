@@ -337,6 +337,30 @@ alert("Já terminou?!");</code></pre>
       <li>Adapte o código para permitir que o usuário escolha a quantidade de segundos.</li>
     </ol>
   </li>
+  <p>Solução incompleta:</p>
+  <pre><code class="svelte">&lt;script&gt;
+    let contador = $state(10);
+
+    function bloquear(segundos) {
+        return new Promise((resolve) =&gt; {
+            setTimeout(() =&gt; {
+                console.log('Desbloqueando...');
+                resolve();
+            }, segundos * 1000);
+        });
+    }
+&lt;/script&gt;
+
+&lt;div class=&quot;text-center&quot;&gt;
+    &lt;h3&gt;Contador regressivo&lt;/h3&gt;
+    &lt;p&gt;
+        {#if contador &gt; 0}
+            {contador}...
+        {:else}
+            Feliz {new Date().toLocaleDateString()}!
+        {/if}
+    &lt;/p&gt;
+&lt;/div&gt;</code></pre>
   <li>Crie as seguintes funções que façam requisições ao serviço <a target="_blank" href="https://jsonplaceholder.typicode.com">https://jsonplaceholder.typicode.com</a>:
     <ol class="excs">
       <li>Buscar usuários e exibir apenas os nomes.</li>
@@ -344,6 +368,38 @@ alert("Já terminou?!");</code></pre>
       <li>Buscar um usuário por ID e exibir os títulos de suas postagens.</li>
       <li>Buscar usuários por e-mail e exibir os títulos de suas postagens.</li>
       <li>Buscar uma postagem por ID e exibir seu título, conteúdo e comentários.</li>
+      <p>Possível solução:</p>
+      <pre><code class="sve">&lt;script&gt;
+    let idPostagem = $state();
+    let postagem = $state();
+    let comentarios = $state();
+
+    async function buscarPostagem() {
+        let resposta = await fetch(`https://jsonplaceholder.typicode.com/posts/${idPostagem}`);
+        postagem = await resposta.json();
+
+        let resposta2 = await fetch(`https://jsonplaceholder.typicode.com/posts/${idPostagem}/comments`);
+        comentarios = await resposta2.json();
+    }
+&lt;/script&gt;
+
+&lt;form onsubmit={buscarPostagem}&gt;
+    &lt;input type=&quot;number&quot; placeholder=&quot;ID da postagem&quot; bind:value={idPostagem} /&gt;
+    &lt;button&gt;Buscar postagem&lt;/button&gt;
+&lt;/form&gt;
+{#if postagem}
+    &lt;h2&gt;{postagem.title}&lt;/h2&gt;
+    &lt;p&gt;{postagem.body}&lt;/p&gt;
+
+    &lt;h3&gt;Coment&aacute;rios&lt;/h3&gt;
+    &lt;ul&gt;
+        {#each comentarios as comentario}
+            &lt;li&gt;
+                &lt;p&gt;&lt;strong&gt;{comentario.email} escreveu:&lt;/strong&gt; {comentario.body}&lt;/p&gt;
+            &lt;/li&gt;
+        {/each}
+    &lt;/ul&gt;
+{/if}</code></pre>
       <li>Buscar usuários por cidade.</li>
     </ol>
   </li>
