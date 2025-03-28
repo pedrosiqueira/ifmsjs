@@ -10,22 +10,8 @@ function b() {
     console.log('terceiro')
 }
 
-
-// console.log("Qual a saída deste código?")
-console.log("Qual a saída deste código?")
-
 console.log('antes')
 b()
 console.log('durante')
 a()
 console.log('depois')
-
-
-// console.log("Qual a saída deste código?");
-console.log("Qual a saída deste código?");
-
-a()
-console.log('antes')
-console.log('durante')
-console.log('depois')
-a()

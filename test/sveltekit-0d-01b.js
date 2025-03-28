@@ -1,10 +1,17 @@
-function requisicaoAssincrona() {
-    fetch('https://jsonplaceholder.typicode.com/todos/1')
-        .then((resposta) => resposta.json())
-        .then((dados) => console.log(dados))
-        .catch((erro) => console.error('Erro!', erro));
+function a() {
+    console.log('um')
+    console.log('dois')
+    console.log('três')
 }
 
-console.log('Antes da requisição');
-requisicaoAssincrona();
-console.log('Depois da requisição');
+function b() {
+    console.log('primeiro')
+    console.log('segundo')
+    console.log('terceiro')
+}
+
+a()
+console.log('antes')
+console.log('durante')
+console.log('depois')
+a()
