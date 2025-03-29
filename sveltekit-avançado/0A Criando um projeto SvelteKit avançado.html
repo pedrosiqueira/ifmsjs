@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script> -->
+    <!-- <script defer>hljs.highlightLinesAll([[], [], [], [{ start: 3, end: 3, color: 'lightgreen' }]]);</script> -->
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Criando um projeto SvelteKit avançado</h1>
+<p>No capítulo 01, <a href="./01 Preparando o ambiente de desenvolvimento.html#executando-script">executamos um script</a> que preparava o ambiente, baixava o projeto e o configurava automaticamente, deixando tudo pronto para uso. Para quem deseja se aprofundar, este capítulo mostra os detalhes omitidos do capítulo anterior.
+
+<p>Aqui faremos o passo a passo de como criar e configurar um projeto SvelteKit do zero. Para isso, você já precisa ter os <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando">programas necessários</a> instalados.</p>
+
+<p>O SvelteKit é um framework para desenvolvimento de aplicativos web que utiliza exclusivamente HTML, CSS e JavaScript. Ele proporciona uma abordagem simples e eficiente para a construção de aplicativos modernos, robustos e de alto desempenho.</p>
+
+<p>Você pode acompanhar essa <a href="https://www.youtube.com/watch?v=TiT7TlAWDEs&list=PLcZDQl73nB1ACZdEAd_wNbY0tB_QutcH3&index=2">assistindo a esse vídeo</a>.</p>
+
+
+<h2>Preparando o ambiente</h2>
+<p>Tenha certeza de ter instalado o Node.js, o Git e o VS Code, conforme exposto no tutorial <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando">Instalando o ambiente de execução Javascript</a>.</p>
+
+<p>Como utilizaremos o vscode para desenvolver nosso projeto, vamos instalar algumas extensões para nos auxiliar no desenvolvimento. Execute os seguintes comandos no terminal:</p>
+
+<pre><code class="sh">code --install-extension VisualStudioExptTeam.vscodeintellicode
+code --install-extension dbaeumer.vscode-eslint
+code --install-extension xabikos.JavaScriptSnippets
+code --install-extension christian-kohler.npm-intellisense
+code --install-extension christian-kohler.path-intellisense
+code --install-extension svelte.svelte-vscode</code></pre>
+
+<h2 id="criando-projeto">Criando o projeto do zero</h2>
+<p>Conforme as instruções na documentação do <a href="https://svelte.dev/docs/kit/creating-a-project">Svelte</a>, para criar um projeto SvelteKit, podemos usar o npm, que é o gerenciador de pacotes padrão do Node. Mas eu pessoalmente prefiro o gerenciador de pacotes <a href="https://pnpm.io/">pnpm</a> por ser mais ágil e ocupar menos espaço que o npm. Os comandos do pnpm, se não idênticos, são similares aos do npm. Para saber mais sobre as diferenças entre os comandos do pnpm e npm, <a href="https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8">clique aqui</a>. Para instalar o pnpm, execute <code ctc>npm install -g pnpm</code>.</p>
+<div class="info">
+    <p>Observação: Se no PowerShell aparecer a mensagem de erro “A execução de scripts foi desabilitada neste sistema”, é porque, por padrão, o Windows bloqueia a execução de scripts por motivos de segurança. Para habilitar a execução de scripts, execute:</p>
+    <pre><code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code></pre>
+    <p>Tecle <kbd>A</kbd> e <kbd>Enter</kbd> para confirmar. Em seguida, execute <code ctc>npm install -g pnpm</code> para instalar o pnpm.</p>
+</div>
+<div class="info">
+    <p>Dica: No terminal, você pode navegar entre os comandos já executados usando as teclas direcionais para cima e para baixo.</p>
+</div>
+
+<p>Com o pnpm instalado, abra o terminal na pasta onde deseja criar o projeto e execute os seguintes comandos:</p>
+<pre><code class="sh">pnpm dlx sv create meu-projeto-sveltekit
+cd meu-projeto-sveltekit
+pnpm install
+code -r .</code></pre>
+
+<p>Esses comandos fazem respectivamente: (1) cria um projeto SvelteKit com o nome <code>meu-projeto-sveltekit</code>; (2) abre a pasta do projeto no terminal; (3) instala os pacotes que o projeto depende; e (4) abre a pasta do projeto no vscode.</p>
+
+<p>Quando solicitado, escolha as seguintes opções:</p>
+<pre>┌  Welcome to the Svelte CLI! (v0.5.7)
+│
+◇  Which template would you like?
+│  SvelteKit minimal
+│
+◇  Add type checking with Typescript?
+│  No
+│
+◆  Project created
+│
+◇  What would you like to add to your project?
+│  prettier, eslint
+│
+◇  Which package manager do you want to install dependencies with?
+│  pnpm</pre>
+
+<h2 id="o-arquivo-package.json">O arquivo package.json</h2>
+<p>Todo projeto criado com npm (ou pnpm) inclui o arquivo <code>package.json</code>, que contém propriedades do projeto, como nome, versão, descrição e os pacotes dos quais ele depende para ser executado. Nosso projeto SvelteKit inclui, obviamente, alguns pacotes do Svelte, além dos seguintes pacotes:</p>
+<ul>
+    <li><strong>ESLint</strong>: Uma ferramenta de análise estática para JavaScript e TypeScript que ajuda a encontrar e corrigir problemas no código. Ela é amplamente usada para garantir qualidade, padronização e evitar erros comuns.</li>
+    <li><strong>Prettier</strong>: Um formatador de código automático para JavaScript, TypeScript, HTML, CSS, JSON e outras linguagens. Ele é usado para garantir que o código siga um estilo consistente, eliminando a necessidade de ajustes manuais.</li>
+</ul>
+<p>A propriedade <code>scripts</code> do arquivo <code>package.json</code> define atalhos para comandos que podem ser executados no projeto usando <code>pnpm run &lt;nome_do_script&gt;</code>. Os <a href="https://svelte.dev/docs/kit/cli#svelte-kit-sync">principais comando</a> em um projeto SvelteKit são:</p>
+<ul>
+    <li><strong><code>pnpm run dev</code></strong>: Executa o projeto no modo <strong>desenvolvimento</strong>. Possui o recurso “hot reload”, que atualiza automaticamente as mudanças no código sem precisar reiniciar o servidor. Além disso, fornece mensagens de erro mais detalhadas para facilitar a depuração.</li>
+    <li><strong><code>pnpm run build</code></strong>: Compila o projeto para <strong>produção</strong>. Esse comando procura por erros e gera a pasta <code>build</code> com os arquivos otimizados e minimizados. Essa pasta contém a versão final do projeto, que será publicada em um servidor de produção real, onde será acessada pelos usuários finais.</li>
+    <li><strong><code>pnpm run preview</code></strong>: Executa o projeto compilado na pasta <code>build</code>, simulando o comportamento em um ambiente de produção.</li>
+    <li><strong><code>pnpm run format</code></strong>: Formata o código automaticamente com Prettier, corrigindo espaçamentos e estilo.</li>
+    <li><strong><code>pnpm run lint</code></strong>: Procura por inconsistências, erros e sugestões no código.</li>
+</ul>
+<p>Além desses comandos definidos no arquivo <code>package.json</code>, também há outros comandos, como o <code>pnpm install</code>, que instala os pacotes necessários do projeto. Esse comando deve ser executado sempre que um novo pacote for adicionado ao projeto ou quando o repositório for clonado em uma nova máquina, garantindo que todas as dependências especificadas no <code>package.json</code> sejam corretamente instaladas.</p>
+<p>No terminal, execute <code ctc>pnpm run dev</code> para iniciar o projeto em modo desenvolvimento. Depois que ele terminar de carregar, aparecerá o link <a href="http://localhost:5173" target="_blank">http://localhost:5173</a>, que você pode copiar e colar no navegador web para ver o site em funcionamento.</p>
+<p>Para encerrar a execução do site, você pode voltar ao terminal e teclar Ctrl+C. Agora, se você voltar ao navegador e atualizar a página, verá que o site estará fora do ar.</p>
+<p>Se quiser executar o site simplesmente teclando F5, sem precisar digitar nada no terminal, crie o arquivo <code ctc>.vscode/launch.json</code> com o seguinte código:</p>
+
+<pre><code class="json">{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run development server",
+            "request": "launch",
+            "command": "pnpm run dev",
+            "type": "node-terminal"
+        }
+    ]
+}</code></pre>
+
+<p>A descrição de cada propriedade é:</p>
+<ul>
+    <li><code>"name": "Run development server"</code>: Nome da configuração, que aparece na aba de execução (atalho <kbd>Ctrl+Shift+D</kbd>).</li>
+    <li><code>"request": "launch"</code>: Executa um comando.</li>
+    <li><code>"command": "pnpm run dev"</code>: O comando a ser executado.</li>
+    <li><code>"type": "node-terminal"</code>: Executa o comando no terminal integrado.</li>
+</ul>
+
+<h2 id="estrutura-do-projeto">Estrutura do Projeto</h2>
+<p>Inicialmente, um projeto SvelteKit já vem com uma estrutura básica configurada, contendo diversos arquivos essenciais. A <a href="https://svelte.dev/docs/kit/project-structure">documentação oficial</a> detalha a organização dessas pastas e arquivos.</p>
+<p>Mas o que importa para nós é a pasta <code>src</code> (de <i>source</i>, ou código-fonte). Como o nome sugere, é nela que reside todo o código-fonte do aplicativo. Dentro dela, encontram-se duas pastas principais:</p>
+<ul>
+    <li><code>routes</code> - onde ficam as páginas do site.</li>
+    <li><code>lib</code> - (de <i>library</i>, oubiblioteca), onde ficam códigos utilitários ou componentes genéricos que as páginas em <code>routes</code> podem utilizar.</li>
+</ul>
+<p>Além da pasta <code>src</code>, há também a pasta <code>static</code>, onde residem arquivos estáticos, como imagens, fontes e estilos CSS.</p>
+<p>Já a pasta <code>node_modules</code> contém os pacotes dos quais o projeto depende. Essa pasta é gerenciada automaticamente pelo pnpm, e você não precisa (nem deve) modificá-la manualmente.</p>
+
+<h2 id="navegando-entre-as-páginas">Navegando Entre as Páginas</h2>
+<p>O arquivo <code>src/routes/+page.svelte</code> representa a página inicial do site. Abra esse arquivo e modifique-o para o seguinte conteúdo:</p>
+<pre><code class="html">&lt;p&gt;Bem-vindo ao meu site! Saiba mais &lt;a href=&quot;/sobre&quot;&gt;clicando aqui&lt;/a&gt;.&lt;/p&gt;</code></pre>
+
+<p>Colocamos um link para a página “sobre”, que ainda não existe, mas vamos criá-la agora. Crie o arquivo <code ctc>src/routes/sobre/+page.svelte</code> com o seguinte conteúdo:</p>
+<pre><code class="html">&lt;p&gt;Aprendendo SvelteKit. &lt;a href=&quot;/&quot;&gt;Clique aqui&lt;/a&gt; para voltar à página inicial.&lt;/p&gt;</code></pre>
+
+<p>No sistema de navegação do SvelteKit, a barra (<code>/</code>) representa a página inicial, definida pelo arquivo <code>src/routes/+page.svelte</code>, enquanto <code>/sobre</code> corresponde à página "Sobre", definida pelo arquivo <code>src/routes/sobre/+page.svelte</code>. Normalmente, cada pasta dentro de <code>routes</code> contém um arquivo <code>+page.svelte</code>, que define a página acessível pelo respectivo caminho no navegador. Diferente do convencional, as páginas no SvelteKit não possuem a extensão <code>.html</code>, mas sim <code>.svelte</code>.</p>
+
+<h2 id="o-arquivo-srcapp.html">O Arquivo src/app.html</h2>
+<p>Você pode estar se perguntando: onde estão os elementos <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code> e <code>&lt;body&gt;</code> que normalmente compõem uma página? É que, no SvelteKit, a estrutura da página é organizada de maneira diferente para otimizar o desenvolvimento e garantir uma experiência mais flexível. Em vez de definir os elementos <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code> e <code>&lt;body&gt;</code> em cada arquivo de página <code>.svelte</code>, o SvelteKit utiliza um template único, o <code>app.html</code>, localizado na pasta <code>src</code>.</p>
+<p>O <code>app.html</code> serve como o esqueleto base para todas as páginas do site. Nele, estão definidos os elementos <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code> e <code>&lt;body&gt;</code>. Dessa forma, o SvelteKit centraliza o gerenciamento dessas partes da página e permite que você se concentre apenas no conteúdo e na lógica específica de cada página.</p>
+<p>Assim, ao invés de repetir a estrutura básica em cada arquivo de página, o SvelteKit garante que todo o site siga um padrão consistente, enquanto você tem flexibilidade para personalizar o conteúdo dentro da área do <code>&lt;body&gt;</code> por meio dos arquivos <code>.svelte</code>. Isso também facilita a inclusão de meta tags, títulos e links globais no <code>&lt;head&gt;</code>, como o título da página ou folhas de estilo, de forma centralizada.</p>
