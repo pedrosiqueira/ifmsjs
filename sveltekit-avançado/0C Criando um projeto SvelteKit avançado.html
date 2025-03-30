@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script> -->
+    <!-- <script defer>hljs.highlightLinesAll([[], [], [], [{ start: 3, end: 3, color: 'lightgreen' }]]);</script> -->
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Criando um projeto SvelteKit + DrizzleORM + LuciaAuth</h1>
+<p>Neste tutorial criaremos e configuraremos um projeto SvelteKit + DrizzleORM + LuciaAuth do zero. Para isso, você já precisa ter os <a target="_blank" href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando">programas necessários</a> instalados.</p>
+
+<p>Se em vez de criar e configurar passo a passo o projeto, você já quiser baixar o projeto pronto para uso, pode seguir o capítulo <a target="_blank" href="./01 Preparando o ambiente de desenvolvimento.html#executando-script">Preparando o ambiente de desenvolvimento</a>.</p>
+
+<p>Se você já seguiu o tutorial <a target="_blank" href="../sveltekit/0A Criando um projeto SvelteKit.html">Criando um projeto SvelteKit</a>, então já está familiarizado com o que faremos aqui. A diferença é que neste projeto avançado, além do SvelteKit, também instalaremos o pacote <a target="_blank" href="https://orm.drizzle.team/">DrizzleORM</a> para trabalhar com banco de dados e o projeto <a target="_blank" href="https://lucia-auth.com/">Lucia Auth</a> para trabalhar com autenticação e autorização.</p>
+
+<h2>Preparando o ambiente</h2>
+<p>Tenha certeza de ter instalado o Node.js, o Git e o VS Code, conforme exposto no tutorial <a target="_blank" href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando">Instalando o ambiente de execução Javascript</a>.</p>
+
+<p>Como utilizaremos o vscode para desenvolver nosso projeto, vamos instalar algumas extensões para nos auxiliar no desenvolvimento. Execute os seguintes comandos no terminal:</p>
+
+<pre><code class="sh">code --install-extension VisualStudioExptTeam.vscodeintellicode
+code --install-extension dbaeumer.vscode-eslint
+code --install-extension xabikos.JavaScriptSnippets
+code --install-extension christian-kohler.npm-intellisense
+code --install-extension christian-kohler.path-intellisense
+code --install-extension svelte.svelte-vscode</code></pre>
+
+<h2 id="criando-projeto">Criando o projeto do zero</h2>
+<p>Conforme as instruções na documentação do <a target="_blank" href="https://svelte.dev/docs/kit/creating-a-project">Svelte</a>, para criar um projeto SvelteKit, podemos usar o npm, que é o gerenciador de pacotes padrão do Node. Mas eu pessoalmente prefiro o gerenciador de pacotes <a target="_blank" href="https://pnpm.io/">pnpm</a> por ser mais ágil e ocupar menos espaço que o npm. Os comandos do pnpm, se não idênticos, são similares aos do npm. Para saber mais sobre as diferenças entre os comandos do pnpm e npm, <a target="_blank" href="https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8">clique aqui</a>. Para instalar o pnpm, execute no terminal:</p>
+<pre><code class="sh">npm install -g pnpm</code></pre>
+<div class="info">
+    <p>Observação: Se no PowerShell aparecer a mensagem de erro “A execução de scripts foi desabilitada neste sistema”, é porque, por padrão, o Windows bloqueia a execução de scripts por motivos de segurança. Para habilitar a execução de scripts, execute:</p>
+    <pre><code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code></pre>
+    <p>Tecle <kbd>A</kbd> e <kbd>Enter</kbd> para confirmar. Em seguida, execute <code ctc>npm install -g pnpm</code> para instalar o pnpm.</p>
+</div>
+<div class="info">
+    <p>Dica: No terminal, você pode navegar entre os comandos já executados usando as teclas direcionais para cima e para baixo.</p>
+</div>
+
+<p>Com o pnpm instalado, abra o terminal <strong>na pasta onde deseja criar o projeto</strong> e execute os seguintes comandos:</p>
+<pre><code class="sh">pnpm dlx sv create meu-projeto-sveltekit-avancado
+cd meu-projeto-sveltekit-avancado
+pnpm install
+code -r .</code></pre>
+
+<p>Esses comandos fazem respectivamente: (1) cria um projeto SvelteKit com o nome <code>meu-projeto-sveltekit-avancado</code>; (2) abre a pasta do projeto no terminal; (3) instala os pacotes que o projeto depende; e (4) abre a pasta do projeto no vscode.</p>
+
+<p>Quando solicitado, escolha as seguintes opções:</p>
+<pre>┌  Welcome to the Svelte CLI! (v0.7.1)
+│
+◇  Which template would you like?
+│  SvelteKit minimal
+│
+│
+◆  Project created
+│
+◇  What would you like to add to your project? (use arrow keys / space bar)
+│  prettier, eslint, drizzle, lucia
+│
+◇  drizzle: Which database would you like to use?
+│  SQLite
+│
+◇  drizzle: Which SQLite client would you like to use?
+│  libSQL
+│
+◇  lucia: Do you want to include a demo? (includes a login/register page)
+│  No
+│
+◆  Successfully setup add-ons
+│
+◇  Which package manager do you want to install dependencies with?
+│  pnpm
+└</pre>
+
+<h2 id="o-arquivo-package.json">O arquivo package.json</h2>
+<p>Além dos pacotes já citados no tutorial <a href="../sveltekit/0A Criando um projeto SvelteKit.html#o-arquivo-package.json">Criando um projeto SvelteKit</a> simples, neste projeto avançado também temos os seguintes pacotes:</p>
+
+<ul>
+    <li><code>dependencies</code> (Dependências usadas no ambiente de produção):
+        <ul>
+            <li><code>drizzle-orm</code>: Biblioteca de mapeamento objeto-relacional (ORM) usado para interagir com bancos de dados SQL. Ele fornece uma API baseada em SQL, permitindo escrever consultas seguras e eficientes.</li>
+            <li><code>@libsql/client</code>: Um <i>driver</i> para JavaScript que permite conectar-se a bancos de dados SQLite.</li>
+            <li>Pacotes do Lucia Auth:
+                <ul>
+                    <li><code>@oslojs/crypto</code>: Biblioteca de funções para <i>hashing</i> e <i>criptografia</i>, usadas para gerar senhas e verificar senhas seguras.</li>
+                    <li><code>@oslojs/encoding</code>: Biblioteca de codificação e decodificação de dados, incluindo <i>Base64</i> e <i>hexadecimal</i>, usadas para manipulação segura de tokens, senhas e dados sensíveis.</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><code>devDependencies</code> (Dependências usadas apenas no ambiente de desenvolvimento):
+        <ul>
+            <li><code>drizzle-kit</code>: Ferramenta CLI para gerenciamento de migrações no Drizzle ORM. Permite gerar e aplicar migrações no banco de dados com comandos simples, além de introspecção de esquemas.</li>
+        </ul>
+    </li>
+</ul>
+
+<p>Além dos <a href="../sveltekit/0A Criando um projeto SvelteKit.html#principais-comandos-sveltekit">comandos SvelteKit</a> definidos no arquivo <code>package.json</code>, também estão inclusos os seguintes comandos do DrizzleKit:</p>
+<ul>
+    <li>
+        <p><code>pnpm run db:push</code>:</p>
+        <ul>
+            <li>Aplica o esquema do Drizzle diretamente no banco de dados <strong>sem gerar um arquivo de migração</strong>.</li>
+            <li><strong>Uso comum</strong>: Quando você quer <strong>atualizar o banco diretamente</strong> sem versionar mudanças.</li>
+            <li><strong>Cuidado!</strong> Isso pode sobrescrever alterações existentes no banco de dados.</li>
+        </ul>
+    </li>
+    <li>
+        <p><code>pnpm run db:migrate</code>:</p>
+        <ul>
+            <li><strong>Aplica migrações pendentes</strong> ao banco de dados.</li>
+            <li>Antes de rodar esse comando, é necessário gerar as migrações (<code>drizzle-kit generate</code>).</li>
+            <li><strong>Uso comum</strong>: Quando você quer <strong>garantir a consistência do banco</strong> ao longo do tempo.</li>
+        </ul>
+    </li>
+    <li>
+        <p><code>pnpm run db:studio</code>:</p>
+        <ul>
+            <li>Inicia um servidor web local com <strong>interface visual interativa</strong> para explorar e gerenciar o banco de dados.</li>
+            <li>Permite visualizar tabelas, executar consultas e depurar dados <strong>diretamente pelo navegador</strong>.</li>
+            <li><strong>Uso comum</strong>: Quando você quer <strong>inspecionar ou modificar dados manualmente</strong> sem usar SQL diretamente.</li>
+        </ul>
+    </li>
+</ul>
+

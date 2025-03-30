@@ -12,7 +12,7 @@ Para acompanhar essa aula, acesse o site <https://pedrosiqueira.github.io/ifmsjs
 
 ## Preparando o Ambiente
 
-Abra o terminal na pasta onde deseja criar o projeto. No meu caso, vou criar o projeto na área de trabalho. Para isso, no Windows, abra o Explorador de Arquivos, acesse a Área de Trabalho, clique em "Arquivo" e selecione "Abrir o PowerShell". O terminal deve indicar que está aberto na área de trabalho, mostrando o caminho para a área de trabalho, que é o Desktop.
+Abra o terminal **na pasta onde deseja criar o projeto**. No meu caso, vou criar o projeto na área de trabalho. Para isso, no Windows, abra o Explorador de Arquivos, acesse a Área de Trabalho, clique em "Arquivo" e selecione "Abrir o PowerShell". O terminal deve indicar que está aberto na área de trabalho, mostrando o caminho para a área de trabalho, que é o Desktop.
 
 Como utilizaremos o VSCode para desenvolver nosso projeto, vamos instalar algumas extensões que nos auxiliarão no desenvolvimento. Execute os seguintes comandos no terminal:
 

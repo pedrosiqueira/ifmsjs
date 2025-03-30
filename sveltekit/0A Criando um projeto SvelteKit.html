@@ -35,7 +35,7 @@
 
 <p>O SvelteKit é um framework para desenvolvimento de aplicativos web que utiliza exclusivamente HTML, CSS e JavaScript. Ele proporciona uma abordagem simples e eficiente para a construção de aplicativos modernos, robustos e de alto desempenho.</p>
 
-<p>Você pode acompanhar essa <a href="https://www.youtube.com/watch?v=TiT7TlAWDEs&list=PLcZDQl73nB1ACZdEAd_wNbY0tB_QutcH3&index=2">assistindo a esse vídeo</a>.</p>
+<p>Você pode acompanhar esse tutorial <a href="https://www.youtube.com/watch?v=TiT7TlAWDEs&list=PLcZDQl73nB1ACZdEAd_wNbY0tB_QutcH3&index=2">assistindo a esse vídeo</a>.</p>
 
 
 <h2>Preparando o ambiente</h2>
@@ -51,7 +51,8 @@ code --install-extension christian-kohler.path-intellisense
 code --install-extension svelte.svelte-vscode</code></pre>
 
 <h2 id="criando-projeto">Criando o projeto do zero</h2>
-<p>Conforme as instruções na documentação do <a href="https://svelte.dev/docs/kit/creating-a-project">Svelte</a>, para criar um projeto SvelteKit, podemos usar o npm, que é o gerenciador de pacotes padrão do Node. Mas eu pessoalmente prefiro o gerenciador de pacotes <a href="https://pnpm.io/">pnpm</a> por ser mais ágil e ocupar menos espaço que o npm. Os comandos do pnpm, se não idênticos, são similares aos do npm. Para saber mais sobre as diferenças entre os comandos do pnpm e npm, <a href="https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8">clique aqui</a>. Para instalar o pnpm, execute <code ctc>npm install -g pnpm</code>.</p>
+<p>Conforme as instruções na documentação do <a href="https://svelte.dev/docs/kit/creating-a-project">Svelte</a>, para criar um projeto SvelteKit, podemos usar o npm, que é o gerenciador de pacotes padrão do Node. Mas eu pessoalmente prefiro o gerenciador de pacotes <a href="https://pnpm.io/">pnpm</a> por ser mais ágil e ocupar menos espaço que o npm. Os comandos do pnpm, se não idênticos, são similares aos do npm. Para saber mais sobre as diferenças entre os comandos do pnpm e npm, <a href="https://dev.to/equiman/npm-vs-yarn-vs-pnpm-commands-cheatsheet-3el8">clique aqui</a>. Para instalar o pnpm, execute no terminal:</p>
+<pre><code class="sh">npm install -g pnpm</code></pre>
 <div class="info">
     <p>Observação: Se no PowerShell aparecer a mensagem de erro “A execução de scripts foi desabilitada neste sistema”, é porque, por padrão, o Windows bloqueia a execução de scripts por motivos de segurança. Para habilitar a execução de scripts, execute:</p>
     <pre><code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code></pre>
@@ -61,7 +62,7 @@ code --install-extension svelte.svelte-vscode</code></pre>
     <p>Dica: No terminal, você pode navegar entre os comandos já executados usando as teclas direcionais para cima e para baixo.</p>
 </div>
 
-<p>Com o pnpm instalado, abra o terminal na pasta onde deseja criar o projeto e execute os seguintes comandos:</p>
+<p>Com o pnpm instalado, abra o terminal <strong>na pasta onde deseja criar o projeto</strong> e execute os seguintes comandos:</p>
 <pre><code class="sh">pnpm dlx sv create meu-projeto-sveltekit
 cd meu-projeto-sveltekit
 pnpm install
@@ -92,7 +93,7 @@ code -r .</code></pre>
     <li><strong>ESLint</strong>: Uma ferramenta de análise estática para JavaScript e TypeScript que ajuda a encontrar e corrigir problemas no código. Ela é amplamente usada para garantir qualidade, padronização e evitar erros comuns.</li>
     <li><strong>Prettier</strong>: Um formatador de código automático para JavaScript, TypeScript, HTML, CSS, JSON e outras linguagens. Ele é usado para garantir que o código siga um estilo consistente, eliminando a necessidade de ajustes manuais.</li>
 </ul>
-<p>A propriedade <code>scripts</code> do arquivo <code>package.json</code> define atalhos para comandos que podem ser executados no projeto usando <code>pnpm run &lt;nome_do_script&gt;</code>. Os <a href="https://svelte.dev/docs/kit/cli#svelte-kit-sync">principais comando</a> em um projeto SvelteKit são:</p>
+<p>A propriedade <code>scripts</code> do arquivo <code>package.json</code> define atalhos para comandos que podem ser executados no projeto usando <code>pnpm run &lt;nome_do_script&gt;</code>. Os <a id="principais-comandos-sveltekit" href="https://svelte.dev/docs/kit/cli#svelte-kit-sync">principais comando</a> em um projeto SvelteKit são:</p>
 <ul>
     <li><strong><code>pnpm run dev</code></strong>: Executa o projeto no modo <strong>desenvolvimento</strong>. Possui o recurso “hot reload”, que atualiza automaticamente as mudanças no código sem precisar reiniciar o servidor. Além disso, fornece mensagens de erro mais detalhadas para facilitar a depuração.</li>
     <li><strong><code>pnpm run build</code></strong>: Compila o projeto para <strong>produção</strong>. Esse comando procura por erros e gera a pasta <code>build</code> com os arquivos otimizados e minimizados. Essa pasta contém a versão final do projeto, que será publicada em um servidor de produção real, onde será acessada pelos usuários finais.</li>
@@ -134,6 +135,14 @@ code -r .</code></pre>
 </ul>
 <p>Além da pasta <code>src</code>, há também a pasta <code>static</code>, onde residem arquivos estáticos, como imagens, fontes e estilos CSS.</p>
 <p>Já a pasta <code>node_modules</code> contém os pacotes dos quais o projeto depende. Essa pasta é gerenciada automaticamente pelo pnpm, e você não precisa (nem deve) modificá-la manualmente.</p>
+
+<h2 id="o-que-o-arquivo-gitignore-">O arquivo <code>.gitignore</code></h2>
+<p>O arquivo <code>.gitignore</code> é usado pelo Git para especificar quais arquivos e diretórios devem ser ignorados no controle de versão. Isso significa que qualquer item listado no <code>.gitignore</code> não será rastreado, adicionado ou enviado para o repositório remoto, evitando que arquivos desnecessários ou sensíveis sejam incluídos no histórico do projeto. Dentre as vantagens e necessidades de se usar o <code>.gitignore</code> se encontram:</p>
+<ul>
+    <li><strong>Evitar arquivos temporários e desnecessários</strong>, geralmente gerados automaticamente por editores de código, compiladores ou sistemas operacionais. Exemplos de arquivos desnecessários: <code>*.log</code>, <code>*.tmp</code>, <code>Thumbs.db</code>, <code>.DS_Store</code>. </li>
+    <li><strong>Manter a segurança</strong>, impedindo que credenciais, chaves de API e configurações locais sejam acidentalmente versionadas. Exemplo de arquivos pessoais: <code>.env</code>, <code>config/secrets.json</code>. </li>
+    <li><strong>Reduzir o tamanho do repositório</strong>, evitando o versionamento de arquivos grandes que não precisam estar no Git, como dependências e diretórios de build. Exemplo de pastas desnecessárias: <code>node_modules/</code>, <code>dist/</code>, <code>vendor/</code>. </li>
+</ul>
 
 <h2 id="navegando-entre-as-páginas">Navegando Entre as Páginas</h2>
 <p>O arquivo <code>src/routes/+page.svelte</code> representa a página inicial do site. Abra esse arquivo e modifique-o para o seguinte conteúdo:</p>

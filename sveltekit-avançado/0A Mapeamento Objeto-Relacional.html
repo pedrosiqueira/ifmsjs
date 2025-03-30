@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script> -->
+    <!-- <script defer>hljs.highlightLinesAll([[], [], [], [{ start: 3, end: 3, color: 'lightgreen' }]]);</script> -->
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Mapeamento Objeto-Relacional (ORM)</h1>
+
+<p>Os bancos de dados relacionais estruturam os dados como <strong>tabelas</strong>. Cada linha representa um registro e cada coluna representa um campo desse registro. O termo <strong>&quot;relacional&quot;</strong> se refere à possibilidade de criar vínculos entre tabelas por meio de <strong>chaves estrangeiras</strong>, permitindo estruturar os dados de forma interconectada.</p>
+<p>Já nas linguagens de programação orientadas a objetos, os dados são organizados como <strong>objetos</strong>. Cada <strong>instância</strong> de uma classe representa um objeto, enquanto seus <strong>atributos</strong> correspondem às características desse objeto.</p>
+<p>O <strong>Mapeamento Objeto-Relacional (ORM – <em>Object-Relational Mapping</em>)</strong> permite trabalhar com bancos de dados relacionais usando a abstração orientada a objetos. O ORM atua como um intermediário entre o código do aplicativo e o banco de dados, permitindo que os dados sejam manipulados como objetos nativos da linguagem de programação, sem a necessidade de escrever SQL manualmente.</p>
+
+<h2 id="como-o-orm-funciona-">Como o ORM funciona?</h2>
+<p>A essência do ORM está no conceito de <strong>mapear</strong> tabelas do banco de dados para objetos da linguagem de programação. Essa correspondência transforma dados armazenados em um formato relacional (<em>linhas e colunas</em>) em objetos de programação, facilitando sua manipulação pela linguagem de programação.</p>
+
+<h3 id="-principais-conceitos">Principais conceitos</h3>
+<ol>
+    <li>
+        <p><strong>Objetos como Linhas de Tabela</strong> </p>
+        <ul>
+            <li>Cada instância de uma classe representa uma linha na tabela do banco de dados. </li>
+            <li>Exemplo: Uma tabela <code>usuarios</code> armazena informações de diferentes usuários. No código, cada usuário pode ser representado como um objeto da classe <code>Usuario</code>. </li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Atributos como Colunas</strong> </p>
+        <ul>
+            <li>Os atributos de uma classe correspondem às colunas da tabela no banco de dados. </li>
+            <li>Exemplo: A classe <code>Usuario</code> pode ter atributos como <code>id</code>, <code>nome</code> e <code>email</code>, que são mapeados para as colunas da tabela <code>usuarios</code>. </li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Relacionamentos entre Tabelas</strong> </p>
+        <ul>
+            <li>Assim como as tabelas de um banco de dados podem se relacionar, os ORMs representam esses vínculos no código. </li>
+            <li>Exemplo: Se a tabela <code>pedidos</code> está relacionada à tabela <code>usuarios</code>, o ORM permite acessar os pedidos de um usuário diretamente no código, sem a necessidade de escrever <em>joins</em> manualmente. </li>
+        </ul>
+    </li>
+</ol>
+<p id="-vantagens-do-orm">Vantagens do ORM</p>
+<ul>
+    <li><strong>Código mais limpo e produtivo</strong> → Evita a repetição de queries SQL, permitindo focar na lógica da aplicação.<br></li>
+    <li><strong>Portabilidade</strong> → Compatível com diferentes bancos de dados (SQLite, PostgreSQL, MySQL, etc.).<br></li>
+    <li><strong>Segurança</strong> → Previne ataques de SQL Injection ao usar <em>query builders</em> seguros.<br></li>
+    <li><strong>Manutenibilidade</strong> → Código mais organizado e menos propenso a erros.</li>
+</ul>
+<p id="-desvantagens-do-orm">Desvantagens do ORM</p>
+<ul>
+    <li><strong>Overhead de performance</strong> → Pode ser mais lento que SQL puro em consultas complexas.<br></li>
+    <li><strong>Menos flexibilidade</strong> → Algumas queries personalizadas podem ser difíceis de implementar apenas com ORM.<br></li>
+    <li><strong>Curva de aprendizado</strong> → Exige conhecimento da biblioteca específica do ORM utilizado.</li>
+</ul>
+
+<h3>Drizzle ORM</h3>
+<p>Existem diversos frameworks de ORM disponíveis. Para o JavaScript, o Drizzle ORM se destaca como uma excelente escolha. Entre suas principais vantagens, podemos destacar:</p>
+<ol>
+    <li>
+        <p><strong>Simplicidade e Type-Safety</strong> </p>
+        <ul>
+            <li>O Drizzle ORM é intuitivo e fortemente tipado, garantindo que os tipos definidos no banco de dados sejam refletidos corretamente no código. Isso reduz erros comuns de tipagem e melhora a segurança na manipulação dos dados. </li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Alto Desempenho</strong> </p>
+        <ul>
+            <li>Diferente de outros ORMs mais pesados, como Prisma ou TypeORM, o Drizzle é otimizado para ser leve e eficiente, minimizando o impacto na performance da aplicação. </li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Suporte a SQL Direto</strong> </p>
+        <ul>
+            <li>Apesar de permitir trabalhar com abstração orientada a objetos, o Drizzle não restringe o uso de SQL puro, o que garante flexibilidade para consultas mais complexas quando necessário. </li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Compatibilidade com SQLite</strong> </p>
+        <ul>
+            <li>O Drizzle ORM oferece suporte nativo ao SQLite, permitindo que gerenciemos bancos de dados locais com facilidade, além de facilitar migrações e operações no banco. </li>
+        </ul>
+    </li>
+    <li>
+        <p><strong>Migrações Automatizadas</strong> </p>
+        <ul>
+            <li>Com o Drizzle, podemos definir o esquema do banco de dados no próprio código e gerar migrações automaticamente, mantendo a consistência entre o código e o banco de dados. </li>
+        </ul>
+    </li>
+</ol>
