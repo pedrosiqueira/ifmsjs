@@ -36,8 +36,7 @@
 <hr>
 <h2 id="linguagem-de-defini-o-de-dados-ddl-">Linguagem de Definição de Dados (DDL)</h2>
 <h3 id="criar-tabela">CREATE TABLE</h3>
-<p>Cria uma nova tabela com colunas e tipos de dados.</p>
-
+<p>Cria uma nova tabela com colunas e tipos de dados. Com DrizzleORM, toda a criação e alteração de tabelas se dá através do arquivo <code>schema.js</code> e aplicando migrações.</p>
 <table class="custom">
     <thead>
         <tr>
@@ -66,6 +65,7 @@
         </tr>
     </tbody>
 </table>
+<p>Com DrizzleORM, uma tabela é declarada através da função <code>sqliteTable</code>, em que o primeiro argumento é o nome da tabela e o segundo argumento é um objeto contendo os campos da tabela.</p>
 <h3 id="alterar-tabela">ALTER TABLE</h3>
 <p>Adiciona uma coluna a uma tabela existente.</p>
 <table class="custom">
@@ -127,32 +127,7 @@
 </table>
 <hr>
 <h2 id="restri-es-no-sqlite">Restrições no SQLite</h2>
-<h3 id="chave-prim-ria">PRIMARY KEY</h3>
-<p>Define uma coluna como chave primária.</p>
-<table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>CREATE TABLE categoria (
-    rotulo TEXT PRIMARY KEY
-);</code></pre>
-            </td>
-            <td>
-                <pre><code>export const categoria = sqliteTable('categoria', {
-  rotulo: text().primaryKey(),
-});</code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<h3 id="autoincremento">AUTOINCREMENT</h3>
-<p>Usa <code>AUTOINCREMENT</code> com <code>INTEGER PRIMARY KEY</code> para gerar valores únicos automaticamente.</p>
+<p>Considere as seguintes tabelas:</p>
 <table class="custom">
     <thead>
         <tr>
@@ -183,6 +158,80 @@
 });</code></pre>
             </td>
         </tr>
+        <tr>
+            <td>
+                <pre><code class='sql'>CREATE TABLE posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo TEXT NOT NULL,
+    conteudo TEXT NOT NULL,
+    usuario_id INTEGER NOT NULL,
+    criado_em TEXT DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em TEXT DEFAULT CURRENT_TIMESTAMP CHECK(atualizado_em >= criado_em),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);</code></pre>
+            </td>
+            <td>
+                <pre><code>export const posts = sqliteTable('posts', {
+  id: integer().primaryKey({ autoIncrement: true }),
+  titulo: text().notNull(),
+  conteudo: text().notNull(),
+  usuario_id: integer().notNull().references(() => usuarios.id),
+  criado_em: text().default(sql`CURRENT_TIMESTAMP`),
+  atualizado_em: text().default(sql`CURRENT_TIMESTAMP`)
+}, posts => [
+  check('atualizado_em_chk', sql`${posts.atualizado_em} >= ${posts.criado_em}`)
+]);</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>Elas possuem as seguintes restrições:</p>
+<h3 id="chave-prim-ria">PRIMARY KEY</h3>
+<p>Define uma coluna como chave primária.</p>
+<table class="custom">
+    <thead>
+        <tr>
+            <th>SQLite</th>
+            <th>Drizzle ORM</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre><code class='sql'>CREATE TABLE categorias (
+    rotulo TEXT PRIMARY KEY
+);</code></pre>
+            </td>
+            <td>
+                <pre><code>export const categorias = sqliteTable('categorias', {
+  rotulo: text().primaryKey(),
+});</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<h3 id="autoincremento">AUTOINCREMENT</h3>
+<p>Usa <code>AUTOINCREMENT</code> com <code>INTEGER PRIMARY KEY</code> para gerar valores únicos automaticamente.</p>
+<table class="custom">
+    <thead>
+        <tr>
+            <th>SQLite</th>
+            <th>Drizzle ORM</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre><code class='sql'>CREATE TABLE usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+);</code></pre>
+            </td>
+            <td>
+                <pre><code>export const usuarios = sqliteTable('usuarios', {
+  id: integer().primaryKey({ autoIncrement: true }),
+});</code></pre>
+            </td>
+        </tr>
     </tbody>
 </table>
 <h3 id="restri-o-nica">UNIQUE</h3>
@@ -198,13 +247,11 @@
         <tr>
             <td>
                 <pre><code class='sql'>CREATE TABLE usuarios (
-    id INTEGER PRIMARY KEY,
     email TEXT UNIQUE
 );</code></pre>
             </td>
             <td>
                 <pre><code>export const usuarios = sqliteTable('usuarios', {
-  id: integer().primaryKey(),
   email: text().unique(),
 });</code></pre>
             </td>
@@ -224,13 +271,11 @@
         <tr>
             <td>
                 <pre><code class='sql'>CREATE TABLE usuarios (
-    id INTEGER PRIMARY KEY,
     nome_usuario TEXT NOT NULL
 );</code></pre>
             </td>
             <td>
                 <pre><code>export const usuarios = sqliteTable('usuarios', {
-  id: integer().primaryKey(),
   nome_usuario: text().notNull(),
 });</code></pre>
             </td>
@@ -250,27 +295,13 @@
         <tr>
             <td>
                 <pre><code class='sql'>CREATE TABLE posts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    titulo TEXT NOT NULL,
-    conteudo TEXT NOT NULL,
     usuario_id INTEGER NOT NULL,
-    criado_em TEXT DEFAULT CURRENT_TIMESTAMP,
-    atualizado_em TEXT DEFAULT CURRENT_TIMESTAMP CHECK(atualizado_em >= criado_em),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );</code></pre>
             </td>
             <td>
                 <pre><code>export const posts = sqliteTable('posts', {
-  id: integer().primaryKey({ autoIncrement: true }),
-  titulo: text().notNull(),
-  conteudo: text().notNull(),
-  usuario_id: integer()
-    .notNull()
-    .references(() => usuarios.id),
-  criado_em: text().default(sql`CURRENT_TIMESTAMP`),
-  atualizado_em: text()
-    .default(sql`CURRENT_TIMESTAMP`)
-    .check(sql`atualizado_em >= criado_em`),
+  usuario_id: integer().notNull().references(() => usuarios.id),
 });</code></pre>
             </td>
         </tr>
@@ -289,21 +320,21 @@
         <tr>
             <td>
                 <pre><code class='sql'>CREATE TABLE posts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
     atualizado_em TEXT DEFAULT CURRENT_TIMESTAMP CHECK(atualizado_em >= criado_em)
 );</code></pre>
             </td>
             <td>
                 <pre><code>export const posts = sqliteTable('posts', {
-  id: integer().primaryKey({ autoIncrement: true }),
-  atualizado_em: text()
-    .default(sql`CURRENT_TIMESTAMP`)
-    .check(sql`atualizado_em >= criado_em`),
-});</code></pre>
+  atualizado_em: text().default(sql`CURRENT_TIMESTAMP`)
+}, posts => [
+  check('atualizado_em_chk', sql`${posts.atualizado_em} >= ${posts.criado_em}`)
+]);</code></pre>
             </td>
         </tr>
     </tbody>
 </table>
+<p>No DrizzleORM, algumas restrições, como o <code>CHECK</code>, ainda não são declaradas junto da declaração da coluna, mas em uma lista de restrições à parte, passada no terceiro argumento da função <code>sqliteTable</code>.</p>
+
 <hr>
 <h2 id="linguagem-de-manipula-o-de-dados-dml-">Linguagem de Manipulação de Dados (DML)</h2>
 <h3 id="inserir-dados">INSERT INTO</h3>
@@ -390,10 +421,7 @@ await db.insert(posts).values([
                 <pre><code class='sql'>UPDATE posts SET atualizado_em = '2025-03-28 00:00:00' WHERE id = 1;</code></pre>
             </td>
             <td>
-                <pre><code>await db
-  .update(posts)
-  .set({ atualizado_em: '2025-03-28 00:00:00' })
-  .where(eq(posts.id, 1));</code></pre>
+                <pre><code>await db.update(posts).set({ atualizado_em: '2025-03-28 00:00:00' }).where(eq(posts.id, 1));</code></pre>
             </td>
         </tr>
     </tbody>
@@ -496,7 +524,7 @@ await db.insert(posts).values([
                 <pre><code class='sql'>SELECT * FROM usuarios ORDER BY nome_usuario;</code></pre>
             </td>
             <td>
-                <pre><code>const usuariosOrdenados = await db.select().from(usuarios).orderBy(usuarios.nome_usuario);</code></pre>
+                <pre><code>const ordenadosPorNome = await db.select().from(usuarios).orderBy(usuarios.nome_usuario);</code></pre>
             </td>
         </tr>
     </tbody>
@@ -515,7 +543,7 @@ await db.insert(posts).values([
                 <pre><code class='sql'>SELECT * FROM usuarios ORDER BY data_nascimento DESC;</code></pre>
             </td>
             <td>
-                <pre><code>const usuariosOrdenados = await db.select().from(usuarios).orderBy(desc(usuarios.data_nascimento));</code></pre>
+                <pre><code>const ordenadosPorNascimento = await db.select().from(usuarios).orderBy(desc(usuarios.data_nascimento));</code></pre>
             </td>
         </tr>
     </tbody>
@@ -534,7 +562,7 @@ await db.insert(posts).values([
                 <pre><code class='sql'>SELECT * FROM usuarios ORDER BY data_nascimento DESC, email ASC;</code></pre>
             </td>
             <td>
-                <pre><code>const usuariosOrdenados = await db.select().from(usuarios)
+                <pre><code>const ordenados = await db.select().from(usuarios)
     .orderBy(desc(usuarios.data_nascimento), usuarios.email);</code></pre>
             </td>
         </tr>
@@ -555,7 +583,7 @@ await db.insert(posts).values([
                 <pre><code class='sql'>SELECT * FROM usuarios LIMIT 10;</code></pre>
             </td>
             <td>
-                <pre><code>const usuarios = await db.select().from(usuarios).limit(10);</code></pre>
+                <pre><code>const primeiros10 = await db.select().from(usuarios).limit(10);</code></pre>
             </td>
         </tr>
     </tbody>
@@ -574,7 +602,7 @@ await db.insert(posts).values([
                 <pre><code class='sql'>SELECT * FROM usuarios LIMIT 10 OFFSET 10;</code></pre>
             </td>
             <td>
-                <pre><code>const pagina2 = await db.select().from(usuarios).limit(10).offset(10);</code></pre>
+                <pre><code>const segundos10 = await db.select().from(usuarios).limit(10).offset(10);</code></pre>
             </td>
         </tr>
     </tbody>
@@ -676,7 +704,7 @@ FROM usuarios
 LEFT JOIN posts ON usuarios.id = posts.usuario_id;</code></pre>
             </td>
             <td>
-                <pre><code>const postsComUsuarios = await db
+                <pre><code>const postsEUsuarios = await db
   .select({ titulo: posts.titulo, nome_usuario: usuarios.nome_usuario })
   .from(usuarios)
   .leftJoin(posts, eq(usuarios.id, posts.usuario_id));</code></pre>
@@ -701,7 +729,7 @@ FROM posts
 LEFT JOIN usuarios ON usuarios.id = posts.usuario_id;</code></pre>
             </td>
             <td>
-                <pre><code>const postsComUsuarios = await db
+                <pre><code>const usuariosEPosts = await db
   .select({ tituloPost: posts.titulo, nome_usuario: usuarios.nome_usuario, })
   .from(posts)
   .leftJoin(usuarios, eq(posts.usuario_id, usuarios.id));</code></pre>
@@ -726,8 +754,7 @@ LEFT JOIN usuarios ON usuarios.id = posts.usuario_id;</code></pre>
                 <pre><code class='sql'>SELECT COUNT(*) FROM usuarios;</code></pre>
             </td>
             <td>
-                <pre><code>const resultado = await db.select({ count: count() }).from(usuarios);
-const totalUsuarios = resultado[0].count;</code></pre>
+                <pre><code>const totalUsuarios = await db.select({ count: count() }).from(usuarios);</code></pre>
             </td>
         </tr>
     </tbody>
@@ -767,12 +794,10 @@ const totalUsuarios = resultado[0].count;</code></pre>
     <tbody>
         <tr>
             <td>
-                <pre><code class='sql'>SELECT SUM(total) FROM pedidos;</code></pre>
+                <pre><code class='sql'>SELECT SUM(pontos) FROM usuarios;</code></pre>
             </td>
             <td>
-                <pre><code>const somaPedidos = await db
-    .select({ totalSoma: sum(pedidos.total), })
-    .from(pedidos);</code></pre>
+                <pre><code>const pontos = await db.select({ pontos: sum(usuarios.pontos) }).from(usuarios);</code></pre>
             </td>
         </tr>
     </tbody>
@@ -794,18 +819,18 @@ SELECT MIN(data_nascimento) FROM usuarios;</code></pre>
             </td>
             <td>
                 <pre><code>const cacula = await db
-    .select({ nascimento: max(usuarios.data_nascimento), }) 
+    .select({ nascimento: max(usuarios.data_nascimento) }) 
     .from(usuarios);
 
 const primogenito = await db 
-    .select({ nascimento: min(usuarios.data_nascimento), })
+    .select({ nascimento: min(usuarios.data_nascimento) })
     .from(usuarios);</code></pre>
             </td>
         </tr>
     </tbody>
 </table>
 <h2 id="transa-es">Transações</h2>
-
+<p>Transações no DrizzleORM são feitas dentro da função <code>transaction</code>. A transação é concluída (commited) ao final da função. Se a transação não puder ser concluída ou o comando <code>rollback</code> for executado, a transação é desfeita, lançando uma exceção.</p>
 <table class="custom">
     <thead>
         <tr>
