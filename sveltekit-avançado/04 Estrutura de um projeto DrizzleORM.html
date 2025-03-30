@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script> -->
+    <!-- <script defer>hljs.highlightLinesAll([[], [], [], [{ start: 3, end: 3, color: 'lightgreen' }]]);</script> -->
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Estrutura de um projeto DrizzleORM</h1>
+falar sobre os 4 arquivos de um projeto Drizzle:
+
+- schema.js
+- .env
+- index.js
+- drizzle-config.js
+
+
+
+
+
+
+<h2 id="o-arquivo-package-json-">O arquivo <code>package.json</code></h2>
+<p>Além dos pacotes mencionados no tutorial <a target="_blank" href="../sveltekit/0A%20Criando%20um%20projeto%20SvelteKit.html#o-arquivo-package-json">Criando um projeto SvelteKit</a>, este projeto inclui:</p>
+<ul>
+    <li><code>dependencies</code> (Dependências usadas no ambiente de produção):
+        <ul>
+            <li><code>drizzle-orm</code>: Biblioteca de mapeamento objeto-relacional (ORM) usado para interagir com bancos de dados SQL. Ele fornece uma API baseada em SQL, permitindo escrever consultas seguras e eficientes.</li>
+            <li><code>@libsql/client</code>: Um <i>driver</i> para JavaScript que permite conectar-se a bancos de dados SQLite.</li>
+            <li>Pacotes do LuciaAuth:
+                <ul>
+                    <li><code>@oslojs/crypto</code>: Biblioteca de funções para <i>hashing</i> e <i>criptografia</i>, usadas para gerar senhas e verificar senhas seguras.</li>
+                    <li><code>@oslojs/encoding</code>: Biblioteca de codificação e decodificação de dados, incluindo <i>Base64</i> e <i>hexadecimal</i>, usadas para manipulação segura de tokens, senhas e dados sensíveis.</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><code>devDependencies</code> (Dependências usadas apenas no ambiente de desenvolvimento):
+        <ul>
+            <li><code>drizzle-kit</code>: Ferramenta CLI para gerenciamento de migrações no DrizzleORM. Permite gerar e aplicar migrações no banco de dados com comandos simples, além de introspecção de esquemas.</li>
+        </ul>
+    </li>
+</ul>
+
+<p>Além dos <a target="_blank" href="../sveltekit/0A%20Criando%20um%20projeto%20SvelteKit.html#principais-comandos-sveltekit">comandos SvelteKit</a> definidos no arquivo <code>package.json</code>, também estão inclusos os seguintes comandos do DrizzleKit:</p>
+<ul>
+    <li>
+        <p><code>pnpm run db:push</code>:</p>
+        <ul>
+            <li>Aplica o esquema do Drizzle diretamente no banco <strong>sem gerar um arquivo de migração</strong>.</li>
+            <li><strong>Uso comum</strong>: Atualizar o banco rapidamente sem versionamento de mudanças.</li>
+            <li><strong>Cuidado:</strong> Pode sobrescrever alterações existentes no banco irreversivelmente!</li>
+        </ul>
+    </li>
+    <li>
+        <p><code>pnpm run db:migrate</code>:</p>
+        <ul>
+            <li><strong>Aplica migrações pendentes</strong> ao banco de dados.</li>
+            <li>Antes de rodar esse comando, é necessário gerar as migrações (<code>drizzle-kit generate</code>).</li>
+            <li><strong>Uso comum</strong>: Manter um <strong>histórico seguro</strong> das mudanças na estrutura do banco.</li>
+        </ul>
+    </li>
+    <li>
+        <p><code>pnpm run db:studio</code>:</p>
+        <ul>
+            <li>Inicia um servidor web local com <strong>interface visual interativa</strong> para explorar e gerenciar o banco de dados.</li>
+            <li>Permite visualizar tabelas, executar consultas e depurar dados <strong>diretamente pelo navegador</strong>.</li>
+            <li><strong>Uso comum</strong>: Inspecionar ou modificar dados manualmente</strong> sem usar programação ou SQL diretamente.</li>
+        </ul>
+    </li>
+</ul>
+
+<p>Se precisar modificar o banco de dados, use <code>db:migrate</code> para versionar mudanças ou <code>db:push</code> para sincronizar diretamente. Caso queira inspecionar os dados, o <code>db:studio</code> pode ser útil.</p>
