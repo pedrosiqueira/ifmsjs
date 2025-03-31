@@ -468,6 +468,53 @@ await db.insert(posts).values([
     </tr>
   </tbody>
 </table>
+<dialog id="select" class="custom-modal">
+  <pre><code class="js">console.log(todosUsuarios)</code></pre>
+  <pre><code class="json">[
+  {
+    id: 1,
+    nome_usuario: 'maria_silva',
+    email: 'maria@silva.com.br',
+    data_nascimento: null,
+    pontos: 0,
+    criado_em: '2025-03-31 16:44:12'
+  },
+  {
+    id: 2,
+    nome_usuario: 'francisca_pereira',
+    email: 'francisca@pereira.com',
+    data_nascimento: '2002-11-05',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 3,
+    nome_usuario: 'jose_santos',
+    email: 'jose@santos.com',
+    data_nascimento: '2004-02-29',
+    pontos: 100,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 4,
+    nome_usuario: 'joao_souza',
+    email: 'joao@souza.com',
+    data_nascimento: '2001-12-31',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 5,
+    nome_usuario: 'ana_oliveira',
+    email: 'ana@oliveira.com',
+    data_nascimento: '2002-11-05',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  }
+]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="select">Exibir resultado</button></div>
+
 <h3 id="selecionar-colunas-espec-ficas">Selecionar Colunas Específicas</h3>
 <p>Recupera colunas específicas de uma tabela.</p>
 <table class="custom">
@@ -488,6 +535,18 @@ await db.insert(posts).values([
     </tr>
   </tbody>
 </table>
+<dialog id="selectcolumn" class="custom-modal">
+  <pre><code class="js">console.log(nomesEmails)</code></pre>
+  <pre><code class="json">[ 
+  { nome_usuario: 'maria_silva', email: 'maria@silva.com.br' },
+  { nome_usuario: 'francisca_pereira', email: 'francisca@pereira.com' },
+  { nome_usuario: 'jose_santos', email: 'jose@santos.com' },
+  { nome_usuario: 'joao_souza', email: 'joao@souza.com' },
+  { nome_usuario: 'ana_oliveira', email: 'ana@oliveira.com' }
+]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="selectcolumn">Exibir resultado</button></div>
+
 <h3 id="filtro-com-where">WHERE</h3>
 <p>Filtra resultados com base em condições.</p>
 <table class="custom">
@@ -508,6 +567,21 @@ await db.insert(posts).values([
     </tr>
   </tbody>
 </table>
+<dialog id="where" class="custom-modal">
+  <pre><code class="js">console.log(usuario)</code></pre>
+  <pre><code class="json">[
+  {
+    id: 1,
+    nome_usuario: 'maria_silva',
+    email: 'maria@silva.com.br',
+    data_nascimento: null,
+    pontos: 0,
+    criado_em: '2025-03-31 16:44:12'
+  }
+]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="where">Exibir resultado</button></div>
+
 <h3 id="ordena-o-order-by-">ORDER BY</h3>
 <p>Ordena os resultados por uma ou mais colunas.</p>
 <p>Ordena por <code>nome_usuario</code> em ordem crescente (padrão).</p>
@@ -529,6 +603,53 @@ await db.insert(posts).values([
     </tr>
   </tbody>
 </table>
+<dialog id="orderby" class="custom-modal">
+  <pre><code class="js">console.log(ordenadosPorNome)</code></pre>
+  <pre><code class="json">[
+  {
+    id: 5,
+    nome_usuario: 'ana_oliveira',
+    email: 'ana@oliveira.com',
+    data_nascimento: '2002-11-05',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 2,
+    nome_usuario: 'francisca_pereira',
+    email: 'francisca@pereira.com',
+    data_nascimento: '2002-11-05',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 4,
+    nome_usuario: 'joao_souza',
+    email: 'joao@souza.com',
+    data_nascimento: '2001-12-31',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 3,
+    nome_usuario: 'jose_santos',
+    email: 'jose@santos.com',
+    data_nascimento: '2004-02-29',
+    pontos: 100,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 1,
+    nome_usuario: 'maria_silva',
+    email: 'maria@silva.com.br',
+    data_nascimento: null,
+    pontos: 0,
+    criado_em: '2025-03-31 16:44:12'
+  }
+]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="orderby">Exibir resultado</button></div>
+
 <p>Ordena por <code>data_nascimento</code> em ordem decrescente.</p>
 <table class="custom">
   <thead>
@@ -548,6 +669,53 @@ await db.insert(posts).values([
     </tr>
   </tbody>
 </table>
+<dialog id="orderbydesc" class="custom-modal">
+  <pre><code class="js">console.log(ordenadosPorNascimento)</code></pre>
+  <pre><code class="json">[
+  {
+    id: 3,
+    nome_usuario: 'jose_santos',
+    email: 'jose@santos.com',
+    data_nascimento: '2004-02-29',
+    pontos: 100,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 2,
+    nome_usuario: 'francisca_pereira',
+    email: 'francisca@pereira.com',
+    data_nascimento: '2002-11-05',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 5,
+    nome_usuario: 'ana_oliveira',
+    email: 'ana@oliveira.com',
+    data_nascimento: '2002-11-05',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 4,
+    nome_usuario: 'joao_souza',
+    email: 'joao@souza.com',
+    data_nascimento: '2001-12-31',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 1,
+    nome_usuario: 'maria_silva',
+    email: 'maria@silva.com.br',
+    data_nascimento: null,
+    pontos: 0,
+    criado_em: '2025-03-31 16:44:12'
+  }
+]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="orderbydesc">Exibir resultado</button></div>
+
 <p>Ordena primeiro por <code>data_nascimento</code> em ordem decrescente e, em seguida, por <code>email</code> em ordem crescente.</p>
 <table class="custom">
   <thead>
@@ -568,6 +736,53 @@ await db.insert(posts).values([
     </tr>
   </tbody>
 </table>
+<dialog id="orderbyseveral" class="custom-modal">
+  <pre><code class="js">console.log(ordenadosPorNascimentoEmail)</code></pre>
+  <pre><code class="json">[
+  {
+    id: 3,
+    nome_usuario: 'jose_santos',
+    email: 'jose@santos.com',
+    data_nascimento: '2004-02-29',
+    pontos: 100,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 5,
+    nome_usuario: 'ana_oliveira',
+    email: 'ana@oliveira.com',
+    data_nascimento: '2002-11-05',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 2,
+    nome_usuario: 'francisca_pereira',
+    email: 'francisca@pereira.com',
+    data_nascimento: '2002-11-05',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 4,
+    nome_usuario: 'joao_souza',
+    email: 'joao@souza.com',
+    data_nascimento: '2001-12-31',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 1,
+    nome_usuario: 'maria_silva',
+    email: 'maria@silva.com.br',
+    data_nascimento: null,
+    pontos: 0,
+    criado_em: '2025-03-31 16:44:12'
+  }
+]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="orderbyseveral">Exibir resultado</button></div>
+
 <h3 id="pagina-o-limit-e-offset-">LIMIT / OFFSET (Paginação)</h3>
 <p>Recupera os primeiros 3 usuários.</p>
 <table class="custom">
@@ -588,6 +803,37 @@ await db.insert(posts).values([
     </tr>
   </tbody>
 </table>
+<dialog id="limit" class="custom-modal">
+  <pre><code class="js">console.log(primeiros3)</code></pre>
+  <pre><code class="json">[
+  {
+    id: 1,
+    nome_usuario: 'maria_silva',
+    email: 'maria@silva.com.br',
+    data_nascimento: null,
+    pontos: 0,
+    criado_em: '2025-03-31 16:44:12'
+  },
+  {
+    id: 2,
+    nome_usuario: 'francisca_pereira',
+    email: 'francisca@pereira.com',
+    data_nascimento: '2002-11-05',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 3,
+    nome_usuario: 'jose_santos',
+    email: 'jose@santos.com',
+    data_nascimento: '2004-02-29',
+    pontos: 100,
+    criado_em: '2025-03-31 16:45:03'
+  }
+]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="limit">Exibir resultado</button></div>
+
 <p>Pula os primeiros 3 usuários e recupera os próximos 3.</p>
 <table class="custom">
   <thead>
@@ -607,6 +853,29 @@ await db.insert(posts).values([
     </tr>
   </tbody>
 </table>
+<dialog id="offset" class="custom-modal">
+  <pre><code class="js">console.log(segundos3)</code></pre>
+  <pre><code class="json">[
+  {
+    id: 4,
+    nome_usuario: 'joao_souza',
+    email: 'joao@souza.com',
+    data_nascimento: '2001-12-31',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 5,
+    nome_usuario: 'ana_oliveira',
+    email: 'ana@oliveira.com',
+    data_nascimento: '2002-11-05',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  }
+]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="offset">Exibir resultado</button></div>
+
 <h3 id="ordena-o-e-pagina-o-juntas">Ordenação e Paginação Juntas</h3>
 <p>Ordena usuários pelo <code>nome_usuario</code> e pagina os resultados para obter os primeiros 3 registros.</p>
 <table class="custom">
@@ -627,6 +896,37 @@ await db.insert(posts).values([
     </tr>
   </tbody>
 </table>
+<dialog id="orderbylimit" class="custom-modal">
+  <pre><code class="js">console.log(primeirosUsuarios)</code></pre>
+  <pre><code class="json">[
+  {
+    id: 5,
+    nome_usuario: 'ana_oliveira',
+    email: 'ana@oliveira.com',
+    data_nascimento: '2002-11-05',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 2,
+    nome_usuario: 'francisca_pereira',
+    email: 'francisca@pereira.com',
+    data_nascimento: '2002-11-05',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  },
+  {
+    id: 4,
+    nome_usuario: 'joao_souza',
+    email: 'joao@souza.com',
+    data_nascimento: '2001-12-31',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  }
+]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="orderbylimit">Exibir resultado</button></div>
+
 <p>Diferentes páginas:</p>
 <table class="custom">
   <thead>
@@ -660,6 +960,58 @@ const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).
     </tr>
   </tbody>
 </table>
+<dialog id="paginacao" class="custom-modal">
+  <pre><code class="js">console.log([pagina1, pagina2, pagina3])</code></pre>
+  <pre><code class="json">[
+  [
+    {
+      id: 5,
+      nome_usuario: 'ana_oliveira',
+      email: 'ana@oliveira.com',
+      data_nascimento: '2002-11-05',
+      pontos: 0,
+      criado_em: '2025-03-31 16:45:03'
+    },
+    {
+      id: 2,
+      nome_usuario: 'francisca_pereira',
+      email: 'francisca@pereira.com',
+      data_nascimento: '2002-11-05',
+      pontos: 0,
+      criado_em: '2025-03-31 16:45:03'
+    },
+    {
+      id: 4,
+      nome_usuario: 'joao_souza',
+      email: 'joao@souza.com',
+      data_nascimento: '2001-12-31',
+      pontos: 0,
+      criado_em: '2025-03-31 16:45:03'
+    }
+  ],
+  [
+    {
+      id: 3,
+      nome_usuario: 'jose_santos',
+      email: 'jose@santos.com',
+      data_nascimento: '2004-02-29',
+      pontos: 100,
+      criado_em: '2025-03-31 16:45:03'
+    },
+    {
+      id: 1,
+      nome_usuario: 'maria_silva',
+      email: 'maria@silva.com.br',
+      data_nascimento: null,
+      pontos: 0,
+      criado_em: '2025-03-31 16:44:12'
+    }
+  ],
+  []
+]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="paginacao">Exibir resultado</button></div>
+
 <hr>
 <h2 id="joins-jun-es-de-tabelas-">JOINs (Junções de Tabelas)</h2>
 <h3 id="inner-join">INNER JOIN</h3>
@@ -687,6 +1039,18 @@ INNER JOIN posts ON usuarios.id = posts.usuario_id;</code></pre>
     </tr>
   </tbody>
 </table>
+<dialog id="innerjoin" class="custom-modal">
+  <pre><code class="js">console.log(usuariosComPosts)</code></pre>
+  <pre><code class="json">[
+  { nome_usuario: 'maria_silva', titulo: 'primeiro artigo' },
+  { nome_usuario: 'francisca_pereira', titulo: 'segundo artigo' },
+  { nome_usuario: 'francisca_pereira', titulo: 'terceiro artigo' },
+  { nome_usuario: 'maria_silva', titulo: 'quarto artigo' },
+  { nome_usuario: 'francisca_pereira', titulo: 'quinto artigo' }
+]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="innerjoin">Exibir resultado</button></div>
+
 <h3 id="left-join">LEFT JOIN</h3>
 <p>Retorna todos os registros da tabela à esquerda e os correspondentes da direita.</p>
 <table class="custom">
@@ -712,6 +1076,21 @@ LEFT JOIN posts ON usuarios.id = posts.usuario_id;</code></pre>
     </tr>
   </tbody>
 </table>
+<dialog id="leftjoin" class="custom-modal">
+  <pre><code class="js">console.log(usuariosEPosts)</code></pre>
+  <pre><code class="json">[
+  { nome_usuario: 'maria_silva', titulo: 'primeiro artigo' },
+  { nome_usuario: 'maria_silva', titulo: 'quarto artigo' },
+  { nome_usuario: 'francisca_pereira', titulo: 'quinto artigo' },
+  { nome_usuario: 'francisca_pereira', titulo: 'segundo artigo' },
+  { nome_usuario: 'francisca_pereira', titulo: 'terceiro artigo' },
+  { nome_usuario: 'jose_santos', titulo: null },
+  { nome_usuario: 'joao_souza', titulo: null },
+  { nome_usuario: 'ana_oliveira', titulo: null }
+]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="leftjoin">Exibir resultado</button></div>
+
 <h3 id="right-join-simulado-">RIGHT JOIN (Simulado)</h3>
 <p>O SQLite não suporta <code>RIGHT JOIN</code>, mas é possível inverter a ordem das tabelas usando <code>LEFT JOIN</code>.</p>
 <table class="custom">
@@ -737,6 +1116,18 @@ LEFT JOIN usuarios ON posts.usuario_id = usuarios.id;</code></pre>
     </tr>
   </tbody>
 </table>
+<dialog id="rightjoin" class="custom-modal">
+  <pre><code class="js">console.log(postsEUsuarios)</code></pre>
+  <pre><code class="json">[
+  { tituloPost: 'primeiro artigo', nome_usuario: 'maria_silva' },
+  { tituloPost: 'segundo artigo', nome_usuario: 'francisca_pereira' },
+  { tituloPost: 'terceiro artigo', nome_usuario: 'francisca_pereira' },
+  { tituloPost: 'quarto artigo', nome_usuario: 'maria_silva' },
+  { tituloPost: 'quinto artigo', nome_usuario: 'francisca_pereira' }
+]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="rightjoin">Exibir resultado</button></div>
+
 <hr>
 <h2 id="agrega-o-e-agrupamento">Agregação e Agrupamento</h2>
 <h3 id="contagem">COUNT</h3>
@@ -759,6 +1150,12 @@ LEFT JOIN usuarios ON posts.usuario_id = usuarios.id;</code></pre>
     </tr>
   </tbody>
 </table>
+<dialog id="count" class="custom-modal">
+  <pre><code class="js">console.log(totalUsuarios)</code></pre>
+  <pre><code class="json">[ { count: 5 } ]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="count">Exibir resultado</button></div>
+
 <h3 id="agrupar-por">GROUP BY</h3>
 <p>Agrupa linhas com base em uma ou mais colunas.</p>
 <table class="custom">
@@ -782,6 +1179,12 @@ LEFT JOIN usuarios ON posts.usuario_id = usuarios.id;</code></pre>
     </tr>
   </tbody>
 </table>
+<dialog id="groupby" class="custom-modal">
+  <pre><code class="js">console.log(postsPorUsuario)</code></pre>
+  <pre><code class="json">[ { usuario_id: 1, count: 2 }, { usuario_id: 2, count: 3 } ]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="groupby">Exibir resultado</button></div>
+
 <h3 id="soma">SUM</h3>
 <p>Soma os valores de uma coluna.</p>
 <table class="custom">
@@ -802,6 +1205,12 @@ LEFT JOIN usuarios ON posts.usuario_id = usuarios.id;</code></pre>
     </tr>
   </tbody>
 </table>
+<dialog id="sum" class="custom-modal">
+  <pre><code class="js">console.log(pontos)</code></pre>
+  <pre><code class="json">[ { pontos: '100' } ]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="sum">Exibir resultado</button></div>
+
 <h3 id="m-ximo-m-nimo">MAX/MIN</h3>
 <p>Encontra o maior ou menor valor em uma coluna.</p>
 <table class="custom">
@@ -829,6 +1238,12 @@ const primogenito = await db
     </tr>
   </tbody>
 </table>
+<dialog id="minmax" class="custom-modal">
+  <pre><code class="js">console.log([cacula, primogenito])</code></pre>
+  <pre><code class="json">[ [ { nascimento: '2004-02-29' } ], [ { nascimento: '2001-12-31' } ] ]</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="minmax">Exibir resultado</button></div>
+
 <h2 id="transa-es">Transações</h2>
 <p>Transações no DrizzleORM são feitas dentro da função <code>transaction</code>. A transação é concluída (commited) ao final da função. Se a transação não puder ser concluída ou o comando <code>rollback</code> for executado, a transação é desfeita, lançando uma exceção. Atualmente, <a href="https://github.com/drizzle-team/drizzle-orm/issues/1957">não é possível definir uma mensagem personalizada</a> ao utilizar <code>tx.rollback()</code>. Em vez disso, você pode lançar manualmente uma exceção com a mensagem desejada.</p>
 <table class="custom">
@@ -1019,3 +1434,25 @@ CREATE UNIQUE INDEX email_idx ON usuarios(email);</code></pre>
 
 <pre><code class='sql'>.exit</code></pre>
 <hr>
+
+<style>
+  dialog.custom-modal::backdrop {
+    background-color: black;
+    opacity: .5;
+  }
+</style>
+
+<script defer>
+  document.querySelectorAll("button[data-custom-modal]").forEach(button => {
+    const modal = document.querySelector("#" + button.getAttribute("data-custom-modal"));
+    button.addEventListener("click", () => {
+      modal.showModal();
+    });
+  });
+  document.querySelectorAll("dialog.custom-modal").forEach(modal => {
+    const closeButton = document.createElement("button");
+    closeButton.textContent = "❌";
+    closeButton.addEventListener("click", () => modal.close());
+    modal.prepend(closeButton);
+  });
+</script>
