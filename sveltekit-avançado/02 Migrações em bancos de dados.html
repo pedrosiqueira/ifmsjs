@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script> -->
+    <!-- <script defer>hljs.highlightLinesAll([[], [], [], [{ start: 3, end: 3, color: 'lightgreen' }]]);</script> -->
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Migrações em bancos de dados</h1>
+<p>Texto <a href="https://www.prisma.io/dataguide/types/relational/what-are-database-migrations">extraído daqui</a>.</p>
+<h2>Introdução</h2>
+<p>Um <strong>esquema de banco de dados</strong> é uma estrutura que descreve como os dados devem ser organizados dentro de um sistema de banco de dados. Ele define o formato de cada tabela, campo, índice, relação, função e quaisquer outras estruturas mantidas dentro do banco de dados. O esquema é a definição que informa ao sistema de banco de dados como os objetos devem ser organizados e quais dados são ou não permitidos em associação com esses objetos.</p>
+<p>Embora seja importante desenvolver um esquema bem planejado no início dos projetos, requisitos em evolução tornam inevitável as alterações no esquema inicial. E, como o esquema gerencia o formato e as restrições dos dados, as alterações precisam ser aplicadas com cuidado para corresponder às expectativas dos aplicativos, evitando a perda de dados atualmente armazenados no sistema de banco de dados.</p>
+
+<h2>O que são migrações de banco de dados?</h2>
+<p><strong>Migrações de banco de dados</strong> são processos usados para transformar a estrutura de um banco de dados em um novo design. Isso envolve operações para modificar o esquema existente de uma tabela ou banco de dados, bem como transformar os dados atuais para adequá-los à nova estrutura. As migrações de banco de dados geralmente são construídas de forma incremental e armazenadas como uma lista ordenada com <strong>controle de versão</strong>, permitindo que a estrutura atual do banco de dados seja reconstruída a partir de qualquer versão anterior aplicando os arquivos de migração sequencialmente. Muitas vezes, os desenvolvedores precisam tomar decisões sobre como modificar os dados existentes para se adequarem à nova estrutura, o que pode incluir colunas que não existiam anteriormente ou alterações em dados que são difíceis de reverter.</p>
+<p>As migrações gerenciam alterações incrementais, geralmente reversíveis, nas estruturas de dados de maneira programática. O objetivo dos softwares de migração de banco de dados é tornar as alterações no banco de dados repetíveis, compartilháveis e testáveis, sem perda de dados. Em geral, o software de migração produz artefatos que descrevem o conjunto exato de operações necessárias para transformar o banco de dados de um estado conhecido para o novo estado. Esses artefatos podem ser gerenciados em softwares de controle de versão para rastrear mudanças e compartilhar entre membros da equipe.</p>
+<p>Embora a prevenção de perda de dados seja geralmente um dos objetivos do software de migração, alterações que excluem ou modificam estruturas que atualmente armazenam dados podem resultar em exclusões. Para lidar com isso, a migração geralmente é um processo supervisionado, envolvendo a inspeção dos scripts de alterações resultantes e fazendo as modificações necessárias para preservar informações importantes.</p>
+
+<h2>Quais são as vantagens das ferramentas de migração?</h2>
+<p>As migrações são úteis porque permitem que os esquemas de banco de dados evoluam conforme os requisitos mudam. Elas ajudam os desenvolvedores a planejar, validar e aplicar alterações nos esquemas com segurança em seus ambientes. Essas alterações compartimentadas são definidas em um nível granular e descrevem as transformações necessárias para transitar entre as diversas "versões" do banco de dados.</p>
+<p>Em geral, os sistemas de migração criam artefatos ou arquivos que podem ser compartilhados, aplicados a vários sistemas de banco de dados e armazenados em controle de versão. Isso ajuda a construir um histórico de modificações no banco de dados que pode estar diretamente ligado às mudanças no código dos aplicativos clientes. O esquema do banco de dados e as suposições do aplicativo sobre essa estrutura podem evoluir juntos.</p>
+<p>Outros benefícios incluem a possibilidade (e às vezes a necessidade) de ajustar manualmente o processo ao separar a geração da lista de operações da execução delas. Cada alteração pode ser auditada, testada e modificada para garantir que os resultados corretos sejam obtidos, enquanto ainda se confia na automação para a maioria do processo.</p>
+
+<h2>Quais são as desvantagens das ferramentas de migração?</h2>
+<p>Os sistemas de migração não são isentos de falhas, mas, felizmente, a maioria delas pode ser mitigada com processos e supervisão.</p>
+<p>Como as migrações modificam estruturas de banco de dados existentes, é necessário cuidado para evitar perda de dados. Isso pode ser causado por suposições incorretas feitas pelas ferramentas ou por transformações que exigem uma compreensão do significado por trás das estruturas de dados. Embora possa ser tentador presumir que os arquivos de migração gerados estão corretos, como esses arquivos geralmente tratam apenas das estruturas de dados, cabe a você garantir que os dados também sejam preservados ou transformados corretamente.</p>
+<p>As migrações também podem falhar se forem aplicadas a um banco de dados que esteja em um estado diferente do esperado. Por exemplo, isso pode acontecer quando alterações são feitas na estrutura do banco fora do sistema de migração ou quando as migrações são aplicadas na ordem errada. Todos os sistemas de migração dependem do entendimento do estado atual do banco de dados para modificá-lo corretamente. Se o estado real divergir do estado presumido, as migrações podem falhar ou modificar o banco de maneira indesejada.</p>
+<p>Outro problema potencial com as migrações é que elas geralmente são muito específicas das ferramentas utilizadas. Os sistemas de migração geram artefatos que representam o estado dos bancos de dados ou as alterações necessárias. Embora algumas ferramentas produzam resultados em SQL puro, às vezes elas codificam detalhes adicionais para serem interpretados pela própria ferramenta nos comentários ou podem usar formatos específicos de nomes de arquivos para indicar a ordem. Trocar de ferramentas de migração pode ser difícil sem uma separação completa entre a geração anterior e a nova dos arquivos de migração.</p>

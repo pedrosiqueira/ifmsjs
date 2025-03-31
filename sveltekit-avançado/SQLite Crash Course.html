@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <!-- <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
-    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <!-- <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 
-    <!-- https://github.com/arronhunt/highlightjs-copy -->
-    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
-    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
-    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
 
-    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
-    <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
   <script defer>hljs.highlightLinesAll([
       // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
     ]);
   </script> -->
 
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
-    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 
 <h1 id="-guia-r-pido-do-sqlite-com-os-principais-comandos-para-refer-ncia-r-pida"><strong>Guia Rápido do SQLite</strong> com os <strong>principais comandos</strong> para referência rápida</h1>
@@ -36,220 +36,131 @@
 <hr>
 <h2 id="linguagem-de-defini-o-de-dados-ddl-">Linguagem de Definição de Dados (DDL)</h2>
 <h3 id="criar-tabela">CREATE TABLE</h3>
-<p>Cria uma nova tabela com colunas e tipos de dados.</p>
-
+<p>Cria uma nova tabela com colunas e tipos de dados. Com DrizzleORM, toda a criação e alteração de tabelas se dá através do arquivo <code>schema.js</code> e aplicando migrações.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>CREATE TABLE uma_tabela (
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>CREATE TABLE uma_tabela (
     um_numero INTEGER,
     um_decimal REAL,
     um_texto TEXT,
     um_arquivo BLOB
 );</code></pre>
-            </td>
-            <td>
-                <pre><code>export const uma_tabela = sqliteTable('uma_tabela', {
+      </td>
+      <td>
+        <pre><code>export const uma_tabela = sqliteTable('uma_tabela', {
   um_numero: integer(),
   um_decimal: real(),
   um_texto: text(),
   um_arquivo: blob(),
 });</code></pre>
-            </td>
-        </tr>
-    </tbody>
+      </td>
+    </tr>
+  </tbody>
 </table>
+<p>Com DrizzleORM, uma tabela é declarada através da função <code>sqliteTable</code>, em que o primeiro argumento é o nome da tabela e o segundo argumento é um objeto contendo os campos da tabela.</p>
 <h3 id="alterar-tabela">ALTER TABLE</h3>
 <p>Adiciona uma coluna a uma tabela existente.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>ALTER TABLE uma_tabela ADD COLUMN id INTEGER;</code></pre>
-            </td>
-            <td>
-                <pre><code>// Com Drizzle, alterações na estrutura da tabela são feitas via migrações</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>ALTER TABLE uma_tabela ADD COLUMN id INTEGER;</code></pre>
+      </td>
+      <td>
+        <pre><code>// Com Drizzle, alterações na estrutura da tabela são feitas via migrações</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <p>Adiciona uma chave estrangeira a uma tabela existente.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>ALTER TABLE uma_tabela ADD COLUMN uma_tabela_id INTEGER REFERENCES uma_tabela(id);</code></pre>
-            </td>
-            <td>
-                <pre><code>// Com Drizzle, alterações na estrutura da tabela são feitas via migrações</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>ALTER TABLE uma_tabela ADD COLUMN uma_tabela_id INTEGER REFERENCES uma_tabela(id);</code></pre>
+      </td>
+      <td>
+        <pre><code>// Com Drizzle, alterações na estrutura da tabela são feitas via migrações</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="excluir-tabela">DROP TABLE</h3>
 <p>Exclui uma tabela do banco de dados.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>DROP TABLE uma_tabela;</code></pre>
-            </td>
-            <td>
-                <pre><code>// Com Drizzle, alterações na estrutura da tabela são feitas via migrações</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>DROP TABLE uma_tabela;</code></pre>
+      </td>
+      <td>
+        <pre><code>// Com Drizzle, alterações na estrutura da tabela são feitas via migrações</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <hr>
 <h2 id="restri-es-no-sqlite">Restrições no SQLite</h2>
-<h3 id="chave-prim-ria">PRIMARY KEY</h3>
-<p>Define uma coluna como chave primária.</p>
+<p>Considere as seguintes tabelas:</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>CREATE TABLE categoria (
-    rotulo TEXT PRIMARY KEY
-);</code></pre>
-            </td>
-            <td>
-                <pre><code>export const categoria = sqliteTable('categoria', {
-  rotulo: text().primaryKey(),
-});</code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<h3 id="autoincremento">AUTOINCREMENT</h3>
-<p>Usa <code>AUTOINCREMENT</code> com <code>INTEGER PRIMARY KEY</code> para gerar valores únicos automaticamente.</p>
-<table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>CREATE TABLE usuarios (
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>CREATE TABLE usuarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome_usuario TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     data_nascimento TEXT,
-    pontos INTEGER,
+    pontos INTEGER DEFAULT 0,
     criado_em TEXT DEFAULT CURRENT_TIMESTAMP
 );</code></pre>
-            </td>
-            <td>
-                <pre><code>export const usuarios = sqliteTable('usuarios', {
+      </td>
+      <td>
+        <pre><code>export const usuarios = sqliteTable('usuarios', {
   id: integer().primaryKey({ autoIncrement: true }),
   nome_usuario: text().notNull(),
   email: text().notNull().unique(),
   data_nascimento: text(),
-  pontos: integer(),
+  pontos: integer().default(0),
   criado_em: text().default(sql`CURRENT_TIMESTAMP`),
 });</code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<h3 id="restri-o-nica">UNIQUE</h3>
-<p>Garante que todos os valores de uma coluna sejam únicos.</p>
-<table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>CREATE TABLE usuarios (
-    id INTEGER PRIMARY KEY,
-    email TEXT UNIQUE
-);</code></pre>
-            </td>
-            <td>
-                <pre><code>export const usuarios = sqliteTable('usuarios', {
-  id: integer().primaryKey(),
-  email: text().unique(),
-});</code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<h3 id="restri-o-not-null">NOT NULL</h3>
-<p>Garante que uma coluna não possa ter valores <code>NULL</code>.</p>
-<table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>CREATE TABLE usuarios (
-    id INTEGER PRIMARY KEY,
-    nome_usuario TEXT NOT NULL
-);</code></pre>
-            </td>
-            <td>
-                <pre><code>export const usuarios = sqliteTable('usuarios', {
-  id: integer().primaryKey(),
-  nome_usuario: text().notNull(),
-});</code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<h3 id="chave-estrangeira">FOREIGN KEY</h3>
-<p>Define uma chave estrangeira para estabelecer relacionamentos entre tabelas.</p>
-<table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>CREATE TABLE posts (
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <pre><code class='sql'>CREATE TABLE posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     titulo TEXT NOT NULL,
     conteudo TEXT NOT NULL,
@@ -258,90 +169,210 @@
     atualizado_em TEXT DEFAULT CURRENT_TIMESTAMP CHECK(atualizado_em >= criado_em),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );</code></pre>
-            </td>
-            <td>
-                <pre><code>export const posts = sqliteTable('posts', {
+      </td>
+      <td>
+        <pre><code>export const posts = sqliteTable('posts', {
   id: integer().primaryKey({ autoIncrement: true }),
   titulo: text().notNull(),
   conteudo: text().notNull(),
-  usuario_id: integer()
-    .notNull()
-    .references(() => usuarios.id),
+  usuario_id: integer().notNull().references(() => usuarios.id),
   criado_em: text().default(sql`CURRENT_TIMESTAMP`),
-  atualizado_em: text()
-    .default(sql`CURRENT_TIMESTAMP`)
-    .check(sql`atualizado_em >= criado_em`),
+  atualizado_em: text().default(sql`CURRENT_TIMESTAMP`)
+}, posts => [
+  check('atualizado_em_chk', sql`${posts.atualizado_em} >= ${posts.criado_em}`)
+]);</code></pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>Elas possuem as seguintes restrições:</p>
+<h3 id="chave-prim-ria">PRIMARY KEY</h3>
+<p>Define uma coluna como chave primária.</p>
+<table class="custom">
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>CREATE TABLE categorias (
+    rotulo TEXT PRIMARY KEY
+);</code></pre>
+      </td>
+      <td>
+        <pre><code>export const categorias = sqliteTable('categorias', {
+  rotulo: text().primaryKey(),
 });</code></pre>
-            </td>
-        </tr>
-    </tbody>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3 id="autoincremento">AUTOINCREMENT</h3>
+<p>Usa <code>AUTOINCREMENT</code> com <code>INTEGER PRIMARY KEY</code> para gerar valores únicos automaticamente.</p>
+<table class="custom">
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>CREATE TABLE usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+);</code></pre>
+      </td>
+      <td>
+        <pre><code>export const usuarios = sqliteTable('usuarios', {
+  id: integer().primaryKey({ autoIncrement: true }),
+});</code></pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3 id="restri-o-nica">UNIQUE</h3>
+<p>Garante que todos os valores de uma coluna sejam únicos.</p>
+<table class="custom">
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>CREATE TABLE usuarios (
+    email TEXT UNIQUE
+);</code></pre>
+      </td>
+      <td>
+        <pre><code>export const usuarios = sqliteTable('usuarios', {
+  email: text().unique(),
+});</code></pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3 id="restri-o-not-null">NOT NULL</h3>
+<p>Garante que uma coluna não possa ter valores <code>NULL</code>.</p>
+<table class="custom">
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>CREATE TABLE usuarios (
+    nome_usuario TEXT NOT NULL
+);</code></pre>
+      </td>
+      <td>
+        <pre><code>export const usuarios = sqliteTable('usuarios', {
+  nome_usuario: text().notNull(),
+});</code></pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3 id="chave-estrangeira">FOREIGN KEY</h3>
+<p>Define uma chave estrangeira para estabelecer relacionamentos entre tabelas.</p>
+<table class="custom">
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>CREATE TABLE posts (
+    usuario_id INTEGER NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);</code></pre>
+      </td>
+      <td>
+        <pre><code>export const posts = sqliteTable('posts', {
+  usuario_id: integer().notNull().references(() => usuarios.id),
+});</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="restri-o-check">CHECK</h3>
 <p>Adiciona uma validação de dados na entrada.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>CREATE TABLE posts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>CREATE TABLE posts (
     atualizado_em TEXT DEFAULT CURRENT_TIMESTAMP CHECK(atualizado_em >= criado_em)
 );</code></pre>
-            </td>
-            <td>
-                <pre><code>export const posts = sqliteTable('posts', {
-  id: integer().primaryKey({ autoIncrement: true }),
-  atualizado_em: text()
-    .default(sql`CURRENT_TIMESTAMP`)
-    .check(sql`atualizado_em >= criado_em`),
-});</code></pre>
-            </td>
-        </tr>
-    </tbody>
+      </td>
+      <td>
+        <pre><code>export const posts = sqliteTable('posts', {
+  atualizado_em: text().default(sql`CURRENT_TIMESTAMP`)
+}, posts => [
+  check('atualizado_em_chk', sql`${posts.atualizado_em} >= ${posts.criado_em}`)
+]);</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
+<p>No DrizzleORM, algumas restrições, como o <code>CHECK</code>, ainda não são declaradas junto da declaração da coluna, mas em uma lista de restrições à parte, passada no terceiro argumento da função <code>sqliteTable</code>.</p>
+
 <hr>
 <h2 id="linguagem-de-manipula-o-de-dados-dml-">Linguagem de Manipulação de Dados (DML)</h2>
 <h3 id="inserir-dados">INSERT INTO</h3>
 <p>Insere um novo registro em uma tabela.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>INSERT INTO usuarios (nome_usuario, email)
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>INSERT INTO usuarios (nome_usuario, email)
 VALUES ('maria_silva', 'maria@silva.com.br');</code></pre>
-            </td>
-            <td>
-                <pre><code>await db.insert(usuarios).values({
+      </td>
+      <td>
+        <pre><code>await db.insert(usuarios).values({
   nome_usuario: 'maria_silva',
   email: 'maria@silva.com.br',
 });</code></pre>
-            </td>
-        </tr>
-    </tbody>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <p>Insere vários registros de uma vez.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>INSERT INTO usuarios (nome_usuario, email, data_nascimento)
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>INSERT INTO usuarios (nome_usuario, email, data_nascimento)
 VALUES
     ('francisca_pereira', 'francisca@pereira.com', '2002-11-05'),
     ('jose_santos', 'jose@santos.com', '2004-02-29'),
@@ -355,9 +386,9 @@ VALUES
     ('terceiro artigo', 'conteúdo do terceiro artigo', 2),
     ('quarto artigo', 'conteúdo do quarto artigo', 1),
     ('quinto artigo', 'conteúdo do quinto artigo', 2);</code></pre>
-            </td>
-            <td>
-                <pre><code>await db.insert(usuarios).values([
+      </td>
+      <td>
+        <pre><code>await db.insert(usuarios).values([
   { nome_usuario: 'francisca_pereira', email: 'francisca@pereira.com', data_nascimento: '2002-11-05' },
   { nome_usuario: 'jose_santos', email: 'jose@santos.com', data_nascimento: '2004-02-29' },
   { nome_usuario: 'joao_souza', email: 'joao@souza.com', data_nascimento: '2001-12-31' },
@@ -371,452 +402,446 @@ await db.insert(posts).values([
   { titulo: 'quarto artigo', conteudo: 'conteúdo do quarto artigo', usuario_id: 1 },
   { titulo: 'quinto artigo', conteudo: 'conteúdo do quinto artigo', usuario_id: 2 },
 ]);</code></pre>
-            </td>
-        </tr>
-    </tbody>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="atualizar-dados">UPDATE</h3>
 <p>Atualiza um registro existente.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>UPDATE posts SET atualizado_em = '2025-03-28 00:00:00' WHERE id = 1;</code></pre>
-            </td>
-            <td>
-                <pre><code>await db
-  .update(posts)
-  .set({ atualizado_em: '2025-03-28 00:00:00' })
-  .where(eq(posts.id, 1));</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>UPDATE usuarios SET pontos = 100 WHERE nome_usuario = 'jose_santos';</code></pre>
+      </td>
+      <td>
+        <pre><code>await db.update(usuarios).set({ pontos: 100 }).where(eq(usuarios.nome_usuario, 'jose_santos'));</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="excluir-dados">DELETE</h3>
 <p>Exclui um registro de uma tabela.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>DELETE FROM usuarios WHERE nome_usuario = 'maria_silva';</code></pre>
-            </td>
-            <td>
-                <pre><code>await db.delete(usuarios).where(eq(usuarios.nome_usuario, 'maria_silva'));</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>DELETE FROM usuarios WHERE nome_usuario = 'maria_silva';</code></pre>
+      </td>
+      <td>
+        <pre><code>await db.delete(usuarios).where(eq(usuarios.nome_usuario, 'maria_silva'));</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <hr>
 <h2 id="linguagem-de-consulta-de-dados-dql-">Linguagem de Consulta de Dados (DQL)</h2>
 <h3 id="selecionar-dados">SELECT</h3>
 <p>Recupera todos os registros de uma tabela.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT * FROM usuarios;</code></pre>
-            </td>
-            <td>
-                <pre><code>const todosUsuarios = await db.select().from(usuarios);</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT * FROM usuarios;</code></pre>
+      </td>
+      <td>
+        <pre><code>const todosUsuarios = await db.select().from(usuarios);</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="selecionar-colunas-espec-ficas">Selecionar Colunas Específicas</h3>
 <p>Recupera colunas específicas de uma tabela.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT nome_usuario, email FROM usuarios;</code></pre>
-            </td>
-            <td>
-                <pre><code>const nomesEmails = await db.select({ nome_usuario: usuarios.nome_usuario, email: usuarios.email }).from(usuarios);</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT nome_usuario, email FROM usuarios;</code></pre>
+      </td>
+      <td>
+        <pre><code>const nomesEmails = await db.select({ nome_usuario: usuarios.nome_usuario, email: usuarios.email }).from(usuarios);</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="filtro-com-where">WHERE</h3>
 <p>Filtra resultados com base em condições.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT * FROM usuarios WHERE nome_usuario = 'maria_silva';</code></pre>
-            </td>
-            <td>
-                <pre><code>const usuario = await db.select().from(usuarios).where(eq(usuarios.nome_usuario, 'maria_silva'));</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT * FROM usuarios WHERE nome_usuario = 'maria_silva';</code></pre>
+      </td>
+      <td>
+        <pre><code>const usuario = await db.select().from(usuarios).where(eq(usuarios.nome_usuario, 'maria_silva'));</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="ordena-o-order-by-">ORDER BY</h3>
 <p>Ordena os resultados por uma ou mais colunas.</p>
 <p>Ordena por <code>nome_usuario</code> em ordem crescente (padrão).</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT * FROM usuarios ORDER BY nome_usuario;</code></pre>
-            </td>
-            <td>
-                <pre><code>const usuariosOrdenados = await db.select().from(usuarios).orderBy(usuarios.nome_usuario);</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT * FROM usuarios ORDER BY nome_usuario;</code></pre>
+      </td>
+      <td>
+        <pre><code>const ordenadosPorNome = await db.select().from(usuarios).orderBy(usuarios.nome_usuario);</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <p>Ordena por <code>data_nascimento</code> em ordem decrescente.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT * FROM usuarios ORDER BY data_nascimento DESC;</code></pre>
-            </td>
-            <td>
-                <pre><code>const usuariosOrdenados = await db.select().from(usuarios).orderBy(desc(usuarios.data_nascimento));</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT * FROM usuarios ORDER BY data_nascimento DESC;</code></pre>
+      </td>
+      <td>
+        <pre><code>const ordenadosPorNascimento = await db.select().from(usuarios).orderBy(desc(usuarios.data_nascimento));</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <p>Ordena primeiro por <code>data_nascimento</code> em ordem decrescente e, em seguida, por <code>email</code> em ordem crescente.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT * FROM usuarios ORDER BY data_nascimento DESC, email ASC;</code></pre>
-            </td>
-            <td>
-                <pre><code>const usuariosOrdenados = await db.select().from(usuarios)
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT * FROM usuarios ORDER BY data_nascimento DESC, email ASC;</code></pre>
+      </td>
+      <td>
+        <pre><code>const ordenadosPorNascimentoEmail = await db.select().from(usuarios)
     .orderBy(desc(usuarios.data_nascimento), usuarios.email);</code></pre>
-            </td>
-        </tr>
-    </tbody>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="pagina-o-limit-e-offset-">LIMIT / OFFSET (Paginação)</h3>
-<p>Recupera os primeiros 10 usuários.</p>
+<p>Recupera os primeiros 3 usuários.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT * FROM usuarios LIMIT 10;</code></pre>
-            </td>
-            <td>
-                <pre><code>const usuarios = await db.select().from(usuarios).limit(10);</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT * FROM usuarios LIMIT 3;</code></pre>
+      </td>
+      <td>
+        <pre><code>const primeiros3 = await db.select().from(usuarios).limit(3);</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
-<p>Pula os primeiros 10 usuários e recupera os próximos 10.</p>
+<p>Pula os primeiros 3 usuários e recupera os próximos 3.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT * FROM usuarios LIMIT 10 OFFSET 10;</code></pre>
-            </td>
-            <td>
-                <pre><code>const pagina2 = await db.select().from(usuarios).limit(10).offset(10);</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT * FROM usuarios LIMIT 3 OFFSET 3;</code></pre>
+      </td>
+      <td>
+        <pre><code>const segundos3 = await db.select().from(usuarios).limit(3).offset(3);</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="ordena-o-e-pagina-o-juntas">Ordenação e Paginação Juntas</h3>
-<p>Ordena usuários pelo <code>nome_usuario</code> e pagina os resultados para obter os primeiros 10 registros.</p>
+<p>Ordena usuários pelo <code>nome_usuario</code> e pagina os resultados para obter os primeiros 3 registros.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT * FROM usuarios ORDER BY nome_usuario ASC LIMIT 10 OFFSET 0;</code></pre>
-            </td>
-            <td>
-                <pre><code>const primeirosUsuarios = await db.select().from(usuarios).orderBy(asc(usuarios.nome_usuario)).limit(10).offset(0);</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT * FROM usuarios ORDER BY nome_usuario ASC LIMIT 3;</code></pre>
+      </td>
+      <td>
+        <pre><code>const primeirosUsuarios = await db.select().from(usuarios).orderBy(asc(usuarios.nome_usuario)).limit(3);</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <p>Diferentes páginas:</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>-- Página 1
-SELECT * FROM usuarios ORDER BY nome_usuario LIMIT 10 OFFSET 0;
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>-- Página 1
+SELECT * FROM usuarios ORDER BY nome_usuario LIMIT 3 OFFSET 0;
 
 -- Página 2
-SELECT * FROM usuarios ORDER BY nome_usuario LIMIT 10 OFFSET 10;
+SELECT * FROM usuarios ORDER BY nome_usuario LIMIT 3 OFFSET 3;
 
 -- Página 3
-SELECT * FROM usuarios ORDER BY nome_usuario LIMIT 10 OFFSET 20;</code></pre>
-            </td>
-            <td>
-                <pre><code>// Página 1
-const pagina1 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).limit(10).offset(0);
+SELECT * FROM usuarios ORDER BY nome_usuario LIMIT 3 OFFSET 6;</code></pre>
+      </td>
+      <td>
+        <pre><code>// Página 1
+const pagina1 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).limit(3).offset(0);
 
 // Página 2
-const pagina2 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).limit(10).offset(10);
+const pagina2 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).limit(3).offset(3);
 
 // Página 3
-const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).limit(10).offset(20);</code></pre>
-            </td>
-        </tr>
-    </tbody>
+const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).limit(3).offset(6);</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <hr>
 <h2 id="joins-jun-es-de-tabelas-">JOINs (Junções de Tabelas)</h2>
 <h3 id="inner-join">INNER JOIN</h3>
 <p>Combina registros de duas tabelas com base em uma condição.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT posts.titulo, usuarios.nome_usuario
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT usuarios.nome_usuario, posts.titulo
 FROM usuarios
 INNER JOIN posts ON usuarios.id = posts.usuario_id;</code></pre>
-            </td>
-            <td>
-                <pre><code>const postsComUsuarios = await db
-  .select({ titulo: posts.titulo, nome_usuario: usuarios.nome_usuario })
-  .from(posts)
-  .innerJoin(usuarios, eq(posts.usuario_id, usuarios.id));</code></pre>
-            </td>
-        </tr>
-    </tbody>
+      </td>
+      <td>
+        <pre><code>const usuariosComPosts = await db
+  .select({ nome_usuario: usuarios.nome_usuario, titulo: posts.titulo })
+  .from(usuarios)
+  .innerJoin(posts, eq(usuarios.id, posts.usuario_id));</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="left-join">LEFT JOIN</h3>
 <p>Retorna todos os registros da tabela à esquerda e os correspondentes da direita.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT posts.titulo, usuarios.nome_usuario
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT usuarios.nome_usuario, posts.titulo
 FROM usuarios
 LEFT JOIN posts ON usuarios.id = posts.usuario_id;</code></pre>
-            </td>
-            <td>
-                <pre><code>const postsComUsuarios = await db
-  .select({ titulo: posts.titulo, nome_usuario: usuarios.nome_usuario })
+      </td>
+      <td>
+        <pre><code>const usuariosEPosts = await db
+  .select({ nome_usuario: usuarios.nome_usuario, titulo: posts.titulo })
   .from(usuarios)
   .leftJoin(posts, eq(usuarios.id, posts.usuario_id));</code></pre>
-            </td>
-        </tr>
-    </tbody>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="right-join-simulado-">RIGHT JOIN (Simulado)</h3>
 <p>O SQLite não suporta <code>RIGHT JOIN</code>, mas é possível inverter a ordem das tabelas usando <code>LEFT JOIN</code>.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT posts.titulo, usuarios.nome_usuario
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT posts.titulo, usuarios.nome_usuario
 FROM posts
-LEFT JOIN usuarios ON usuarios.id = posts.usuario_id;</code></pre>
-            </td>
-            <td>
-                <pre><code>const postsComUsuarios = await db
-  .select({ tituloPost: posts.titulo, nome_usuario: usuarios.nome_usuario, })
+LEFT JOIN usuarios ON posts.usuario_id = usuarios.id;</code></pre>
+      </td>
+      <td>
+        <pre><code>const postsEUsuarios = await db
+  .select({ tituloPost: posts.titulo, nome_usuario: usuarios.nome_usuario })
   .from(posts)
   .leftJoin(usuarios, eq(posts.usuario_id, usuarios.id));</code></pre>
-            </td>
-        </tr>
-    </tbody>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <hr>
 <h2 id="agrega-o-e-agrupamento">Agregação e Agrupamento</h2>
 <h3 id="contagem">COUNT</h3>
 <p>Conta o número de linhas.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT COUNT(*) FROM usuarios;</code></pre>
-            </td>
-            <td>
-                <pre><code>const resultado = await db.select({ count: count() }).from(usuarios);
-const totalUsuarios = resultado[0].count;</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT COUNT(*) FROM usuarios;</code></pre>
+      </td>
+      <td>
+        <pre><code>const totalUsuarios = await db.select({ count: count() }).from(usuarios);</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="agrupar-por">GROUP BY</h3>
 <p>Agrupa linhas com base em uma ou mais colunas.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT usuario_id, COUNT(*) FROM posts GROUP BY usuario_id;</code></pre>
-            </td>
-            <td>
-                <pre><code>const postsPorUsuario = await db
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT usuario_id, COUNT(*) FROM posts GROUP BY usuario_id;</code></pre>
+      </td>
+      <td>
+        <pre><code>const postsPorUsuario = await db
     .select({ usuario_id: posts.usuario_id, count: count() })
     .from(posts)
     .groupBy(posts.usuario_id);</code></pre>
-            </td>
-        </tr>
-    </tbody>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="soma">SUM</h3>
 <p>Soma os valores de uma coluna.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT SUM(total) FROM pedidos;</code></pre>
-            </td>
-            <td>
-                <pre><code>const somaPedidos = await db
-    .select({ totalSoma: sum(pedidos.total), })
-    .from(pedidos);</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT SUM(pontos) FROM usuarios;</code></pre>
+      </td>
+      <td>
+        <pre><code>const pontos = await db.select({ pontos: sum(usuarios.pontos) }).from(usuarios);</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="m-ximo-m-nimo">MAX/MIN</h3>
 <p>Encontra o maior ou menor valor em uma coluna.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>SELECT MAX(data_nascimento) FROM usuarios;
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>SELECT MAX(data_nascimento) FROM usuarios;
 SELECT MIN(data_nascimento) FROM usuarios;</code></pre>
-            </td>
-            <td>
-                <pre><code>const cacula = await db
-    .select({ nascimento: max(usuarios.data_nascimento), }) 
+      </td>
+      <td>
+        <pre><code>const cacula = await db
+    .select({ nascimento: max(usuarios.data_nascimento) }) 
     .from(usuarios);
 
 const primogenito = await db 
-    .select({ nascimento: min(usuarios.data_nascimento), })
+    .select({ nascimento: min(usuarios.data_nascimento) })
     .from(usuarios);</code></pre>
-            </td>
-        </tr>
-    </tbody>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h2 id="transa-es">Transações</h2>
-
+<p>Transações no DrizzleORM são feitas dentro da função <code>transaction</code>. A transação é concluída (commited) ao final da função. Se a transação não puder ser concluída ou o comando <code>rollback</code> for executado, a transação é desfeita, lançando uma exceção. Atualmente, <a href="https://github.com/drizzle-team/drizzle-orm/issues/1957">não é possível definir uma mensagem personalizada</a> ao utilizar <code>tx.rollback()</code>. Em vez disso, você pode lançar manualmente uma exceção com a mensagem desejada.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>BEGIN TRANSACTION;
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>BEGIN TRANSACTION;
 
 SELECT pontos INTO @pontos FROM usuarios WHERE nome_usuario = 'jose_santos';
 
@@ -833,9 +858,9 @@ SET pontos = pontos + 100
 WHERE nome_usuario = 'ana_oliveira';
 
 COMMIT;</code></pre>
-            </td>
-            <td>
-                <pre><code>await db.transaction(async (tx) => {
+      </td>
+      <td>
+        <pre><code>await db.transaction(async (tx) => {
     // Seleciona o usuário 'jose_santos' para verificar os pontos
     const [usuario] = await tx.select().from(usuarios)
         .where(eq(usuarios.nome_usuario, 'jose_santos'));
@@ -853,86 +878,86 @@ COMMIT;</code></pre>
         .set({ pontos: sql`${usuarios.pontos} + 100` })
         .where(eq(usuarios.nome_usuario, 'ana_oliveira'));
 });</code></pre>
-            </td>
-        </tr>
-    </tbody>
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 <h3 id="iniciar-transa-o">BEGIN TRANSACTION</h3>
 <p>Inicia uma transação.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>BEGIN TRANSACTION;</code></pre>
-            </td>
-            <td>
-                <pre><code>await db.transaction(async (tx) => { ...</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>BEGIN TRANSACTION;</code></pre>
+      </td>
+      <td>
+        <pre><code>await db.transaction(async (tx) => { ...</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="confirmar">COMMIT</h3>
 <p>Confirma a transação atual.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>COMMIT;</code></pre>
-            </td>
-            <td>
-                <pre><code>... });</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>COMMIT;</code></pre>
+      </td>
+      <td>
+        <pre><code>... });</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="reverter">ROLLBACK</h3>
 <p>Desfaz a transação atual.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>ROLLBACK;</code></pre>
-            </td>
-            <td>
-                <pre><code>tx.rollback();</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>ROLLBACK;</code></pre>
+      </td>
+      <td>
+        <pre><code>tx.rollback();</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <hr>
 <h2 id="-ndices-e-otimiza-o">Índices e Otimização</h2>
 <h3 id="criar-ndice">CREATE INDEX</h3>
 <p>Cria um índice para acelerar as consultas.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>CREATE TABLE usuarios (
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>CREATE TABLE usuarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT,
     email TEXT UNIQUE
@@ -941,9 +966,9 @@ COMMIT;</code></pre>
 CREATE INDEX nome_idx ON usuarios(nome);
 
 CREATE UNIQUE INDEX email_idx ON usuarios(email);</code></pre>
-            </td>
-            <td>
-                <pre><code>export const usuarios = sqliteTable("usuarios", {
+      </td>
+      <td>
+        <pre><code>export const usuarios = sqliteTable("usuarios", {
   id: integer().primaryKey({ autoIncrement: true }),
   nome: text(),
   email: text(),
@@ -951,29 +976,29 @@ CREATE UNIQUE INDEX email_idx ON usuarios(email);</code></pre>
   index("nome_idx").on(usuarios.nome),
   uniqueIndex("email_idx").on(usuarios.email),
 ]);</code></pre>
-            </td>
-        </tr>
-    </tbody>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <h3 id="remover-ndice">DROP INDEX</h3>
 <p>Exclui um índice existente.</p>
 <table class="custom">
-    <thead>
-        <tr>
-            <th>SQLite</th>
-            <th>Drizzle ORM</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code class='sql'>DROP INDEX idx_nome_usuario;</code></pre>
-            </td>
-            <td>
-                <pre><code>// Com Drizzle, alterações na estrutura da tabela são feitas via migrações</code></pre>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>SQLite</th>
+      <th>Drizzle ORM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code class='sql'>DROP INDEX idx_nome_usuario;</code></pre>
+      </td>
+      <td>
+        <pre><code>// Com Drizzle, alterações na estrutura da tabela são feitas via migrações</code></pre>
+      </td>
+    </tr>
+  </tbody>
 </table>
 <hr>
 <h2 id="comandos-do-sqlite-shell">Comandos do SQLite Shell</h2>

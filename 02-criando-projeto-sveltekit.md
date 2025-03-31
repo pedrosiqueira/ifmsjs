@@ -12,7 +12,7 @@ Para acompanhar essa aula, acesse o site <https://pedrosiqueira.github.io/ifmsjs
 
 ## Preparando o Ambiente
 
-Abra o terminal na pasta onde deseja criar o projeto. No meu caso, vou criar o projeto na área de trabalho. Para isso, no Windows, abra o Explorador de Arquivos, acesse a Área de Trabalho, clique em "Arquivo" e selecione "Abrir o PowerShell". O terminal deve indicar que está aberto na área de trabalho, mostrando o caminho para a área de trabalho, que é o Desktop.
+Abra o terminal **na pasta onde deseja criar o projeto**. No meu caso, vou criar o projeto na área de trabalho. Para isso, no Windows, abra o Explorador de Arquivos, acesse a Área de Trabalho, clique em "Arquivo" e selecione "Abrir o PowerShell". O terminal deve indicar que está aberto na área de trabalho, mostrando o caminho para a área de trabalho, que é o Desktop.
 
 Como utilizaremos o VSCode para desenvolver nosso projeto, vamos instalar algumas extensões que nos auxiliarão no desenvolvimento. Execute os seguintes comandos no terminal:
 
@@ -53,17 +53,17 @@ Todo projeto criado com npm (ou pnpm) inclui o arquivo `package.json`, que cont�
 - **ESLint**: Uma ferramenta de análise estática para JavaScript e TypeScript que ajuda a encontrar e corrigir problemas no código. Ela é amplamente usada para garantir qualidade, padronização e evitar erros comuns.
 - **Prettier**: Um formatador de código automático para JavaScript, TypeScript, HTML, CSS, JSON e outras linguagens. Ele é usado para garantir que o código siga um estilo consistente, eliminando a necessidade de ajustes manuais.
 
-A propriedade "scripts" do `package.json` define atalhos para comandos que podem ser executados no projeto usando `pnpm run <nome_do_script>`. Os [principais comando](https://svelte.dev/docs/kit/cli#svelte-kit-sync) em um projeto SvelteKit são:
+A propriedade "scripts" do `package.json` define atalhos para comandos que podem ser executados no projeto usando `pnpm <nome_do_script>`. Os [principais comando](https://svelte.dev/docs/kit/cli#svelte-kit-sync) em um projeto SvelteKit são:
 
-- **`pnpm run dev`**: Executa o projeto no modo **desenvolvimento**. Possui o recurso "hot reload", que atualiza automaticamente as mudanças no código sem precisar reiniciar o servidor. Além disso, fornece mensagens de erro mais detalhadas para facilitar a depuração.
-- **`pnpm run build`**: Compila o projeto para **produção**. Esse comando procura por erros e gera a pasta `build` com os arquivos otimizados e minimizados. Essa pasta contém a versão final do projeto, que será publicada em um servidor de produção real, onde será acessada pelos usuários finais.
-- **`pnpm run preview`**: Executa o projeto compilado na pasta `build`, simulando o comportamento em um ambiente de produção.
-- **`pnpm run format`**: Formata o código automaticamente com Prettier, corrigindo espaçamentos e estilo.
-- **`pnpm run lint`**: Procura por inconsistências, erros e sugestões no código.
+- **`pnpm dev`**: Executa o projeto no modo **desenvolvimento**. Possui o recurso "hot reload", que atualiza automaticamente as mudanças no código sem precisar reiniciar o servidor. Além disso, fornece mensagens de erro mais detalhadas para facilitar a depuração.
+- **`pnpm build`**: Compila o projeto para **produção**. Esse comando procura por erros e gera a pasta `build` com os arquivos otimizados e minimizados. Essa pasta contém a versão final do projeto, que será publicada em um servidor de produção real, onde será acessada pelos usuários finais.
+- **`pnpm preview`**: Executa o projeto compilado na pasta `build`, simulando o comportamento em um ambiente de produção.
+- **`pnpm format`**: Formata o código automaticamente com Prettier, corrigindo espaçamentos e estilo.
+- **`pnpm lint`**: Procura por inconsistências, erros e sugestões no código.
 
 Além desses comandos definidos no arquivo package.json, também há outros comandos, como o `pnpm install`, que instala os pacotes necessários do projeto. Esse comando deve ser executado sempre que um novo pacote for adicionado ao projeto ou quando o repositório for clonado em uma nova máquina, garantindo que todas as dependências especificadas no package.json sejam corretamente instaladas.
 
-Abra o terminal no vscode, teclando Ctrl+j. Execute `pnpm run dev` para iniciar o projeto em modo desenvolvimento. Depois que ele terminar de carregar, aparecerá o link `http://localhost:5173`, que você pode copiar e colar no navegador web para ver o site em funcionamento. Aqui está, a página inicial de um site recém-criado com o SvelteKit!
+Abra o terminal no vscode, teclando Ctrl+j. Execute `pnpm dev` para iniciar o projeto em modo desenvolvimento. Depois que ele terminar de carregar, aparecerá o link `http://localhost:5173`, que você pode copiar e colar no navegador web para ver o site em funcionamento. Aqui está, a página inicial de um site recém-criado com o SvelteKit!
 
 Para encerrar a execução do site, você pode voltar ao terminal e teclar Ctrl+C. Agora, se você voltar ao navegador e atualizar a página, verá que o site estará fora do ar.
 

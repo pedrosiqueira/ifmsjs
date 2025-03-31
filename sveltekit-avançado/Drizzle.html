@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <!-- <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([
+      // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
+    ]);
+  </script> -->
+
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<pre><code class="js">import { sqliteTable, integer, real, text, blob } from 'drizzle-orm/sqlite-core';
+
+import { sql } from 'drizzle-orm';
+import { umaTabela } from './schema'; // Importe a tabela existente
+
+import { integer, text, index, uniqueIndex, sqliteTable } from "drizzle-orm/sqlite-core";
+
+
+[{ id }] = await db.insert(table.artigo).values({ titulo, subtitulo, conteudo, autorId: event.locals.session.userId }).returning({ id: table.artigo.id });
+await db.delete(tabela.user).where(eq(tabela.user.name, 'usuarioTeste'));
+await db.delete(table.artigo).where(eq(table.artigo.id, id));
+await db.insert(tabela.comentario).values({ artigoId, autorId, conteudo });
+await db.insert(tabela.user).values([ { name: 'usuarioTeste', passwordHash: 'senhaHash' } ]);
+await db.insert(table.session).values(session);
+await db.update(table.artigo).set({ titulo, subtitulo, conteudo }).where(eq(table.artigo.id, id));
+await db.update(table.session).set({ expiresAt: session.expiresAt }).where(eq(table.session.id, session.id));
+await db.update(table.user).set({ image: `${caminhoImagem}/${nomeImagem}` })
+await db.update(table.user).set({ passwordHash }).where(eq(table.user.id, userId));
+const [artigo] = await db.select().from(table.artigo).where(eq(table.artigo.id, params.id)).limit(1);
+const [artigo] = await db.select({ titulo: tabela.artigo.titulo, autor: tabela.user.name }).from(tabela.artigo).where(eq(tabela.artigo.id, params.id)).innerJoin(tabela.user, eq(tabela.artigo.autorId, tabela.user.id)).limit(1);
+const artigos = await db.select({ id: table.artigo.id, titulo: table.artigo.titulo }).from(table.artigo).where(eq(table.artigo.autorId, event.locals.user.id)).orderBy(table.artigo.atualizadoEm, 'desc');
+const artigos = await db.select({ id: artigo.id, titulo: artigo.titulo }).from(artigo).orderBy(artigo.atualizadoEm, 'desc');
+const [newUser] = await db.insert(table.user).values({ name: username, passwordHash }).returning();
+const comentarios = await db.select({ conteudo: tabela.comentario.conteudo, autor: tabela.user.name }).from(tabela.comentario).where(eq(tabela.comentario.artigoId, params.id)).innerJoin(tabela.user, eq(tabela.comentario.autorId, tabela.user.id)).orderBy(asc(tabela.comentario.criadoEm));
+
+
+// tbm citar exemplo de comando sql cru no drizzle, como "await db.execute(sql`ALTER TABLE ${umaTabela} ADD COLUMN id INTEGER;`);", apesar que nesse exemplo específico, alterar a estrutura da tabela assim não é recomendado</code></pre>

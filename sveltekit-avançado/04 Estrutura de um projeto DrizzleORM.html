@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script> -->
+    <!-- <script defer>hljs.highlightLinesAll([[], [], [], [{ start: 3, end: 3, color: 'lightgreen' }]]);</script> -->
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Estrutura de um projeto DrizzleORM</h1>
+
+<p>Ao criar um projeto SvelteKit com Drizzle, conforme a seção <a href="03 Criando um projeto SvelteKit avançado.html#criacao-projeto">Criando um projeto do zero</a>, o projeto será estruturado da seguinte forma:</p>
+<pre><code>📦 pasta-raiz
+┣━━ 📂 drizzle
+┣━━ 📂 src
+┃   ┗━━ 📂 lib
+┃       ┗━━ 📂 server
+┃           ┗━━ 📂 db
+┃               ┣━━ 📄 index.js
+┃               ┗━━ 📄 schema.js
+┣━━ 📄 .env
+┣━━ 📄 drizzle.config.js
+┗━━ 📄 package.json</code></pre>
+
+<p>Cinco arquivos principais são criados ao configurar o projeto:</p>
+
+<h2 id="o-arquivo-package-json-">O arquivo <code>package.json</code></h2>
+<p>Além dos pacotes mencionados no tutorial <a target="_blank" href="../sveltekit/0A%20Criando%20um%20projeto%20SvelteKit.html#o-arquivo-package-json">Criando um projeto SvelteKit</a>, um projeto com Drizzle inclui:</p>
+<ul>
+    <li><code>dependencies</code> (Dependências usadas no ambiente de produção):
+        <ul>
+            <li><code>drizzle-orm</code>: Biblioteca ORM que facilita a interação com bancos de dados SQL, permitindo escrever consultas seguras e eficientes.</li>
+            <li><code>@libsql/client</code>: Driver JavaScript para conectar-se a bancos de dados SQLite.</li>
+            <!-- <li>Pacotes do LuciaAuth:
+                <ul>
+                    <li><code>@oslojs/crypto</code>: Biblioteca de funções para <i>hashing</i> e <i>criptografia</i>, usadas para gerar senhas e verificar senhas seguras.</li>
+                    <li><code>@oslojs/encoding</code>: Biblioteca de codificação e decodificação de dados, incluindo <i>Base64</i> e <i>hexadecimal</i>, usadas para manipulação segura de tokens, senhas e dados sensíveis.</li>
+                </ul>
+            </li> -->
+        </ul>
+    </li>
+    <li><code>devDependencies</code> (Dependências usadas apenas no ambiente de desenvolvimento):
+        <ul>
+            <li><code>drizzle-kit</code>: Ferramenta CLI para gerenciamento de migrações no DrizzleORM. Permite gerar e aplicar migrações no banco de dados com comandos simples, além de introspecção de esquemas.</li>
+        </ul>
+    </li>
+</ul>
+
+<p>Além dos <a target="_blank" href="../sveltekit/0A%20Criando%20um%20projeto%20SvelteKit.html#principais-comandos-sveltekit">comandos padrão do SvelteKit</a> definidos no arquivo <code>package.json</code>, também estão inclusos os seguintes comandos do DrizzleKit:</p>
+<ul>
+    <li>
+        <p><code>pnpm db:push</code>:</p>
+        <ul>
+            <li>Aplica o esquema do Drizzle diretamente no banco <strong>sem gerar um arquivo de migração</strong>.</li>
+            <li><strong>Uso comum</strong>: Atualizar o banco rapidamente sem versionamento de mudanças.</li>
+            <li><strong>Cuidado:</strong> Pode sobrescrever alterações existentes no banco irreversivelmente!</li>
+        </ul>
+    </li>
+    <li>
+        <p><code>pnpm db:migrate</code>:</p>
+        <ul>
+            <li><strong>Aplica migrações pendentes</strong> ao banco de dados.</li>
+            <li>Antes de executar esse comando, é necessário gerar as migrações com <code>pnpm exec drizzle-kit generate</code>.</li>
+            <li><strong>Uso comum</strong>: Manter um <strong>histórico seguro</strong> das mudanças no esquema do banco de dados.</li>
+        </ul>
+    </li>
+    <li>
+        <p><code>pnpm db:studio</code>:</p>
+        <ul>
+            <li>Inicia um servidor web local com uma <strong>interface visual interativa</strong> para explorar e gerenciar o banco de dados.</li>
+            <li>Permite visualizar tabelas, executar consultas e depurar dados <strong>diretamente pelo navegador</strong>.</li>
+            <li><strong>Uso comum</strong>: Inspecionar ou modificar dados manualmente, sem precisar usar código JvaScript ou SQL diretamente.</li>
+        </ul>
+    </li>
+</ul>
+
+<p>Se precisar modificar o banco de dados, use <code>pnpm db:migrate</code> para versionar as alterações ou <code>pnpm db:push</code> para aplicar as alterações diretamente. Se precisar inspecionar os dados, o <code>pnpm db:studio</code> pode ser útil.</p>
+
+<h2>O arquivo <code>.env</code></h2>
+<p>O arquivo <code>.env</code> (dotenv) é utilizado para armazenar variáveis de ambiente de projetos de software, como credenciais e configurações do banco de dados. Ele mantém essas informações separadas do código-fonte, o que aumenta a segurança e facilita a configuração do projeto. Suas principais características são:</p>
+
+<ul>
+    <li><strong>Armazena credenciais e informações sensíveis</strong>
+        <ul>
+            <li>Exemplos: chaves de API, tokens de autenticação e configurações de banco de dados.</li>
+        </ul>
+    </li>
+    <li><strong>Facilita a configuração de diferentes ambientes</strong>
+        <ul>
+            <li>Permite definir valores específicos para ambientes de Desenvolvimento (<code>.env.dev</code>), Teste (<code>.env.test</code>) e Produção (<code>.env.prod</code>).</li>
+        </ul>
+    </li>
+    <li><strong>Evita "código chumbado" (hard-coded)<foot-note href="#hard-coded"></foot-note></strong>
+        <ul>
+            <li>Alterações nas configurações podem ser feitas sem modificar o código-fonte, reduzindo o risco de erros e eliminando a necessidade de recompilação.</li>
+        </ul>
+    </li>
+</ul>
+
+<div class="info"><em>Observação:</em> O termo <i>hard-coded</i> (código chumbado) se refere a valores ou configurações inseridos diretamente no código-fonte, em vez de serem armazenados em arquivos externos, variáveis de ambiente ou banco de dados. Isso torna o código menos flexível e mais difícil de manter.</div>
+
+<p>Como o arquivo <code>.env</code> pode conter informações sensíveis e configurações de ambiente específicas, ele <strong>não deve ser versionado</strong>. Para evitar vazamentos, adicione-o ao arquivo <code>.gitignore</code>.</p>
+
+<p>No caso de projetos com Drizzle e SQLite, crie na pasta raiz o arquivo <code ctc>.env</code>:</p>
+<pre><code class="js">DATABASE_URL=file:meubanco.db</code></pre>
+<p>A variável de ambiente <code>DATABASE_URL</code> define o caminho para o banco de dados SQLite. O valor <code>file:meubanco.db</code> indica que o SQLite armazenará os dados no arquivo <code>meubanco.db</code> localizado na pasta raiz do projeto.</p>
+<p>Diferente de bancos como PostgreSQL ou MySQL, que utilizam um servidor, o SQLite é um banco de dados local e baseado em arquivos. O Drizzle acessa o arquivo <code>meubanco.db</code>, onde armazenará as tabelas e dados. Se o arquivo não existir, o SQLite o cria automaticamente com um novo banco de dados.</p>
+
+<h2>O arquivo <code>schema.js</code></h2>
+<p>O arquivo <code>schema.js</code> define a estrutura do banco de dados no DrizzleORM. Em projetos SvelteKit, ele normalmente fica localizado em <code>src/lib/server/db/</code>. Esse arquivo descreve as tabelas, colunas, tipos de dados e restrições aplicadas ao banco de dados SQLite.</p>
+<p>Inicialmente, o arquivo pode conter algumas tabelas de exemplo, mas depois excluiremos essas tabelas e definiremos nosso próprio esquema de dados de acordo com as necessidades do projeto.</p>
+
+<h2 id="o-arquivo-index-js-">O arquivo <code>index.js</code></h2>
+<p>O arquivo <code>index.js</code>, localizado em <code>src/lib/server/db/</code>, é responsável por configurar a conexão com o banco de dados no DrizzleORM. Ele inicializa o cliente de banco de dados (quem se conecta ao banco) e exporta um objeto representando o banco de dados (<code>db</code>), que será usado em todo o aplicativo para acessar o banco.</p>
+
+<h3 id="explica-o-do-c-digo">Explicação do código</h3>
+<pre><code class="lang-javascript">import { drizzle } from 'drizzle-orm/libsql';
+import { createClient } from '@libsql/client';
+import * as schema from './schema';
+import { env } from '$env/dynamic/private';</code></pre>
+
+<ul>
+    <li><strong><code>drizzle-orm/libsql</code></strong>: Importa a função <code>drizzle</code>, usada para criar a conexão com o banco de dados.</li>
+    <li><strong><code>@libsql/client</code></strong>: Importa <code>createClient</code>, que cria o cliente de conexão com o banco, através do driver LibSQL.</li>
+    <li><strong><code>./schema</code></strong>: Importa o esquema do banco de dados definido no arquivo <code>schema.js</code>.</li>
+    <li><strong><code>$env/dynamic/private</code></strong>: Importa <a target="_blank" href="https://svelte.dev/docs/kit/$env-dynamic-private">variáveis de ambiente privadas</a> do SvelteKit.</li>
+</ul>
+
+<hr>
+<pre><code class="lang-javascript">if (!env.DATABASE_URL) throw new Error('DATABASE_URL is not set');</code></pre>
+<ul>
+    <li>Verifica se a variável de ambiente <code>DATABASE_URL</code> está definida. Se não estiver, lança um erro para evitar que o aplicativo execute sem uma conexão configurada.</li>
+</ul>
+
+<hr>
+<pre><code class="lang-javascript">const client = createClient({ url: env.DATABASE_URL });</code></pre>
+<ul>
+    <li>Cria um cliente de banco de dados usando a URL definida na variável de ambiente <code>DATABASE_URL</code>.</li>
+</ul>
+
+<hr>
+<pre><code class="lang-javascript">export const db = drizzle(client, { schema });</code></pre>
+<ul>
+    <li>Cria e exporta o objeto de ORM, associando o cliente de banco de dados e o esquema (<code>schema</code>).</li>
+    <li>O objeto <code>db</code> será utilizado no código para interagir com o banco de dados, permitindo consultas, inserções, atualizações e exclusões sem escrever SQL diretamente.</li>
+</ul>
+
+<h2>O arquivo <code>drizzle.config.js</code></h2>
+<p>O arquivo <code>drizzle.config.js</code> configura o funcionamento do DrizzleKit. O DrizzleKit é uma ferramenta de linha de comando (CLI) que gerencia migrações do banco de dados.</p>
+<p>Para gerenciar migrações em um banco de dados SQLite com o DrizzleKit, são necessárias as seguintes propriedades:</p>
+
+<ul>
+    <li><code>schema</code>: Caminho do arquivo que define as tabelas e colunas do banco de dados (<code>schema.js</code>).</li>
+    <li><code>dbCredentials</code>: Define as propriedades de conexão do banco de dados (no caso de SQLite, é necessário apenas a URL, contida na variável de ambiente <code>DATABASE_URL</code>).</li>
+</ul>
+
+<p>Além dessas propriedades obrigatórias para se conectar a um banco de dados SQLite, o arquivo de configuração pode ter <a target="_blank" href="https://orm.drizzle.team/docs/drizzle-config-file">várias outras propriedades</a>, como:</p>
+
+<table class="custom">
+    <thead>
+        <tr>
+            <th>Propriedade</th>
+            <th>Descrição</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>verbose</code></td>
+            <td>Se <code>true</code>, exibe mais detalhes ao executar comandos no terminal.</td>
+        </tr>
+        <tr>
+            <td><code>strict</code></td>
+            <td>Se <code>true</code>, ativa verificações mais rigorosas no esquema do banco.</td>
+        </tr>
+        <tr>
+            <td><code>dialect</code></td>
+            <td>Define o tipo de banco de dados usado (<code>sqlite</code>, no caso).</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 id="-a-pasta-drizzle-">A Pasta <code>drizzle</code></h2>
+<p>Além desses arquivos, um projeto com DrizzleKit também possui a pasta <code>drizzle</code>, que armazena os <strong>arquivos de migração</strong> gerados pelo DrizzleKit. Ela mantém um histórico das alterações feitas no esquema do banco de dados, garantindo que as mudanças possam ser aplicadas, revertidas ou rastreadas. Em resumo, cada migração representa uma "versão" do banco, permitindo evoluí-lo sem perder dados.</p>
+
+<p>Após executar o comando de geração de migração...</p>
+<pre><code class="sh">pnpm exec drizzle-kit generate</code></pre>
+<p>... A pasta <code>drizzle/</code> será criada (se ainda não existir) e conterá arquivos como:</p>
+
+<ul>
+    <li><code>0000_initial_migration.sql</code>: Primeira migração, criando as tabelas do esquema.</li>
+    <li><code>0001_add_column_users.sql</code>: Exemplo de migração que adiciona uma coluna.</li>
+    <li><code>0002_create_orders_table.sql</code>: Exemplo de migração para criar uma tabela.</li>
+</ul>
+
+<p>Esses arquivos contêm comandos <strong>SQL</strong> que o Drizzle usará para modificar o banco.</p>
+
+<p>Para aplicar as migrações geradas, basta executar o comando:</p>
+<pre><code class="lang-bash">pnpm db:migrate</code></pre>
+<p>Isso executará os arquivos <code>.sql</code> na sequência correta, garantindo que todas as mudanças sejam refletidas no banco de dados.</p>
+<div class="info"><em>Observação:</em> A pasta <code>drizzle</code> é gerenciada pelo DrizzleKit. Normalmente você não precisa mexer nela.</div>
