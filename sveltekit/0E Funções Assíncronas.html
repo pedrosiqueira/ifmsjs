@@ -332,11 +332,7 @@ alert("Já terminou?!");</code></pre>
 </ul>
 <h2 id="exerc-cios">Exercícios</h2>
 <ol class="excs">
-  <li>Crie uma página de contagem regressiva de 10 segundos usando a <a href="#funcao-bloquear">função <code>bloquear</code></a>.
-    <ol class="excs">
-      <li>Adapte o código para permitir que o usuário escolha a quantidade de segundos.</li>
-    </ol>
-  </li>
+  <li>Crie uma página de contagem regressiva de 10 segundos usando a <a href="#funcao-bloquear">função <code>bloquear</code></a>.</li>
   <p>Solução incompleta:</p>
   <pre><code class="svelte">&lt;script&gt;
     let contador = $state(10);
@@ -369,15 +365,18 @@ alert("Já terminou?!");</code></pre>
         {/if}
     &lt;/p&gt;
 &lt;/div&gt;</code></pre>
-  <li>Crie as seguintes funções que façam requisições ao serviço <a target="_blank" href="https://jsonplaceholder.typicode.com">https://jsonplaceholder.typicode.com</a>:
-    <ol class="excs">
-      <li>Buscar usuários e exibir apenas os nomes.</li>
-      <li>Buscar uma postagem por ID e exibir apenas o título.</li>
-      <li>Buscar um usuário por ID e exibir os títulos de suas postagens.</li>
-      <li>Buscar usuários por e-mail e exibir os títulos de suas postagens.</li>
-      <li>Buscar uma postagem por ID e exibir seu título, conteúdo e comentários.</li>
-      <p>Possível solução:</p>
-      <pre><code class="sve">&lt;script&gt;
+  <li>Com base no exercício anterior, agora crie uma página que permita ao usuário escolher a quantidade de segundos.
+    <ul>
+      <li><em>Bônus:</em> Adicionar confeti ao zerar o contador, conforme o <a href="07 Eventos.html#evento-confeti">exemplo de confeti</a>.</li>
+    </ul>
+  </li>
+  <li class="no-mark">Crie as seguintes páginas que façam requisições ao serviço <a target="_blank" href="https://jsonplaceholder.typicode.com">https://jsonplaceholder.typicode.com</a> e possam:</li>
+  <li>Exibir apenas os nomes dos usuários.</li>
+  <li>Ler o ID de uma postagem e exibir apenas seu título.</li>
+  <li>Ler o ID de um usuário e exibir os títulos de suas postagens.</li>
+  <li>Ler o ID de uma postagem e exibir seu título, conteúdo e comentários.</li>
+  <p>Possível solução:</p>
+  <pre><code class="sve">&lt;script&gt;
     let idPostagem = $state();
     let postagem = $state();
     let comentarios = $state();
@@ -408,7 +407,6 @@ alert("Já terminou?!");</code></pre>
         {/each}
     &lt;/ul&gt;
 {/if}</code></pre>
-      <li>Buscar usuários por cidade.</li>
-    </ol>
-  </li>
+  <li>Ler o nome de uma cidade e exibir os usuários daquela cidade.</li>
+  <li>Ler o e-mail de um usuário e exibir os títulos de suas postagens.</li>
 </ol>
