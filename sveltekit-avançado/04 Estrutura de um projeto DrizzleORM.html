@@ -201,10 +201,10 @@ import { env } from '$env/dynamic/private';</code></pre>
 </table>
 
 <h2 id="-a-pasta-drizzle-">A Pasta <code>drizzle</code></h2>
-<p>Além desses arquivos, um projeto com DrizzleKit também possui a pasta <code>drizzle</code>, que armazena os <strong>arquivos de migração</strong> gerados pelo DrizzleKit. Ela mantém um histórico das alterações feitas no esquema do banco de dados, garantindo que as mudanças possam ser aplicadas, revertidas ou rastreadas. Em resumo, cada migração representa uma "versão" do banco, permitindo evoluí-lo sem perder dados.</p>
+<p>Além desses arquivos, um projeto com DrizzleKit também possui a pasta <code>drizzle</code>, que armazena os <strong>arquivos de migração</strong>. Ela mantém um histórico das alterações feitas no esquema do banco de dados, garantindo que as mudanças possam ser aplicadas, revertidas ou rastreadas. Em resumo, cada migração representa uma "versão" do banco, permitindo evoluí-lo sem perder dados.</p>
 
 <p>Após executar o comando de geração de migração...</p>
-<pre><code class="sh">pnpm exec drizzle-kit generate</code></pre>
+<pre><code class="sh">pnpm drizzle-kit generate</code></pre>
 <p>... A pasta <code>drizzle/</code> será criada (se ainda não existir) e conterá arquivos como:</p>
 
 <ul>
@@ -218,4 +218,11 @@ import { env } from '$env/dynamic/private';</code></pre>
 <p>Para aplicar as migrações geradas, basta executar o comando:</p>
 <pre><code class="lang-bash">pnpm db:migrate</code></pre>
 <p>Isso executará os arquivos <code>.sql</code> na sequência correta, garantindo que todas as mudanças sejam refletidas no banco de dados.</p>
-<div class="info"><em>Observação:</em> A pasta <code>drizzle</code> é gerenciada pelo DrizzleKit. Normalmente você não precisa mexer nela.</div>
+<div class="info">
+    <p><em>Observação:</em> A pasta <code>drizzle</code> é gerenciada automaticamente pelo DrizzleKit. Normalmente você não precisa mexer nela.</p>
+</div>
+<div class="info">
+    <p><em>Dica:</em> No início do desenvolvimento, você não precisa se preocupar tanto com migrações, bastando aplicar diretamente qualquer mudança do esquema no banco de dados com:</p>
+    <pre><code class="sh">pnpm db:push</code></pre>
+    <p>Entretanto, <strong>essa abordagem redefine o banco</strong>, apagando todos os dados existentes.</p>
+</div>
