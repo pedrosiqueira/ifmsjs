@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([
+      // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
+    ]);
+  </script> -->
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Dicas para trabalhar com DrizzleORM</h1>
+
+<h2>Importações</h2>
+<p>Em arquivos <code>schema.js</code>, fazemos importações do tipo:</p>
+<pre><code>import { sql } from 'drizzle-orm';
+import { blob, check, index, integer, real, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";</code></pre>
+
+<p>Em arquivos que realizam operações no banco, fazemos importações do tipo:</p>
+<pre><code>import { db } from '$lib/server/db';
+import * as tabela from '$lib/server/db/schema';
+import { and, asc, count, desc, eq, gt, lt, max, min, sql, sum } from 'drizzle-orm';
+</code></pre>
+
+<p>Adapte as importações conforme a necessidade.</p>
+
+<h2>Consultas</h2>
+
+<p>Para realizar uma consulta, podemos combinar qualquer função disponível, desde que seja uma expressão válida.</p>
+<p><strong>Pergunta:</strong> O que essa consulta faz?</p>
+<table class="custom">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Saída</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre><code>const consulta = await db
+    .select({ titulo: tabela.posts.titulo, nome: tabela.usuarios.nome_usuario })
+    .from(tabela.posts)
+    .where(
+        and(
+            gt(tabela.posts.criado_em, '2020-01-01 00:00:00'),
+            lt(tabela.posts.criado_em, '2030-12-31 23:59:59')
+        ))
+    .innerJoin(tabela.usuarios, eq(tabela.usuarios.id, tabela.posts.usuario_id))
+    .orderBy(desc(tabela.posts.criado_em));
+
+console.log(consulta);</code></pre>
+            </td>
+            <td>
+                <pre><code>[
+  { titulo: 'primeiro artigo', nome: 'maria_silva' },
+  { titulo: 'segundo artigo', nome: 'francisca_pereira' },
+  { titulo: 'terceiro artigo', nome: 'francisca_pereira' },
+  { titulo: 'quarto artigo', nome: 'maria_silva' },
+  { titulo: 'quinto artigo', nome: 'francisca_pereira' }
+]</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Especialmente quando buscamos um objeto pela chave primária, sabemos que o resultado sempre será um único objeto. Porém o <code>select</code> sempre retorna uma lista, mesmo que seja uma lista de um único item.</p>
+<table class="custom">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Saída</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre><code>const lista = await db.select().from(tabela.usuarios)
+.where(eq(tabela.usuarios.id, 2)).limit(1);
+
+console.log(lista);
+console.log(lista[0].nome_usuario);</code></pre>
+            </td>
+            <td>
+                <pre><code>[
+  {
+    id: 2,
+    nome_usuario: 'francisca_pereira',
+    email: 'francisca@pereira.com',
+    data_nascimento: '2002-11-05',
+    pontos: 0,
+    criado_em: '2025-03-31 16:45:03'
+  }
+]
+francisca_pereira</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Em casos que você precisa apenas de um único item, ou do primeiro item da lista, você pode usar a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring">sintaxe de destruturação</a> do JavaScript:</p>
+<table class="custom">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Saída</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre><code>const [usuario] = await db.select().from(tabela.usuarios)
+.where(eq(tabela.usuarios.id, 2)).limit(1);
+
+console.log(usuario);
+console.log(usuario.nome_usuario);</code></pre>
+            </td>
+            <td>
+                <pre><code>{
+  id: 2,
+  nome_usuario: 'francisca_pereira',
+  email: 'francisca@pereira.com',
+  data_nascimento: '2002-11-05',
+  pontos: 0,
+  criado_em: '2025-03-31 16:45:03'
+}
+francisca_pereira</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Inserções</h2>
+
