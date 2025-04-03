@@ -141,7 +141,7 @@
       <td>
         <pre><code class='sql'>CREATE TABLE usuarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome_usuario TEXT NOT NULL,
+    nome TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     data_nascimento TEXT,
     pontos INTEGER DEFAULT 0,
@@ -151,7 +151,7 @@
       <td>
         <pre><code>export const usuarios = sqliteTable('usuarios', {
   id: integer().primaryKey({ autoIncrement: true }),
-  nome_usuario: text().notNull(),
+  nome: text().notNull(),
   email: text().notNull().unique(),
   data_nascimento: text(),
   pontos: integer().default(0),
@@ -272,12 +272,12 @@
     <tr>
       <td>
         <pre><code class='sql'>CREATE TABLE usuarios (
-    nome_usuario TEXT NOT NULL
+    nome TEXT NOT NULL
 );</code></pre>
       </td>
       <td>
         <pre><code>export const usuarios = sqliteTable('usuarios', {
-  nome_usuario: text().notNull(),
+  nome: text().notNull(),
 });</code></pre>
       </td>
     </tr>
@@ -350,12 +350,12 @@
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>INSERT INTO usuarios (nome_usuario, email)
+        <pre><code class='sql'>INSERT INTO usuarios (nome, email)
 VALUES ('maria_silva', 'maria@silva.com.br');</code></pre>
       </td>
       <td>
         <pre><code>await db.insert(usuarios).values({
-  nome_usuario: 'maria_silva',
+  nome: 'maria_silva',
   email: 'maria@silva.com.br',
 });</code></pre>
       </td>
@@ -373,7 +373,7 @@ VALUES ('maria_silva', 'maria@silva.com.br');</code></pre>
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>INSERT INTO usuarios (nome_usuario, email, data_nascimento)
+        <pre><code class='sql'>INSERT INTO usuarios (nome, email, data_nascimento)
 VALUES
     ('francisca_pereira', 'francisca@pereira.com', '2002-11-05'),
     ('jose_santos', 'jose@santos.com', '2004-02-29'),
@@ -390,10 +390,10 @@ VALUES
       </td>
       <td>
         <pre><code>await db.insert(usuarios).values([
-  { nome_usuario: 'francisca_pereira', email: 'francisca@pereira.com', data_nascimento: '2002-11-05' },
-  { nome_usuario: 'jose_santos', email: 'jose@santos.com', data_nascimento: '2004-02-29' },
-  { nome_usuario: 'joao_souza', email: 'joao@souza.com', data_nascimento: '2001-12-31' },
-  { nome_usuario: 'ana_oliveira', email: 'ana@oliveira.com', data_nascimento: '2002-11-05' },
+  { nome: 'francisca_pereira', email: 'francisca@pereira.com', data_nascimento: '2002-11-05' },
+  { nome: 'jose_santos', email: 'jose@santos.com', data_nascimento: '2004-02-29' },
+  { nome: 'joao_souza', email: 'joao@souza.com', data_nascimento: '2001-12-31' },
+  { nome: 'ana_oliveira', email: 'ana@oliveira.com', data_nascimento: '2002-11-05' },
 ]);
 
 await db.insert(posts).values([
@@ -419,10 +419,10 @@ await db.insert(posts).values([
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>UPDATE usuarios SET pontos = 100 WHERE nome_usuario = 'jose_santos';</code></pre>
+        <pre><code class='sql'>UPDATE usuarios SET pontos = 100 WHERE nome = 'jose_santos';</code></pre>
       </td>
       <td>
-        <pre><code>await db.update(usuarios).set({ pontos: 100 }).where(eq(usuarios.nome_usuario, 'jose_santos'));</code></pre>
+        <pre><code>await db.update(usuarios).set({ pontos: 100 }).where(eq(usuarios.nome, 'jose_santos'));</code></pre>
       </td>
     </tr>
   </tbody>
@@ -439,10 +439,10 @@ await db.insert(posts).values([
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>DELETE FROM usuarios WHERE nome_usuario = 'maria_silva';</code></pre>
+        <pre><code class='sql'>DELETE FROM usuarios WHERE nome = 'maria_silva';</code></pre>
       </td>
       <td>
-        <pre><code>await db.delete(usuarios).where(eq(usuarios.nome_usuario, 'maria_silva'));</code></pre>
+        <pre><code>await db.delete(usuarios).where(eq(usuarios.nome, 'maria_silva'));</code></pre>
       </td>
     </tr>
   </tbody>
@@ -474,7 +474,7 @@ await db.insert(posts).values([
   <pre><code class="json">[
   {
     id: 1,
-    nome_usuario: 'maria_silva',
+    nome: 'maria_silva',
     email: 'maria@silva.com.br',
     data_nascimento: null,
     pontos: 0,
@@ -482,7 +482,7 @@ await db.insert(posts).values([
   },
   {
     id: 2,
-    nome_usuario: 'francisca_pereira',
+    nome: 'francisca_pereira',
     email: 'francisca@pereira.com',
     data_nascimento: '2002-11-05',
     pontos: 0,
@@ -490,7 +490,7 @@ await db.insert(posts).values([
   },
   {
     id: 3,
-    nome_usuario: 'jose_santos',
+    nome: 'jose_santos',
     email: 'jose@santos.com',
     data_nascimento: '2004-02-29',
     pontos: 100,
@@ -498,7 +498,7 @@ await db.insert(posts).values([
   },
   {
     id: 4,
-    nome_usuario: 'joao_souza',
+    nome: 'joao_souza',
     email: 'joao@souza.com',
     data_nascimento: '2001-12-31',
     pontos: 0,
@@ -506,7 +506,7 @@ await db.insert(posts).values([
   },
   {
     id: 5,
-    nome_usuario: 'ana_oliveira',
+    nome: 'ana_oliveira',
     email: 'ana@oliveira.com',
     data_nascimento: '2002-11-05',
     pontos: 0,
@@ -528,10 +528,10 @@ await db.insert(posts).values([
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>SELECT nome_usuario, email FROM usuarios;</code></pre>
+        <pre><code class='sql'>SELECT nome, email FROM usuarios;</code></pre>
       </td>
       <td>
-        <pre><code>const nomesEmails = await db.select({ nome_usuario: usuarios.nome_usuario, email: usuarios.email }).from(usuarios);</code></pre>
+        <pre><code>const nomesEmails = await db.select({ nome: usuarios.nome, email: usuarios.email }).from(usuarios);</code></pre>
       </td>
     </tr>
   </tbody>
@@ -539,11 +539,11 @@ await db.insert(posts).values([
 <dialog id="selectcolumn" class="custom-modal">
   <pre><code class="js">console.log(nomesEmails)</code></pre>
   <pre><code class="json">[ 
-  { nome_usuario: 'maria_silva', email: 'maria@silva.com.br' },
-  { nome_usuario: 'francisca_pereira', email: 'francisca@pereira.com' },
-  { nome_usuario: 'jose_santos', email: 'jose@santos.com' },
-  { nome_usuario: 'joao_souza', email: 'joao@souza.com' },
-  { nome_usuario: 'ana_oliveira', email: 'ana@oliveira.com' }
+  { nome: 'maria_silva', email: 'maria@silva.com.br' },
+  { nome: 'francisca_pereira', email: 'francisca@pereira.com' },
+  { nome: 'jose_santos', email: 'jose@santos.com' },
+  { nome: 'joao_souza', email: 'joao@souza.com' },
+  { nome: 'ana_oliveira', email: 'ana@oliveira.com' }
 ]</code></pre>
 </dialog>
 <div style="text-align:center"><button data-custom-modal="selectcolumn">Exibir resultado</button></div>
@@ -560,10 +560,10 @@ await db.insert(posts).values([
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>SELECT * FROM usuarios WHERE nome_usuario = 'maria_silva';</code></pre>
+        <pre><code class='sql'>SELECT * FROM usuarios WHERE nome = 'maria_silva';</code></pre>
       </td>
       <td>
-        <pre><code>const usuario = await db.select().from(usuarios).where(eq(usuarios.nome_usuario, 'maria_silva'));</code></pre>
+        <pre><code>const usuario = await db.select().from(usuarios).where(eq(usuarios.nome, 'maria_silva'));</code></pre>
       </td>
     </tr>
   </tbody>
@@ -573,7 +573,7 @@ await db.insert(posts).values([
   <pre><code class="json">[
   {
     id: 1,
-    nome_usuario: 'maria_silva',
+    nome: 'maria_silva',
     email: 'maria@silva.com.br',
     data_nascimento: null,
     pontos: 0,
@@ -585,7 +585,7 @@ await db.insert(posts).values([
 
 <h3 id="ordena-o-order-by-">ORDER BY</h3>
 <p>Ordena os resultados por uma ou mais colunas.</p>
-<p>Ordena por <code>nome_usuario</code> em ordem crescente (padrão).</p>
+<p>Ordena por <code>nome</code> em ordem crescente (padrão).</p>
 <table class="custom">
   <thead>
     <tr>
@@ -596,10 +596,10 @@ await db.insert(posts).values([
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>SELECT * FROM usuarios ORDER BY nome_usuario;</code></pre>
+        <pre><code class='sql'>SELECT * FROM usuarios ORDER BY nome;</code></pre>
       </td>
       <td>
-        <pre><code>const ordenadosPorNome = await db.select().from(usuarios).orderBy(usuarios.nome_usuario);</code></pre>
+        <pre><code>const ordenadosPorNome = await db.select().from(usuarios).orderBy(usuarios.nome);</code></pre>
       </td>
     </tr>
   </tbody>
@@ -609,7 +609,7 @@ await db.insert(posts).values([
   <pre><code class="json">[
   {
     id: 5,
-    nome_usuario: 'ana_oliveira',
+    nome: 'ana_oliveira',
     email: 'ana@oliveira.com',
     data_nascimento: '2002-11-05',
     pontos: 0,
@@ -617,7 +617,7 @@ await db.insert(posts).values([
   },
   {
     id: 2,
-    nome_usuario: 'francisca_pereira',
+    nome: 'francisca_pereira',
     email: 'francisca@pereira.com',
     data_nascimento: '2002-11-05',
     pontos: 0,
@@ -625,7 +625,7 @@ await db.insert(posts).values([
   },
   {
     id: 4,
-    nome_usuario: 'joao_souza',
+    nome: 'joao_souza',
     email: 'joao@souza.com',
     data_nascimento: '2001-12-31',
     pontos: 0,
@@ -633,7 +633,7 @@ await db.insert(posts).values([
   },
   {
     id: 3,
-    nome_usuario: 'jose_santos',
+    nome: 'jose_santos',
     email: 'jose@santos.com',
     data_nascimento: '2004-02-29',
     pontos: 100,
@@ -641,7 +641,7 @@ await db.insert(posts).values([
   },
   {
     id: 1,
-    nome_usuario: 'maria_silva',
+    nome: 'maria_silva',
     email: 'maria@silva.com.br',
     data_nascimento: null,
     pontos: 0,
@@ -675,7 +675,7 @@ await db.insert(posts).values([
   <pre><code class="json">[
   {
     id: 3,
-    nome_usuario: 'jose_santos',
+    nome: 'jose_santos',
     email: 'jose@santos.com',
     data_nascimento: '2004-02-29',
     pontos: 100,
@@ -683,7 +683,7 @@ await db.insert(posts).values([
   },
   {
     id: 2,
-    nome_usuario: 'francisca_pereira',
+    nome: 'francisca_pereira',
     email: 'francisca@pereira.com',
     data_nascimento: '2002-11-05',
     pontos: 0,
@@ -691,7 +691,7 @@ await db.insert(posts).values([
   },
   {
     id: 5,
-    nome_usuario: 'ana_oliveira',
+    nome: 'ana_oliveira',
     email: 'ana@oliveira.com',
     data_nascimento: '2002-11-05',
     pontos: 0,
@@ -699,7 +699,7 @@ await db.insert(posts).values([
   },
   {
     id: 4,
-    nome_usuario: 'joao_souza',
+    nome: 'joao_souza',
     email: 'joao@souza.com',
     data_nascimento: '2001-12-31',
     pontos: 0,
@@ -707,7 +707,7 @@ await db.insert(posts).values([
   },
   {
     id: 1,
-    nome_usuario: 'maria_silva',
+    nome: 'maria_silva',
     email: 'maria@silva.com.br',
     data_nascimento: null,
     pontos: 0,
@@ -742,7 +742,7 @@ await db.insert(posts).values([
   <pre><code class="json">[
   {
     id: 3,
-    nome_usuario: 'jose_santos',
+    nome: 'jose_santos',
     email: 'jose@santos.com',
     data_nascimento: '2004-02-29',
     pontos: 100,
@@ -750,7 +750,7 @@ await db.insert(posts).values([
   },
   {
     id: 5,
-    nome_usuario: 'ana_oliveira',
+    nome: 'ana_oliveira',
     email: 'ana@oliveira.com',
     data_nascimento: '2002-11-05',
     pontos: 0,
@@ -758,7 +758,7 @@ await db.insert(posts).values([
   },
   {
     id: 2,
-    nome_usuario: 'francisca_pereira',
+    nome: 'francisca_pereira',
     email: 'francisca@pereira.com',
     data_nascimento: '2002-11-05',
     pontos: 0,
@@ -766,7 +766,7 @@ await db.insert(posts).values([
   },
   {
     id: 4,
-    nome_usuario: 'joao_souza',
+    nome: 'joao_souza',
     email: 'joao@souza.com',
     data_nascimento: '2001-12-31',
     pontos: 0,
@@ -774,7 +774,7 @@ await db.insert(posts).values([
   },
   {
     id: 1,
-    nome_usuario: 'maria_silva',
+    nome: 'maria_silva',
     email: 'maria@silva.com.br',
     data_nascimento: null,
     pontos: 0,
@@ -809,7 +809,7 @@ await db.insert(posts).values([
   <pre><code class="json">[
   {
     id: 1,
-    nome_usuario: 'maria_silva',
+    nome: 'maria_silva',
     email: 'maria@silva.com.br',
     data_nascimento: null,
     pontos: 0,
@@ -817,7 +817,7 @@ await db.insert(posts).values([
   },
   {
     id: 2,
-    nome_usuario: 'francisca_pereira',
+    nome: 'francisca_pereira',
     email: 'francisca@pereira.com',
     data_nascimento: '2002-11-05',
     pontos: 0,
@@ -825,7 +825,7 @@ await db.insert(posts).values([
   },
   {
     id: 3,
-    nome_usuario: 'jose_santos',
+    nome: 'jose_santos',
     email: 'jose@santos.com',
     data_nascimento: '2004-02-29',
     pontos: 100,
@@ -859,7 +859,7 @@ await db.insert(posts).values([
   <pre><code class="json">[
   {
     id: 4,
-    nome_usuario: 'joao_souza',
+    nome: 'joao_souza',
     email: 'joao@souza.com',
     data_nascimento: '2001-12-31',
     pontos: 0,
@@ -867,7 +867,7 @@ await db.insert(posts).values([
   },
   {
     id: 5,
-    nome_usuario: 'ana_oliveira',
+    nome: 'ana_oliveira',
     email: 'ana@oliveira.com',
     data_nascimento: '2002-11-05',
     pontos: 0,
@@ -878,7 +878,7 @@ await db.insert(posts).values([
 <div style="text-align:center"><button data-custom-modal="offset">Exibir resultado</button></div>
 
 <h3 id="ordena-o-e-pagina-o-juntas">Ordenação e Paginação Juntas</h3>
-<p>Ordena usuários pelo <code>nome_usuario</code> e pagina os resultados para obter os primeiros 3 registros.</p>
+<p>Ordena usuários pelo <code>nome</code> e pagina os resultados para obter os primeiros 3 registros.</p>
 <table class="custom">
   <thead>
     <tr>
@@ -889,10 +889,10 @@ await db.insert(posts).values([
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>SELECT * FROM usuarios ORDER BY nome_usuario ASC LIMIT 3;</code></pre>
+        <pre><code class='sql'>SELECT * FROM usuarios ORDER BY nome ASC LIMIT 3;</code></pre>
       </td>
       <td>
-        <pre><code>const primeirosUsuarios = await db.select().from(usuarios).orderBy(asc(usuarios.nome_usuario)).limit(3);</code></pre>
+        <pre><code>const primeirosUsuarios = await db.select().from(usuarios).orderBy(asc(usuarios.nome)).limit(3);</code></pre>
       </td>
     </tr>
   </tbody>
@@ -902,7 +902,7 @@ await db.insert(posts).values([
   <pre><code class="json">[
   {
     id: 5,
-    nome_usuario: 'ana_oliveira',
+    nome: 'ana_oliveira',
     email: 'ana@oliveira.com',
     data_nascimento: '2002-11-05',
     pontos: 0,
@@ -910,7 +910,7 @@ await db.insert(posts).values([
   },
   {
     id: 2,
-    nome_usuario: 'francisca_pereira',
+    nome: 'francisca_pereira',
     email: 'francisca@pereira.com',
     data_nascimento: '2002-11-05',
     pontos: 0,
@@ -918,7 +918,7 @@ await db.insert(posts).values([
   },
   {
     id: 4,
-    nome_usuario: 'joao_souza',
+    nome: 'joao_souza',
     email: 'joao@souza.com',
     data_nascimento: '2001-12-31',
     pontos: 0,
@@ -940,23 +940,23 @@ await db.insert(posts).values([
     <tr>
       <td>
         <pre><code class='sql'>-- Página 1
-SELECT * FROM usuarios ORDER BY nome_usuario LIMIT 3 OFFSET 0;
+SELECT * FROM usuarios ORDER BY nome LIMIT 3 OFFSET 0;
 
 -- Página 2
-SELECT * FROM usuarios ORDER BY nome_usuario LIMIT 3 OFFSET 3;
+SELECT * FROM usuarios ORDER BY nome LIMIT 3 OFFSET 3;
 
 -- Página 3
-SELECT * FROM usuarios ORDER BY nome_usuario LIMIT 3 OFFSET 6;</code></pre>
+SELECT * FROM usuarios ORDER BY nome LIMIT 3 OFFSET 6;</code></pre>
       </td>
       <td>
         <pre><code>// Página 1
-const pagina1 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).limit(3).offset(0);
+const pagina1 = await db.select().from(usuarios).orderBy(usuarios.nome).limit(3).offset(0);
 
 // Página 2
-const pagina2 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).limit(3).offset(3);
+const pagina2 = await db.select().from(usuarios).orderBy(usuarios.nome).limit(3).offset(3);
 
 // Página 3
-const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).limit(3).offset(6);</code></pre>
+const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome).limit(3).offset(6);</code></pre>
       </td>
     </tr>
   </tbody>
@@ -967,7 +967,7 @@ const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).
   [
     {
       id: 5,
-      nome_usuario: 'ana_oliveira',
+      nome: 'ana_oliveira',
       email: 'ana@oliveira.com',
       data_nascimento: '2002-11-05',
       pontos: 0,
@@ -975,7 +975,7 @@ const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).
     },
     {
       id: 2,
-      nome_usuario: 'francisca_pereira',
+      nome: 'francisca_pereira',
       email: 'francisca@pereira.com',
       data_nascimento: '2002-11-05',
       pontos: 0,
@@ -983,7 +983,7 @@ const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).
     },
     {
       id: 4,
-      nome_usuario: 'joao_souza',
+      nome: 'joao_souza',
       email: 'joao@souza.com',
       data_nascimento: '2001-12-31',
       pontos: 0,
@@ -993,7 +993,7 @@ const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).
   [
     {
       id: 3,
-      nome_usuario: 'jose_santos',
+      nome: 'jose_santos',
       email: 'jose@santos.com',
       data_nascimento: '2004-02-29',
       pontos: 100,
@@ -1001,7 +1001,7 @@ const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).
     },
     {
       id: 1,
-      nome_usuario: 'maria_silva',
+      nome: 'maria_silva',
       email: 'maria@silva.com.br',
       data_nascimento: null,
       pontos: 0,
@@ -1027,13 +1027,13 @@ const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome_usuario).
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>SELECT usuarios.nome_usuario, posts.titulo
+        <pre><code class='sql'>SELECT usuarios.nome, posts.titulo
 FROM usuarios
 INNER JOIN posts ON usuarios.id = posts.usuario_id;</code></pre>
       </td>
       <td>
         <pre><code>const usuariosComPosts = await db
-  .select({ nome_usuario: usuarios.nome_usuario, titulo: posts.titulo })
+  .select({ nome: usuarios.nome, titulo: posts.titulo })
   .from(usuarios)
   .innerJoin(posts, eq(usuarios.id, posts.usuario_id));</code></pre>
       </td>
@@ -1043,11 +1043,11 @@ INNER JOIN posts ON usuarios.id = posts.usuario_id;</code></pre>
 <dialog id="innerjoin" class="custom-modal">
   <pre><code class="js">console.log(usuariosComPosts)</code></pre>
   <pre><code class="json">[
-  { nome_usuario: 'maria_silva', titulo: 'primeiro artigo' },
-  { nome_usuario: 'francisca_pereira', titulo: 'segundo artigo' },
-  { nome_usuario: 'francisca_pereira', titulo: 'terceiro artigo' },
-  { nome_usuario: 'maria_silva', titulo: 'quarto artigo' },
-  { nome_usuario: 'francisca_pereira', titulo: 'quinto artigo' }
+  { nome: 'maria_silva', titulo: 'primeiro artigo' },
+  { nome: 'francisca_pereira', titulo: 'segundo artigo' },
+  { nome: 'francisca_pereira', titulo: 'terceiro artigo' },
+  { nome: 'maria_silva', titulo: 'quarto artigo' },
+  { nome: 'francisca_pereira', titulo: 'quinto artigo' }
 ]</code></pre>
 </dialog>
 <div style="text-align:center"><button data-custom-modal="innerjoin">Exibir resultado</button></div>
@@ -1064,13 +1064,13 @@ INNER JOIN posts ON usuarios.id = posts.usuario_id;</code></pre>
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>SELECT usuarios.nome_usuario, posts.titulo
+        <pre><code class='sql'>SELECT usuarios.nome, posts.titulo
 FROM usuarios
 LEFT JOIN posts ON usuarios.id = posts.usuario_id;</code></pre>
       </td>
       <td>
         <pre><code>const usuariosEPosts = await db
-  .select({ nome_usuario: usuarios.nome_usuario, titulo: posts.titulo })
+  .select({ nome: usuarios.nome, titulo: posts.titulo })
   .from(usuarios)
   .leftJoin(posts, eq(usuarios.id, posts.usuario_id));</code></pre>
       </td>
@@ -1080,14 +1080,14 @@ LEFT JOIN posts ON usuarios.id = posts.usuario_id;</code></pre>
 <dialog id="leftjoin" class="custom-modal">
   <pre><code class="js">console.log(usuariosEPosts)</code></pre>
   <pre><code class="json">[
-  { nome_usuario: 'maria_silva', titulo: 'primeiro artigo' },
-  { nome_usuario: 'maria_silva', titulo: 'quarto artigo' },
-  { nome_usuario: 'francisca_pereira', titulo: 'quinto artigo' },
-  { nome_usuario: 'francisca_pereira', titulo: 'segundo artigo' },
-  { nome_usuario: 'francisca_pereira', titulo: 'terceiro artigo' },
-  { nome_usuario: 'jose_santos', titulo: null },
-  { nome_usuario: 'joao_souza', titulo: null },
-  { nome_usuario: 'ana_oliveira', titulo: null }
+  { nome: 'maria_silva', titulo: 'primeiro artigo' },
+  { nome: 'maria_silva', titulo: 'quarto artigo' },
+  { nome: 'francisca_pereira', titulo: 'quinto artigo' },
+  { nome: 'francisca_pereira', titulo: 'segundo artigo' },
+  { nome: 'francisca_pereira', titulo: 'terceiro artigo' },
+  { nome: 'jose_santos', titulo: null },
+  { nome: 'joao_souza', titulo: null },
+  { nome: 'ana_oliveira', titulo: null }
 ]</code></pre>
 </dialog>
 <div style="text-align:center"><button data-custom-modal="leftjoin">Exibir resultado</button></div>
@@ -1104,13 +1104,13 @@ LEFT JOIN posts ON usuarios.id = posts.usuario_id;</code></pre>
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>SELECT posts.titulo, usuarios.nome_usuario
+        <pre><code class='sql'>SELECT posts.titulo, usuarios.nome
 FROM posts
 LEFT JOIN usuarios ON posts.usuario_id = usuarios.id;</code></pre>
       </td>
       <td>
         <pre><code>const postsEUsuarios = await db
-  .select({ tituloPost: posts.titulo, nome_usuario: usuarios.nome_usuario })
+  .select({ tituloPost: posts.titulo, nome: usuarios.nome })
   .from(posts)
   .leftJoin(usuarios, eq(posts.usuario_id, usuarios.id));</code></pre>
       </td>
@@ -1120,11 +1120,11 @@ LEFT JOIN usuarios ON posts.usuario_id = usuarios.id;</code></pre>
 <dialog id="rightjoin" class="custom-modal">
   <pre><code class="js">console.log(postsEUsuarios)</code></pre>
   <pre><code class="json">[
-  { tituloPost: 'primeiro artigo', nome_usuario: 'maria_silva' },
-  { tituloPost: 'segundo artigo', nome_usuario: 'francisca_pereira' },
-  { tituloPost: 'terceiro artigo', nome_usuario: 'francisca_pereira' },
-  { tituloPost: 'quarto artigo', nome_usuario: 'maria_silva' },
-  { tituloPost: 'quinto artigo', nome_usuario: 'francisca_pereira' }
+  { tituloPost: 'primeiro artigo', nome: 'maria_silva' },
+  { tituloPost: 'segundo artigo', nome: 'francisca_pereira' },
+  { tituloPost: 'terceiro artigo', nome: 'francisca_pereira' },
+  { tituloPost: 'quarto artigo', nome: 'maria_silva' },
+  { tituloPost: 'quinto artigo', nome: 'francisca_pereira' }
 ]</code></pre>
 </dialog>
 <div style="text-align:center"><button data-custom-modal="rightjoin">Exibir resultado</button></div>
@@ -1259,7 +1259,7 @@ const primogenito = await db
       <td>
         <pre><code class='sql'>BEGIN TRANSACTION;
 
-SELECT pontos INTO @pontos FROM usuarios WHERE nome_usuario = 'jose_santos';
+SELECT pontos INTO @pontos FROM usuarios WHERE nome = 'jose_santos';
 
 SELECT CASE 
     WHEN @pontos &lt; 100 THEN ROLLBACK 
@@ -1267,11 +1267,11 @@ END;
 
 UPDATE usuarios 
 SET pontos = pontos - 100 
-WHERE nome_usuario = 'jose_santos';
+WHERE nome = 'jose_santos';
 
 UPDATE usuarios 
 SET pontos = pontos + 100 
-WHERE nome_usuario = 'ana_oliveira';
+WHERE nome = 'ana_oliveira';
 
 COMMIT;</code></pre>
       </td>
@@ -1279,7 +1279,7 @@ COMMIT;</code></pre>
         <pre><code>await db.transaction(async (tx) => {
     // Seleciona o usuário 'jose_santos' para verificar os pontos
     const [usuario] = await tx.select().from(usuarios)
-        .where(eq(usuarios.nome_usuario, 'jose_santos'));
+        .where(eq(usuarios.nome, 'jose_santos'));
 
     // Se os pontos forem menores que 100, faz rollback
     if (usuario.pontos &lt; 100) tx.rollback();
@@ -1287,12 +1287,12 @@ COMMIT;</code></pre>
     // Subtrai 100 pontos de 'jose_santos'
     await tx.update(usuarios)
         .set({ pontos: sql`${usuarios.pontos} - 100` })
-        .where(eq(usuarios.nome_usuario, 'jose_santos'));
+        .where(eq(usuarios.nome, 'jose_santos'));
 
     // Adiciona 100 pontos para 'ana_oliveira'
     await tx.update(usuarios)
         .set({ pontos: sql`${usuarios.pontos} + 100` })
-        .where(eq(usuarios.nome_usuario, 'ana_oliveira'));
+        .where(eq(usuarios.nome, 'ana_oliveira'));
 });</code></pre>
       </td>
     </tr>
@@ -1408,7 +1408,7 @@ CREATE UNIQUE INDEX email_idx ON usuarios(email);</code></pre>
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>DROP INDEX idx_nome_usuario;</code></pre>
+        <pre><code class='sql'>DROP INDEX idx_nome;</code></pre>
       </td>
       <td>
         <pre><code>// Com Drizzle, alterações na estrutura da tabela são feitas via migrações</code></pre>

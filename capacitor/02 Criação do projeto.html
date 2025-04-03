@@ -22,6 +22,44 @@
 <h1 id="criando-um-projeto-sveltekit-com-capacitor-drizzle-orm-e-sqlite">Criando um projeto SvelteKit com Capacitor, Drizzle ORM e SQLite</h1>
 <p>Primeiramente abra o terminal <strong>na pasta onde deseja criar o projeto</strong>.</p>
 <p>Execute os seguintes comandos:</p>
+<pre><code class="sh">pnpm dlx sv create meu-projeto-capacitor
+cd meu-projeto-capacitor/
+pnpm add -D @capacitor/cli drizzle-kit
+pnpm add @capacitor/core @capacitor/android @capacitor/filesystem drizzle-orm sql.js bootstrap bootstrap-icons
+npx cap init meu-projeto-capacitor io.github.pedrosiqueira.meuProjetoCapacitor
+npx cap add android
+code -r .</code></pre>
+<p>Quando solicitado, escolha as seguintes opções:</p>
+<pre><code class="txt">┌  Welcome to the Svelte CLI! (v0.7.2)
+│
+◇  Which template would you like?
+│  SvelteKit minimal
+│
+◇  Add type checking with TypeScript?
+│  No
+│
+◆  Project created
+│
+◇  What would you like to add to your project? (use arrow keys / space bar)
+│  prettier, eslint, sveltekit-adapter, drizzle
+│
+◇  sveltekit-adapter: Which SvelteKit adapter would you like to use?
+│  static
+│
+◇  drizzle: Which database would you like to use?
+│  SQLite
+│
+◇  drizzle: Which SQLite client would you like to use?
+│  libSQL
+│
+◆  Successfully setup add-ons
+│
+◇  Which package manager do you want to install dependencies with?
+│  pnpm</code></pre>
+<p>Quando solicitado <code>? Create free Ionic account? » (Y/n)</code>, digite <kbd>n</kbd>.</p>
+<hr />
+
+<h2>Explicação dos comandos</h2>
 <hr />
 <pre><code>pnpm dlx sv create meu-projeto-capacitor</code></pre>
 <ul>
@@ -79,12 +117,12 @@
     <li>Cria a pasta <code>android/</code>, onde o código nativo será gerado.</li>
 </ul>
 <hr />
-<pre><code>npx cap sync</code></pre>
+<!-- <pre><code>npx cap sync</code></pre>
 <ul>
     <li>Sincroniza as dependências do projeto com o Capacitor.</li>
     <li>Garante que plugins instalados (<code>@capacitor/filesystem</code>, etc.) sejam integrados ao código nativo.</li>
 </ul>
-<hr />
+<hr /> -->
 <pre><code>code -r .</code></pre>
 <ul>
     <li>Abre o projeto no <strong>VS Code</strong> (<code>.</code> significa abrir a pasta atual).</li>

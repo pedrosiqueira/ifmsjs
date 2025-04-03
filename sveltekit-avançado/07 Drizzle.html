@@ -48,6 +48,7 @@ import { and, asc, count, desc, eq, gt, lt, max, min, sql, sum } from 'drizzle-o
 
 <h2>Consultas</h2>
 
+<h3>Expressões válidas</h3>
 <p>Para realizar uma consulta, podemos combinar qualquer função disponível, desde que seja uma expressão válida.</p>
 <p><strong>Pergunta:</strong> O que essa consulta faz?</p>
 <table class="custom">
@@ -61,7 +62,7 @@ import { and, asc, count, desc, eq, gt, lt, max, min, sql, sum } from 'drizzle-o
         <tr>
             <td>
                 <pre><code>const consulta = await db
-    .select({ titulo: tabela.posts.titulo, nome: tabela.usuarios.nome_usuario })
+    .select({ titulo: tabela.posts.titulo, nome: tabela.usuarios.nome })
     .from(tabela.posts)
     .where(
         and(
@@ -86,6 +87,7 @@ console.log(consulta);</code></pre>
     </tbody>
 </table>
 
+<h3>Obtendo um único item</h3>
 <p>Especialmente quando buscamos um objeto pela chave primária, sabemos que o resultado sempre será um único objeto. Porém o <code>select</code> sempre retorna uma lista, mesmo que seja uma lista de um único item.</p>
 <table class="custom">
     <thead>
@@ -101,13 +103,13 @@ console.log(consulta);</code></pre>
 .where(eq(tabela.usuarios.id, 2)).limit(1);
 
 console.log(lista);
-console.log(lista[0].nome_usuario);</code></pre>
+console.log(lista[0].nome);</code></pre>
             </td>
             <td>
                 <pre><code>[
   {
     id: 2,
-    nome_usuario: 'francisca_pereira',
+    nome: 'francisca_pereira',
     email: 'francisca@pereira.com',
     data_nascimento: '2002-11-05',
     pontos: 0,
@@ -135,12 +137,12 @@ francisca_pereira</code></pre>
 .where(eq(tabela.usuarios.id, 2)).limit(1);
 
 console.log(usuario);
-console.log(usuario.nome_usuario);</code></pre>
+console.log(usuario.nome);</code></pre>
             </td>
             <td>
                 <pre><code>{
   id: 2,
-  nome_usuario: 'francisca_pereira',
+  nome: 'francisca_pereira',
   email: 'francisca@pereira.com',
   data_nascimento: '2002-11-05',
   pontos: 0,
@@ -154,3 +156,32 @@ francisca_pereira</code></pre>
 
 <h2>Inserções</h2>
 
+<h3>Inserindo objetos ou listas de objetos</h3>
+<p>Podemos inserir um objeto apenas...</p>
+<pre><code>const pessoa = { nome: 'antonia_rodrigues', email: 'antonia@rodrigues.com' }
+await db.insert(tabela.usuarios).values(pessoa);</code></pre>
+
+<p>... Ou uma lista de objetos:</p>
+<pre><code>const pessoas = [
+    { nome: 'adriana_lima', email: 'adriana@lima.com' },
+    { nome: 'luiz_alves', email: 'luiz@alves.com' }
+]
+await db.insert(tabela.usuarios).values(pessoas);</code></pre>
+
+<h3>Nomes de propriedades abreviados</h3>
+<p>Podemos inserir dados na tabela vindos de variáveis:</p>
+<pre><code>const nome_usuario = 'francisco_ferreira'
+const email_usuario = 'francisco@ferreira.com'
+await db.insert(tabela.usuarios).values({ nome: nome_usuario, email: email_usuario, });</code></pre>
+
+<p>Em muitos casos, o atributo do objeto e a variável têm o mesmo nome:</p>
+<pre><code>const nome = 'francisco_ferreira'
+const email = 'francisco@ferreira.com'
+await db.insert(tabela.usuarios).values({ nome: nome, email: email, });</code></pre>
+
+<p>Nesses casos, podemos usar a sintaxe de <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#property_definitions">nomes de propriedades abreviados</a>:</p>
+<pre><code>const nome = 'francisco_ferreira'
+const email = 'francisco@ferreira.com'
+await db.insert(tabela.usuarios).values({ nome, email, });</code></pre>
+
+<h3>Retornando o resultado</h3>
