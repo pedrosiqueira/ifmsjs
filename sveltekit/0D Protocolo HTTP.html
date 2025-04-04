@@ -37,7 +37,7 @@
   <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 
-<h2>Protocolo HTTP de Comunicação</h2>
+<h1>Protocolo HTTP de Comunicação</h1>
 <p id="comunicacao-http">
   A comunicação na Internet ocorre por meio do protocolo HTTP (Hypertext Transfer Protocol), que define as regras para a troca de informações entre clientes e servidores. Quando você acessa um site, seu dispositivo (cliente) envia uma "carta" (requisição HTTP) ao servidor que hospeda esse site. O servidor, por sua vez, processa a solicitação e retorna uma "carta" (resposta HTTP) contendo os dados necessários para exibir a página no seu navegador.
 </p>
@@ -47,23 +47,47 @@
   <img id="anatomia-carta-http" alt="Estrutura de uma requisição e resposta HTTP">
 </div>
 
-<h3>Características do HTTP</h3>
+<h2>Características do HTTP</h2>
 <ul>
   <li>O cliente sempre inicia a comunicação enviando uma requisição ao servidor.</li>
   <li>O protocolo HTTP é sem estado (stateless), ou seja, cada requisição é independente e não mantém memória de interações anteriores.</li>
   <li>Pode ser utilizado em diferentes formatos de comunicação, como páginas web, APIs e transferência de arquivos.</li>
 </ul>
 
-<h3>Exemplos de Clientes HTTP</h3>
+<h2>Exemplos de Clientes HTTP</h2>
 <ul>
   <li>Navegadores Web (Chrome, Firefox, Edge, Safari).</li>
   <li>Aplicativos móveis que acessam APIs.</li>
   <li>Ferramentas de linha de comando como <code>curl</code> e <code>Postman</code>.</li>
 </ul>
 
-<h3>Exemplos de Servidores HTTP</h3>
+<h2>Exemplos de Servidores HTTP</h2>
 <ul>
   <li><strong>Servidores de Sites:</strong> Fornecem páginas web.</li>
   <li><strong>Serviços de API REST:</strong> Fornecem objetos javascript (JSON).</li>
   <li><strong>Servidores de Arquivos:</strong> Permitem o download e upload de documentos, imagens e outros arquivos.</li>
 </ul>
+
+<h2>API</h2>
+<p>Uma <strong>interface</strong> é o meio pelo qual interagimos com um sistema — seja ele físico ou digital. É a "ponte" entre o usuário e o funcionamento interno de um sistema.</p>
+<p>Exemplos:</p>
+<ul>
+  <li><strong>Carro:</strong> o volante, o pedal do acelerador e o painel de instrumentos são interfaces que permitem ao motorista controlar o veículo e receber informações dele.</li>
+  <li><strong>Computador:</strong> o teclado, o mouse e a tela formam a interface entre o usuário e o sistema operacional.</li>
+  <li><strong>Micro-ondas:</strong> os botões ou o painel touch servem como interface para o usuário configurar o tempo e a potência de aquecimento.</li>
+  <li><strong>Caixa eletrônico (ATM):</strong> a tela e os botões permitem que o usuário interaja com o sistema bancário.</li>
+</ul>
+
+<p>No mundo digital, também existem diferentes tipos de interfaces:</p>
+<ul>
+  <li><strong>Interface Gráfica de Usuário (GUI - Graphical User Interface):</strong> composta por elementos visuais como janelas, menus, botões, ícones e formulários. É a interface mais comum para usuários finais, encontrada em aplicativos, sistemas operacionais, sites e softwares em geral.</li>
+  <li><strong>Interface de Linha de Comando (CLI - Command Line Interface):</strong> baseada em texto, onde o usuário interage com o sistema digitando comandos. É amplamente usada por desenvolvedores e administradores de sistemas por permitir controle preciso e execução rápida de tarefas.</li>
+</ul>
+
+<p>Uma <strong>Interface de Programação de Aplicativos</strong> (API - <em>Application Programming Interface</em>) é o meio pelo qual o programador interage com o sistema, e envolve código de linguagem de programação. Ela define um conjunto de regras e convenções que permitem que diferentes softwares se comuniquem entre si, geralmente por meio de invocações de função ou envio de dados estruturados.</p>
+
+<p>Entre os diversos tipos de APIs, destaca-se a <strong>API REST</strong> (<em>Representational State Transfer</em>). Ela é um estilo arquitetural usado amplamente para interação com sistemas Web. Uma API REST permite que clientes (como aplicativos web e mobile) interajam com servidores por meio de requisições HTTP — utilizando métodos como <code>GET</code>, <code>POST</code>, <code>PUT</code> e <code>DELETE</code> — para acessar e manipular recursos identificados por URLs.</p>
+
+<p>Por exemplo, uma requisição <code>GET /usuarios/1</code> pode ser usada para obter os dados do usuário com ID 1, enquanto <code>POST /usuarios</code> pode ser utilizada para criar um novo usuário no sistema.</p>
+
+<p>Em resumo, uma API REST é uma maneira padronizada de construir sistemas Web que facilitam a comunicação entre diferentes aplicativos de forma simples, escalável e baseada em tecnologias amplamente conhecidas como HTTP e JSON.</p>

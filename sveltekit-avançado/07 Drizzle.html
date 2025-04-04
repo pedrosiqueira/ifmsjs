@@ -122,7 +122,7 @@ francisca_pereira</code></pre>
     </tbody>
 </table>
 
-<p>Em casos que você precisa apenas de um único item, ou do primeiro item da lista, você pode usar a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring">sintaxe de destruturação</a> do JavaScript:</p>
+<p>Em casos que você precisa apenas de um único item, ou do primeiro item da lista, você pode usar a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring">sintaxe de desestruturação</a> do JavaScript:</p>
 <table class="custom">
     <thead>
         <tr>
@@ -185,3 +185,98 @@ const email = 'francisco@ferreira.com'
 await db.insert(tabela.usuarios).values({ nome, email, });</code></pre>
 
 <h3>Retornando o resultado</h3>
+<p>Normalmente quando inserimos um objeto no banco, mas não informamos o ID, que é gerado automaticamente pelo banco. Em muitas situações, precisamos do ID gerado pelo banco. Para essas situações, podemos usar o método <code>returning</code>, que retorna o objeto recém inserido, já com o id gerado:</p>
+
+<table class="custom">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Saída</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre><code>const usuario = {
+    nome: 'marcia_nascimento',
+    email: 'marcia@nascimento.com'
+}
+
+const [novoUsuario] = await db
+.insert(tabela.usuarios).values(usuario).returning();
+
+console.log("Antes:", usuario);
+console.log("Depois:", novoUsuario);</code></pre>
+            </td>
+            <td>
+                <pre><code>Antes: {
+    nome: 'marcia_nascimento',
+    email: 'marcia@nascimento.com'
+}
+
+Depois: {
+  id: 6,
+  nome: 'marcia_nascimento',
+  email: 'marcia@nascimento.com',
+  data_nascimento: null,
+  pontos: 0,
+  criado_em: '2025-04-04 13:28:47'
+}</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Geralmente, quando inserimos um objeto, como os outros atributos já temos, podemos querer apenas os atributos que são gerados pelo banco. Podemos filtrar quais atributos queremos retornar ao inserir:</p>
+
+<table class="custom">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Saída</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre><code>const usuario = { nome: 'carlos_gomes', email: 'carlos@gomes.com' }
+
+const [criado] = await db.insert(tabela.usuarios)
+    .values(usuario).returning({
+        id: tabela.usuarios.id,
+        criacao: tabela.usuarios.criado_em
+    });
+
+console.log("Usuário criado:", criado);</code></pre>
+            </td>
+            <td>
+                <pre><code>Usuário criado: { id: 7, criacao: '2025-04-04 15:10:06' }</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Quando precisamso apenas do ID, este ainda seria retornado dentro de um objeto. Podemos usar a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring">sintaxe de desestruturação</a> para obter apenas o ID do objeto retornado:</p>
+<table class="custom">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Saída</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre><code>const usuario = { nome: 'juliana_jesus', email: 'juliana@jesus.com' }
+
+const [{ id }] = await db.insert(tabela.usuarios)
+.values(usuario).returning({ id: tabela.usuarios.id });
+
+console.log("ID:", id);</code></pre>
+            </td>
+            <td>
+                <pre><code>ID: 8</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
