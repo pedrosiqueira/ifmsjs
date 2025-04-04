@@ -143,7 +143,7 @@
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
-    data_nascimento TEXT,
+    nascimento TEXT,
     pontos INTEGER DEFAULT 0,
     criado_em TEXT DEFAULT CURRENT_TIMESTAMP
 );</code></pre>
@@ -153,7 +153,7 @@
   id: integer().primaryKey({ autoIncrement: true }),
   nome: text().notNull(),
   email: text().notNull().unique(),
-  data_nascimento: text(),
+  nascimento: text(),
   pontos: integer().default(0),
   criado_em: text().default(sql`CURRENT_TIMESTAMP`),
 });</code></pre>
@@ -373,7 +373,7 @@ VALUES ('maria_silva', 'maria@silva.com.br');</code></pre>
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>INSERT INTO usuarios (nome, email, data_nascimento)
+        <pre><code class='sql'>INSERT INTO usuarios (nome, email, nascimento)
 VALUES
     ('francisca_pereira', 'francisca@pereira.com', '2002-11-05'),
     ('jose_santos', 'jose@santos.com', '2004-02-29'),
@@ -390,10 +390,10 @@ VALUES
       </td>
       <td>
         <pre><code>await db.insert(usuarios).values([
-  { nome: 'francisca_pereira', email: 'francisca@pereira.com', data_nascimento: '2002-11-05' },
-  { nome: 'jose_santos', email: 'jose@santos.com', data_nascimento: '2004-02-29' },
-  { nome: 'joao_souza', email: 'joao@souza.com', data_nascimento: '2001-12-31' },
-  { nome: 'ana_oliveira', email: 'ana@oliveira.com', data_nascimento: '2002-11-05' },
+  { nome: 'francisca_pereira', email: 'francisca@pereira.com', nascimento: '2002-11-05' },
+  { nome: 'jose_santos', email: 'jose@santos.com', nascimento: '2004-02-29' },
+  { nome: 'joao_souza', email: 'joao@souza.com', nascimento: '2001-12-31' },
+  { nome: 'ana_oliveira', email: 'ana@oliveira.com', nascimento: '2002-11-05' },
 ]);
 
 await db.insert(posts).values([
@@ -476,7 +476,7 @@ await db.insert(posts).values([
     id: 1,
     nome: 'maria_silva',
     email: 'maria@silva.com.br',
-    data_nascimento: null,
+    nascimento: null,
     pontos: 0,
     criado_em: '2025-03-31 16:44:12'
   },
@@ -484,7 +484,7 @@ await db.insert(posts).values([
     id: 2,
     nome: 'francisca_pereira',
     email: 'francisca@pereira.com',
-    data_nascimento: '2002-11-05',
+    nascimento: '2002-11-05',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -492,7 +492,7 @@ await db.insert(posts).values([
     id: 3,
     nome: 'jose_santos',
     email: 'jose@santos.com',
-    data_nascimento: '2004-02-29',
+    nascimento: '2004-02-29',
     pontos: 100,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -500,7 +500,7 @@ await db.insert(posts).values([
     id: 4,
     nome: 'joao_souza',
     email: 'joao@souza.com',
-    data_nascimento: '2001-12-31',
+    nascimento: '2001-12-31',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -508,7 +508,7 @@ await db.insert(posts).values([
     id: 5,
     nome: 'ana_oliveira',
     email: 'ana@oliveira.com',
-    data_nascimento: '2002-11-05',
+    nascimento: '2002-11-05',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   }
@@ -575,7 +575,7 @@ await db.insert(posts).values([
     id: 1,
     nome: 'maria_silva',
     email: 'maria@silva.com.br',
-    data_nascimento: null,
+    nascimento: null,
     pontos: 0,
     criado_em: '2025-03-31 16:44:12'
   }
@@ -611,7 +611,7 @@ await db.insert(posts).values([
     id: 5,
     nome: 'ana_oliveira',
     email: 'ana@oliveira.com',
-    data_nascimento: '2002-11-05',
+    nascimento: '2002-11-05',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -619,7 +619,7 @@ await db.insert(posts).values([
     id: 2,
     nome: 'francisca_pereira',
     email: 'francisca@pereira.com',
-    data_nascimento: '2002-11-05',
+    nascimento: '2002-11-05',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -627,7 +627,7 @@ await db.insert(posts).values([
     id: 4,
     nome: 'joao_souza',
     email: 'joao@souza.com',
-    data_nascimento: '2001-12-31',
+    nascimento: '2001-12-31',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -635,7 +635,7 @@ await db.insert(posts).values([
     id: 3,
     nome: 'jose_santos',
     email: 'jose@santos.com',
-    data_nascimento: '2004-02-29',
+    nascimento: '2004-02-29',
     pontos: 100,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -643,7 +643,7 @@ await db.insert(posts).values([
     id: 1,
     nome: 'maria_silva',
     email: 'maria@silva.com.br',
-    data_nascimento: null,
+    nascimento: null,
     pontos: 0,
     criado_em: '2025-03-31 16:44:12'
   }
@@ -651,7 +651,7 @@ await db.insert(posts).values([
 </dialog>
 <div style="text-align:center"><button data-custom-modal="orderby">Exibir resultado</button></div>
 
-<p>Ordena por <code>data_nascimento</code> em ordem decrescente.</p>
+<p>Ordena por <code>nascimento</code> em ordem decrescente.</p>
 <table class="custom">
   <thead>
     <tr>
@@ -662,10 +662,10 @@ await db.insert(posts).values([
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>SELECT * FROM usuarios ORDER BY data_nascimento DESC;</code></pre>
+        <pre><code class='sql'>SELECT * FROM usuarios ORDER BY nascimento DESC;</code></pre>
       </td>
       <td>
-        <pre><code>const ordenadosPorNascimento = await db.select().from(usuarios).orderBy(desc(usuarios.data_nascimento));</code></pre>
+        <pre><code>const ordenadosPorNascimento = await db.select().from(usuarios).orderBy(desc(usuarios.nascimento));</code></pre>
       </td>
     </tr>
   </tbody>
@@ -677,7 +677,7 @@ await db.insert(posts).values([
     id: 3,
     nome: 'jose_santos',
     email: 'jose@santos.com',
-    data_nascimento: '2004-02-29',
+    nascimento: '2004-02-29',
     pontos: 100,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -685,7 +685,7 @@ await db.insert(posts).values([
     id: 2,
     nome: 'francisca_pereira',
     email: 'francisca@pereira.com',
-    data_nascimento: '2002-11-05',
+    nascimento: '2002-11-05',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -693,7 +693,7 @@ await db.insert(posts).values([
     id: 5,
     nome: 'ana_oliveira',
     email: 'ana@oliveira.com',
-    data_nascimento: '2002-11-05',
+    nascimento: '2002-11-05',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -701,7 +701,7 @@ await db.insert(posts).values([
     id: 4,
     nome: 'joao_souza',
     email: 'joao@souza.com',
-    data_nascimento: '2001-12-31',
+    nascimento: '2001-12-31',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -709,7 +709,7 @@ await db.insert(posts).values([
     id: 1,
     nome: 'maria_silva',
     email: 'maria@silva.com.br',
-    data_nascimento: null,
+    nascimento: null,
     pontos: 0,
     criado_em: '2025-03-31 16:44:12'
   }
@@ -717,7 +717,7 @@ await db.insert(posts).values([
 </dialog>
 <div style="text-align:center"><button data-custom-modal="orderbydesc">Exibir resultado</button></div>
 
-<p>Ordena primeiro por <code>data_nascimento</code> em ordem decrescente e, em seguida, por <code>email</code> em ordem crescente.</p>
+<p>Ordena primeiro por <code>nascimento</code> em ordem decrescente e, em seguida, por <code>email</code> em ordem crescente.</p>
 <table class="custom">
   <thead>
     <tr>
@@ -728,11 +728,11 @@ await db.insert(posts).values([
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>SELECT * FROM usuarios ORDER BY data_nascimento DESC, email ASC;</code></pre>
+        <pre><code class='sql'>SELECT * FROM usuarios ORDER BY nascimento DESC, email ASC;</code></pre>
       </td>
       <td>
         <pre><code>const ordenadosPorNascimentoEmail = await db.select().from(usuarios)
-    .orderBy(desc(usuarios.data_nascimento), usuarios.email);</code></pre>
+    .orderBy(desc(usuarios.nascimento), usuarios.email);</code></pre>
       </td>
     </tr>
   </tbody>
@@ -744,7 +744,7 @@ await db.insert(posts).values([
     id: 3,
     nome: 'jose_santos',
     email: 'jose@santos.com',
-    data_nascimento: '2004-02-29',
+    nascimento: '2004-02-29',
     pontos: 100,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -752,7 +752,7 @@ await db.insert(posts).values([
     id: 5,
     nome: 'ana_oliveira',
     email: 'ana@oliveira.com',
-    data_nascimento: '2002-11-05',
+    nascimento: '2002-11-05',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -760,7 +760,7 @@ await db.insert(posts).values([
     id: 2,
     nome: 'francisca_pereira',
     email: 'francisca@pereira.com',
-    data_nascimento: '2002-11-05',
+    nascimento: '2002-11-05',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -768,7 +768,7 @@ await db.insert(posts).values([
     id: 4,
     nome: 'joao_souza',
     email: 'joao@souza.com',
-    data_nascimento: '2001-12-31',
+    nascimento: '2001-12-31',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -776,7 +776,7 @@ await db.insert(posts).values([
     id: 1,
     nome: 'maria_silva',
     email: 'maria@silva.com.br',
-    data_nascimento: null,
+    nascimento: null,
     pontos: 0,
     criado_em: '2025-03-31 16:44:12'
   }
@@ -811,7 +811,7 @@ await db.insert(posts).values([
     id: 1,
     nome: 'maria_silva',
     email: 'maria@silva.com.br',
-    data_nascimento: null,
+    nascimento: null,
     pontos: 0,
     criado_em: '2025-03-31 16:44:12'
   },
@@ -819,7 +819,7 @@ await db.insert(posts).values([
     id: 2,
     nome: 'francisca_pereira',
     email: 'francisca@pereira.com',
-    data_nascimento: '2002-11-05',
+    nascimento: '2002-11-05',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -827,7 +827,7 @@ await db.insert(posts).values([
     id: 3,
     nome: 'jose_santos',
     email: 'jose@santos.com',
-    data_nascimento: '2004-02-29',
+    nascimento: '2004-02-29',
     pontos: 100,
     criado_em: '2025-03-31 16:45:03'
   }
@@ -861,7 +861,7 @@ await db.insert(posts).values([
     id: 4,
     nome: 'joao_souza',
     email: 'joao@souza.com',
-    data_nascimento: '2001-12-31',
+    nascimento: '2001-12-31',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -869,7 +869,7 @@ await db.insert(posts).values([
     id: 5,
     nome: 'ana_oliveira',
     email: 'ana@oliveira.com',
-    data_nascimento: '2002-11-05',
+    nascimento: '2002-11-05',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   }
@@ -904,7 +904,7 @@ await db.insert(posts).values([
     id: 5,
     nome: 'ana_oliveira',
     email: 'ana@oliveira.com',
-    data_nascimento: '2002-11-05',
+    nascimento: '2002-11-05',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -912,7 +912,7 @@ await db.insert(posts).values([
     id: 2,
     nome: 'francisca_pereira',
     email: 'francisca@pereira.com',
-    data_nascimento: '2002-11-05',
+    nascimento: '2002-11-05',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   },
@@ -920,7 +920,7 @@ await db.insert(posts).values([
     id: 4,
     nome: 'joao_souza',
     email: 'joao@souza.com',
-    data_nascimento: '2001-12-31',
+    nascimento: '2001-12-31',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   }
@@ -969,7 +969,7 @@ const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome).limit(3)
       id: 5,
       nome: 'ana_oliveira',
       email: 'ana@oliveira.com',
-      data_nascimento: '2002-11-05',
+      nascimento: '2002-11-05',
       pontos: 0,
       criado_em: '2025-03-31 16:45:03'
     },
@@ -977,7 +977,7 @@ const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome).limit(3)
       id: 2,
       nome: 'francisca_pereira',
       email: 'francisca@pereira.com',
-      data_nascimento: '2002-11-05',
+      nascimento: '2002-11-05',
       pontos: 0,
       criado_em: '2025-03-31 16:45:03'
     },
@@ -985,7 +985,7 @@ const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome).limit(3)
       id: 4,
       nome: 'joao_souza',
       email: 'joao@souza.com',
-      data_nascimento: '2001-12-31',
+      nascimento: '2001-12-31',
       pontos: 0,
       criado_em: '2025-03-31 16:45:03'
     }
@@ -995,7 +995,7 @@ const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome).limit(3)
       id: 3,
       nome: 'jose_santos',
       email: 'jose@santos.com',
-      data_nascimento: '2004-02-29',
+      nascimento: '2004-02-29',
       pontos: 100,
       criado_em: '2025-03-31 16:45:03'
     },
@@ -1003,7 +1003,7 @@ const pagina3 = await db.select().from(usuarios).orderBy(usuarios.nome).limit(3)
       id: 1,
       nome: 'maria_silva',
       email: 'maria@silva.com.br',
-      data_nascimento: null,
+      nascimento: null,
       pontos: 0,
       criado_em: '2025-03-31 16:44:12'
     }
@@ -1224,16 +1224,16 @@ LEFT JOIN usuarios ON posts.usuario_id = usuarios.id;</code></pre>
   <tbody>
     <tr>
       <td>
-        <pre><code class='sql'>SELECT MAX(data_nascimento) FROM usuarios;
-SELECT MIN(data_nascimento) FROM usuarios;</code></pre>
+        <pre><code class='sql'>SELECT MAX(nascimento) FROM usuarios;
+SELECT MIN(nascimento) FROM usuarios;</code></pre>
       </td>
       <td>
         <pre><code>const cacula = await db
-    .select({ nascimento: max(usuarios.data_nascimento) }) 
+    .select({ nascimento: max(usuarios.nascimento) }) 
     .from(usuarios);
 
 const primogenito = await db 
-    .select({ nascimento: min(usuarios.data_nascimento) })
+    .select({ nascimento: min(usuarios.nascimento) })
     .from(usuarios);</code></pre>
       </td>
     </tr>

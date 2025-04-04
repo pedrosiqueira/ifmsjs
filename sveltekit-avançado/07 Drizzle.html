@@ -111,7 +111,7 @@ console.log(lista[0].nome);</code></pre>
     id: 2,
     nome: 'francisca_pereira',
     email: 'francisca@pereira.com',
-    data_nascimento: '2002-11-05',
+    nascimento: '2002-11-05',
     pontos: 0,
     criado_em: '2025-03-31 16:45:03'
   }
@@ -144,7 +144,7 @@ console.log(usuario.nome);</code></pre>
   id: 2,
   nome: 'francisca_pereira',
   email: 'francisca@pereira.com',
-  data_nascimento: '2002-11-05',
+  nascimento: '2002-11-05',
   pontos: 0,
   criado_em: '2025-03-31 16:45:03'
 }
@@ -218,7 +218,7 @@ Depois: {
   id: 6,
   nome: 'marcia_nascimento',
   email: 'marcia@nascimento.com',
-  data_nascimento: null,
+  nascimento: null,
   pontos: 0,
   criado_em: '2025-04-04 13:28:47'
 }</code></pre>
@@ -277,6 +277,65 @@ console.log("ID:", id);</code></pre>
             <td>
                 <pre><code>ID: 8</code></pre>
             </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Atualizações</h2>
+<p>Atualizações são muito parecidas com consultas. Os seguintes trechos fazem a mesma coisa:</p>
+<table class="custom align-left">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Situação</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre><code>const nome = 'marcia_nascimento';
+const pontuacao = 50;
+const data_nascimento = '2003-04-05';
+
+await db.update(tabela.usuarios)
+    .set({ pontos: pontuacao, nascimento: data_nascimento })
+    .where(eq(tabela.usuarios.nome, nome));</code></pre>
+            </td>
+            <td>Dados vindos de um formulário ou função.</td>
+        </tr>
+        <tr>
+            <td>
+                <pre><code>const nome: 'marcia_nascimento';
+const pontos = 50;
+const nascimento = '2003-04-05';
+
+await db.update(tabela.usuarios)
+    .set({ pontos, nascimento })
+    .where(eq(tabela.usuarios.nome, nome));</code></pre>
+            </td>
+            <td>Dados vindos de um formulário ou função, e coincidem com os atributos do objeto.</td>
+        </tr>
+        <tr>
+            <td>
+                <pre><code>const usuario = {
+    nome: 'marcia_nascimento',
+    email: 'marcia@nascimento.com',
+    pontos: 50, nascimento: '2003-04-05'
+};
+
+await db.update(tabela.usuarios).set(usuario)
+    .where(eq(tabela.usuarios.nome, usuario.nome));</code></pre>
+            </td>
+            <td>Você tem os campos de atualização agrupados, ou já tinha o objeto e modificou alguns atributos.</td>
+        </tr>
+        <tr>
+            <td>
+                <pre><code>await db.update(tabela.usuarios).set({
+    pontos: 50,
+    nascimento: '2003-04-05'
+}).where(eq(tabela.usuarios.nome, 'marcia_nascimento'));</code></pre>
+            </td>
+            <td>Rápido e direto. Usado geralmente em scripts de teste ou em pequenos ajustes no banco durante o início do projeto.</td>
         </tr>
     </tbody>
 </table>
