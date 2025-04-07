@@ -20,6 +20,8 @@
 </head>
 
 <h1 id="criando-um-projeto-sveltekit-com-capacitor-drizzle-orm-e-sqlite">Criando um projeto SvelteKit com Capacitor, Drizzle ORM e SQLite</h1>
+<hr>
+<h2>Criando</h2>
 <p>Primeiramente abra o terminal <strong>na pasta onde deseja criar o projeto</strong>.</p>
 <p>Execute os seguintes comandos:</p>
 <pre><code class="sh">pnpm dlx sv create meu-projeto-capacitor
@@ -57,21 +59,24 @@ code -r .</code></pre>
 ◇  Which package manager do you want to install dependencies with?
 │  pnpm</code></pre>
 <p>Quando solicitado <code>? Create free Ionic account? » (Y/n)</code>, digite <kbd>n</kbd>.</p>
-<hr />
-
+<hr>
+<h2>Configurando</h2>
+<p>Por padrão, o CapacitorJS espera que os arquivos do projeto construído estejam na pasta <code>dist</code>. No entanto, projetos criados com Svelte (via <code>vite build</code>) geram os arquivos finais na pasta <code>build</code>.</p>
+<p>Para que o Capacitor encontre corretamente os arquivos do app, modifique o valor da propriedade <code>"webDir"</code> do arquivo <code>capacitor.config.json</code> para <code>"build"</code>.</p>
+<hr>
 <h2>Explicação dos comandos</h2>
-<hr />
+<hr>
 <pre><code>pnpm dlx sv create meu-projeto-capacitor</code></pre>
 <ul>
     <li>Usa <code>pnpm dlx</code> para rodar o comando <strong>sem instalar globalmente</strong>.</li>
     <li><code>sv create meu-projeto-capacitor</code> → Cria um novo projeto <strong>Svelte</strong><foot-note href="https://svelte.dev/docs/kit/creating-a-project"></foot-note> chamado <code>meu-projeto-capacitor</code>.</li>
 </ul>
-<hr />
+<hr>
 <pre><code>cd meu-projeto-capacitor/</code></pre>
 <ul>
     <li>Entra no diretório do projeto recém-criado.</li>
 </ul>
-<hr />
+<hr>
 <pre><code>pnpm add -D @capacitor/cli drizzle-kit</code></pre>
 <ul>
     <li>Instala como <strong>dependência de desenvolvimento (<code>-D</code>)</strong>:
@@ -82,7 +87,7 @@ code -r .</code></pre>
     </li>
 </ul>
 <p>(Essas dependências são usadas apenas durante o desenvolvimento, e não são incluídas na versão final do aplicativo.)</p>
-<hr />
+<hr>
 <pre><code>pnpm add @capacitor/core @capacitor/android @capacitor/filesystem drizzle-orm sql.js bootstrap bootstrap-icons</code></pre>
 <ul>
     <li>Instala como <strong>dependência do projeto</strong>:
@@ -98,7 +103,7 @@ code -r .</code></pre>
     </li>
 </ul>
 <p>(Essas dependências no código em tempo de execução (produção), e são incluídas na versão final do aplicativo.)</p>
-<hr />
+<hr>
 <p>(altere para o teu nome de usuário do GitHub...)</p>
 <pre><code>npx cap init meu-projeto-capacitor io.github.pedrosiqueira.meuProjetoCapacitor</code></pre>
 <ul>
@@ -110,25 +115,25 @@ code -r .</code></pre>
         </ul>
     </li>
 </ul>
-<hr />
+<hr>
 <pre><code>npx cap add android</code></pre>
 <ul>
     <li>Adiciona a <strong>plataforma Android</strong> ao projeto Capacitor.</li>
     <li>Cria a pasta <code>android/</code>, onde o código nativo será gerado.</li>
 </ul>
-<hr />
+<hr>
 <!-- <pre><code>npx cap sync</code></pre>
 <ul>
     <li>Sincroniza as dependências do projeto com o Capacitor.</li>
     <li>Garante que plugins instalados (<code>@capacitor/filesystem</code>, etc.) sejam integrados ao código nativo.</li>
 </ul>
-<hr /> -->
+<hr> -->
 <pre><code>code -r .</code></pre>
 <ul>
     <li>Abre o projeto no <strong>VS Code</strong> (<code>.</code> significa abrir a pasta atual).</li>
     <li><code>-r</code> (reutilizar) → Se já houver uma instância aberta do VS Code, abre o projeto nela.</li>
 </ul>
-<hr />
+<hr>
 <h3 id="resumo-do-que-acontece"><strong>Resumo do que acontece</strong></h3>
 <ol type="1">
     <li><strong>Cria um projeto Svelte</strong>.</li>

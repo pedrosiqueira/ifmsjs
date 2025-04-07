@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+<h1>Compilação do App</h1>
+<p>Para compilar um projeto CapacitorJS em um app Android, você precisa ter o Android SDK instalado em teu computador. Antes de proseguir, siga o <a href="Tutorial Preparando o Ambiente Android para CapacitorJS.pdf">Tutorial Preparando o Ambiente Android para CapacitorJS</a>.</p>
+<h2 id="preparando-para-instalar-o-app-no-celular-ou-emulador">✅ Preparando para instalar o app no celular ou emulador</h2>
+<p>Depois de editar o código-fonte (HTML, JS, Svelte etc.) ou arquivos estáticos (CSS, imagens), e quiser testar no celular ou emulador, <strong>construa o app com</strong>:</p>
+<pre><code class="sh">pnpm build</code></pre>
+<p>Você também deve executar <code>npx cap sync</code> nas seguintes situações:</p>
+<ol>
+    <li>É a <strong>primeira vez</strong> que você executa o comando.</li>
+    <li>Você <strong>adicionou, removeu ou atualizou</strong> plugins (Capacitor ou Cordova) ou bibliotecas que envolvem código nativo (Android/iOS).</li>
+    <li>Alterou o arquivo <code>capacitor.config.ts</code> ou <code>capacitor.config.json</code> (ex: <code>appId</code>, <code>server.url</code>, <code>backgroundColor</code> etc.).</li>
+</ol>
+<blockquote>
+    <p>📌 Você <em>não precisa</em> rodar <code>npx cap sync</code> quando apenas edita o código-fonte ou arquivos estáticos.</p>
+</blockquote>
+<hr />
+
+<h2 id="instalando-o-app-no-emulador">📱 Instalando o app no emulador</h2>
+<p>Se você já seguiu o <a href="Tutorial Preparando o Ambiente Android para CapacitorJS.pdf">Tutorial Preparando o Ambiente Android para CapacitorJS</a>, deve ter um emulador instalado. Para instalar o app no emulador:</p>
+<pre><code class="sh">npx cap run android</code></pre>
+<p>Se solicitado, selecione o emulador desejado.</p>
+<hr />
+<h2 id="instalando-o-app-no-celular">📲 Instalando o app no celular</h2>
+<p>Você vai precisar do programa <code>adb</code>, que pode ser instalado seguindo o <a href="Tutorial Preparando o Ambiente Android para CapacitorJS.pdf">Tutorial Preparando o Ambiente Android para CapacitorJS</a>.</p>
+<h3 id="conectando-o-celular-via-cabo-usb">🔌 Conectando o celular via cabo USB</h3>
+<ol>
+    <li>Ative o <strong>modo desenvolvedor</strong> no celular (dependendo da versão, pode mudar):
+        <ul>
+            <li>Vá em <em>Configurações &gt; Sobre o telefone</em> e toque várias vezes em “Número da versão” até ativar as opções de desenvolvedor.</li>
+        </ul>
+    </li>
+    <li>Ative as <strong>Opções do desenvolvedor</strong> (dependendo da versão, pode mudar):
+        <ul>
+            <li>Vá até <em>Sistema &gt; Avançado &gt; Opções do desenvolvedor</em> e ative as opções:</li>
+            <li><strong>Opções do desenvolvedor</strong></li>
+            <li><strong>Depuração USB</strong></li>
+            <li><strong>Instalar via USB</strong> (se disponível)</li>
+        </ul>
+    </li>
+    <li>Conecte o celular ao computador. Aceite o pop-up “Permitir depuração USB” e marque “Sempre permitir”.
+        <blockquote>
+            <p>Se o pop-up não aparecer, desative e reative as opções do desenvolvedor e a depuração USB.</p>
+        </blockquote>
+    </li>
+    <li>No terminal, verifique a conexão:
+        <pre><code class="sh">adb devices</code></pre>
+    </li>
+    <li>Com o celular conectado e reconhecido, instale o app:
+        <pre><code class="sh">npx cap run android</code></pre>
+        <p>Se solicitado, selecione o celular conectado.</p>
+    </li>
+</ol>
+<hr />
+<h3 id="conectando-o-celular-via-wi-fi">📡 Conectando o celular via Wi-Fi</h3>
+<ol>
+    <li>
+        <p>Ative o modo desenvolvedor e habilite a <strong>depuração via Wi-Fi</strong>.</p>
+    </li>
+    <li>
+        <p>Descubra o IP do celular (dependendo da versão, pode mudar):<br />
+            <em>Configurações &gt; Sobre o telefone &gt; Status &gt; Endereço IP</em>
+        </p>
+    </li>
+    <li>
+        <p>No terminal:</p>
+        <pre><code class="sh">adb tcpip 5555
+adb connect x.x.x.x:5555</code></pre>
+
+        <blockquote>
+            <p>Substitua <code>x.x.x.x</code> pelo IP de teu celular.</p>
+        </blockquote>
+    </li>
+    <li>Instale o app via Wi-Fi:
+        <pre><code class="sh">npx cap run android --target x.x.x.x:5555</code></pre>
+    </li>
+</ol>
+<hr />
+<h3 id="instalando-o-app-manualmente">🛠 Instalando o app manualmente</h3>
+<p>Com o Android SDK instalado, você pode gerar o <code>.apk</code> manualmente:</p>
+<pre><code class="sh">cd android
+./gradlew assembleDebug</code></pre>
+<p>O arquivo será gerado em <code>&lt;teu-projeto-capacitor&gt;/android/app/build/outputs/apk/debug/app-debug.apk</code>.</p>
+<p>Para instalar via <code>adb</code> na pasta raiz do projeto:</p>
+<pre><code class="sh">adb install android/app/build/outputs/apk/debug/app-debug.apk</code></pre>
+<p>Ou copie o <code>.apk</code> para o celular e instale manualmente.</p>
+<hr />
+<h2 id="debugando-com-o-chrome-webview">🐞 Debugando com o Chrome (WebView)</h2>
+<p>Você pode depurar teu app com o Chrome DevTools:</p>
+<ol type="1">
+    <li>Conecte o celular com o <code>adb</code>.</li>
+    <li>Abra o Chrome no computador.</li>
+    <li>Acesse:<br />
+        <code>chrome://inspect</code>
+    </li>
+    <li>Clique em <strong>“inspect”</strong> abaixo do WebView de teu app para abrir as DevTools.</li>
+</ol>
+<blockquote>
+    <p>💡 Dica: você também pode adicionar <code>console.log</code> no código e o conteúdo será exibido no log da WebView.</p>
+</blockquote>
+<p>Para acompanhar os logs gerados pelo aplicativo, filtrando pelas mensagens que você deseja ver, execute conforme teu sistema operacional:</p>
+<p>Linux:</p>
+<pre><code class="sh">adb logcat | grep filtro</code></pre>
+<p>Windows:</p>
+<pre><code class="ps">adb logcat | Select-String -Pattern filtro</code></pre>
+<p>Onde <code>filtro</code> se refere à mensagem de log que queira filtrar.</p>
+<hr />
