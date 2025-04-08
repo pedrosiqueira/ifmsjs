@@ -267,7 +267,7 @@ console.log("Usuário criado:", criado);</code></pre>
     <tbody>
         <tr>
             <td>
-                <pre><code>const usuario = { nome: 'juliana_jesus', email: 'juliana@jesus.com' }
+                <pre><code>const usuario = { nome: 'juliany_jesus', email: 'juliana@jesus.com' }
 
 const [{ id }] = await db.insert(tabela.usuarios)
 .values(usuario).returning({ id: tabela.usuarios.id });
@@ -339,3 +339,16 @@ await db.update(tabela.usuarios).set(usuario)
         </tr>
     </tbody>
 </table>
+
+<h2>Inserções ou atualizações</h2>
+<p>Se tentarmos inserir um objeto com um valor exclusivo já existente no banco, ocorrerá um erro. Por exemplo, Se existir alguém com email <code>juliana@jesus.com</code> no banco e tentarmos fazer essa operação:</p>
+<pre><code>const pessoa = { nome: 'juliana_jesus', email: 'juliana@jesus.com' }
+await db.insert(tabela.usuarios).values(pessoa);</code></pre>
+<p>Ocorrerá o erro <code>SQLITE_CONSTRAINT_UNIQUE: UNIQUE constraint failed: usuarios.email</code>.</p>
+<p>O DrizzleORM suporta a operação <code>onConflictDoNothing</code>, que cancela a inserção se houver um conflito:</p>
+<pre><code>const pessoa = { nome: 'juliana_jesus', email: 'juliana@jesus.com' }
+await db.insert(tabela.usuarios).values(pessoa).onConflictDoNothing();
+
+// delimita quais atributos não conflitarão
+await db.insert(tabela.usuarios).values(pessoa)
+.onConflictDoNothing({ target: tabela.usuarios.email });</code></pre>
