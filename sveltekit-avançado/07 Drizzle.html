@@ -41,7 +41,7 @@ import { blob, check, index, integer, real, sqliteTable, text, uniqueIndex } fro
 <p>Em arquivos que realizam operações no banco, fazemos importações do tipo:</p>
 <pre><code>import { db } from '$lib/server/db';
 import * as tabela from '$lib/server/db/schema';
-import { and, asc, count, desc, eq, gt, lt, max, min, sql, sum } from 'drizzle-orm';
+import { and, asc, count, desc, eq, gt, like, lt, max, min, sql, sum } from 'drizzle-orm';
 </code></pre>
 
 <p>Adapte as importações conforme a necessidade.</p>
@@ -341,7 +341,7 @@ await db.update(tabela.usuarios).set(usuario)
 </table>
 
 <h2>Inserções ou atualizações</h2>
-<p>Se tentarmos inserir um objeto com um valor exclusivo já existente no banco, ocorrerá um erro. Por exemplo, Se existir alguém com email <code>juliana@jesus.com</code> no banco e tentarmos fazer essa operação:</p>
+<p>Se tentarmos inserir um objeto com um valor exclusivo (<em>unique</em>) ou chave primária já existente no banco, ocorrerá um erro. Por exemplo, Se existir alguém com email <code>juliana@jesus.com</code> no banco e tentarmos fazer essa operação:</p>
 <pre><code>const pessoa = { nome: 'juliana_jesus', email: 'juliana@jesus.com' }
 await db.insert(tabela.usuarios).values(pessoa);</code></pre>
 <p>Ocorrerá o erro <code>SQLITE_CONSTRAINT_UNIQUE: UNIQUE constraint failed: usuarios.email</code>.</p>
@@ -352,3 +352,140 @@ await db.insert(tabela.usuarios).values(pessoa).onConflictDoNothing();
 // delimita quais atributos não conflitarão
 await db.insert(tabela.usuarios).values(pessoa)
 .onConflictDoNothing({ target: tabela.usuarios.email });</code></pre>
+
+<p>O DrizzleORM também suporta a operação <code>onConflictDoUpdate</code>, que primeiramente tenta inserir um objeto, mas se já houver um objeto com algum dos campos, então atualiza ele:</p>
+
+<table class="custom">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Saída</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre><code>// busca um objeto
+const [usuarioExistente] = await db.select().from(tabela.usuarios)
+    .where(like(tabela.usuarios.nome, 'julian%'));
+
+console.log('Antes da atualização:', usuarioExistente);
+
+// atualiza o objeto
+usuarioExistente.nome = 'juliana_jesus';
+usuarioExistente.pontos = 150;
+
+// salva o objeto
+const [usuarioAtualizado] = await db.insert(tabela.usuarios)
+    .values(usuarioExistente).onConflictDoUpdate({
+        target: tabela.usuarios.email,
+        set: usuarioExistente
+    }).returning();
+
+console.log('Depois da atualização:', usuarioAtualizado);</code></pre>
+            </td>
+            <td>
+                <pre><code>Antes da atualização: {
+  id: 7,
+  nome: 'juliany_jesus',
+  email: 'juliana@jesus.com',
+  nascimento: null,
+  pontos: 0,
+  criado_em: '2025-04-08 11:04:54'
+}
+Depois da atualização: {
+  id: 7,
+  nome: 'juliana_jesus',
+  email: 'juliana@jesus.com',
+  nascimento: null,
+  pontos: 150,
+  criado_em: '2025-04-08 11:04:54'
+}</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>O <code>onConflictDoUpdate</code> exige que você indique qual coluna ou lista de colunas está causando o conflito (atributo <code>target</code>), e o que deve ser atualizado em caso de conflito (atributo <code>set</code>).</p>
+
+<h2>Exclusões</h2>
+<p>Tome muito cuidado com exclusões! Nunca faça algo do tipo:</p>
+<pre><del>await db.delete(users);</del></pre>
+
+<p>Ao excluir, você deve filtrar o que deve ser excluído:</p>
+<pre><code>const id = 1
+await db.delete(tabela.posts).where(eq(tabela.posts.id, id));
+</code></pre>
+
+<p>Se precisar, pode retornar o objeto excluído:</p>
+<table class="custom">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Saída</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre><code>const id = 4
+const [postagemExcluida] = await db.delete(tabela.posts).where(eq(tabela.posts.id, id)).returning();
+console.log(postagemExcluida);</code></pre>
+            </td>
+            <td>
+                <pre><code>{
+  id: 2,
+  titulo: 'segundo artigo',
+  conteudo: 'conteúdo do segundo artigo',
+  usuario_id: 2,
+  criado_em: '2025-04-09 21:12:48',
+  atualizado_em: '2025-04-09 21:12:48'
+}</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 id="operador-magico-de-sql">O operador mágico <code>sql</code> 🪄</h2>
+<p> Ao utilizar uma biblioteca ORM, pode haver situações em que escrever determinada consulta usando apenas a sintaxe da biblioteca se torna desafiador. Nesses casos, é comum recorrer às <strong>consultas brutas</strong> (<em>raw queries</em>), construídas como strings de SQL puro. No entanto, esse tipo de abordagem geralmente <strong>não oferece os benefícios da segurança de tipos</strong> nem da <strong>parametrização</strong>.</p>
+<p> Para contornar esse problema, muitas bibliotecas introduziram o conceito de <strong>template SQL</strong>. Esse recurso permite escrever consultas de forma mais segura e flexível, com suporte a <strong>tipagem estática</strong> e <strong>parâmetros protegidos contra injeção de SQL</strong>. O <strong>DrizzleORM</strong>, por sua vez, oferece suporte nativo a esse modelo por meio do <a href="https://orm.drizzle.team/docs/sql">template <code>sql</code></a>.</p>
+<p>Você pode utilizar o template <code>sql</code> do Drizzle de forma seletiva em trechos específicos da consulta, caso não seja possível escrevê-la completamente com a API do Drizzle. Isso significa que é possível usar o template <code>sql</code> em cláusulas como <code>SELECT</code>, <code>WHERE</code>, <code>ORDER BY</code>, <code>HAVING</code>, <code>GROUP BY</code> e até mesmo em consultas relacionais.</p>
+<p>Ao adotar o template <code>sql</code>, você mantém as vantagens de segurança de tipos e de parametrização, sem abrir mão da flexibilidade necessária para construir consultas mais complexas. Entretanto, esse recurso só deve ser utilizado quando não for possível realizar uma operação usando a própria API do Drizzle, o que seria em casos raros.</p>
+<p>Por exemplo, uma consulta bruta por todos os títulos das postagens de um usuário que começa com determinado nome seria:</p>
+
+<table class="custom">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Saída</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre><code>const nome = 'francisca';
+const result = await db.all(
+    sql`
+    SELECT ${tabela.posts.titulo}
+    FROM ${tabela.usuarios}
+    INNER JOIN ${tabela.posts}
+    ON ${tabela.usuarios.id} = ${tabela.posts.usuario_id}
+    WHERE ${tabela.usuarios.nome} LIKE ${nome + '%'}
+    `
+);
+console.log(result);</code></pre>
+            </td>
+            <td>
+                <pre><code>[
+  { titulo: 'segundo artigo' }, 
+  { titulo: 'terceiro artigo' },
+  { titulo: 'quinto artigo' }   
+]</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>No lugar de <code>db.all</code>, você pode usar <code>db.get</code> caso queira um resultado com apenas um item, ou <code>db.run</code> que traz informações mais detalhadas da consulta.</p>
+
+<h2>Conclusão</h2>
+<p>muito mais coisas dá pra fazer com DrizzleORM, como a api de consultas personalizada <a href='https://orm.drizzle.team/docs/rqb'><code>query</code></a>. se vc precisar fazer algo que não foi dito aqui, pode ser que já tenha um comando para o que você estiver precisando. neste caso, recomendo <a href="https://orm.drizzle.team/docs/overview">consultar a documentação</a> e procurar o que deseja.</p>

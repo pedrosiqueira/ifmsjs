@@ -1246,7 +1246,7 @@ const primogenito = await db
 <div style="text-align:center"><button data-custom-modal="minmax">Exibir resultado</button></div>
 
 <h2 id="transa-es">Transações</h2>
-<p>Transações no DrizzleORM são feitas dentro da função <code>transaction</code>. A transação é concluída (commited) ao final da função. Se a transação não puder ser concluída ou o comando <code>rollback</code> for executado, a transação é desfeita, lançando uma exceção. Atualmente, <a href="https://github.com/drizzle-team/drizzle-orm/issues/1957">não é possível definir uma mensagem personalizada</a> ao utilizar <code>tx.rollback()</code>. Em vez disso, você pode lançar manualmente uma exceção com a mensagem desejada.</p>
+<p>Transações no DrizzleORM são feitas dentro da função <code>transaction</code>. A transação é concluída (commited) ao final da função. Se a transação não puder ser concluída ou o comando <code>rollback</code> for executado, a transação é desfeita, lançando uma exceção.</p>
 <table class="custom">
   <thead>
     <tr>
@@ -1298,6 +1298,8 @@ COMMIT;</code></pre>
     </tr>
   </tbody>
 </table>
+<p>Atualmente, <a href="https://github.com/drizzle-team/drizzle-orm/issues/1957">não é possível definir uma mensagem personalizada</a> ao utilizar <code>tx.rollback()</code>. Em vez disso, você pode lançar manualmente uma exceção com a mensagem desejada:</p>
+<pre><code>modifique o código anterior com um exemplo de lançamento de exceção com mensagem</code></pre>
 
 <h3 id="iniciar-transa-o">BEGIN TRANSACTION</h3>
 <p>Inicia uma transação.</p>
@@ -1435,25 +1437,3 @@ CREATE UNIQUE INDEX email_idx ON usuarios(email);</code></pre>
 
 <pre><code class='sql'>.exit</code></pre>
 <hr>
-
-<style>
-  dialog.custom-modal::backdrop {
-    background-color: black;
-    opacity: .5;
-  }
-</style>
-
-<script defer>
-  document.querySelectorAll("button[data-custom-modal]").forEach(button => {
-    const modal = document.querySelector("#" + button.getAttribute("data-custom-modal"));
-    button.addEventListener("click", () => {
-      modal.showModal();
-    });
-  });
-  document.querySelectorAll("dialog.custom-modal").forEach(modal => {
-    const closeButton = document.createElement("button");
-    closeButton.textContent = "❌";
-    closeButton.addEventListener("click", () => modal.close());
-    modal.prepend(closeButton);
-  });
-</script>
