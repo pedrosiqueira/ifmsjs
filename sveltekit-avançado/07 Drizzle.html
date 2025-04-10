@@ -445,7 +445,7 @@ console.log(postagemExcluida);</code></pre>
     </tbody>
 </table>
 
-<h2 id="operador-magico-de-sql">O operador mágico <code>sql</code> 🪄</h2>
+<h2 id="operador-magico-de-sql">O operador mágico <code>sql</code></h2>
 <p> Ao utilizar uma biblioteca ORM, pode haver situações em que escrever determinada consulta usando apenas a sintaxe da biblioteca se torna desafiador. Nesses casos, é comum recorrer às <strong>consultas brutas</strong> (<em>raw queries</em>), construídas como strings de SQL puro. No entanto, esse tipo de abordagem geralmente <strong>não oferece os benefícios da segurança de tipos</strong> nem da <strong>parametrização</strong>.</p>
 <p> Para contornar esse problema, muitas bibliotecas introduziram o conceito de <strong>template SQL</strong>. Esse recurso permite escrever consultas de forma mais segura e flexível, com suporte a <strong>tipagem estática</strong> e <strong>parâmetros protegidos contra injeção de SQL</strong>. O <strong>DrizzleORM</strong>, por sua vez, oferece suporte nativo a esse modelo por meio do <a href="https://orm.drizzle.team/docs/sql">template <code>sql</code></a>.</p>
 <p>Você pode utilizar o template <code>sql</code> do Drizzle de forma seletiva em trechos específicos da consulta, caso não seja possível escrevê-la completamente com a API do Drizzle. Isso significa que é possível usar o template <code>sql</code> em cláusulas como <code>SELECT</code>, <code>WHERE</code>, <code>ORDER BY</code>, <code>HAVING</code>, <code>GROUP BY</code> e até mesmo em consultas relacionais.</p>
