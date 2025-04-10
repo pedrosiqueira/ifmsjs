@@ -33,11 +33,11 @@
 
 <h1>Guia Rápido: Equivalência dos Principais Comandos do SQLite no DrizzleORM</h1>
 
-<p>Este guia apresenta um comparativo entre os principais comandos do SQLite e suas equivalências no DrizzleORM. Aqui, você encontrará exemplos práticos para criar tabelas, manipular dados e utilizar funcionalidades essenciais do SQL de forma eficiente com o Drizzle.</p>
+<p>Este guia apresenta um comparativo entre os principais comandos do SQLite e suas correspondências no DrizzleORM. Aqui, você encontrará exemplos práticos sobre como criar tabelas, manipular dados, entre outras operações essenciais em SQL, de forma eficiente utilizando o Drizzle. Vamos explorar as estruturas de definição, manipulação e consulta de dados com as duas soluções.</p>
 <hr>
 <h2 id="linguagem-de-defini-o-de-dados-ddl-">Linguagem de Definição de Dados (DDL)</h2>
 <h3 id="criar-tabela">CREATE TABLE</h3>
-<p>Cria uma nova tabela com colunas e tipos de dados. Com DrizzleORM, toda a criação e alteração de tabelas se dá através do arquivo <code>schema.js</code> e aplicando migrações.</p>
+<p>Cria uma nova tabela especificando colunas e tipos de dados. Ao utilizar o DrizzleORM, a criação e alteração de tabelas ocorre no arquivo <code>schema.js</code>, seguido pela execução de migrações.</p>
 <table class="custom">
   <thead>
     <tr>
@@ -66,7 +66,7 @@
     </tr>
   </tbody>
 </table>
-<p>Com DrizzleORM, uma tabela é declarada através da função <code>sqliteTable</code>, em que o primeiro argumento é o nome da tabela e o segundo argumento é um objeto contendo os campos da tabela.</p>
+<p>No DrizzleORM, uma tabela é criada através da função <code>sqliteTable</code>, onde o primeiro argumento é o nome da tabela e o segundo, um objeto contendo as colunas da tabela.</p>
 <h3 id="alterar-tabela">ALTER TABLE</h3>
 <p>Adiciona uma coluna a uma tabela existente.</p>
 <table class="custom">
@@ -82,7 +82,7 @@
         <pre><code class='sql'>ALTER TABLE uma_tabela ADD COLUMN id INTEGER;</code></pre>
       </td>
       <td>
-        <pre><code>// Com Drizzle, alterações na estrutura da tabela são feitas via migrações</code></pre>
+        <pre><code>// Com Drizzle, alterações na estrutura da tabela são realizadas via migrações</code></pre>
       </td>
     </tr>
   </tbody>
@@ -101,7 +101,7 @@
         <pre><code class='sql'>ALTER TABLE uma_tabela ADD COLUMN uma_tabela_id INTEGER REFERENCES uma_tabela(id);</code></pre>
       </td>
       <td>
-        <pre><code>// Com Drizzle, alterações na estrutura da tabela são feitas via migrações</code></pre>
+        <pre><code>// Com Drizzle, alterações na estrutura da tabela são realizadas via migrações</code></pre>
       </td>
     </tr>
   </tbody>
@@ -121,7 +121,7 @@
         <pre><code class='sql'>DROP TABLE uma_tabela;</code></pre>
       </td>
       <td>
-        <pre><code>// Com Drizzle, alterações na estrutura da tabela são feitas via migrações</code></pre>
+        <pre><code>// Com Drizzle, alterações na estrutura da tabela são realizadas via migrações</code></pre>
       </td>
     </tr>
   </tbody>
@@ -186,7 +186,7 @@
     </tr>
   </tbody>
 </table>
-<p>Elas possuem as seguintes restrições:</p>
+<p>Essas tabelas apresentam as seguintes restrições:</p>
 <h3 id="chave-prim-ria">PRIMARY KEY</h3>
 <p>Define uma coluna como chave primária.</p>
 <table class="custom">
@@ -236,7 +236,7 @@
   </tbody>
 </table>
 <h3 id="restri-o-nica">UNIQUE</h3>
-<p>Garante que todos os valores de uma coluna sejam únicos.</p>
+<p>Garante que todos os valores de uma coluna sejam distintos.</p>
 <table class="custom">
   <thead>
     <tr>
@@ -584,7 +584,7 @@ await db.insert(posts).values([
 <div style="text-align:center"><button data-custom-modal="where">Exibir resultado</button></div>
 
 <h3 id="ordena-o-order-by-">ORDER BY</h3>
-<p>Ordena os resultados por uma ou mais colunas.</p>
+<p>Ordena os resultados por uma ou mais colunas. Aqui estão diferentes exemplos de ordenação:</p>
 <p>Ordena por <code>nome</code> em ordem crescente (padrão).</p>
 <table class="custom">
   <thead>
@@ -1053,7 +1053,7 @@ INNER JOIN posts ON usuarios.id = posts.usuario_id;</code></pre>
 <div style="text-align:center"><button data-custom-modal="innerjoin">Exibir resultado</button></div>
 
 <h3 id="left-join">LEFT JOIN</h3>
-<p>Retorna todos os registros da tabela à esquerda e os correspondentes da direita.</p>
+<p>Retorna todos os registros da tabela à esquerda e os correspondentes da tabela à direita.</p>
 <table class="custom">
   <thead>
     <tr>
@@ -1093,7 +1093,7 @@ LEFT JOIN posts ON usuarios.id = posts.usuario_id;</code></pre>
 <div style="text-align:center"><button data-custom-modal="leftjoin">Exibir resultado</button></div>
 
 <h3 id="right-join-simulado-">RIGHT JOIN (Simulado)</h3>
-<p>O SQLite não suporta <code>RIGHT JOIN</code>, mas é possível inverter a ordem das tabelas usando <code>LEFT JOIN</code>.</p>
+<p>O SQLite não suporta <code>RIGHT JOIN</code>, mas podemos simular esse comportamento invertendo a ordem das tabelas e utilizando <code>LEFT JOIN</code>.</p>
 <table class="custom">
   <thead>
     <tr>
@@ -1246,7 +1246,7 @@ const primogenito = await db
 <div style="text-align:center"><button data-custom-modal="minmax">Exibir resultado</button></div>
 
 <h2 id="transa-es">Transações</h2>
-<p>Transações no DrizzleORM são feitas dentro da função <code>transaction</code>. A transação é concluída (commited) ao final da função. Se a transação não puder ser concluída ou o comando <code>rollback</code> for executado, a transação é desfeita, lançando uma exceção.</p>
+<p>Transações no DrizzleORM são realizadas dentro da função <code>transaction</code>. A transação é concluída (<em>committed</em>) ao final da função. Se a transação não puder ser concluída ou o comando <code>rollback</code> for executado, a transação é desfeita, lançando uma exceção.</p>
 <table class="custom">
   <thead>
     <tr>
@@ -1299,7 +1299,25 @@ COMMIT;</code></pre>
   </tbody>
 </table>
 <p>Atualmente, <a href="https://github.com/drizzle-team/drizzle-orm/issues/1957">não é possível definir uma mensagem personalizada</a> ao utilizar <code>tx.rollback()</code>. Em vez disso, você pode lançar manualmente uma exceção com a mensagem desejada:</p>
-<pre><code>modifique o código anterior com um exemplo de lançamento de exceção com mensagem</code></pre>
+<table class="custom">
+  <thead>
+    <tr>
+      <th>Comando <code>rollback</code></th>
+      <th>Lançamento manual de exceção</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre><code>if (usuario.pontos &lt; 100) tx.rollback();</code></pre>
+      </td>
+      <td>
+        <pre><code>if (usuario.pontos &lt; 100) throw new Error('Usuário não possui pontos suficientes.');</code></pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 
 <h3 id="iniciar-transa-o">BEGIN TRANSACTION</h3>
 <p>Inicia uma transação.</p>
@@ -1413,13 +1431,15 @@ CREATE UNIQUE INDEX email_idx ON usuarios(email);</code></pre>
         <pre><code class='sql'>DROP INDEX idx_nome;</code></pre>
       </td>
       <td>
-        <pre><code>// Com Drizzle, alterações na estrutura da tabela são feitas via migrações</code></pre>
+        <pre><code>// Com Drizzle, alterações na estrutura da tabela são realizadas via migrações</code></pre>
       </td>
     </tr>
   </tbody>
 </table>
 <hr>
 <h2 id="comandos-do-sqlite-shell">Comandos do SQLite Shell</h2>
+<p>Confira alguns comandos úteis do SQLite Shell:</p>
+
 <p>Exporta o banco de dados para um arquivo SQL.</p>
 <pre><code class='sql'>.output dump.sql
 .dump</code></pre>
@@ -1427,13 +1447,12 @@ CREATE UNIQUE INDEX email_idx ON usuarios(email);</code></pre>
 <p>Importa o banco de dados de um arquivo SQL.</p>
 <pre><code class='sql'>.read dump.sql</code></pre>
 
-<p>Mostra todas as tabelas do banco de dados.</p>
+<p>Lista todas as tabelas do banco de dados.</p>
 <pre><code class='sql'>.tables</code></pre>
 
-<p>Mostra a estrutura de uma tabela.</p>
+<p>Visualiza a estrutura de uma tabela.</p>
 <pre><code class='sql'>.schema usuarios</code></pre>
 
 <p>Sai do SQLite Shell.</p>
-
 <pre><code class='sql'>.exit</code></pre>
 <hr>
