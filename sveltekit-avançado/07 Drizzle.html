@@ -31,25 +31,24 @@
     <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 
-<h1>Dicas para trabalhar com DrizzleORM</h1>
+<h1>Dicas para Trabalhar com DrizzleORM</h1>
 
 <h2>Importações</h2>
-<p>Em arquivos <code>schema.js</code>, fazemos importações do tipo:</p>
+<p>Em arquivos <code>schema.js</code>, utilizamos importações como:</p>
 <pre><code>import { sql } from 'drizzle-orm';
-import { blob, check, index, integer, real, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";</code></pre>
+import { blob, check, index, integer, real, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';</code></pre>
 
-<p>Em arquivos que realizam operações no banco, fazemos importações do tipo:</p>
+<p>Em arquivos que realizam operações no banco de dados, utilizamos:</p>
 <pre><code>import { db } from '$lib/server/db';
 import * as tabela from '$lib/server/db/schema';
-import { and, asc, count, desc, eq, gt, lt, max, min, sql, sum } from 'drizzle-orm';
-</code></pre>
+import { and, asc, count, desc, eq, gt, like, lt, max, min, sql, sum } from 'drizzle-orm';</code></pre>
 
 <p>Adapte as importações conforme a necessidade.</p>
 
 <h2>Consultas</h2>
 
-<h3>Expressões válidas</h3>
-<p>Para realizar uma consulta, podemos combinar qualquer função disponível, desde que seja uma expressão válida.</p>
+<h3>Expressões Válidas</h3>
+<p>Para realizar uma consulta, é possível combinar diversas funções, desde que componham uma expressão válida.</p>
 <p><strong>Pergunta:</strong> O que essa consulta faz?</p>
 <table class="custom">
     <thead>
@@ -87,8 +86,9 @@ console.log(consulta);</code></pre>
     </tbody>
 </table>
 
-<h3>Obtendo um único item</h3>
-<p>Especialmente quando buscamos um objeto pela chave primária, sabemos que o resultado sempre será um único objeto. Porém o <code>select</code> sempre retorna uma lista, mesmo que seja uma lista de um único item.</p>
+<h3>Obtendo um Único Item</h3>
+<p>Em muitas consultas, especialmente ao buscar por uma chave primária, esperamos receber um único objeto como resultado. Porém, o método <code>select</code> sempre retorna uma lista — mesmo que contenha apenas um item. Para acessar o item, usamos seu índice:</p>
+
 <table class="custom">
     <thead>
         <tr>
@@ -122,7 +122,7 @@ francisca_pereira</code></pre>
     </tbody>
 </table>
 
-<p>Em casos que você precisa apenas de um único item, ou do primeiro item da lista, você pode usar a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring">sintaxe de desestruturação</a> do JavaScript:</p>
+<p>Quando você precisa apenas de um único item — ou do primeiro da lista — pode utilizar a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring">sintaxe de desestruturação</a> do JavaScript:</p>
 <table class="custom">
     <thead>
         <tr>
@@ -156,19 +156,19 @@ francisca_pereira</code></pre>
 
 <h2>Inserções</h2>
 
-<h3>Inserindo objetos ou listas de objetos</h3>
-<p>Podemos inserir um objeto apenas...</p>
+<h3>Inserindo Objetos ou Listas de Objetos</h3>
+<p>Inserindo um único objeto:</p>
 <pre><code>const pessoa = { nome: 'antonia_rodrigues', email: 'antonia@rodrigues.com' }
 await db.insert(tabela.usuarios).values(pessoa);</code></pre>
 
-<p>... Ou uma lista de objetos:</p>
+<p>Ou uma lista de objetos:</p>
 <pre><code>const pessoas = [
-    { nome: 'adriana_lima', email: 'adriana@lima.com' },
-    { nome: 'luiz_alves', email: 'luiz@alves.com' }
+  { nome: 'adriana_lima', email: 'adriana@lima.com' },
+  { nome: 'luiz_alves', email: 'luiz@alves.com' }
 ]
 await db.insert(tabela.usuarios).values(pessoas);</code></pre>
 
-<h3>Nomes de propriedades abreviados</h3>
+<h3>Sintaxe de Nomes de Propriedades Abreviados</h3>
 <p>Podemos inserir dados na tabela vindos de variáveis:</p>
 <pre><code>const nome_usuario = 'francisco_ferreira'
 const email_usuario = 'francisco@ferreira.com'
@@ -184,9 +184,8 @@ await db.insert(tabela.usuarios).values({ nome: nome, email: email, });</code></
 const email = 'francisco@ferreira.com'
 await db.insert(tabela.usuarios).values({ nome, email, });</code></pre>
 
-<h3>Retornando o resultado</h3>
-<p>Normalmente quando inserimos um objeto no banco, mas não informamos o ID, que é gerado automaticamente pelo banco. Em muitas situações, precisamos do ID gerado pelo banco. Para essas situações, podemos usar o método <code>returning</code>, que retorna o objeto recém inserido, já com o id gerado:</p>
-
+<h3>Retornando Resultados</h3>
+<p>Ao inserir um objeto no banco de dados, é comum não informarmos o ID, pois ele costuma ser gerado automaticamente. No entanto, em muitos casos, precisamos recuperar esse ID logo após a inserção. Para isso, podemos usar o método <code>returning</code>, que retorna o objeto recém-inserido já com o ID atribuído pelo banco:</p>
 <table class="custom">
     <thead>
         <tr>
@@ -200,7 +199,7 @@ await db.insert(tabela.usuarios).values({ nome, email, });</code></pre>
                 <pre><code>const usuario = {
     nome: 'marcia_nascimento',
     email: 'marcia@nascimento.com'
-}
+};
 
 const [novoUsuario] = await db
 .insert(tabela.usuarios).values(usuario).returning();
@@ -227,8 +226,7 @@ Depois: {
     </tbody>
 </table>
 
-<p>Geralmente, quando inserimos um objeto, como os outros atributos já temos, podemos querer apenas os atributos que são gerados pelo banco. Podemos filtrar quais atributos queremos retornar ao inserir:</p>
-
+<p>Geralmente, ao inserir um objeto no banco, já temos todos os outros atributos definidos, e nos interessa apenas recuperar os que são gerados automaticamente, como o ID. Nesses casos, podemos filtrar quais atributos queremos que sejam devolvidos após a inserção:</p>
 <table class="custom">
     <thead>
         <tr>
@@ -239,7 +237,7 @@ Depois: {
     <tbody>
         <tr>
             <td>
-                <pre><code>const usuario = { nome: 'carlos_gomes', email: 'carlos@gomes.com' }
+                <pre><code>const usuario = { nome: 'carlos_gomes', email: 'carlos@gomes.com' };
 
 const [criado] = await db.insert(tabela.usuarios)
     .values(usuario).returning({
@@ -256,7 +254,7 @@ console.log("Usuário criado:", criado);</code></pre>
     </tbody>
 </table>
 
-<p>Quando precisamso apenas do ID, este ainda seria retornado dentro de um objeto. Podemos usar a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring">sintaxe de desestruturação</a> para obter apenas o ID do objeto retornado:</p>
+<p>Quando precisamos apenas do ID, ele ainda será devolvido dentro de um objeto. Para extrair apenas esse valor, podemos usar a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring">sintaxe de desestruturação</a> do JavaScript:</p>
 <table class="custom">
     <thead>
         <tr>
@@ -282,7 +280,8 @@ console.log("ID:", id);</code></pre>
 </table>
 
 <h2>Atualizações</h2>
-<p>Atualizações são muito parecidas com consultas. Os seguintes trechos fazem a mesma coisa:</p>
+<p>Atualizações são muito parecidas com consultas. Os exemplos abaixo realizam a mesma operação:</p>
+
 <table class="custom align-left">
     <thead>
         <tr>
@@ -305,7 +304,7 @@ await db.update(tabela.usuarios)
         </tr>
         <tr>
             <td>
-                <pre><code>const nome: 'marcia_nascimento';
+                <pre><code>const nome = 'marcia_nascimento';
 const pontos = 50;
 const nascimento = '2003-04-05';
 
@@ -313,7 +312,7 @@ await db.update(tabela.usuarios)
     .set({ pontos, nascimento })
     .where(eq(tabela.usuarios.nome, nome));</code></pre>
             </td>
-            <td>Dados vindos de um formulário ou função, e coincidem com os atributos do objeto.</td>
+            <td>Dados vindos de um formulário ou função e os nomes das variáveis coincidem com os atributos do objeto.</td>
         </tr>
         <tr>
             <td>
@@ -326,7 +325,7 @@ await db.update(tabela.usuarios)
 await db.update(tabela.usuarios).set(usuario)
     .where(eq(tabela.usuarios.nome, usuario.nome));</code></pre>
             </td>
-            <td>Você tem os campos de atualização agrupados, ou já tinha o objeto e modificou alguns atributos.</td>
+            <td>Você já tem os dados agrupados ou já possuía o objeto e apenas atualizou alguns atributos.</td>
         </tr>
         <tr>
             <td>
@@ -341,19 +340,22 @@ await db.update(tabela.usuarios).set(usuario)
 </table>
 
 <h2>Inserções ou atualizações</h2>
-<p>Se tentarmos inserir um objeto com um valor exclusivo (<em>unique</em>) ou chave primária já existente no banco, ocorrerá um erro. Por exemplo, Se existir alguém com email <code>juliana@jesus.com</code> no banco e tentarmos fazer essa operação:</p>
+<p>Ao tentar inserir um objeto com um valor exclusivo (<em>unique</em>) ou chave primária já existente, ocorre um erro. Por exemplo, se já existir alguém com o e-mail <code>juliana@jesus.com</code> e fizermos:</p>
+
 <pre><code>const pessoa = { nome: 'juliana_jesus', email: 'juliana@jesus.com' }
 await db.insert(tabela.usuarios).values(pessoa);</code></pre>
-<p>Ocorrerá o erro <code>SQLITE_CONSTRAINT_UNIQUE: UNIQUE constraint failed: usuarios.email</code>.</p>
-<p>O DrizzleORM suporta a operação <code>onConflictDoNothing</code>, que cancela a inserção se houver um conflito:</p>
+
+<p>Receberemos o erro: <code>SQLITE_CONSTRAINT_UNIQUE: UNIQUE constraint failed: usuarios.email</code>.</p>
+
+<p>O DrizzleORM oferece a operação <code>onConflictDoNothing</code>, que cancela a inserção em caso de conflito:</p>
 <pre><code>const pessoa = { nome: 'juliana_jesus', email: 'juliana@jesus.com' }
 await db.insert(tabela.usuarios).values(pessoa).onConflictDoNothing();
 
-// delimita quais atributos não conflitarão
+// especifica quais atributos não conflitarão
 await db.insert(tabela.usuarios).values(pessoa)
 .onConflictDoNothing({ target: tabela.usuarios.email });</code></pre>
 
-<p>O DrizzleORM também suporta a operação <code>onConflictDoUpdate</code>, que primeiramente tenta inserir um objeto, mas se já houver um objeto com algum dos campos, então atualiza ele:</p>
+<p>Também há a opção <code>onConflictDoUpdate</code>, que tenta inserir o objeto, mas caso haja conflito, atualiza os dados:</p>
 
 <table class="custom">
     <thead>
@@ -365,17 +367,17 @@ await db.insert(tabela.usuarios).values(pessoa)
     <tbody>
         <tr>
             <td>
-                <pre><code>// busca um objeto
+                <pre><code>// Busca um objeto
 const [usuarioExistente] = await db.select().from(tabela.usuarios)
     .where(like(tabela.usuarios.nome, 'julian%'));
 
 console.log('Antes da atualização:', usuarioExistente);
 
-// atualiza o objeto
+// Atualiza o objeto
 usuarioExistente.nome = 'juliana_jesus';
 usuarioExistente.pontos = 150;
 
-// salva o objeto
+// Salva o objeto
 const [usuarioAtualizado] = await db.insert(tabela.usuarios)
     .values(usuarioExistente).onConflictDoUpdate({
         target: tabela.usuarios.email,
@@ -405,10 +407,93 @@ Depois da atualização: {
         </tr>
     </tbody>
 </table>
-<p>O <code>onConflictDoUpdate</code> exige que você indique qual coluna ou lista de colunas está causando o conflito (atributo <code>target</code>), e o que deve ser atualizado em caso de conflito (atributo <code>set</code>).</p>
+
+<p>O <code>onConflictDoUpdate</code> exige que você defina qual coluna está gerando o conflito (<code>target</code>) e quais atributos devem ser atualizados (<code>set</code>).</p>
 
 <h2>Exclusões</h2>
-<p>Tome muito cuidado com exclusões! Nunca faça algo do tipo:</p>
+<p>Tome muito cuidado com exclusões! Nunca faça:</p>
+
 <pre><del>await db.delete(users);</del></pre>
 
-<p>Ao excluir, você deve filtrar o que deve ser excluído:</p>
+<p>Sempre filtre o que deve ser excluído:</p>
+
+<pre><code>const id = 1;
+await db.delete(tabela.posts).where(eq(tabela.posts.id, id));</code></pre>
+
+<p>Se quiser, é possível devolver o objeto que foi excluído:</p>
+
+<table class="custom">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Saída</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre><code>const id = 4;
+const [postagemExcluida] = await db.delete(tabela.posts).where(eq(tabela.posts.id, id)).returning();
+
+console.log(postagemExcluida);</code></pre>
+            </td>
+            <td>
+                <pre><code>{
+  id: 2,
+  titulo: 'segundo artigo',
+  conteudo: 'conteúdo do segundo artigo',
+  usuario_id: 2,
+  criado_em: '2025-04-09 21:12:48',
+  atualizado_em: '2025-04-09 21:12:48'
+}</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 id="operador-magico-de-sql">O operador mágico <code>sql</code></h2>
+<p>Ao usar uma biblioteca ORM, há situações em que uma consulta específica é difícil de escrever usando apenas a API fornecida. Nesses casos, é comum recorrer a <strong>consultas brutas</strong> (<em>raw queries</em>), escritas como strings SQL. No entanto, esse método normalmente <strong>não garante segurança de tipos</strong> nem <strong>proteção contra injeção de SQL</strong>.</p>
+
+<p>Para resolver isso, muitas bibliotecas introduzem os chamados <strong>templates SQL</strong>, que permitem escrever consultas com <strong>tipagem estática</strong> e <strong>parametrização segura</strong>. O DrizzleORM oferece suporte nativo a esse recurso por meio do <a href="https://orm.drizzle.team/docs/sql">template <code>sql</code></a>.</p>
+
+<p>Você pode usar o template <code>sql</code> em partes específicas da consulta — como <code>SELECT</code>, <code>WHERE</code>, <code>ORDER BY</code>, <code>HAVING</code> e <code>GROUP BY</code> — sem perder os benefícios da API tipada. Ele deve ser usado somente quando a API padrão não for suficiente, o que é raro.</p>
+
+<p>Por exemplo, para buscar todos os títulos das postagens de usuários cujo nome começa com “francisca”:</p>
+
+<table class="custom">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Saída</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre><code>const nome = 'francisca';
+const result = await db.all(
+    sql`
+    SELECT ${tabela.posts.titulo}
+    FROM ${tabela.usuarios}
+    INNER JOIN ${tabela.posts}
+    ON ${tabela.usuarios.id} = ${tabela.posts.usuario_id}
+    WHERE ${tabela.usuarios.nome} LIKE ${nome + '%'}
+    `
+);
+console.log(result);</code></pre>
+            </td>
+            <td>
+                <pre><code>[
+  { titulo: 'segundo artigo' }, 
+  { titulo: 'terceiro artigo' },
+  { titulo: 'quinto artigo' }   
+]</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Além do <code>db.all</code>, você pode usar <code>db.get</code> se quiser apenas um item, ou <code>db.run</code> para obter informações detalhadas da execução.</p>
+
+<h2>Conclusão</h2>
+<p>O DrizzleORM permite muito mais do que foi abordado aqui. Ele oferece, por exemplo, uma <a href='https://orm.drizzle.team/docs/rqb'>API de consultas personalizadas</a>. Se você precisar realizar algo que não foi mostrado neste material, é bem provável que o Drizzle já tenha uma solução. Nesse caso, recomendo consultar a <a href="https://orm.drizzle.team/docs/overview">documentação oficial</a> para encontrar o recurso ideal.</p>
