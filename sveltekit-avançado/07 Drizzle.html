@@ -341,7 +341,7 @@ await db.update(tabela.usuarios).set(usuario)
 </table>
 
 <h2>Inserções ou atualizações</h2>
-<p>Se tentarmos inserir um objeto com um valor exclusivo já existente no banco, ocorrerá um erro. Por exemplo, Se existir alguém com email <code>juliana@jesus.com</code> no banco e tentarmos fazer essa operação:</p>
+<p>Se tentarmos inserir um objeto com um valor exclusivo (<em>unique</em>) ou chave primária já existente no banco, ocorrerá um erro. Por exemplo, Se existir alguém com email <code>juliana@jesus.com</code> no banco e tentarmos fazer essa operação:</p>
 <pre><code>const pessoa = { nome: 'juliana_jesus', email: 'juliana@jesus.com' }
 await db.insert(tabela.usuarios).values(pessoa);</code></pre>
 <p>Ocorrerá o erro <code>SQLITE_CONSTRAINT_UNIQUE: UNIQUE constraint failed: usuarios.email</code>.</p>
@@ -352,3 +352,63 @@ await db.insert(tabela.usuarios).values(pessoa).onConflictDoNothing();
 // delimita quais atributos não conflitarão
 await db.insert(tabela.usuarios).values(pessoa)
 .onConflictDoNothing({ target: tabela.usuarios.email });</code></pre>
+
+<p>O DrizzleORM também suporta a operação <code>onConflictDoUpdate</code>, que primeiramente tenta inserir um objeto, mas se já houver um objeto com algum dos campos, então atualiza ele:</p>
+
+<table class="custom">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Saída</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <pre><code>// busca um objeto
+const [usuarioExistente] = await db.select().from(tabela.usuarios)
+    .where(like(tabela.usuarios.nome, 'julian%'));
+
+console.log('Antes da atualização:', usuarioExistente);
+
+// atualiza o objeto
+usuarioExistente.nome = 'juliana_jesus';
+usuarioExistente.pontos = 150;
+
+// salva o objeto
+const [usuarioAtualizado] = await db.insert(tabela.usuarios)
+    .values(usuarioExistente).onConflictDoUpdate({
+        target: tabela.usuarios.email,
+        set: usuarioExistente
+    }).returning();
+
+console.log('Depois da atualização:', usuarioAtualizado);</code></pre>
+            </td>
+            <td>
+                <pre><code>Antes da atualização: {
+  id: 7,
+  nome: 'juliany_jesus',
+  email: 'juliana@jesus.com',
+  nascimento: null,
+  pontos: 0,
+  criado_em: '2025-04-08 11:04:54'
+}
+Depois da atualização: {
+  id: 7,
+  nome: 'juliana_jesus',
+  email: 'juliana@jesus.com',
+  nascimento: null,
+  pontos: 150,
+  criado_em: '2025-04-08 11:04:54'
+}</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>O <code>onConflictDoUpdate</code> exige que você indique qual coluna ou lista de colunas está causando o conflito (atributo <code>target</code>), e o que deve ser atualizado em caso de conflito (atributo <code>set</code>).</p>
+
+<h2>Exclusões</h2>
+<p>Tome muito cuidado com exclusões! Nunca faça algo do tipo:</p>
+<pre><del>await db.delete(users);</del></pre>
+
+<p>Ao excluir, você deve filtrar o que deve ser excluído:</p>
