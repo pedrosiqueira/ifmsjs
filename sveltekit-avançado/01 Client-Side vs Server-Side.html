@@ -135,16 +135,16 @@
 </ul>
 <p>📌 Exemplo de um arquivo <code>+page.svelte</code>:</p>
 <pre><code class="svelte">&lt;script&gt;
-	let contador = 0;
+    let contador = 0;
 
-	function contar() {
-		contador++;
-		console.log('Executando no cliente');
-	}
+    function contar() {
+        contador++;
+        console.log('Executando no cliente');
+    }
 &lt;/script&gt;
 
 &lt;button onclick={contar}&gt;
-	Cliquei {contador} vezes
+    Cliquei {contador} vezes
 &lt;/button&gt;</code></pre>
 
 <p>➡️ O botão e a interação de clique são <strong>client-side</strong>. Experimente abrir o modo desenvolvedor do navegador e localizar o código da página.</p>
@@ -200,14 +200,14 @@
 <h3 id="-exemplo-de-uso-combinado">🛠️ Exemplo de uso combinado</h3>
 <p>Na mesma pasta onde está o arquivo <code>+page.server.js</code>, crie ou edite o arquivo <code>+page.svelte</code>:</p>
 <pre><code>&lt;script&gt;
-	let { data } = $props();
+    let { data } = $props();
 &lt;/script&gt;
 
 &lt;h2&gt;Usu&aacute;rios cadastrados&lt;/h2&gt;
 &lt;ul&gt;
-	{#each data.usuarios as usuario}
-		&lt;li&gt;&lt;strong&gt;{usuario.name}:&lt;/strong&gt; {usuario.email}&lt;/li&gt;
-	{/each}
+    {#each data.usuarios as usuario}
+        &lt;li&gt;&lt;strong&gt;{usuario.name}:&lt;/strong&gt; {usuario.email}&lt;/li&gt;
+    {/each}
 &lt;/ul&gt;</code></pre>
 <p>✅ O <code>load()</code> definido em <code>+page.server.js</code> é executado no servidor, busca/processa os dados necessários e os envia para o componente <code>+page.svelte</code>, que roda no navegador e exibe os dados na interface.</p>
 <p>🧠 Essa separação entre carregamento de dados (server-side) e apresentação (client-side) ajuda a manter o aplicativo organizado, seguro e eficiente.</p>
