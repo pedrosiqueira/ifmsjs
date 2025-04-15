@@ -52,11 +52,11 @@ code --install-extension svelte.svelte-vscode</code></pre>
     <p>Tecle <kbd>A</kbd> e <kbd>Enter</kbd> para confirmar. Em seguida, tente instalar o <code>pnpm</code> novamente.</p>
 </div>
 <p id="criacao-projeto">Com o <code>pnpm</code> instalado, abra o terminal <strong>na pasta onde deseja criar o projeto</strong> e execute:</p>
-<pre><code class="sh">pnpm dlx sv create meu-projeto-sveltekit-avancado
-cd meu-projeto-sveltekit-avancado
+<pre><code class="sh">pnpm dlx sv create meu-projeto-drizzle
+cd meu-projeto-drizzle
 pnpm install
 code -r .</code></pre>
-<p>Esses comandos fazem respectivamente: (1) cria um projeto SvelteKit com o nome <code>meu-projeto-sveltekit-avancado</code>; (2) abre a pasta do projeto no terminal; (3) instala os pacotes que o projeto depende; e (4) abre a pasta do projeto no vscode.</p>
+<p>Esses comandos fazem respectivamente: (1) cria um projeto SvelteKit com o nome <code>meu-projeto-drizzle</code>; (2) abre a pasta do projeto no terminal; (3) instala os pacotes que o projeto depende; e (4) abre a pasta do projeto no vscode.</p>
 <p>Quando solicitado, escolha as seguintes opções:</p>
 <pre>┌  Welcome to the Svelte CLI! (v0.7.1)
 │
@@ -83,6 +83,15 @@ code -r .</code></pre>
 ◇  Which package manager do you want to install dependencies with?
 │  pnpm
 └</pre>
+
+<h2>Configurando o projeto</h2>
+<p>Crie o arquivo <code ctc>.env</code> com o seguinte conteúdo:</p>
+<pre><code class="language-ini">DATABASE_URL=file:meubanco.db</code></pre>
+
+<p>Crie o banco de dados, executando no terminal:</p>
+<pre><code class="bash">pnpm db:push</code></pre>
+<p>Quando solicitado, selecione:</p>
+<pre><code>❯ Yes, I want to execute all statements</code></pre>
 
 <h2 id="-conclus-o-">Conclusão</h2>
 <p>Agora você tem um <strong>projeto SvelteKit configurado com DrizzleORM e LuciaAuth</strong>.</p>
