@@ -19,10 +19,34 @@
     <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 <h1>Compilação do App</h1>
-<p>Para compilar um projeto CapacitorJS em um app Android, você precisa ter o Android SDK instalado em teu computador. Antes de prosseguir, siga o <a href="Tutorial Preparando o Ambiente Android para CapacitorJS.pdf" target="_blank">tutorial de preparação do ambiente Android para CapacitorJS</a>.
+<p>Para compilar um projeto CapacitorJS em um app Android, você precisa ter o Android SDK instalado em teu computador. Antes de prosseguir, siga o <a href="03 Tutorial Preparando o Ambiente Android para CapacitorJS.pdf" target="_blank">tutorial de preparação do ambiente Android para CapacitorJS</a>.
 </p>
 
 <h2 id="preparando-para-instalar-o-app-no-celular-ou-emulador">✅ Preparando para instalar o app no celular ou emulador</h2>
+<p>Crie ou edite o arquivo <code>src/routes/+layout.js</code>, adicionando as seguintes linhas:</p>
+<pre><code>export const prerender = true;
+export const ssr = false;</code></pre>
+
+<!-- <p>No SvelteKit, a diretiva <code>export const prerender = true</code> no arquivo <code>+layout.js</code> indica que as rotas do seu app devem ser <strong>pré-renderizadas</strong> no momento da build — ou seja, gerar arquivos HTML e JS estáticos prontos para serem servidos, sem depender de um servidor backend em tempo real.</p>
+
+<strong>E por que isso é importante com o Capacitor?</strong>
+
+<p>O Capacitor executa o app em um <strong>WebView</strong> embarcado no Android (ou iOS), carregando o conteúdo do app a partir de arquivos <strong>estáticos</strong> (HTML, CSS, JS).</p>
+
+<p>Então, se o SvelteKit <strong>não</strong> for instruído a gerar tudo como estático, ele pode tentar fazer coisas como:</p>
+<ul>
+    <li>Criar endpoints dinâmicos que não funcionam sem um servidor,</li>
+    <li>Depender de Server-side rendering (SSR),</li>
+    <li>Deixar páginas fora da build porque esperava renderizá-las sob demanda.</li>
+</ul>
+
+<p><strong>Com <code>prerender = true</code>, o SvelteKit:</strong></p>
+<ul>
+    <li>Gera arquivos estáticos de cada página e rota.</li>
+    <li>Garante que tudo que você precisa estará acessível no <code>build/</code> (que é onde o Capacitor vai buscar para construir o app).</li>
+</ul> -->
+
+<h2>⚙ Compilando o projeto</h2>
 <p>Depois de editar o código-fonte (HTML, JS, Svelte etc.) ou arquivos estáticos (CSS, imagens), se quiser testar no celular ou emulador, <strong>construa o app com</strong>:</p>
 <pre><code class="sh">pnpm build</code></pre>
 
@@ -40,7 +64,7 @@
 <hr />
 
 <h2 id="instalando-o-app-no-emulador">📱 Instalando o app no emulador</h2>
-<p>Você vai precisar de um <strong>emulador Android</strong>, que pode ser instalado seguindo o <a href="Tutorial Preparando o Ambiente Android para CapacitorJS.pdf" target="_blank">tutorial de preparação do ambiente Android para CapacitorJS</a>.</p>
+<p>Você vai precisar de um <strong>emulador Android</strong>, que pode ser instalado seguindo o <a href="03 Tutorial Preparando o Ambiente Android para CapacitorJS.pdf" target="_blank">tutorial de preparação do ambiente Android para CapacitorJS</a>.</p>
 <p>Se já tiver um emulador Android, para instalar o app nele, execute:</p>
 <pre><code class="sh">npx cap run android</code></pre>
 <p>Se solicitado, selecione o emulador desejado.</p>
@@ -48,7 +72,7 @@
 <hr />
 
 <h2 id="instalando-o-app-no-celular">📲 Instalando o app no celular</h2>
-<p>Você vai precisar do programa <code>adb</code>, que pode ser instalado seguindo o <a href="Tutorial Preparando o Ambiente Android para CapacitorJS.pdf" target="_blank">tutorial de preparação do ambiente Android para CapacitorJS</a>.</p>
+<p>Você vai precisar do programa <code>adb</code>, que pode ser instalado seguindo o <a href="03 Tutorial Preparando o Ambiente Android para CapacitorJS.pdf" target="_blank">tutorial de preparação do ambiente Android para CapacitorJS</a>.</p>
 
 <h3 id="conectando-o-celular-via-cabo-usb">🔌 Conectando o celular via cabo USB</h3>
 <ol>
