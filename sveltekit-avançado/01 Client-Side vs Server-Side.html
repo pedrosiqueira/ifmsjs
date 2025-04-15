@@ -133,7 +133,7 @@
     <li>Responsáveis por <strong>mostrar a interface</strong>, responder a <strong>eventos de clique</strong>, <strong>mostrar animações</strong>, etc.</li>
     <li>Tudo o que está dentro de um <code>.svelte</code> é <strong>enviado para o navegador</strong> e interpretado ali (client-side).</li>
 </ul>
-<p>📌 Exemplo de um arquivo <code>+page.svelte</code>:</p>
+<p>📌 Exemplo 1: Arquivo <code ctc>src/routes/01/a/+page.svelte</code>:</p>
 <pre><code class="svelte">&lt;script&gt;
     let contador = 0;
 
@@ -183,7 +183,7 @@
         <p>Nunca são enviados ao navegador! ✅</p>
     </li>
 </ul>
-<p>📌 Exemplo de um arquivo <code>+page.server.js</code>:</p>
+<p>📌 Exemplo 2a: Arquivo <code ctc>src/routes/01/b/+page.server.js</code>:</p>
 <pre><code class="js">export async function load() {
     const resposta = await fetch('https://jsonplaceholder.typicode.com/users');
     const usuarios = await resposta.json();
@@ -198,7 +198,7 @@
 </ul>
 <hr>
 <h3 id="-exemplo-de-uso-combinado">🛠️ Exemplo de uso combinado</h3>
-<p>Na mesma pasta onde está o arquivo <code>+page.server.js</code>, crie ou edite o arquivo <code>+page.svelte</code>:</p>
+<p>Exemplo 2b: <code ctc>src/routes/01/b/+page.svelte</code>:</p>
 <pre><code>&lt;script&gt;
     let { data } = $props();
 &lt;/script&gt;

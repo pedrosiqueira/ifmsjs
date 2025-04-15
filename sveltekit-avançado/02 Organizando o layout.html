@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+    <script defer>hljs.highlightLinesAll([
+            [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 15, end: 15, color: 'lightblue' }, { start: 10, end: 10, color: 'lightyellow' }]
+        ]);
+    </script>
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>02 Organizando o layout</h1>
+
+<h2>Adicionando Bootstrap ao SvelteKit</h2>
+<p>Vamos utilizar o Bootstrap para estilizar nossas páginas.</p>
+<p>Para utilizar SvelteKit com Bootstrap, modifique o arquivo <code>src/app.html</code> (em verde as modificações, em azul os acréscimos):</p>
+<pre><code>&lt;!doctype html&gt;
+&lt;html lang=&quot;pt-br&quot;&gt;
+
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot; /&gt;
+    &lt;link rel=&quot;icon&quot; href=&quot;%sveltekit.assets%/favicon.png&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;
+    %sveltekit.head%
+    &lt;link href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot; integrity=&quot;sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7&quot; crossorigin=&quot;anonymous&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body data-sveltekit-preload-data=&quot;hover&quot;&gt;
+    &lt;div style=&quot;display: contents&quot;&gt;%sveltekit.body%&lt;/div&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js&quot; integrity=&quot;sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+<p>Na linha 2 alteramos nosso aplicativo para ser reconhecido pelos navegadores como de idioma português. Nas linhas 9 e 15 adicionamos o css e o js do bootstrap. Na linha 10 adicionamos o css dos ícones do Bootstrap.</p>
+
+<h2>Definindo o layout</h2>
+<p>Crie o arquivo <code ctc>src/routes/+layout.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+  import Header from '$lib/components/Header.svelte';
+  import Footer from '$lib/components/Footer.svelte';
+
+  let { children } = $props();
+&lt;/script&gt;
+
+&lt;div class=&quot;d-flex flex-column min-vh-100 container-fluid&quot;&gt;
+  &lt;Header /&gt;
+
+  &lt;main&gt;{@render children()}&lt;/main&gt;
+
+  &lt;Footer /&gt;
+&lt;/div&gt;</code></pre>
+<p>Explicação:</p>
+<ul>
+    <li>O layout foi dividido em três partes: o cabeçalho (header), o conteúdo principal (main), e o rodapé. Como esse é o layout raiz (diretamente dentro de <code>routes</code>), o cabeçalho e o rodapé serão aplicados em todas as páginas.</li>
+    <li>Para não poluir a página, foram criados componentes separados para o cabeçalho e o rodapé, que são importados nas linhas 2 e 3.</li>
+    <li>As classes <code>d-flex flex-column min-vh-100</code> criam uma estrutura vertical que ocupa toda a altura da viewport. Isso é necessário para que o <a href="https://radu.link/make-footer-stay-bottom-page-bootstrap">rodapé ocupe a região inferior da página</a>.</li>
+    <li> A classe <code>container-fluid</code> habilita o uso do <strong>sistema de grid responsivo</strong> do Bootstrap, <a href="https://getbootstrap.com/docs/5.3/layout/containers/#how-they-work">permitindo organizar o conteúdo</a> em colunas e linhas com flexibilidade.</li>
+</ul>
+
+<p>Crie o arquivo <code ctc>src/lib/components/Footer.svelte</code>:</p>
