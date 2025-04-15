@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([
+      // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
+    ]);
+  </script> -->
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h2 id="-client-side-vs-server-side-">💻 <strong>Client-Side vs Server-Side</strong></h2>
+<h3 id="-o-que-client-side-">🔍 O que é <strong>Client-Side</strong>?</h3>
+<ul>
+    <li>Refere-se a tudo o que é executado no navegador do usuário.</li>
+    <li>Envolve <strong>HTML, CSS e JavaScript</strong>, que definem o conteúdo, o estilo e as interações de uma página web.</li>
+    <li>O código é <strong>visível e acessível</strong> pelo usuário (via &quot;Inspecionar elemento&quot;).</li>
+    <li>Usado para melhorar a <strong>experiência do usuário (UX)</strong> com animações, validações, interações rápidas etc.</li>
+</ul>
+<h4 id="-exemplos-de-tarefas-client-side-">✅ Exemplos de tarefas Client-Side:</h4>
+<ul>
+    <li>Validação de formulários antes do envio.</li>
+    <li>Exibição dinâmica de conteúdo (ex: sliders, menus dropdown).</li>
+    <li>Aplicativos SPA (Single Page Applications) com frameworks como React, Svelte, Vue.</li>
+</ul>
+<!-- <h4 id="-sugest-o-de-imagem-">🖼️ Sugestão de imagem:</h4>
+<blockquote>
+<p>Um navegador mostrando um botão sendo clicado e uma resposta aparecendo instantaneamente, sem recarregar a página.</p>
+</blockquote> -->
+<hr>
+<h3 id="-o-que-server-side-">🌐 O que é <strong>Server-Side</strong>?</h3>
+<ul>
+    <li>Refere-se ao processamento feito no <strong>servidor</strong>, antes de enviar os dados para o cliente.</li>
+    <li>Envolve apenas linguagem de programação, como JavaScript através do Node.js, sem HTML/CSS.</li>
+    <li>Normalmente usado para lidar com <strong>banco de dados, autenticação, lógica de negócio e geração dinâmica de páginas.</strong></li>
+    <li>O código <strong>não é visível</strong> para o cliente, pois roda no servidor.</li>
+</ul>
+<h4 id="-exemplos-de-tarefas-server-side-">✅ Exemplos de tarefas Server-Side:</h4>
+<ul>
+    <li>Login e autenticação de usuários.</li>
+    <li>Processamento de formulários (ex: enviar dados para um banco de dados).</li>
+    <li>Geração dinâmica de páginas com base nos dados do usuário (ex: feed de notícias personalizado).</li>
+</ul>
+<!-- <h4 id="-sugest-o-de-imagem-">🖼️ Sugestão de imagem:</h4>
+<blockquote>
+<p>Um servidor recebendo uma requisição, processando dados e enviando uma resposta (como uma página pronta) para o navegador.</p>
+</blockquote> -->
+<hr>
+<h3 id="-comparativo">⚖️ Comparativo</h3>
+<table class="custom">
+    <thead>
+        <tr>
+            <th>Característica</th>
+            <th>Client-Side</th>
+            <th>Server-Side</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Onde roda</td>
+            <td>Navegador do usuário</td>
+            <td>Servidor web</td>
+        </tr>
+        <tr>
+            <td>Linguagens comuns</td>
+            <td>HTML, CSS, JS</td>
+            <td>PHP, Node.js, Python, Java</td>
+        </tr>
+        <tr>
+            <td>Acesso ao código</td>
+            <td>Visível ao usuário</td>
+            <td>Oculto do usuário</td>
+        </tr>
+        <tr>
+            <td>Performance</td>
+            <td>Mais rápido (sem recarregar)</td>
+            <td>Pode ser mais lento (requisições)</td>
+        </tr>
+        <tr>
+            <td>Segurança</td>
+            <td>Menos seguro</td>
+            <td>Mais seguro</td>
+        </tr>
+        <tr>
+            <td>Uso típico</td>
+            <td>Interface e interações</td>
+            <td>Processamento, banco de dados</td>
+        </tr>
+    </tbody>
+</table>
+<hr>
+<!-- <h3 id="-atividade-pr-tica">🧠 Atividade prática</h3>
+<p><strong>Objetivo:</strong> Identificar ações client-side e server-side em um site real.</p>
+<p><strong>Passo a passo:</strong></p>
+<ol>
+    <li>Escolher um site que utiliza com frequência (ex: Instagram, Gmail, Mercado Livre).</li>
+    <li>Listar <strong>duas ações Client-Side</strong> (ex: abrir uma aba, clicar em um botão que muda o conteúdo).</li>
+    <li>Depois, listar <strong>duas ações Server-Side</strong> (ex: login, carregamento de feed, busca de produtos).</li>
+    <li>Em seguida, discutir em grupo: <strong>Por que essa tarefa é executada do lado do cliente ou do servidor?</strong></li>
+</ol>
+<hr> -->
+
+<h2 id="-client-side-e-server-side-no-sveltekit-">🧠 <strong>Client-Side e Server-Side no SvelteKit</strong></h2>
+<p>O <strong>SvelteKit</strong> é um framework fullstack que facilita o desenvolvimento de aplicativos modernos combinando <strong>código que roda no cliente (navegador)</strong> e <strong>código que roda no servidor (backend)</strong> — tudo dentro do mesmo projeto!</p>
+<hr>
+<h3 id="-organiza-o-dos-arquivos">📁 Organização dos arquivos</h3>
+<h4 id="-arquivos-svelte-client-side-">🔸 <strong>Arquivos <code>.svelte</code> – Client-Side</strong></h4>
+<ul>
+    <li>Os arquivos <code>.svelte</code> são <strong>componentes que rodam no navegador</strong>.</li>
+    <li>Contêm <strong>HTML, CSS e JavaScript</strong> encapsulados.</li>
+    <li>Responsáveis por <strong>mostrar a interface</strong>, responder a <strong>eventos de clique</strong>, <strong>mostrar animações</strong>, etc.</li>
+    <li>Tudo o que está dentro de um <code>.svelte</code> é <strong>enviado para o navegador</strong> e interpretado ali (client-side).</li>
+</ul>
+<p>📌 Exemplo de um arquivo <code>+page.svelte</code>:</p>
+<pre><code class="svelte">&lt;script&gt;
+	let contador = 0;
+
+	function contar() {
+		contador++;
+		console.log('Executando no cliente');
+	}
+&lt;/script&gt;
+
+&lt;button onclick={contar}&gt;
+	Cliquei {contador} vezes
+&lt;/button&gt;</code></pre>
+
+<p>➡️ O botão e a interação de clique são <strong>client-side</strong>. Experimente abrir o modo desenvolvedor do navegador e localizar o código da página.</p>
+<hr>
+<h4 id="-arquivos-js-ou-ts-em-page-server-js-ou-server-js-server-side-">🔹 <strong>Arquivos <code>.js</code> ou <code>.ts</code> – Server-Side</strong></h4>
+<ul>
+    <li>Os seguintes arquivos são <strong>executados no servidor</strong>:
+        <ul>
+            <li>
+                Dentro de <code>src/routes/</code>:
+                <ul>
+                    <li><code>+page.server.js</code> ou <code>+page.server.ts</code>: usado para carregar dados com acesso apenas no servidor.</li>
+                    <li><code>+layout.server.js</code> ou <code>+layout.server.ts</code>: semelhante ao anterior, mas aplicado ao layout da rota.</li>
+                    <li><code>+server.js</code> ou <code>+server.ts</code>: define <em>endpoints</em> de API (como POST, GET, etc.), acessíveis via requisições HTTP.</li>
+                </ul>
+            </li>
+            <li>
+                Dentro de <code>src/lib/server/</code>:
+                <ul>
+                    <li>Arquivos auxiliares com lógica sensível ou de acesso restrito (ex: acesso ao banco de dados, autenticação, tokens).</li>
+                    <li>O SvelteKit impedirá que você importe arquivos desta pasta em componentes client-side, garantindo segurança.</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <p>São usados para:</p>
+        <ul>
+            <li>Buscar dados de bancos de dados.</li>
+            <li>Fazer validações.</li>
+            <li>Criar APIs.</li>
+            <li>Proteger informações sensíveis.</li>
+        </ul>
+    </li>
+    <li>
+        <p>Nunca são enviados ao navegador! ✅</p>
+    </li>
+</ul>
+<p>📌 Exemplo de um arquivo <code>+page.server.js</code>:</p>
+<pre><code class="js">export async function load() {
+    const resposta = await fetch('https://jsonplaceholder.typicode.com/users');
+    const usuarios = await resposta.json();
+    return { usuarios };
+}</code></pre>
+<p>➡️ Esse código roda <strong>apenas no servidor</strong>, antes da página ser carregada.</p>
+<hr>
+<h3 id="-por-que-isso-importa-">⚠️ Por que isso importa?</h3>
+<ul>
+    <li>O que está nos arquivos <code>.svelte</code> pode ser <strong>visto e inspecionado pelo usuário</strong>.</li>
+    <li>O que está nos arquivos <code>.server.js</code> é <strong>protegido</strong>, ideal para lógica de negócios, senhas, banco de dados etc.</li>
+</ul>
+<hr>
+<h3 id="-exemplo-de-uso-combinado">🛠️ Exemplo de uso combinado</h3>
+<p>Na mesma pasta onde está o arquivo <code>+page.server.js</code>, crie ou edite o arquivo <code>+page.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+	let { data } = $props();
+&lt;/script&gt;
+
+&lt;h2&gt;Usu&aacute;rios cadastrados&lt;/h2&gt;
+&lt;ul&gt;
+	{#each data.usuarios as usuario}
+		&lt;li&gt;&lt;strong&gt;{usuario.name}:&lt;/strong&gt; {usuario.email}&lt;/li&gt;
+	{/each}
+&lt;/ul&gt;</code></pre>
+<p>✅ O <code>load()</code> definido em <code>+page.server.js</code> é executado no servidor, busca/processa os dados necessários e os envia para o componente <code>+page.svelte</code>, que roda no navegador e exibe os dados na interface.</p>
+<p>🧠 Essa separação entre carregamento de dados (server-side) e apresentação (client-side) ajuda a manter o aplicativo organizado, seguro e eficiente.</p>
+<hr>
+<h3 id="-resumindo-">✍️ Resumindo:</h3>
+<table class="custom">
+    <thead>
+        <tr>
+            <th>Tipo de Arquivo</th>
+            <th>Lado em que roda</th>
+            <th>Função principal</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>+page.svelte</code></td>
+            <td>Client-Side</td>
+            <td>Interface, interações com o usuário</td>
+        </tr>
+        <tr>
+            <td><code>+page.server.js</code></td>
+            <td>Server-Side</td>
+            <td>Carregar dados seguros, acessar o backend</td>
+        </tr>
+        <tr>
+            <td><code>+server.js</code></td>
+            <td>Server-Side</td>
+            <td>Criar endpoints (API)</td>
+        </tr>
+    </tbody>
+</table>
+<hr>
