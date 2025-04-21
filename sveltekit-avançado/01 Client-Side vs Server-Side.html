@@ -187,6 +187,7 @@
 <pre><code class="js">export async function load() {
     const resposta = await fetch('https://jsonplaceholder.typicode.com/users');
     const usuarios = await resposta.json();
+    console.log("abacate");
     return { usuarios };
 }</code></pre>
 <p>➡️ Esse código roda <strong>apenas no servidor</strong>, antes da página ser carregada.</p>
@@ -201,6 +202,7 @@
 <p>Exemplo 2b: <code ctc>src/routes/01/b/+page.svelte</code>:</p>
 <pre><code>&lt;script&gt;
     let { data } = $props();
+    console.log("melancia");
 &lt;/script&gt;
 
 &lt;h2&gt;Usu&aacute;rios cadastrados&lt;/h2&gt;

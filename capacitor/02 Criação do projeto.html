@@ -60,10 +60,47 @@ code -r .</code></pre>
 │  pnpm</code></pre>
 <p>Quando solicitado <code>? Create free Ionic account? » (Y/n)</code>, digite <kbd>n</kbd>.</p>
 <hr>
-<h2>Configurando</h2>
-<p>Por padrão, o CapacitorJS espera que os arquivos do projeto construído estejam na pasta <code>dist</code>. No entanto, projetos criados com Svelte (via <code>vite build</code>) geram os arquivos finais na pasta <code>build</code>.</p>
-<p>Para que o Capacitor encontre corretamente os arquivos do app, modifique o valor da propriedade <code>"webDir"</code> do arquivo <code>capacitor.config.json</code> para <code>"build"</code>.</p>
+<h2 id="preparando-para-instalar-o-app-no-celular-ou-emulador">Configurando</h2>
+<ol>
+    <li>
+        <p>modifique o valor da propriedade <code>"webDir"</code> do arquivo <code>capacitor.config.json</code> para <code>"build"</code>:</p>
+        <pre><code class="json">{
+  "appId": "io.github.pedrosiqueira.svelteCapacitorDrizzleSqlite",
+  "appName": "svelte-capacitor-drizzle-sqlite",
+  "webDir": "build"
+}</code></pre>
+    </li>
+    <li>
+        <p>Crie ou edite o arquivo <code>src/routes/+layout.js</code>, adicionando as seguintes linhas:</p>
+        <pre><code>export const prerender = true;
+export const ssr = false;</code></pre>
+    </li>
+</ol>
 <hr>
+<h2>Explicação da configuração</h2>
+<h3>Local do build</h3>
+<p>Por padrão, o CapacitorJS espera que os arquivos do projeto construído estejam na pasta <code>dist</code>. No entanto, projetos criados com Svelte (via <code>vite build</code>) geram os arquivos finais na pasta <code>build</code>.</p>
+<p>Para que o Capacitor encontre corretamente os arquivos do app, modificamos o valor da propriedade <code>"webDir"</code> do arquivo <code>capacitor.config.json</code> para <code>"build"</code>.</p>
+
+<h3>Opções de página</h3>
+<p>uma restrição de html+css+js com capacitor, é que não temos um servidor back-end rodando. O Capacitor executa o app em um <strong>WebView</strong> embarcado no Android (ou iOS), carregando o conteúdo do app a partir de arquivos <strong>estáticos</strong> (HTML, CSS, JS). tudo tem q ser feito no lado do cliente. portanto, nosso app é um "site" [SPA](https://svelte.dev/docs/kit/single-page-apps): [explique o que é SPA].</p>
+
+<h4>Opção prerender</h4>
+<p>No SvelteKit, para tornar o app um SPA, podemos configurá-lo com o adaptador estático, que fizemos no momento da criação do projeto, e [adicionar a linha](https://svelte.dev/docs/kit/page-options#prerender) `export const prerender = true` no arquivo `src/routes/+layout.js`. Isso fará com que todas as páginas sejam geradas de antemão no momento do build (tempo de compilação), e não sob demanda no momento da execução (tempo de execução) — ou seja, gerar arquivos HTML e JS estáticos prontos para serem servidos, sem depender de um servidor backend em tempo real.</p>
+
+<p>Not all pages can be prerendered. [The basic rule is this](https://svelte.dev/docs/kit/glossary#Prerendering): for content to be prerenderable, any two users hitting it directly must get the same content from the server, and the page must not contain form actions. Para nós, isso não vai ser problema, pois form actions exigem um servidor back-end, que não utilizaremos.</p>
+
+<h4>Opção ssr</h4>
+<p>Mesmo com a opção `export const prerender = true`, antes dos componentes `.svelte` serem carregados no cliente, o script do componente é executado no servidor, num processo chamado de [hidratação](https://svelte.dev/docs/kit/page-options). como vamos carregar scripts bootstrap em algumas páginas, que acessam a variável global `document`, que está disponível apenas no lado do cliente, precisamos [adicionar a linha](https://svelte.dev/docs/kit/page-options#ssr) `export const ssr = false;` no arquivo `src/routes/+layout.js` para que o javascript não seja executado no lado do servidor.</p>
+
+<h4>Conclusão</h4>
+<p>Com essas duas diretivas:</p>
+<ul>
+    <li>**A página será gerada como HTML estático no momento do build**, mas **toda a lógica de carregamento e renderização ocorrerá no cliente.**</li>
+    <li>Isso é típico para **SPAs (Single Page Applications)** onde não há necessidade de SSR.</li>
+</ul>
+<hr>
+
 <h2>Explicação dos comandos</h2>
 <hr>
 <pre><code>pnpm dlx sv create meu-projeto-capacitor</code></pre>

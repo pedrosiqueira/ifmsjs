@@ -54,7 +54,7 @@
 &lt;/body&gt;
 
 &lt;/html&gt;</code></pre>
-<p>Na linha 2 alteramos nosso aplicativo para ser reconhecido pelos navegadores como de idioma português. Nas linhas 9 e 15 adicionamos o css e o js do bootstrap. Na linha 10 adicionamos o css dos ícones do Bootstrap.</p>
+<p>Na linha 2 alteramos nosso aplicativo para ser reconhecido pelos navegadores como de idioma português. Nas linhas 9 e 15 adicionamos o <a href="">CSS e o JSS do Bootstrap</a>. Na linha 10 adicionamos o css dos ícones do Bootstrap.</p>
 
 <h2>Definindo o layout</h2>
 <p>Crie o arquivo <code ctc>src/routes/+layout.svelte</code>:</p>
@@ -81,3 +81,14 @@
 </ul>
 
 <p>Crie o arquivo <code ctc>src/lib/components/Footer.svelte</code>:</p>
+<pre><code>&lt;footer class=&quot;d-flex justify-content-between align-items-center py-1 mt-auto border-top&quot;&gt;
+  &lt;p class=&quot;mb-0 text-body-secondary&quot;&gt;&amp;copy; 2024 Company, Inc&lt;/p&gt;
+
+  &lt;a href=&quot;/&quot;&gt; &lt;img src=&quot;/favicon.png&quot; alt=&quot;logo&quot; style=&quot;height: 2em&quot; /&gt; &lt;/a&gt;
+
+  &lt;ul class=&quot;nav&quot;&gt;
+    &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;https://facebook.com&quot; target=&quot;_blank&quot; class=&quot;nav-link px-2 text-body-secondary&quot; aria-label=&quot;facebook&quot;&gt;&lt;i class=&quot;bi bi-facebook&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;https://whatsapp.com&quot; target=&quot;_blank&quot; class=&quot;nav-link px-2 text-body-secondary&quot; aria-label=&quot;whatsapp&quot;&gt;&lt;i class=&quot;bi bi-whatsapp&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;https://twitter.com&quot; target=&quot;_blank&quot; class=&quot;nav-link px-2 text-body-secondary&quot; aria-label=&quot;twitter&quot;&gt;&lt;i class=&quot;bi bi-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/footer&gt;</code></pre>
