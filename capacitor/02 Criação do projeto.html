@@ -63,7 +63,7 @@ code -r .</code></pre>
 <h2 id="preparando-para-instalar-o-app-no-celular-ou-emulador">Configurando</h2>
 <ol>
     <li>
-        <p>modifique o valor da propriedade <code>"webDir"</code> do arquivo <code>capacitor.config.json</code> para <code>"build"</code>:</p>
+        <p>No arquivo <code>capacitor.config.json</code>, altere o valor da propriedade <code>"webDir"</code> para <code>"build"</code>:</p>
         <pre><code class="json">{
   "appId": "io.github.pedrosiqueira.svelteCapacitorDrizzleSqlite",
   "appName": "svelte-capacitor-drizzle-sqlite",
@@ -76,29 +76,6 @@ code -r .</code></pre>
 export const ssr = false;</code></pre>
     </li>
 </ol>
-<hr>
-<h2>Explicação da configuração</h2>
-<h3>Local do build</h3>
-<p>Por padrão, o CapacitorJS espera que os arquivos do projeto construído estejam na pasta <code>dist</code>. No entanto, projetos criados com Svelte (via <code>vite build</code>) geram os arquivos finais na pasta <code>build</code>.</p>
-<p>Para que o Capacitor encontre corretamente os arquivos do app, modificamos o valor da propriedade <code>"webDir"</code> do arquivo <code>capacitor.config.json</code> para <code>"build"</code>.</p>
-
-<h3>Opções de página</h3>
-<p>uma restrição de html+css+js com capacitor, é que não temos um servidor back-end rodando. O Capacitor executa o app em um <strong>WebView</strong> embarcado no Android (ou iOS), carregando o conteúdo do app a partir de arquivos <strong>estáticos</strong> (HTML, CSS, JS). tudo tem q ser feito no lado do cliente. portanto, nosso app é um "site" [SPA](https://svelte.dev/docs/kit/single-page-apps): [explique o que é SPA].</p>
-
-<h4>Opção prerender</h4>
-<p>No SvelteKit, para tornar o app um SPA, podemos configurá-lo com o adaptador estático, que fizemos no momento da criação do projeto, e [adicionar a linha](https://svelte.dev/docs/kit/page-options#prerender) `export const prerender = true` no arquivo `src/routes/+layout.js`. Isso fará com que todas as páginas sejam geradas de antemão no momento do build (tempo de compilação), e não sob demanda no momento da execução (tempo de execução) — ou seja, gerar arquivos HTML e JS estáticos prontos para serem servidos, sem depender de um servidor backend em tempo real.</p>
-
-<p>Not all pages can be prerendered. [The basic rule is this](https://svelte.dev/docs/kit/glossary#Prerendering): for content to be prerenderable, any two users hitting it directly must get the same content from the server, and the page must not contain form actions. Para nós, isso não vai ser problema, pois form actions exigem um servidor back-end, que não utilizaremos.</p>
-
-<h4>Opção ssr</h4>
-<p>Mesmo com a opção `export const prerender = true`, antes dos componentes `.svelte` serem carregados no cliente, o script do componente é executado no servidor, num processo chamado de [hidratação](https://svelte.dev/docs/kit/page-options). como vamos carregar scripts bootstrap em algumas páginas, que acessam a variável global `document`, que está disponível apenas no lado do cliente, precisamos [adicionar a linha](https://svelte.dev/docs/kit/page-options#ssr) `export const ssr = false;` no arquivo `src/routes/+layout.js` para que o javascript não seja executado no lado do servidor.</p>
-
-<h4>Conclusão</h4>
-<p>Com essas duas diretivas:</p>
-<ul>
-    <li>**A página será gerada como HTML estático no momento do build**, mas **toda a lógica de carregamento e renderização ocorrerá no cliente.**</li>
-    <li>Isso é típico para **SPAs (Single Page Applications)** onde não há necessidade de SSR.</li>
-</ul>
 <hr>
 
 <h2>Explicação dos comandos</h2>
@@ -159,12 +136,6 @@ export const ssr = false;</code></pre>
     <li>Cria a pasta <code>android/</code>, onde o código nativo será gerado.</li>
 </ul>
 <hr>
-<!-- <pre><code>npx cap sync</code></pre>
-<ul>
-    <li>Sincroniza as dependências do projeto com o Capacitor.</li>
-    <li>Garante que plugins instalados (<code>@capacitor/filesystem</code>, etc.) sejam integrados ao código nativo.</li>
-</ul>
-<hr> -->
 <pre><code>code -r .</code></pre>
 <ul>
     <li>Abre o projeto no <strong>VS Code</strong> (<code>.</code> significa abrir a pasta atual).</li>
@@ -179,4 +150,32 @@ export const ssr = false;</code></pre>
     <li><strong>Prepara o Capacitor para Android</strong>.</li>
     <li><strong>Abre o projeto no VS Code</strong>.</li>
 </ol>
-<p>Agora o projeto está pronto para desenvolvimento com <strong>Svelte + Capacitor + Drizzle ORM + SQLite</strong>.</p>
+<p>Agora o projeto está pronto para desenvolvimento com <strong>Svelte + Capacitor + Drizzle ORM + SQLite</strong>!</p>
+<hr>
+<h2>Explicação da Configuração</h2>
+<hr>
+<h3>1. Local do Build</h3>
+<p>Por padrão, o CapacitorJS espera que os arquivos do projeto construído estejam na pasta <code>dist</code>. No entanto, projetos criados com Svelte (via <code>vite build</code>) geram os arquivos finais na pasta <code>build</code>.</p>
+<p>Para que o Capacitor localize corretamente os arquivos do app, é necessário modificar a propriedade <code>"webDir"</code> no arquivo <code>capacitor.config.json</code> para <code>"build"</code>.</p>
+<hr>
+<h3>2. Opções de Página</h3>
+<p>Ao usar Capacitor, estamos trabalhando com HTML, CSS e JavaScript executados dentro de um <strong>WebView</strong> — sem um servidor back-end local. O app é carregado a partir de arquivos <strong>estáticos</strong>, o que significa que toda a lógica precisa ser executada no lado do cliente. Isso caracteriza uma <a href="https://svelte.dev/docs/kit/single-page-apps" target="_blank">SPA (Single Page Application)</a> — ou seja, um aplicativo em que todo o conteúdo é carregado dinamicamente sem recarregamento de página.</p>
+<hr>
+<h4>Opção <code>prerender</code></h4>
+<p>No SvelteKit, para tornar o app um SPA, usamos o adaptador estático (configurado na criação do projeto) e <a href="https://svelte.dev/docs/kit/page-options#prerender">adicionamos</a> <code>export const prerender = true;</code> no arquivo <code>src/routes/+layout.js</code>.</p>
+<p>Isso garante que todas as páginas sejam pré-renderizadas de antemão durante o build (tempo de compilação), e não sob demanda durante a execução (tempo de execução) — gerando arquivos HTML e JS estáticos prontos para serem usados, sem necessidade de um servidor back-end em tempo real.</p>
+
+<p>Nem todas as páginas podem ser pré-renderizadas. <a href="https://svelte.dev/docs/kit/glossary#prerendering" target="_blank">A regra básica é:</a> o conteúdo deve ser o mesmo para qualquer usuário que acesse diretamente a página, e ela não deve conter <a href="https://svelte.dev/docs/kit/form-actions">form actions</a>. No nosso caso, isso não será um problema, pois não escreveremos código que dependa de back-end.</p>
+<hr>
+<h4>Opção <code>ssr</code></h4>
+<p>Mesmo com a opção <code>prerender</code>, o SvelteKit ainda executaria o JavaScript dos componentes no servidor antes de enviá-lo ao cliente — processo conhecido como <a href="https://svelte.dev/docs/kit/page-options" target="_blank">hidratação</a>.</p>
+<p>No entanto, como utilizaremos o Bootstrap, que acessa objetos do DOM (como <code>document</code> ou <code>window</code>), precisamos impedir essa execução no servidor. Para isso, <a href="https://svelte.dev/docs/kit/page-options#ssr">adicionamos</a> <code>export const ssr = false;</code> no arquivo <code>src/routes/+layout.js</code>, garantindo que tudo seja executado exclusivamente no cliente.</p>
+<hr>
+<h4>Resumo do que acontece</h4>
+<p>Com essas duas diretivas:</p>
+<ul>
+    <li>A página será gerada como HTML estático no momento do build,</li>
+    <li>Toda a lógica e renderização será feita no lado do cliente.</li>
+</ul>
+<p>Essa abordagem é ideal para <strong>SPAs (Single Page Applications)</strong> sem necessidade de SSR (Server-Side Rendering).</p>
+<hr>
