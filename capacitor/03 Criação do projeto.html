@@ -24,7 +24,7 @@
     <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 
-<h1 id="criando-um-projeto-sveltekit-com-capacitor-drizzle-orm-e-sqlite">Criando um projeto SvelteKit com Capacitor, Drizzle ORM e SQLite</h1>
+<h1>Criando um projeto SvelteKit com Capacitor, Drizzle ORM e SQLite</h1>
 <hr>
 <h2>Criando</h2>
 <ol>
@@ -157,7 +157,7 @@ code -r .</code></pre>
 </ol>
 <p>Agora o projeto está pronto para desenvolvimento com <strong>Svelte + Capacitor + Drizzle ORM + SQLite</strong>!</p>
 <hr>
-<h2 id="estrutura-t-pica-de-um-app-com-capacitor">Estrutura típica de um projeto com Capacitor</h2>
+<h2>Estrutura típica de um projeto com Capacitor</h2>
 <p>Um projeto Capacitor com SvelteKit possui a seguinte estrutura:</p>
 <pre><code class="txt">📁 projeto/
 ├── build/                ← Arquivos gerados pelo build do SvelteKit
@@ -166,7 +166,7 @@ code -r .</code></pre>
 ├── ios/                  ← Projeto iOS com WebView embutida
 ├── src/                  ← Código-fonte do aplicativo</code></pre>
 <hr />
-<h2 id="preparando-para-instalar-o-app-no-celular-ou-emulador">Configurando</h2>
+<h2>Configurando</h2>
 <hr>
 <h3>1. Diretório Web</h3>
 <p>No arquivo <code>capacitor.config.json</code>, altere o valor da propriedade <code>"webDir"</code> para <code>"build"</code>:</p>
@@ -203,7 +203,7 @@ export const ssr = false;</code></pre>
 
 <ol>
     <li>
-        <p><strong>Opção <code>prerender</code>: pré-renderização das páginas</strong>.</p>
+        <p><strong>Opção <code>prerender</code>: pré-renderização das páginas.</strong></p>
 
         <p>O SvelteKit oferece suporte a <a target="_blank" href="https://svelte.dev/docs/kit/adapter-static">Static Site Generation (SSG)</a>, permitindo que todo o site seja compilado como uma coleção de arquivos HTML e JS estáticos, prontos para serem servidos sem necessidade de um servidor dinâmico.</p>
 
