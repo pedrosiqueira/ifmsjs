@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
-    <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 
-    <!-- https://github.com/arronhunt/highlightjs-copy -->
-    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
-    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
-    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
 
-    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
-    <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
-    <script defer>hljs.highlightLinesAll([
-            [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 15, end: 15, color: 'lightblue' }, { start: 10, end: 10, color: 'lightyellow' }]
-        ]);
-    </script>
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([
+      [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 15, end: 15, color: 'lightblue' }, { start: 10, end: 10, color: 'lightyellow' }]
+    ]);
+  </script>
 
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
-    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 
 <h1>02 Organizando o layout</h1>
@@ -57,6 +57,7 @@
 <p>Na linha 2 alteramos nosso aplicativo para ser reconhecido pelos navegadores como de idioma português. Nas linhas 9 e 15 adicionamos o <a href="">CSS e o JSS do Bootstrap</a>. Na linha 10 adicionamos o css dos ícones do Bootstrap.</p>
 
 <h2>Definindo o layout</h2>
+<h3>Separação dos componentes Svelte</h3>
 <p>Crie o arquivo <code ctc>src/routes/+layout.svelte</code>:</p>
 <pre><code>&lt;script&gt;
   import Header from '$lib/components/Header.svelte';
@@ -74,12 +75,13 @@
 &lt;/div&gt;</code></pre>
 <p>Explicação:</p>
 <ul>
-    <li>O layout foi dividido em três partes: o cabeçalho (header), o conteúdo principal (main), e o rodapé. Como esse é o layout raiz (diretamente dentro de <code>routes</code>), o cabeçalho e o rodapé serão aplicados em todas as páginas.</li>
-    <li>Para não poluir a página, foram criados componentes separados para o cabeçalho e o rodapé, que são importados nas linhas 2 e 3.</li>
-    <li>As classes <code>d-flex flex-column min-vh-100</code> criam uma estrutura vertical que ocupa toda a altura da viewport. Isso é necessário para que o <a href="https://radu.link/make-footer-stay-bottom-page-bootstrap">rodapé ocupe a região inferior da página</a>.</li>
-    <li> A classe <code>container-fluid</code> habilita o uso do <strong>sistema de grid responsivo</strong> do Bootstrap, <a href="https://getbootstrap.com/docs/5.3/layout/containers/#how-they-work">permitindo organizar o conteúdo</a> em colunas e linhas com flexibilidade.</li>
+  <li>O layout foi dividido em três partes: o cabeçalho (header), o conteúdo principal (main), e o rodapé. Como esse é o layout raiz (diretamente dentro de <code>routes</code>), o cabeçalho e o rodapé serão aplicados em todas as páginas.</li>
+  <li>Para não poluir a página, foram criados componentes separados para o cabeçalho e o rodapé, que são importados nas linhas 2 e 3.</li>
+  <li>As classes <code>d-flex flex-column min-vh-100</code> criam uma estrutura vertical que ocupa toda a altura da viewport. Isso é necessário para que o <a href="https://radu.link/make-footer-stay-bottom-page-bootstrap">rodapé ocupe a região inferior da página</a>.</li>
+  <li> A classe <code>container-fluid</code> habilita o uso do <strong>sistema de grid responsivo</strong> do Bootstrap, <a href="https://getbootstrap.com/docs/5.3/layout/containers/#how-they-work">permitindo organizar o conteúdo</a> em colunas e linhas com flexibilidade.</li>
 </ul>
 
+<h3>Rodapé</h3>
 <p>Crie o arquivo <code ctc>src/lib/components/Footer.svelte</code>:</p>
 <pre><code>&lt;footer class=&quot;d-flex justify-content-between align-items-center py-1 mt-auto border-top&quot;&gt;
   &lt;p class=&quot;mb-0 text-body-secondary&quot;&gt;&amp;copy; 2024 Company, Inc&lt;/p&gt;
@@ -92,3 +94,65 @@
     &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;https://twitter.com&quot; target=&quot;_blank&quot; class=&quot;nav-link px-2 text-body-secondary&quot; aria-label=&quot;twitter&quot;&gt;&lt;i class=&quot;bi bi-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/footer&gt;</code></pre>
+<p>Explicação: O Bootstrap tem uma <a href="https://getbootstrap.com/docs/5.3/examples/">página de exemplos</a> de aplicação dos componentes Bootstrap. Basicamente extraí um rodapé da página de <a href="https://getbootstrap.com/docs/5.3/examples/footers/">exemplos de rodapé</a> e ajustei conforme a necessidade.</p>
+
+<h3>Cabeçalho</h3>
+<p>Crie o arquivo <code ctc>src/lib/components/Header.svelte</code>:</p>
+<pre><code>&lt;header class=&quot;navbar navbar-expand-lg bg-body-tertiary&quot;&gt;
+  &lt;button class=&quot;navbar-toggler&quot; data-bs-toggle=&quot;offcanvas&quot; data-bs-target=&quot;#mySideBar&quot; aria-label=&quot;toggleSidebar&quot;&gt;
+    &lt;i class=&quot;bi bi-list&quot;&gt;&lt;/i&gt;
+  &lt;/button&gt;
+  &lt;a class=&quot;navbar-brand&quot; href=&quot;/&quot;&gt;FrameWorks&lt;/a&gt;
+  &lt;button class=&quot;navbar-toggler&quot; data-bs-toggle=&quot;offcanvas&quot; data-bs-target=&quot;#navbarText&quot; aria-label=&quot;toggleNavbar&quot;&gt;
+    &lt;i class=&quot;bi bi-three-dots-vertical&quot;&gt;&lt;/i&gt;
+  &lt;/button&gt;
+  &lt;div class=&quot;offcanvas offcanvas-end&quot; tabindex=&quot;-1&quot; id=&quot;navbarText&quot;&gt;
+    &lt;div class=&quot;offcanvas-header&quot;&gt;
+      &lt;h5 class=&quot;offcanvas-title&quot;&gt;Menu&lt;/h5&gt;
+      &lt;button class=&quot;btn-close&quot; data-bs-dismiss=&quot;offcanvas&quot; aria-label=&quot;Close&quot;&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;offcanvas-body&quot;&gt;
+      &lt;ul class=&quot;navbar-nav me-auto&quot;&gt;
+        &lt;li class=&quot;nav-item&quot;&gt;
+          &lt;a class=&quot;nav-link active&quot; href=&quot;/01&quot;&gt;Cap 01&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li class=&quot;nav-item&quot;&gt;
+          &lt;a class=&quot;nav-link active&quot; href=&quot;/02&quot;&gt;Cap 02&lt;/a&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/header&gt;</code></pre>
+<p>Explicação das classes de estilização:</p>
+<ul>
+  <li>Linha 1:
+    <ul>
+      <li><code>navbar</code>: Declara o cabeçalho da página usando o <a href="https://getbootstrap.com/docs/5.3/components/navbar/">componente navbar do Bootstrap</a>.</li>
+      <li><code>navbar-expand-lg</code>: O menu da navbar se expande horizontalmente a partir do tamanho lg (large). Abaixo disso, ele contrai (útil para telas pequenas).</li>
+    </ul>
+  </li>
+  <li>Linhas 2 e 6:
+    <ul>
+      <li>Botões com a classe <code>navbar-toggler</code> alternam a visibilidade do menu contraído da navbar em telas pequenas. Portanto, deve ser usado em conjunto com <code>navbar navbar-expand-lg</code>.</li>
+      <li>Há dois tipos de animação para exibir o menu contraído: o <a href="https://getbootstrap.com/docs/5.3/components/navbar/#toggler"><code>data-bs-toggle="collapse"</code></a>, que expande o menu para baixo; ou o <a href="https://getbootstrap.com/docs/5.3/components/navbar/#offcanvas"><code>data-bs-toggle="offcanvas"</code></a>, que exibe um menu lateral deslizante, e foi o que escolhemos aqui.</li>
+      <li>A classe <code>data-bs-target</code> aponta para o menu a ser exibido. No caso do primeiro botão, o menu é <a href="https://getbootstrap.com/docs/5.3/components/navbar/#external-content">externo ao navbar</a>, e ainda não o criamos. E para o segundo botão, o menu é o div da linha 9.</li>
+    </ul>
+  </li>
+  <li>Linhas 3 e 7: Ícones da biblioteca <a href="https://icons.getbootstrap.com/">Bootstrap Icons</a>.</li>
+  <li>Linha 5: A marca da tua companhia, produto ou nome do projeto. É um link que redireciona para a página inicial do site. Quando o navbar estiver contraído, a marca ficará centralizada, o botão anterior (linha 2) ficará à esquerda e o botão posterior (linha 6) ficará à direita da marca.</li>
+  <li>Linha 9: O menu que será contraído em telas menores que lg.
+    <ul>
+      <li><code>offcanvas</code>: A animação escolhida.</li>
+      <li><code>offcanvas-end</code>: O menu abre do lado direito.</li>
+    </ul>
+  </li>
+  <li>Linha 10: O cabeçalho do menu, com um título "Menu" e um botão de fechar. O cabeçalho do menu só é exibido quando o navbar está contraído.</li>
+  <li>Linha 14: O corpo do menu.</li>
+  <li>Linha 15: Lista de itens do menu.
+    <ul>
+      <li><code>navbar-nav</code>: Quando o navbar não estiver contraído, os itens são exibidos lado a lado.</li>
+      <li><code>me-auto</code>: Empurra os itens para a esquerda (margin end: auto).</li>
+    </ul>
+  </li>
+  <li>Linhas 16 e 19: Os itens do menu.</li>
+</ul>

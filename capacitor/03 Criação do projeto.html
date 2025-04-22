@@ -7,8 +7,9 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
-    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 
     <!-- https://github.com/arronhunt/highlightjs-copy -->
     <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
@@ -65,21 +66,31 @@ code -r .</code></pre>
 <p>Quando solicitado <code>? Create free Ionic account? » (Y/n)</code>, digite <kbd>n</kbd>.</p>
 <hr>
 <h2 id="preparando-para-instalar-o-app-no-celular-ou-emulador">Configurando</h2>
-<ol>
-    <li>
-        <p>No arquivo <code>capacitor.config.json</code>, altere o valor da propriedade <code>"webDir"</code> para <code>"build"</code>:</p>
-        <pre><code class="json">{
+
+<h4>1. Diretório Web</h4>
+<p>No arquivo <code>capacitor.config.json</code>, altere o valor da propriedade <code>"webDir"</code> para <code>"build"</code>:</p>
+<pre><code class="json">{
   "appId": "io.github.pedrosiqueira.svelteCapacitorDrizzleSqlite",
   "appName": "svelte-capacitor-drizzle-sqlite",
   "webDir": "build"
 }</code></pre>
-    </li>
-    <li>
-        <p>Crie ou edite o arquivo <code>src/routes/+layout.js</code>, adicionando as seguintes linhas:</p>
-        <pre><code>export const prerender = true;
+
+<h4>2. Opções de Página</h4>
+<p>Crie o arquivo <code ctc>src/routes/+layout.js</code> com o seguinte conteúdo:</p>
+<pre><code class="js">export const prerender = true;
 export const ssr = false;</code></pre>
-    </li>
-</ol>
+
+<h4>3. Importação do Bootstrap</h4>
+<p>Crie o arquivo <code ctc>src/routes/+layout.svelte</code> com o seguinte conteúdo:</p>
+<pre><code>&lt;script&gt;
+    import 'bootstrap/dist/css/bootstrap.css';
+    import 'bootstrap-icons/font/bootstrap-icons.css';
+    import * as bootstrap from 'bootstrap';
+
+    let { children } = $props();
+&lt;/script&gt;
+
+{@render children()}</code></pre>
 <hr>
 
 <h2 id="estrutura-t-pica-de-um-app-com-capacitor">Estrutura típica de um projeto com Capacitor</h2>
@@ -94,18 +105,18 @@ export const ssr = false;</code></pre>
 
 <h2>Explicação dos comandos</h2>
 <hr>
-<pre><code>pnpm dlx sv create meu-projeto-capacitor</code></pre>
+<pre><code class="sh">pnpm dlx sv create meu-projeto-capacitor</code></pre>
 <ul>
     <li>Usa <code>pnpm dlx</code> para rodar o comando <strong>sem instalar globalmente</strong>.</li>
     <li><code>sv create meu-projeto-capacitor</code> → Cria um novo projeto <strong>Svelte</strong><foot-note href="https://svelte.dev/docs/kit/creating-a-project"></foot-note> chamado <code>meu-projeto-capacitor</code>.</li>
 </ul>
 <hr>
-<pre><code>cd meu-projeto-capacitor/</code></pre>
+<pre><code class="sh">cd meu-projeto-capacitor/</code></pre>
 <ul>
     <li>Entra no diretório do projeto recém-criado.</li>
 </ul>
 <hr>
-<pre><code>pnpm add -D @capacitor/cli drizzle-kit</code></pre>
+<pre><code class="sh">pnpm add -D @capacitor/cli drizzle-kit</code></pre>
 <ul>
     <li>Instala como <strong>dependência de desenvolvimento (<code>-D</code>)</strong>:
         <ul>
@@ -116,7 +127,7 @@ export const ssr = false;</code></pre>
 </ul>
 <p>(Essas dependências são usadas apenas durante o desenvolvimento, e não são incluídas na versão final do aplicativo.)</p>
 <hr>
-<pre><code>pnpm add @capacitor/core @capacitor/android @capacitor/filesystem drizzle-orm sql.js bootstrap bootstrap-icons</code></pre>
+<pre><code class="sh">pnpm add @capacitor/core @capacitor/android @capacitor/filesystem drizzle-orm sql.js bootstrap bootstrap-icons</code></pre>
 <ul>
     <li>Instala como <strong>dependência do projeto</strong>:
         <ul>
@@ -133,7 +144,7 @@ export const ssr = false;</code></pre>
 <p>(Essas dependências no código em tempo de execução (produção), e são incluídas na versão final do aplicativo.)</p>
 <hr>
 <p>(altere para o teu nome de usuário do GitHub...)</p>
-<pre><code>npx cap init meu-projeto-capacitor io.github.pedrosiqueira.meuProjetoCapacitor</code></pre>
+<pre><code class="sh">npx cap init meu-projeto-capacitor io.github.pedrosiqueira.meuProjetoCapacitor</code></pre>
 <ul>
     <li>Inicializa o <strong>Capacitor</strong> no projeto.</li>
     <li>Exigências para desenvolvimento de aplicativos Android:
@@ -144,13 +155,13 @@ export const ssr = false;</code></pre>
     </li>
 </ul>
 <hr>
-<pre><code>npx cap add android</code></pre>
+<pre><code class="sh">npx cap add android</code></pre>
 <ul>
     <li>Adiciona a <strong>plataforma Android</strong> ao projeto Capacitor.</li>
     <li>Cria a pasta <code>android/</code>, onde o código nativo será gerado.</li>
 </ul>
 <hr>
-<pre><code>code -r .</code></pre>
+<pre><code class="sh">code -r .</code></pre>
 <ul>
     <li>Abre o projeto no <strong>VS Code</strong> (<code>.</code> significa abrir a pasta atual).</li>
     <li><code>-r</code> (reutilizar) → Se já houver uma instância aberta do VS Code, abre o projeto nela.</li>
@@ -169,28 +180,47 @@ export const ssr = false;</code></pre>
 <hr>
 <h2>Explicação da Configuração</h2>
 <hr>
-<h3>1. Local do Build</h3>
+<h3>1. Diretório Web</h3>
 <p>Por padrão, o CapacitorJS espera que os arquivos do projeto construído estejam na pasta <code>dist</code>. No entanto, projetos criados com Svelte (via <code>vite build</code>) geram os arquivos finais na pasta <code>build</code>.</p>
-<p>Para que o Capacitor localize corretamente os arquivos do app, é necessário modificar a propriedade <code>"webDir"</code> no arquivo <code>capacitor.config.json</code> para <code>"build"</code>.</p>
+<p>Para que o Capacitor localize corretamente os arquivos do app, é necessário alterar a propriedade <code>"webDir"</code> no arquivo <code>capacitor.config.json</code> para <code>"build"</code>.</p>
 <hr>
 <h3>2. Opções de Página</h3>
-<p>Ao usar Capacitor, estamos trabalhando com HTML, CSS e JavaScript executados dentro de um <strong>WebView</strong> — sem um servidor back-end. O app é carregado a partir de arquivos <strong>estáticos</strong>, o que significa que toda a lógica precisa ser executada no lado do cliente. Isso caracteriza uma <a href="https://svelte.dev/docs/kit/single-page-apps" target="_blank">SPA (Single Page Application)</a> — ou seja, um aplicativo em que todo o conteúdo é carregado dinamicamente sem recarregamento de página.</p>
-<hr>
-<h4>Opção <code>prerender</code></h4>
-<p>No SvelteKit, para tornar o app em um SPA, usamos o adaptador estático (configurado na criação do projeto) e <a target="_blank" href="https://svelte.dev/docs/kit/page-options#prerender">adicionamos</a> <code>export const prerender = true;</code> no arquivo <code>src/routes/+layout.js</code>.</p>
-<p>Isso garante que todas as páginas sejam pré-renderizadas de antemão durante o build (tempo de compilação), e não sob demanda durante a execução (tempo de execução) — gerando arquivos HTML e JS estáticos prontos para serem usados, sem necessidade de um servidor back-end em tempo real.</p>
 
-<p>Nem todas as páginas podem ser pré-renderizadas. <a href="https://svelte.dev/docs/kit/glossary#prerendering" target="_blank">A regra básica é:</a> o conteúdo deve ser o mesmo para qualquer usuário que acesse diretamente a página, e ela não deve conter <a target="_blank" href="https://svelte.dev/docs/kit/form-actions">form actions</a>. No nosso caso, isso não será um problema, pois não escreveremos código que dependa de back-end.</p>
+<p>Como nosso aplicativo será executado com o Capacitor, não utilizaremos um servidor back-end. Toda a lógica será processada no lado do cliente. O app será executado inteiramente dentro de um <strong>WebView</strong>, utilizando apenas HTML, CSS e JavaScript carregados a partir de arquivos <strong>estáticos</strong> gerados no momento do build.</p>
+
+<h4>Opção <code>prerender</code>: pré-renderização das páginas</h4>
+
+<p>O SvelteKit oferece suporte a <a target="_blank" href="https://svelte.dev/docs/kit/adapter-static">Static Site Generation (SSG)</a>, permitindo que todo o site seja compilado como uma coleção de arquivos HTML e JS estáticos, prontos para serem servidos sem necessidade de um servidor dinâmico.</p>
+
+<p>Para isso, usamos o adaptador estático (adicionado na criação do projeto) e <a target="_blank" href="https://svelte.dev/docs/kit/page-options#prerender">adicionamos</a> <code>export const prerender = true;</code> no arquivo <code>src/routes/+layout.js</code>.</p>
+
+<p>Assim, garantimos que todas as páginas sejam geradas antecipadamente durante o processo de build (tempo de compilação)— e não sob demanda durante a execução (tempo de execução) — o que é ideal para aplicativos que rodam completamente offline.</p>
+
+<p>Vale lembrar que nem todas as páginas podem ser pré-renderizadas. <a target="_blank" href="https://svelte.dev/docs/kit/glossary#prerendering">De forma geral</a>, apenas páginas cujo conteúdo seja o mesmo para qualquer usuário e que não dependam de <a target="_blank" href="https://svelte.dev/docs/kit/form-actions">form actions</a> podem ser incluídas nesse processo. No nosso caso, como o app é 100% client-side e não depende de back-end, isso não será um problema.</p>
+
+<h4>Opção <code>ssr</code>: desabilitando a renderização no servidor</h4>
+
+<p>Mesmo com <code>prerender</code> ativado, o SvelteKit ainda tentaria executar o JavaScript dos componentes no servidor antes de enviá-los ao cliente — um processo conhecido como <a href="https://svelte.dev/docs/kit/page-options" target="_blank">hidratação</a>.</p>
+
+<p>Porém, como utilizaremos o Bootstrap, que depende de objetos do DOM (como <code>window</code> e <code>document</code>), é necessário impedir qualquer execução no servidor, já que essas APIs não estão disponíveis fora do ambiente do navegador.</p>
+
+<p>Para isso, <a target="_blank" href="https://svelte.dev/docs/kit/page-options#ssr">adicionamos</a> <code>export const ssr = false;</code> no arquivo <code>src/routes/+layout.js</code>.</p>
+
+<p>Assim, garantimos que todo o JavaScript seja executado exclusivamente no cliente, evitando erros relacionados ao uso do DOM no servidor.</p>
+
+<p>Essas duas opções juntas transformam nosso app em um <a href="https://svelte.dev/docs/kit/single-page-apps" target="_blank">SPA (Single Page Application)</a>, onde o conteúdo é carregado dinamicamente sem recarregamento de página, perfeito para o funcionamento offline com Capacitor.</p>
 <hr>
-<h4>Opção <code>ssr</code></h4>
-<p>Mesmo com a opção <code>prerender</code>, o SvelteKit ainda executaria o JavaScript dos componentes no servidor antes de enviá-lo ao cliente — processo conhecido como <a href="https://svelte.dev/docs/kit/page-options" target="_blank">hidratação</a>.</p>
-<p>No entanto, como utilizaremos o Bootstrap, que acessa objetos do DOM (como <code>document</code> ou <code>window</code>), que não estão disponíveis no lado do servidor, precisamos impedir essa execução no servidor. Para isso, <a target="_blank" href="https://svelte.dev/docs/kit/page-options#ssr">adicionamos</a> <code>export const ssr = false;</code> no arquivo <code>src/routes/+layout.js</code>, garantindo que tudo seja executado exclusivamente no cliente.</p>
+<h3>3. Importação do Bootstrap</h3>
+<p>Como nosso app com Capacitor será executado totalmente offline, é essencial que todos os recursos necessários estejam disponíveis localmente — sem depender de CDNs. Por isso, instalamos o pacote do Bootstrap e sua biblioteca de ícones no momento da criação do projeto.</p>
+<p>Também criamos o arquivo <code>+layout.svelte</code>, que serve como componente de layout global, o que significa que qualquer importação ou funcionalidade inserida nele estará disponível para todas as páginas do app.</p>
+<p>Nele, importamos os estilos do Bootstrap, os ícones via <code>bootstrap-icons</code>, e a biblioteca JavaScript do Bootstrap para uso de componentes dinâmicos como modais e tooltips.</p>
 <hr>
 <h3>Resumo</h3>
 <ul>
     <li>Com <code>"webDir": "build"</code>, o app abre a WebView e carrega os arquivos da pasta <code>build/</code>.</li>
     <li>Com <code>prerender = true</code>, a página será gerada como HTML estático no momento do build.</li>
     <li>Com <code>ssr = false</code>, toda a lógica e renderização será feita no lado do cliente.</li>
+    <li>Com as importações do Bootsrap, o visual e os comportamentos interativos do Bootstrap funcionem corretamente em todo o app, mesmo sem conexão com a internet.</li>
 </ul>
 <p>Essa abordagem é ideal para <strong>SPAs (Single Page Applications)</strong> sem necessidade de SSR (Server-Side Rendering).</p>
 <hr>
