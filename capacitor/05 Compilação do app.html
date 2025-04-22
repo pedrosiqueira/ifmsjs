@@ -59,10 +59,13 @@
     </li>
     <li>Ative as <strong>Opções do desenvolvedor</strong> (dependendo da versão, pode mudar):
         <ul>
-            <li>Vá até <em>Sistema &gt; Avançado &gt; Opções do desenvolvedor</em> e ative as opções:</li>
-            <li><strong>Opções do desenvolvedor</strong></li>
-            <li><strong>Depuração USB</strong></li>
-            <li><strong>Instalar via USB</strong> (se disponível)</li>
+            <li>Vá até <em>Sistema &gt; Avançado &gt; Opções do desenvolvedor</em> e ative as opções:
+                <ul>
+                    <li><strong>Opções do desenvolvedor</strong></li>
+                    <li><strong>Depuração USB</strong></li>
+                    <li><strong>Instalar via USB</strong> (se disponível)</li>
+                </ul>
+            </li>
         </ul>
     </li>
     <li>Conecte o celular ao computador. Aceite o pop-up “Permitir depuração USB” e marque “Sempre permitir”.
@@ -70,7 +73,7 @@
             <p>Se o pop-up não aparecer, desative e reative as opções do desenvolvedor e a depuração USB.</p>
         </blockquote>
     </li>
-    <li>No terminal, verifique a conexão:
+    <li>No terminal, verifique se o celular está conectado:
         <pre><code class="sh">adb devices</code></pre>
     </li>
     <li>Com o celular conectado e reconhecido, instale o app:
@@ -111,9 +114,10 @@ adb connect x.x.x.x:5555</code></pre>
 <h3 id="instalando-o-app-manualmente">🛠 Instalando o app manualmente</h3>
 <p>Com o Android SDK instalado, você pode gerar o <code>.apk</code> manualmente:</p>
 <pre><code class="sh">cd android
-./gradlew assembleDebug</code></pre>
+./gradlew assembleDebug
+cd ..</code></pre>
 
-<p>O arquivo será gerado em <code>&lt;teu-projeto-capacitor&gt;/android/app/build/outputs/apk/debug/app-debug.apk</code>.</p>
+<p>O arquivo será gerado em <code>android/app/build/outputs/apk/debug/app-debug.apk</code>.</p>
 
 <p>Para instalar via <code>adb</code> na pasta raiz do projeto:</p>
 <pre><code class="sh">adb install android/app/build/outputs/apk/debug/app-debug.apk</code></pre>
@@ -127,7 +131,7 @@ adb connect x.x.x.x:5555</code></pre>
 <ol>
     <li>Conecte o celular com o <code>adb</code>.</li>
     <li>Abra o Chrome no computador.</li>
-    <li>Acesse:<br /><code>chrome://inspect</code></li>
+    <li>Acesse: <code ctc>chrome://inspect</code></li>
     <li>Clique em <strong>“inspect”</strong> abaixo do WebView de teu app para abrir as DevTools.</li>
 </ol>
 
@@ -135,12 +139,19 @@ adb connect x.x.x.x:5555</code></pre>
     <p>💡 Dica: você também pode adicionar <code>console.log</code> no código. O conteúdo será exibido no log da WebView.</p>
 </blockquote>
 
-<p>Para acompanhar os logs gerados pelo aplicativo, filtrando pelas mensagens que você deseja ver, execute conforme teu sistema operacional:</p>
-<p><strong>Linux:</strong></p>
-<pre><code class="sh">adb logcat | grep filtro</code></pre>
-
-<p><strong>Windows:</strong></p>
-<pre><code class="ps">adb logcat | Select-String -Pattern filtro</code></pre>
+<p>Para acompanhar no terminal os logs gerados pelo aplicativo, filtrando pelas mensagens que você deseja ver, execute conforme teu sistema operacional:</p>
+<div class="custom-tabs">
+    <div class="custom-tabs-bar">
+        <button class="custom-tabs-btn" aria-custom-tabs-tab="windows-tab">🪟 Windows</button>
+        <button class="custom-tabs-btn" aria-custom-tabs-tab="linux-tab">🐧 Linux</button>
+    </div>
+    <div id="windows-tab" class="custom-tabs-tab">
+        <pre><code class="ps">adb logcat | Select-String -Pattern filtro</code></pre>
+    </div>
+    <div id="linux-tab" class="custom-tabs-tab">
+        <pre><code class="sh">adb logcat | grep filtro</code></pre>
+    </div>
+</div>
 
 <p>Onde <code>filtro</code> é o conteúdo de log que deseja filtrar.</p>
 
