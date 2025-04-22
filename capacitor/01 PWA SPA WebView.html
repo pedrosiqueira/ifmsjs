@@ -1,0 +1,238 @@
+<h1>PWA, SPA e WebView</h1>
+
+<h2>O que é um aplicativo web progressivo?</h2>
+<p>Tradução <a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/What_is_a_progressive_web_app">daqui</a>.</p>
+<p>Um aplicativo web progressivo (PWA - Progressive Web Application) é um app construído com tecnologias da plataforma web, mas que oferece uma experiência de usuário semelhante à de um aplicativo específico de plataforma.</p>
+<section aria-labelledby="platform-specific_apps">
+    <h3 id="platform-specific_apps">Aplicativos específicos de plataforma</h3>
+    <div class="section-content">
+        <p><em>Aplicativos específicos de plataforma</em> são desenvolvidos para um sistema operacional (SO) ou dispositivo específico, como um dispositivo iOS ou Android, geralmente usando um SDK fornecido pelo fornecedor da plataforma. Eles são normalmente distribuídos por meio da loja de aplicativos do fornecedor, onde o usuário pode encontrá-los e instalá-los, e depois disso passam a parecer uma funcionalidade extra permanente do dispositivo, expandindo suas capacidades de alguma forma.</p>
+        <p>Os benefícios dos aplicativos específicos de plataforma incluem:</p>
+        <ul>
+            <li><strong>Fácil acesso para os usuários</strong>: Eles ganham um ícone próprio no dispositivo, facilitando para os usuários encontrá-los e abri-los.</li>
+            <li><strong>Operação offline e em segundo plano</strong>: Eles podem operar quando o usuário não está interagindo com eles e quando o dispositivo está offline. Isso, por exemplo, permite que um app de mensagens receba mensagens mesmo quando não está aberto e exiba uma notificação ao usuário. Também permite que um app de notícias atualize em segundo plano para mostrar conteúdo recente mesmo se o dispositivo estiver offline.</li>
+            <li><strong>Interface dedicada</strong>: Eles podem implementar uma interface imersiva e distintiva própria.</li>
+            <li><strong>Integração com o sistema operacional</strong>: Eles podem se integrar ao sistema operacional: por exemplo, um app de mensagens pode se registrar como destino de compartilhamento, permitindo que os usuários selecionem uma imagem no app de fotos e a enviem usando o app de mensagens. Também podem acessar recursos do dispositivo como câmera, GPS ou acelerômetro.</li>
+            <li><strong>Integração com a loja de aplicativos</strong>: São distribuídos via loja de aplicativos, oferecendo aos usuários um local único para encontrá-los e uma maneira consistente de decidir se querem instalá-los.</li>
+        </ul>
+    </div>
+</section>
+<section aria-labelledby="traditional_websites">
+    <h3 id="traditional_websites">Sites tradicionais</h3>
+    <div class="section-content">
+        <p>Tradicionalmente, os sites são menos como "algo que o usuário possui" e mais como "um lugar que o usuário visita". Tipicamente, um site: não tem uma presença no dispositivo do usuário quando ele não está acessando, só pode ser acessado ao abrir o navegador e navegar até o site, e depende fortemente da conectividade com a rede.</p>
+        <p>No entanto, os sites têm algumas vantagens em relação aos aplicativos específicos de plataforma, incluindo:</p>
+        <ul>
+            <li><strong>Base de código única</strong>: Como a web é inerentemente multiplataforma, um site pode rodar em diferentes sistemas operacionais e dispositivos a partir de uma única base de código.</li>
+            <li><strong>Distribuição via web</strong>: A web é uma excelente plataforma de distribuição. Sites são indexados por mecanismos de busca e podem ser compartilhados e acessados apenas com URLs. Um site pode ser distribuído sem necessidade de cadastro em loja de aplicativos de fornecedores.</li>
+        </ul>
+    </div>
+</section>
+<section aria-labelledby="progressive_web_apps">
+    <h3 id="progressive_web_apps">Aplicativos web progressivos</h3>
+    <div class="section-content">
+        <p>Aplicativos web progressivos combinam as melhores características dos sites tradicionais e dos aplicativos específicos de plataforma.</p>
+        <p>PWAs têm os benefícios dos sites, incluindo:</p>
+        <ul>
+            <li>PWAs são desenvolvidos com tecnologias padrão da web, portanto podem rodar em vários sistemas operacionais e dispositivos a partir de uma única base de código.</li>
+            <li>PWAs podem ser acessados diretamente da web.</li>
+        </ul>
+        <p>PWAs também têm muitos dos benefícios dos aplicativos específicos de plataforma, incluindo:</p>
+        <ul>
+            <li>
+                <p><a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable"><strong>PWAs podem ser instalados no dispositivo</strong></a>. Isso significa:</p>
+                <ul>
+                    <li>O PWA pode ser instalado a partir da loja de aplicativos da plataforma ou diretamente da web.</li>
+                    <li>O PWA pode ser instalado como um app específico de plataforma e pode personalizar o processo de instalação.</li>
+                    <li>Após a instalação, o PWA ganha um ícone no dispositivo, junto com os apps específicos de plataforma.</li>
+                    <li>Após a instalação, o PWA pode ser iniciado como um app independente, e não como um site em um navegador.</li>
+                </ul>
+            </li>
+            <li>
+                <p><a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Offline_and_background_operation"><strong>PWAs podem operar em segundo plano e offline</strong></a>: um site típico só está ativo enquanto a página está carregada no navegador. Um PWA pode:</p>
+                <ul>
+                    <li>Funcionar mesmo sem conexão com a internet.</li>
+                    <li>Atualizar conteúdo em segundo plano.</li>
+                    <li>Responder a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Push_API">mensagens push</a> do servidor.</li>
+                    <li>Exibir notificações usando o sistema de <a href="https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API">notificações</a> do SO.</li>
+                </ul>
+            </li>
+            <li>
+                <p>PWAs podem <a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/How_to/Create_a_standalone_app">usar a tela inteira</a>, em vez de rodar na interface do navegador.</p>
+            </li>
+            <li>
+                <p>PWAs podem ser integrados ao dispositivo, registrando-se como alvos e fontes de compartilhamento, e acessando recursos do dispositivo.</p>
+            </li>
+        </ul>
+    </div>
+</section>
+<section aria-labelledby="pwas_and_the_browser">
+    <h4 id="pwas_and_the_browser">PWAs e o navegador</h4>
+    <div class="section-content">
+        <p>Ao visitar um site no navegador, é visualmente evidente que o site está "rodando no navegador". A interface do navegador fornece uma moldura visível ao redor do site, incluindo recursos como botões de voltar/avançar e um título para a página. As APIs Web que seu site chama são implementadas pelo motor (<em>engine</em>) do navegador.</p>
+        <p>PWAs normalmente se parecem com apps específicos de plataforma — geralmente são exibidos sem a interface do navegador ao redor deles — mas tecnicamente ainda são sites. Isso significa que precisam de um motor de navegador, como os do Chrome ou Firefox, para gerenciá-los e executá-los. Com um app específico de plataforma, o sistema operacional da plataforma gerencia o app. Com um PWA, o motor do navegador realiza esse papel nos bastidores, da mesma forma que para sites comuns.</p>
+        <p><img src="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/What_is_a_progressive_web_app/pwa-environment.svg" alt="Diagrama comparando o ambiente de execução de sites tradicionais, PWAs e apps específicos de plataforma" width="561" height="382" loading="lazy"></p>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+<h2 id="-o-que-uma-spa-">🧠 O que é um aplicativo de página única?</h2>
+<p>Tradicionalmente, um site é construído como uma coleção de páginas interligadas. Quando o usuário clica em um link de uma página para outra dentro do mesmo site, o navegador carrega a nova página como uma entidade completamente nova, incluindo o HTML e os sub-recursos carregados pelo HTML, como CSS e JavaScript.</p>
+<p>Um aplicativo de página única (SPA - Single Page Application) é um tipo de aplicativo web que funciona carregando <strong>uma única página HTML</strong> e atualizando dinamicamente seu conteúdo à medida que o usuário interage com o app — sem precisar recarregar a página inteira a cada clique.</p>
+<h3 id="-analogia-simples">🔄 Analogia simples</h3>
+<p>Imagine que você está em um <strong>aplicativo de celular</strong>: quando você toca em botões ou navega entre telas, o app responde rapidamente, sem ficar &quot;carregando uma nova página&quot; como um site tradicional. Isso é o que uma SPA tenta fazer no navegador.</p>
+<hr>
+<h2 id="-como-funciona-">🧱 Como funciona?</h2>
+<ul>
+    <li>Ao acessar o site, o navegador carrega <strong>todos os recursos principais de uma só vez</strong> (HTML, CSS, JS).</li>
+    <li>Depois disso, tudo o que muda na tela é manipulado com <strong>JavaScript</strong>, sem que o navegador precise recarregar a página.</li>
+    <li>A navegação entre &quot;páginas&quot; é feita internamente, simulando a troca de telas, mas na verdade ainda estamos na mesma página HTML.</li>
+    <li>Usa frameworks como <strong>Svelte</strong>, <strong>React</strong>, <strong>Vue</strong>.</li>
+    <li>Navegação e interações ocorrem no <strong>lado do cliente</strong> (client-side).</li>
+</ul>
+<hr>
+<h2 id="-diferen-a-para-uma-mpa-multi-page-application-">🔍 Diferença para uma MPA (Multi Page Application)</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Característica</th>
+            <th>SPA</th>
+            <th>MPA (Aplicativos de Múltiplas Páginas)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Recarrega a página?</td>
+            <td>❌ Não</td>
+            <td>✅ Sim</td>
+        </tr>
+        <tr>
+            <td>Carregamento inicial</td>
+            <td>📦 Mais pesado</td>
+            <td>🚀 Mais rápido</td>
+        </tr>
+        <tr>
+            <td>Navegação entre páginas</td>
+            <td>⚡ Rápida e fluida</td>
+            <td>🔄 Recarrega o navegador</td>
+        </tr>
+        <tr>
+            <td>Ideal para...</td>
+            <td>Apps interativos (como Gmail)</td>
+            <td>Sites institucionais, blogs, etc.</td>
+        </tr>
+    </tbody>
+</table>
+<hr>
+<h2 id="-vantagens">✅ Vantagens</h2>
+<ul>
+    <li>Experiência mais fluida e rápida para o usuário.</li>
+    <li>Redução de tráfego de dados após o carregamento inicial.</li>
+    <li>Boa integração com frameworks modernos (SvelteKit, React, Vue etc).</li>
+</ul>
+<h2 id="-cuidados">⚠️ Cuidados</h2>
+<ul>
+    <li>Pode ser menos amigável para SEO (índices de busca).</li>
+    <li>Pode exigir mais atenção com rotas, estados e carregamento de dados.</li>
+    <li>Em dispositivos mais antigos, o carregamento inicial pode ser pesado.</li>
+</ul>
+<hr>
+
+<section aria-labelledby="pwas_and_single-page_apps">
+    <h2 id="pwas_and_single-page_apps">PWAs e SPAs</h2>
+    <div class="section-content">
+        <p>Aplicativos de página única podem fornecer uma experiência de usuário mais próxima de apps específicos de plataforma, então PWAs são frequentemente implementados como SPAs. Em especial, SPAs tornam mais fácil oferecer uma interface fluida, em que o usuário vê uma única página consistente e apenas as partes necessárias são atualizadas conforme interage com o app.</p>
+        <p>No entanto, PWAs não precisam ser aplicativos de página única, e aplicativos de página única não precisam ser PWAs.</p>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+<h2 id="-o-que-uma-webview-">🧭 O que é uma WebView?</h2>
+<p><strong>WebView</strong> é um <strong>componente nativo</strong> (disponível em Android, iOS e outros sistemas) que permite <strong>exibir conteúdo web dentro de um aplicativo móvel ou desktop</strong>.</p>
+<p>É como um <strong>mini navegador embutido</strong> dentro do app — mas sem barra de endereços ou botões de navegação. Ele pode mostrar páginas HTML, CSS, JS, ou até arquivos hospedados localmente no app.</p>
+<hr>
+<h3 id="-exemplo-pr-tico">📱 Exemplo prático</h3>
+<p>Sabe quando um app (como o Instagram ou um app de banco) abre um link dentro dele mesmo, sem sair para o navegador? Aquilo geralmente é uma <strong>WebView</strong>.</p>
+<hr>
+<h2 id="-para-que-serve-">🧩 Para que serve?</h2>
+<ul>
+    <li>Exibir páginas web dentro do app sem sair para o navegador externo.</li>
+    <li>Exibir conteúdo HTML/CSS/JS diretamente como parte da interface do app.</li>
+    <li>Criar apps híbridos (parte nativa + parte web).</li>
+    <li>Reutilizar um site existente em formato de app.</li>
+    <li>Mostrar manuais, termos de uso ou ajuda online.</li>
+</ul>
+<hr>
+<h2 id="-funcionalidades-comuns">🛠️ Funcionalidades comuns</h2>
+<ul>
+    <li>Carregamento de URLs externas ou locais.</li>
+    <li>Execução de JavaScript.</li>
+    <li>Comunicação entre o código da WebView e o código nativo.</li>
+    <li>Controle de navegação (ex: bloquear links externos, mostrar loading etc).</li>
+</ul>
+<hr>
+<h2 id="-vantagens">✅ Vantagens</h2>
+<ul>
+    <li>Rápido de implementar.</li>
+    <li>Fácil de atualizar (basta atualizar o site).</li>
+    <li>Ótimo para conteúdos informativos ou interfaces simples.</li>
+</ul>
+<h2 id="-desvantagens">⚠️ Desvantagens</h2>
+<ul>
+    <li>Performance inferior a componentes nativos.</li>
+    <li>Menor controle sobre a experiência do usuário.</li>
+    <li>Nem sempre funciona bem offline.</li>
+    <li>Riscos de segurança se não for bem configurada.</li>
+</ul>
+<hr>
+<h2 id="-webview-no-android">🧱 WebView no Android</h2>
+<p>No Android, a WebView é um componente da interface gráfica (<code>android.webkit.WebView</code>) que pode carregar:</p>
+<ul>
+    <li>uma URL da web (<code>https://exemplo.com</code>),</li>
+    <li>um arquivo local (<code>file:///android_asset/www/index.html</code>).</li>
+</ul>
+<hr>
+<h3 id="-spas-e-pwas-com-webview-n-o-gostei-desta-se-o-voc-consegue-reformul-la-">💡 SPAs e PWAs com WebView [não gostei desta seção, você consegue reformulá-la?]</h3>
+<p>SPAs e PWAs são ideais para rodar dentro de uma WebView, já que:</p>
+<ul>
+    <li>Não exigem servidor backend ativo para cada interação.</li>
+    <li>Podem ser empacotadas como arquivos estáticos (<code>HTML</code>, <code>CSS</code>, <code>JS</code>).</li>
+</ul>
+<hr>
+
+<h2 id="-resumo-final">📌 Resumo final</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Termo</th>
+            <th>O que é</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>SPA</strong></td>
+            <td>Aplicativo de uma única página com navegação interna</td>
+        </tr>
+        <tr>
+            <td><strong>PWA</strong></td>
+            <td>[complete]</td>
+        </tr>
+        <tr>
+            <td><strong>WebView</strong></td>
+            <td>Componente que exibe conteúdo web dentro de um app</td>
+        </tr>
+    </tbody>
+</table>
