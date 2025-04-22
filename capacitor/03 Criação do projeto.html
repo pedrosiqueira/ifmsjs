@@ -82,6 +82,16 @@ export const ssr = false;</code></pre>
 </ol>
 <hr>
 
+<h2 id="estrutura-t-pica-de-um-app-com-capacitor">Estrutura típica de um projeto com Capacitor</h2>
+<pre><code class="txt">📁 projeto/
+├── build/                ← Arquivos gerados pelo build do SvelteKit
+├── capacitor.config.json ← Arquivo de configuração do Capacitor
+├── android/              ← Projeto Android com WebView embutida
+├── ios/                  ← Projeto iOS com WebView embutida
+├── src/                  ← Código-fonte do aplicativo</code></pre>
+
+<hr />
+
 <h2>Explicação dos comandos</h2>
 <hr>
 <pre><code>pnpm dlx sv create meu-projeto-capacitor</code></pre>
@@ -146,13 +156,14 @@ export const ssr = false;</code></pre>
     <li><code>-r</code> (reutilizar) → Se já houver uma instância aberta do VS Code, abre o projeto nela.</li>
 </ul>
 <hr>
-<h3 id="resumo-do-que-acontece"><strong>Resumo do que acontece</strong></h3>
+<h2 id="resumo-do-que-acontece"><strong>Resumo</strong></h2>
+
 <ol type="1">
-    <li><strong>Cria um projeto Svelte</strong>.</li>
-    <li><strong>Instala o Capacitor e Drizzle ORM</strong>.</li>
-    <li><strong>Adiciona SQLite via <code>sql.js</code></strong>.</li>
-    <li><strong>Prepara o Capacitor para Android</strong>.</li>
-    <li><strong>Abre o projeto no VS Code</strong>.</li>
+    <li>Cria um projeto Svelte.</li>
+    <li>Instala o Capacitor e Drizzle ORM.</li>
+    <li>Adiciona SQLite via <code>sql.js</code>.</li>
+    <li>Prepara o Capacitor para Android.</li>
+    <li>Abre o projeto no VS Code.</li>
 </ol>
 <p>Agora o projeto está pronto para desenvolvimento com <strong>Svelte + Capacitor + Drizzle ORM + SQLite</strong>!</p>
 <hr>
@@ -163,23 +174,23 @@ export const ssr = false;</code></pre>
 <p>Para que o Capacitor localize corretamente os arquivos do app, é necessário modificar a propriedade <code>"webDir"</code> no arquivo <code>capacitor.config.json</code> para <code>"build"</code>.</p>
 <hr>
 <h3>2. Opções de Página</h3>
-<p>Ao usar Capacitor, estamos trabalhando com HTML, CSS e JavaScript executados dentro de um <strong>WebView</strong> — sem um servidor back-end local. O app é carregado a partir de arquivos <strong>estáticos</strong>, o que significa que toda a lógica precisa ser executada no lado do cliente. Isso caracteriza uma <a href="https://svelte.dev/docs/kit/single-page-apps" target="_blank">SPA (Single Page Application)</a> — ou seja, um aplicativo em que todo o conteúdo é carregado dinamicamente sem recarregamento de página.</p>
+<p>Ao usar Capacitor, estamos trabalhando com HTML, CSS e JavaScript executados dentro de um <strong>WebView</strong> — sem um servidor back-end. O app é carregado a partir de arquivos <strong>estáticos</strong>, o que significa que toda a lógica precisa ser executada no lado do cliente. Isso caracteriza uma <a href="https://svelte.dev/docs/kit/single-page-apps" target="_blank">SPA (Single Page Application)</a> — ou seja, um aplicativo em que todo o conteúdo é carregado dinamicamente sem recarregamento de página.</p>
 <hr>
 <h4>Opção <code>prerender</code></h4>
-<p>No SvelteKit, para tornar o app um SPA, usamos o adaptador estático (configurado na criação do projeto) e <a target="_blank" href="https://svelte.dev/docs/kit/page-options#prerender">adicionamos</a> <code>export const prerender = true;</code> no arquivo <code>src/routes/+layout.js</code>.</p>
+<p>No SvelteKit, para tornar o app em um SPA, usamos o adaptador estático (configurado na criação do projeto) e <a target="_blank" href="https://svelte.dev/docs/kit/page-options#prerender">adicionamos</a> <code>export const prerender = true;</code> no arquivo <code>src/routes/+layout.js</code>.</p>
 <p>Isso garante que todas as páginas sejam pré-renderizadas de antemão durante o build (tempo de compilação), e não sob demanda durante a execução (tempo de execução) — gerando arquivos HTML e JS estáticos prontos para serem usados, sem necessidade de um servidor back-end em tempo real.</p>
 
 <p>Nem todas as páginas podem ser pré-renderizadas. <a href="https://svelte.dev/docs/kit/glossary#prerendering" target="_blank">A regra básica é:</a> o conteúdo deve ser o mesmo para qualquer usuário que acesse diretamente a página, e ela não deve conter <a target="_blank" href="https://svelte.dev/docs/kit/form-actions">form actions</a>. No nosso caso, isso não será um problema, pois não escreveremos código que dependa de back-end.</p>
 <hr>
 <h4>Opção <code>ssr</code></h4>
 <p>Mesmo com a opção <code>prerender</code>, o SvelteKit ainda executaria o JavaScript dos componentes no servidor antes de enviá-lo ao cliente — processo conhecido como <a href="https://svelte.dev/docs/kit/page-options" target="_blank">hidratação</a>.</p>
-<p>No entanto, como utilizaremos o Bootstrap, que acessa objetos do DOM (como <code>document</code> ou <code>window</code>), precisamos impedir essa execução no servidor. Para isso, <a target="_blank" href="https://svelte.dev/docs/kit/page-options#ssr">adicionamos</a> <code>export const ssr = false;</code> no arquivo <code>src/routes/+layout.js</code>, garantindo que tudo seja executado exclusivamente no cliente.</p>
+<p>No entanto, como utilizaremos o Bootstrap, que acessa objetos do DOM (como <code>document</code> ou <code>window</code>), que não estão disponíveis no lado do servidor, precisamos impedir essa execução no servidor. Para isso, <a target="_blank" href="https://svelte.dev/docs/kit/page-options#ssr">adicionamos</a> <code>export const ssr = false;</code> no arquivo <code>src/routes/+layout.js</code>, garantindo que tudo seja executado exclusivamente no cliente.</p>
 <hr>
-<h4>Resumo do que acontece</h4>
-<p>Com essas duas diretivas:</p>
+<h3>Resumo</h3>
 <ul>
-    <li>A página será gerada como HTML estático no momento do build,</li>
-    <li>Toda a lógica e renderização será feita no lado do cliente.</li>
+    <li>Com <code>"webDir": "build"</code>, o app abre a WebView e carrega os arquivos da pasta <code>build/</code>.</li>
+    <li>Com <code>prerender = true</code>, a página será gerada como HTML estático no momento do build.</li>
+    <li>Com <code>ssr = false</code>, toda a lógica e renderização será feita no lado do cliente.</li>
 </ul>
 <p>Essa abordagem é ideal para <strong>SPAs (Single Page Applications)</strong> sem necessidade de SSR (Server-Side Rendering).</p>
 <hr>
