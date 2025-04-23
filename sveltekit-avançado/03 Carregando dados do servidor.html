@@ -1,49 +1,68 @@
 <!DOCTYPE html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
-    <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 
-    <!-- https://github.com/arronhunt/highlightjs-copy -->
-    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
-    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
-    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
 
-    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
-    <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
   <script defer>hljs.highlightLinesAll([
       // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
     ]);
   </script> -->
 
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
-    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 
 <h1>Carregando Dados do Servidor</h1>
 <h2>Leitura recomendada:</h2>
 <ul>
-    <li><a href="https://svelte.dev/tutorial/kit/params">Route parameters</a></li>
-    <li><a href="https://svelte.dev/tutorial/kit/page-data">Page data</a></li>
-    <li><a href="https://svelte.dev/tutorial/kit/layout-data">Layout data</a></li>
+  <li><a href="https://svelte.dev/tutorial/kit/params">Route parameters</a></li>
+  <li><a href="https://svelte.dev/tutorial/kit/page-data">Page data</a></li>
+  <li><a href="https://svelte.dev/tutorial/kit/layout-data">Layout data</a></li>
 </ul>
 
-<h2>Trabalhando com Parâmetros de Rota, Dados de Página e Layout no SvelteKit</h2>
+<h2>Parâmetros de Rota e Dados de Página</h2>
 <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.svelte</code></p>
-<pre><code>&lt;script&gt;&NewLine;  let &lbrace; data &rcub; &equals; &dollar;props&lpar;&rpar;&semi;&NewLine;&lt;&sol;script&gt;&NewLine;&NewLine;&lt;div class&equals;&quot;row&quot;&gt;&NewLine;  &lbrace;&num;each data&period;pokemons as p&rcub;&NewLine;    &lt;div class&equals;&quot;col-md-3 col-sm-6 mb-3&quot;&gt;&NewLine;      &lt;div class&equals;&quot;card&quot;&gt;&NewLine;        &lt;img src&equals;&lbrace;p&period;image&rcub; alt&equals;&lbrace;p&period;name&rcub; class&equals;&quot;card-img-top&quot; &sol;&gt;&NewLine;        &lt;div class&equals;&quot;card-body&quot;&gt;&NewLine;          &lt;a href&equals;&quot;&sol;03&sol;pokemon&sol;&lbrace;p&period;name&rcub;&quot; class&equals;&quot;stretched-link text-decoration-none&quot;&gt;&NewLine;            &lt;h5 class&equals;&quot;card-title text-capitalize&quot;&gt;&lbrace;p&period;name&rcub;&lt;&sol;h5&gt;&NewLine;          &lt;&sol;a&gt;&NewLine;        &lt;&sol;div&gt;&NewLine;      &lt;&sol;div&gt;&NewLine;    &lt;&sol;div&gt;&NewLine;  &lbrace;&sol;each&rcub;&NewLine;&lt;&sol;div&gt;&NewLine;</code></pre>
+<pre><code>&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;div class="row"&gt;
+  {#each data.pokemons as p}
+    &lt;div class="col-md-3 col-sm-6 mb-3"&gt;
+      &lt;div class="card"&gt;
+        &lt;img src={p.image} alt={p.name} class="card-img-top" /&gt;
+        &lt;div class="card-body"&gt;
+          &lt;a href="/03/pokemon/{p.name}" class="stretched-link text-decoration-none"&gt;
+            &lt;h5 class="card-title text-capitalize"&gt;{p.name}&lt;/h5&gt;
+          &lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  {/each}
+&lt;/div&gt;</code></pre>
 <p>Explicação:</p>
-<p>Explique o código, e também as classes bootstrap utilizadas.</p>
+<p>Este código cria uma lista de pokémons com suas imagens. Cada card é colocado em uma coluna que ocupa largura 3/12 em telas médias pra cima, e largura 6/12 em telas pequenas pra cima, e ocupa 100% da largura em telas menores. O link que direciona para uma página com mais informações sobre o Pokémon.</p>
+<p>A classe <code>card-img-top</code> é usada para a imagem, e <code>card-body</code> envolve o conteúdo textual. <code>stretched-link</code> permite que a área inteira do card seja clicável.</p>
+
 <p>Agora vamos ver de onde os dados são carregados.</p>
 <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.js</code></p>
 <pre><code class="js">export async function load() {
@@ -61,22 +80,22 @@
   return { pokemons: data.results };
 }</code></pre>
 <p>Explicação:</p>
-<p>Explique.</p>
+<p>O código faz uma requisição à PokeAPI para listar os pokémons com limite de 12 por página. Ele extrai o ID da URL e gera a URL da imagem correspondente.</p>
 
-<p>Vamos ver a página que abre um pokemon.</p>
+<p>Vejamos a página de detalhes do Pokemon.</p>
 <p>Crie o arquivo <code ctc>src/routes/03/pokemon/[name]/+page.svelte</code></p>
 <pre><code class="svelte">&lt;script&gt;
   let { data } = $props();
   const p = data.pokemon;
 &lt;/script&gt;
 
-&lt;h2 class=&quot;text-capitalize&quot;&gt;{p.name}&lt;/h2&gt;
-&lt;img src={p.sprites.front_default} alt={p.name} class=&quot;mb-3&quot; /&gt;
+&lt;h2 class="text-capitalize"&gt;{p.name}&lt;/h2&gt;
+&lt;img src={p.sprites.front_default} alt={p.name} class="mb-3" />
 
-&lt;ul class=&quot;list-group&quot;&gt;
-  &lt;li class=&quot;list-group-item&quot;&gt;&lt;strong&gt;Altura:&lt;/strong&gt; {p.height / 10} m&lt;/li&gt;
-  &lt;li class=&quot;list-group-item&quot;&gt;&lt;strong&gt;Peso:&lt;/strong&gt; {p.weight / 10} kg&lt;/li&gt;
-  &lt;li class=&quot;list-group-item&quot;&gt;
+&lt;ul class="list-group"&gt;
+  &lt;li class="list-group-item"&gt;&lt;strong&gt;Altura:&lt;/strong&gt; {p.height / 10} m&lt;/li&gt;
+  &lt;li class="list-group-item"&gt;&lt;strong&gt;Peso:&lt;/strong&gt; {p.weight / 10} kg&lt;/li&gt;
+  &lt;li class="list-group-item"&gt;
     &lt;strong&gt;Tipos:&lt;/strong&gt;
     {#each p.types as t, i}
       {t.type.name}{i &lt; p.types.length - 1 ? ', ' : ''}
@@ -84,13 +103,16 @@
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;a href=&quot;/03/pokemon&quot; class=&quot;btn btn-outline-primary mt-3&quot;&gt;Voltar&lt;/a&gt;</code></pre>
+&lt;a href="/03/pokemon" class="btn btn-outline-primary mt-3"&gt;Voltar&lt;/a&gt;</code></pre>
 <p>Explicação:</p>
-<p>Explique.</p>
-<p>Por fim, vejamos o script que carrega o pokemon</p>
+<p>Essa página exibe as informações detalhadas sobre um Pokémon, como altura, peso e tipos. As informações são carregadas usando o parâmetro <code>name</code> da URL.</p>
+
+<p>Vejamos como carregar dados detalhados de um Pokemon.</p>
 <p>Crie o arquivo <code ctc>src/routes/03/pokemon/[name]/+page.js</code></p>
 <pre><code class="js">export async function load({ params }) {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${params.name}`);
   const pokemon = await res.json();
   return { pokemon };
 }</code></pre>
+<p>Explicação:</p>
+<p>Este código faz uma requisição para carregar as informações detalhadas do Pokémon usando o parâmetro <code>name</code> que foi passado pela URL.</p>
