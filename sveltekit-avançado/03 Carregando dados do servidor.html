@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
-    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+    <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 
     <!-- https://github.com/arronhunt/highlightjs-copy -->
     <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
@@ -31,10 +31,66 @@
     <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 
-<h1>Um título para esse capítulo</h1>
+<h1>Carregando Dados do Servidor</h1>
 <h2>Leitura recomendada:</h2>
 <ul>
     <li><a href="https://svelte.dev/tutorial/kit/params">Route parameters</a></li>
     <li><a href="https://svelte.dev/tutorial/kit/page-data">Page data</a></li>
     <li><a href="https://svelte.dev/tutorial/kit/layout-data">Layout data</a></li>
 </ul>
+
+<h2>Trabalhando com Parâmetros de Rota, Dados de Página e Layout no SvelteKit</h2>
+<p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.svelte</code></p>
+<pre><code>&lt;script&gt;&NewLine;  let &lbrace; data &rcub; &equals; &dollar;props&lpar;&rpar;&semi;&NewLine;&lt;&sol;script&gt;&NewLine;&NewLine;&lt;div class&equals;&quot;row&quot;&gt;&NewLine;  &lbrace;&num;each data&period;pokemons as p&rcub;&NewLine;    &lt;div class&equals;&quot;col-md-3 col-sm-6 mb-3&quot;&gt;&NewLine;      &lt;div class&equals;&quot;card&quot;&gt;&NewLine;        &lt;img src&equals;&lbrace;p&period;image&rcub; alt&equals;&lbrace;p&period;name&rcub; class&equals;&quot;card-img-top&quot; &sol;&gt;&NewLine;        &lt;div class&equals;&quot;card-body&quot;&gt;&NewLine;          &lt;a href&equals;&quot;&sol;03&sol;pokemon&sol;&lbrace;p&period;name&rcub;&quot; class&equals;&quot;stretched-link text-decoration-none&quot;&gt;&NewLine;            &lt;h5 class&equals;&quot;card-title text-capitalize&quot;&gt;&lbrace;p&period;name&rcub;&lt;&sol;h5&gt;&NewLine;          &lt;&sol;a&gt;&NewLine;        &lt;&sol;div&gt;&NewLine;      &lt;&sol;div&gt;&NewLine;    &lt;&sol;div&gt;&NewLine;  &lbrace;&sol;each&rcub;&NewLine;&lt;&sol;div&gt;&NewLine;</code></pre>
+<p>Explicação:</p>
+<p>Explique o código, e também as classes bootstrap utilizadas.</p>
+<p>Agora vamos ver de onde os dados são carregados.</p>
+<p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.js</code></p>
+<pre><code class="js">export async function load() {
+  const limit = 12;
+  const offset = 0;
+
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`);
+  const data = await res.json();
+
+  for (const pokemon of data.results) {
+    const id = pokemon.url.split("/").at(-2);
+    pokemon.image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+  }
+
+  return { pokemons: data.results };
+}</code></pre>
+<p>Explicação:</p>
+<p>Explique.</p>
+
+<p>Vamos ver a página que abre um pokemon.</p>
+<p>Crie o arquivo <code ctc>src/routes/03/pokemon/[name]/+page.svelte</code></p>
+<pre><code class="svelte">&lt;script&gt;
+  let { data } = $props();
+  const p = data.pokemon;
+&lt;/script&gt;
+
+&lt;h2 class=&quot;text-capitalize&quot;&gt;{p.name}&lt;/h2&gt;
+&lt;img src={p.sprites.front_default} alt={p.name} class=&quot;mb-3&quot; /&gt;
+
+&lt;ul class=&quot;list-group&quot;&gt;
+  &lt;li class=&quot;list-group-item&quot;&gt;&lt;strong&gt;Altura:&lt;/strong&gt; {p.height / 10} m&lt;/li&gt;
+  &lt;li class=&quot;list-group-item&quot;&gt;&lt;strong&gt;Peso:&lt;/strong&gt; {p.weight / 10} kg&lt;/li&gt;
+  &lt;li class=&quot;list-group-item&quot;&gt;
+    &lt;strong&gt;Tipos:&lt;/strong&gt;
+    {#each p.types as t, i}
+      {t.type.name}{i &lt; p.types.length - 1 ? ', ' : ''}
+    {/each}
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;a href=&quot;/03/pokemon&quot; class=&quot;btn btn-outline-primary mt-3&quot;&gt;Voltar&lt;/a&gt;</code></pre>
+<p>Explicação:</p>
+<p>Explique.</p>
+<p>Por fim, vejamos o script que carrega o pokemon</p>
+<p>Crie o arquivo <code ctc>src/routes/03/pokemon/[name]/+page.js</code></p>
+<pre><code class="js">export async function load({ params }) {
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${params.name}`);
+  const pokemon = await res.json();
+  return { pokemon };
+}</code></pre>
