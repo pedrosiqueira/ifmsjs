@@ -31,34 +31,40 @@
   <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 
-<h1>02 Organizando o layout</h1>
+<h1>Organizando o layout</h1>
 
 <h2>Adicionando Bootstrap ao SvelteKit</h2>
 <p>Vamos utilizar o Bootstrap para estilizar nossas páginas.</p>
-<p>Para utilizar SvelteKit com Bootstrap, modifique o arquivo <code>src/app.html</code> (em verde as modificações, em azul os acréscimos):</p>
+<p>Para integrar o Bootstrap ao SvelteKit, edite o arquivo <code>src/app.html</code> (em verde as modificações, em azul os acréscimos):</p>
+
 <pre><code>&lt;!doctype html&gt;
-&lt;html lang=&quot;pt-br&quot;&gt;
+&lt;html lang="pt-br"&gt;
 
 &lt;head&gt;
-    &lt;meta charset=&quot;utf-8&quot; /&gt;
-    &lt;link rel=&quot;icon&quot; href=&quot;%sveltekit.assets%/favicon.png&quot; /&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;link rel="icon" href="%sveltekit.assets%/favicon.png" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;
     %sveltekit.head%
-    &lt;link href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot; integrity=&quot;sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7&quot; crossorigin=&quot;anonymous&quot;&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css&quot;&gt;
+    &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous"&gt;
+    &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"&gt;
 &lt;/head&gt;
 
-&lt;body data-sveltekit-preload-data=&quot;hover&quot;&gt;
-    &lt;div style=&quot;display: contents&quot;&gt;%sveltekit.body%&lt;/div&gt;
-    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js&quot; integrity=&quot;sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+&lt;body data-sveltekit-preload-data="hover"&gt;
+    &lt;div style="display: contents"&gt;%sveltekit.body%&lt;/div&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"&gt;&lt;/script&gt;
 &lt;/body&gt;
 
 &lt;/html&gt;</code></pre>
-<p>Na linha 2 alteramos nosso aplicativo para ser reconhecido pelos navegadores como de idioma português. Nas linhas 9 e 15 adicionamos o <a href="">CSS e o JSS do Bootstrap</a>. Na linha 10 adicionamos o css dos ícones do Bootstrap.</p>
+
+<p>Na linha 2, definimos o idioma do aplicativo como português. Nas linhas 9 e 15, adicionamos o <a target="_blank" href="https://getbootstrap.com/docs/5.3/getting-started/introduction/#quick-start">CSS e o JS do Bootstrap</a>. Na linha 10, incluímos os <a target="_blank" href="https://icons.getbootstrap.com/#install">ícones do Bootstrap</a>.</p>
+
+<hr>
 
 <h2>Definindo o layout</h2>
+
 <h3>Separação dos componentes Svelte</h3>
 <p>Crie o arquivo <code ctc>src/routes/+layout.svelte</code>:</p>
+
 <pre><code>&lt;script&gt;
   import Header from '$lib/components/Header.svelte';
   import Footer from '$lib/components/Footer.svelte';
@@ -66,93 +72,100 @@
   let { children } = $props();
 &lt;/script&gt;
 
-&lt;div class=&quot;d-flex flex-column min-vh-100 container-fluid&quot;&gt;
+&lt;div class="d-flex flex-column min-vh-100 container-fluid"&gt;
   &lt;Header /&gt;
 
   &lt;main&gt;{@render children()}&lt;/main&gt;
 
   &lt;Footer /&gt;
 &lt;/div&gt;</code></pre>
+
 <p>Explicação:</p>
 <ul>
-  <li>O layout foi dividido em três partes: o cabeçalho (header), o conteúdo principal (main), e o rodapé. Como esse é o layout raiz (diretamente dentro de <code>routes</code>), o cabeçalho e o rodapé serão aplicados em todas as páginas.</li>
-  <li>Para não poluir a página, foram criados componentes separados para o cabeçalho e o rodapé, que são importados nas linhas 2 e 3.</li>
-  <li>As classes <code>d-flex flex-column min-vh-100</code> criam uma estrutura vertical que ocupa toda a altura da viewport. Isso é necessário para que o <a href="https://radu.link/make-footer-stay-bottom-page-bootstrap">rodapé ocupe a região inferior da página</a>.</li>
-  <li> A classe <code>container-fluid</code> habilita o uso do <strong>sistema de grid responsivo</strong> do Bootstrap, <a href="https://getbootstrap.com/docs/5.3/layout/containers/#how-they-work">permitindo organizar o conteúdo</a> em colunas e linhas com flexibilidade.</li>
+  <li>O layout está dividido em três partes: cabeçalho (Header), conteúdo principal (main) e rodapé (Footer). Como este é o layout raiz (diretamente dentro da pasta <code>routes</code>), essas seções serão aplicadas a todas as páginas.</li>
+  <li>Para não poluir o layout, o cabeçalho e o rodapé foram extraídos em componentes separados e importados nas linhas 2 e 3.</li>
+  <li>As classes <code>d-flex flex-column min-vh-100</code> criam uma estrutura vertical que ocupa toda a altura da janela. Isso garante que o <a href="https://radu.link/make-footer-stay-bottom-page-bootstrap">rodapé permaneça na parte inferior da página</a>.</li>
+  <li>A classe <code>container-fluid</code> ativa o <strong>sistema de grid responsivo</strong> do Bootstrap, <a href="https://getbootstrap.com/docs/5.3/layout/containers/#how-they-work">permitindo organizar o conteúdo</a> em colunas e linhas com flexibilidade.</li>
 </ul>
 
+<hr>
+
 <h3>Rodapé</h3>
+
 <p>Crie o arquivo <code ctc>src/lib/components/Footer.svelte</code>:</p>
-<pre><code>&lt;footer class=&quot;d-flex justify-content-between align-items-center py-1 mt-auto border-top&quot;&gt;
-  &lt;p class=&quot;mb-0 text-body-secondary&quot;&gt;&amp;copy; 2024 Company, Inc&lt;/p&gt;
 
-  &lt;a href=&quot;/&quot;&gt; &lt;img src=&quot;/favicon.png&quot; alt=&quot;logo&quot; style=&quot;height: 2em&quot; /&gt; &lt;/a&gt;
+<pre><code>&lt;footer class="d-flex justify-content-between align-items-center py-1 mt-auto border-top"&gt;
+  &lt;p class="mb-0 text-body-secondary"&gt;&amp;copy; 2024 Company, Inc&lt;/p&gt;
 
-  &lt;ul class=&quot;nav&quot;&gt;
-    &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;https://facebook.com&quot; target=&quot;_blank&quot; class=&quot;nav-link px-2 text-body-secondary&quot; aria-label=&quot;facebook&quot;&gt;&lt;i class=&quot;bi bi-facebook&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-    &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;https://whatsapp.com&quot; target=&quot;_blank&quot; class=&quot;nav-link px-2 text-body-secondary&quot; aria-label=&quot;whatsapp&quot;&gt;&lt;i class=&quot;bi bi-whatsapp&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
-    &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;https://twitter.com&quot; target=&quot;_blank&quot; class=&quot;nav-link px-2 text-body-secondary&quot; aria-label=&quot;twitter&quot;&gt;&lt;i class=&quot;bi bi-twitter&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;a href="/"&gt;&lt;img src="/favicon.png" alt="logo" style="height: 2em" /&gt;&lt;/a&gt;
+
+  &lt;ul class="nav"&gt;
+    &lt;li class="nav-item"&gt;&lt;a href="https://facebook.com" target="_blank" class="nav-link px-2 text-body-secondary" aria-label="facebook"&gt;&lt;i class="bi bi-facebook"&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="nav-item"&gt;&lt;a href="https://whatsapp.com" target="_blank" class="nav-link px-2 text-body-secondary" aria-label="whatsapp"&gt;&lt;i class="bi bi-whatsapp"&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="nav-item"&gt;&lt;a href="https://twitter.com" target="_blank" class="nav-link px-2 text-body-secondary" aria-label="twitter"&gt;&lt;i class="bi bi-twitter"&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/footer&gt;</code></pre>
-<p>Explicação: O Bootstrap tem uma <a href="https://getbootstrap.com/docs/5.3/examples/">página de exemplos</a> de aplicação dos componentes Bootstrap. Basicamente extraí um rodapé da página de <a href="https://getbootstrap.com/docs/5.3/examples/footers/">exemplos de rodapé</a> e ajustei conforme a necessidade.</p>
+
+<p>Explicação: Esse rodapé foi adaptado a partir dos <a href="https://getbootstrap.com/docs/5.3/examples/footers/">exemplos oficiais do Bootstrap</a>. Basicamente extraí um rodapé da página de <a href="https://getbootstrap.com/docs/5.3/examples/footers/">exemplos de rodapé</a> e ajustei conforme a preferência.</p>
+
+<hr>
 
 <h3>Cabeçalho</h3>
+
 <p>Crie o arquivo <code ctc>src/lib/components/Header.svelte</code>:</p>
-<pre><code>&lt;header class=&quot;navbar navbar-expand-lg bg-body-tertiary&quot;&gt;
-  &lt;button class=&quot;navbar-toggler&quot; data-bs-toggle=&quot;offcanvas&quot; data-bs-target=&quot;#mySideBar&quot; aria-label=&quot;toggleSidebar&quot;&gt;
-    &lt;i class=&quot;bi bi-list&quot;&gt;&lt;/i&gt;
+
+<pre><code>&lt;header class="navbar navbar-expand-lg bg-body-tertiary"&gt;
+  &lt;button class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#mySideBar" aria-label="toggleSidebar"&gt;
+    &lt;i class="bi bi-list"&gt;&lt;/i&gt;
   &lt;/button&gt;
-  &lt;a class=&quot;navbar-brand&quot; href=&quot;/&quot;&gt;FrameWorks&lt;/a&gt;
-  &lt;button class=&quot;navbar-toggler&quot; data-bs-toggle=&quot;offcanvas&quot; data-bs-target=&quot;#navbarText&quot; aria-label=&quot;toggleNavbar&quot;&gt;
-    &lt;i class=&quot;bi bi-three-dots-vertical&quot;&gt;&lt;/i&gt;
+  &lt;a class="navbar-brand" href="/"&gt;FrameWorks&lt;/a&gt;
+  &lt;button class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#navbarText" aria-label="toggleNavbar"&gt;
+    &lt;i class="bi bi-three-dots-vertical"&gt;&lt;/i&gt;
   &lt;/button&gt;
-  &lt;div class=&quot;offcanvas offcanvas-end&quot; tabindex=&quot;-1&quot; id=&quot;navbarText&quot;&gt;
-    &lt;div class=&quot;offcanvas-header&quot;&gt;
-      &lt;h5 class=&quot;offcanvas-title&quot;&gt;Menu&lt;/h5&gt;
-      &lt;button class=&quot;btn-close&quot; data-bs-dismiss=&quot;offcanvas&quot; aria-label=&quot;Close&quot;&gt;&lt;/button&gt;
+  &lt;div class="offcanvas offcanvas-end" tabindex="-1" id="navbarText"&gt;
+    &lt;div class="offcanvas-header"&gt;
+      &lt;h5 class="offcanvas-title"&gt;Menu&lt;/h5&gt;
+      &lt;button class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"&gt;&lt;/button&gt;
     &lt;/div&gt;
-    &lt;div class=&quot;offcanvas-body&quot;&gt;
-      &lt;ul class=&quot;navbar-nav me-auto&quot;&gt;
-        &lt;li class=&quot;nav-item&quot;&gt;
-          &lt;a class=&quot;nav-link active&quot; href=&quot;/01&quot;&gt;Cap 01&lt;/a&gt;
-        &lt;/li&gt;
-        &lt;li class=&quot;nav-item&quot;&gt;
-          &lt;a class=&quot;nav-link active&quot; href=&quot;/02&quot;&gt;Cap 02&lt;/a&gt;
-        &lt;/li&gt;
+    &lt;div class="offcanvas-body"&gt;
+      &lt;ul class="navbar-nav me-auto"&gt;
+        &lt;li class="nav-item"&gt;&lt;a class="nav-link active" href="/01"&gt;Cap 01&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="nav-item"&gt;&lt;a class="nav-link active" href="/02"&gt;Cap 02&lt;/a&gt;&lt;/li&gt;
       &lt;/ul&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/header&gt;</code></pre>
+
 <p>Explicação das classes de estilização:</p>
 <ul>
-  <li>Linha 1:
+  <li><strong>Linha 1:</strong>
     <ul>
-      <li><code>navbar</code>: Declara o cabeçalho da página usando o <a href="https://getbootstrap.com/docs/5.3/components/navbar/">componente navbar do Bootstrap</a>.</li>
+      <li><code>navbar</code>: Define o cabeçalho como uma <a href="https://getbootstrap.com/docs/5.3/components/navbar/">navbar Bootstrap</a>.</li>
       <li><code>navbar-expand-lg</code>: O menu da navbar se expande horizontalmente a partir do tamanho lg (large). Abaixo disso, ele contrai (útil para telas pequenas).</li>
     </ul>
   </li>
-  <li>Linhas 2 e 6:
+  <li><strong>Linhas 2 e 6:</strong>
     <ul>
       <li>Botões com a classe <code>navbar-toggler</code> alternam a visibilidade do menu contraído da navbar em telas pequenas. Portanto, deve ser usado em conjunto com <code>navbar navbar-expand-lg</code>.</li>
       <li>Há dois tipos de animação para exibir o menu contraído: o <a href="https://getbootstrap.com/docs/5.3/components/navbar/#toggler"><code>data-bs-toggle="collapse"</code></a>, que expande o menu para baixo; ou o <a href="https://getbootstrap.com/docs/5.3/components/navbar/#offcanvas"><code>data-bs-toggle="offcanvas"</code></a>, que exibe um menu lateral deslizante, e foi o que escolhemos aqui.</li>
       <li>A classe <code>data-bs-target</code> aponta para o menu a ser exibido. No caso do primeiro botão, o menu é <a href="https://getbootstrap.com/docs/5.3/components/navbar/#external-content">externo ao navbar</a>, e ainda não o criamos. E para o segundo botão, o menu é o div da linha 9.</li>
     </ul>
   </li>
-  <li>Linhas 3 e 7: Ícones da biblioteca <a href="https://icons.getbootstrap.com/">Bootstrap Icons</a>.</li>
-  <li>Linha 5: A marca da tua companhia, produto ou nome do projeto. É um link que redireciona para a página inicial do site. Quando o navbar estiver contraído, a marca ficará centralizada, o botão anterior (linha 2) ficará à esquerda e o botão posterior (linha 6) ficará à direita da marca.</li>
-  <li>Linha 9: O menu que será contraído em telas menores que lg.
+  <li><strong>Linhas 3 e 7:</strong> Ícones da biblioteca <a href="https://icons.getbootstrap.com/">Bootstrap Icons</a>.</li>
+  <li><strong>Linha 5:</strong> A marca da tua companhia, produto ou nome do projeto. É um link que redireciona para a página inicial do site. Quando o navbar estiver contraído, a marca ficará centralizada, o botão anterior (linha 2) ficará à esquerda e o botão posterior (linha 6) ficará à direita da marca.</li>
+  <li><strong>Linha 9:</strong> O menu que será contraído em telas menores que lg.
     <ul>
       <li><code>offcanvas</code>: A animação escolhida.</li>
       <li><code>offcanvas-end</code>: O menu abre do lado direito.</li>
     </ul>
   </li>
-  <li>Linha 10: O cabeçalho do menu, com um título "Menu" e um botão de fechar. O cabeçalho do menu só é exibido quando o navbar está contraído.</li>
-  <li>Linha 14: O corpo do menu.</li>
-  <li>Linha 15: Lista de itens do menu.
+  <li><strong>Linha 10:</strong> O cabeçalho do menu lateral, com título e botão de fechar. O cabeçalho do menu só é exibido quando o navbar está contraído.</li>
+  <li><strong>Linha 14:</strong> O corpo do menu.</li>
+  <li><strong>Linha 15:</strong> A lista de itens do menu.
     <ul>
-      <li><code>navbar-nav</code>: Quando o navbar não estiver contraído, os itens são exibidos lado a lado.</li>
+      <li><code>navbar-nav</code>: Quando o navbar não estiver contraído, os itens são exibidos lado a lado na navbar.</li>
       <li><code>me-auto</code>: Empurra os itens para a esquerda (margin end: auto).</li>
     </ul>
   </li>
-  <li>Linhas 16 e 19: Os itens do menu.</li>
+  <li><strong>Linhas 16 e 19:</strong> Os itens do menu.</li>
 </ul>
