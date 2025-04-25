@@ -341,8 +341,7 @@ Crie o arquivo `src/routes/03/external/users/[id]/+page.svelte`:
 
 O componente `+page.svelte`, assim como cada `+layout.svelte` acima dele na hierarquia, tem acesso aos seus próprios dados e também aos dados de todos os seus layouts "pais".
 
-No entanto, em algumas situações precisamos do contrário — um layout "pai" pode precisar acessar dados carregados por uma página ou por um layout "filho".  
-Um exemplo comum é o layout raiz (`+layout.svelte`) querer acessar uma propriedade `title` retornada pela função `load` de um `+page.server.js`.
+No entanto, em algumas situações precisamos do contrário — um layout "pai" pode precisar acessar dados carregados por uma página ou por um layout "filho". Um exemplo comum é o layout raiz (`+layout.svelte`) querer acessar uma propriedade `title` retornada pela função `load` de um `+page.server.js`.
 
 Para isso, utilizamos `page.data`.
 
@@ -395,7 +394,7 @@ Se uma rota contiver tanto funções `load` universais quanto funções `load` e
 
 A função `load` é invocada em tempo de execução, a menos que você (pré-renderize)[https://svelte.dev/docs/kit/page-options#prerender] a página — nesse caso, ela será invocada em tempo de compilação.
 
-### Quando usar cada tipo
+### Quando usar o quê
 
 - Se a sua função `load` deve ser executada sempre no servidor, por exemplo, quando utiliza variáveis de ambiente privadas ou acessa um banco de dados ou sistema de arquivos, ela deve ser colocada em um `+page.server.js`.
   
