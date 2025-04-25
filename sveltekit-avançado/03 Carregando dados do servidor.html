@@ -73,14 +73,8 @@ export async function load() {
 <p>A função <code>getAll()</code> ainda não existe no arquivo <code>src/lib/server/database.js</code>. Será tua tarefa implementá-la, bem como todas as outras funções ainda não implementadas.</p>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/+layout.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
-  import { page } from '$app/state';
-
   let { data, children } = $props();
 &lt;/script&gt;
-
-&lt;svelte:head&gt;
-  &lt;title&gt;{page.data.post?.title || page.url.pathname}&lt;/title&gt;
-&lt;/svelte:head&gt;
 
 &lt;div class=&quot;row&quot;&gt;
   &lt;div class=&quot;col-4 bg-body-secondary&quot;&gt;
