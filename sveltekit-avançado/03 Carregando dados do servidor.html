@@ -38,7 +38,7 @@
 <p>Crie o arquivo <code ctc>src/routes/03/test/+page.server.js</code>:</p>
 <pre><code class="language-javascript">export function load() {
   return {
-    post: { title: `Título de Exemplo`, content: `Conteúdo de Exemplo` },
+    post: { title: 'Título de Exemplo', content: 'Conteúdo &lt;b&gt;supimpa&lt;/b&gt; de Exemplo' },
     author: { name: 'Autor Exemplo', email: 'autor@exemplo.com' }
   };
 }</code></pre>
@@ -131,17 +131,19 @@ export async function load() {
 
 export async function load({ params }) {
   const posts = db.getByYearMonth(params.ano, params.mes);
-  return { posts };
+  return { posts, ano: params.ano, mes: params.mes };
 }</code></pre>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/[ano]/[mes]/+page.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { data } = $props();
 &lt;/script&gt;
 
-&lt;h3&gt;Posts&lt;/h3&gt;
+&lt;h3&gt;Postagens de {data.mes}/{data.ano}&lt;/h3&gt;
 
 {#each data.posts as post}
   &lt;p&gt;&lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
+{:else}
+  &lt;p&gt;Nenhuma postagem nesse m&ecirc;s!&lt;/p&gt;
 {/each}</code></pre>
 <p><strong>Explicação:</strong> Utilizamos os parâmetros de rota <code>ano</code> e <code>mes</code> para filtrar os posts por data.</p>
 <p>Também podemos implementar uma única página para exibir cada post separadamente.</p>
@@ -200,8 +202,8 @@ export async function load({ url }) {
 &lt;/script&gt;
 
 &lt;form&gt;
-  &lt;input type=&quot;text&quot; name=&quot;title&quot; placeholder=&quot;Search by title...&quot; /&gt;
-  &lt;input type=&quot;text&quot; name=&quot;content&quot; placeholder=&quot;Search by content...&quot; /&gt;
+  &lt;input type=&quot;text&quot; name=&quot;title&quot; placeholder=&quot;Busca por título...&quot; /&gt;
+  &lt;input type=&quot;text&quot; name=&quot;content&quot; placeholder=&quot;Busca por conteúdo...&quot; /&gt;
   &lt;button type=&quot;submit&quot;&gt;Search&lt;/button&gt;
 &lt;/form&gt;
 
@@ -272,11 +274,11 @@ export async function load({ url }) {
   {#each data.posts as post}
     &lt;li&gt;&lt;a href=&quot;/03/external/posts/{post.id}&quot;&gt;{post.title}&lt;/a&gt;&lt;/li&gt;
   {:else}
-    &lt;p&gt;Nenhuma postagem encontrada.&lt;/p&gt;
+    &lt;p&gt;Esse usuário não postou nada ainda!&lt;/p&gt;
   {/each}
 &lt;/ul&gt;
 &lt;p&gt;
-  &lt;a href=&quot;/03/external/users&quot;&gt;Back to users&lt;/a&gt;
+  &lt;a href=&quot;/03/external/users&quot;&gt;Voltar aos usuários&lt;/a&gt;
 &lt;/p&gt;</code></pre>
 <p><strong>Explicação:</strong> Exibimos os detalhes do usuário e uma lista de suas postagens. Também incluímos um link de volta à lista de usuários.</p>
 
