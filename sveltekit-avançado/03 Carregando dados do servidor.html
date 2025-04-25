@@ -300,7 +300,7 @@ export async function load({ url }) {
 &lt;div class=&quot;row&quot;&gt;
   &lt;div class=&quot;col-4 bg-body-secondary&quot;&gt;
     &lt;aside&gt;
-      &lt;h4&gt;Latest posts&lt;/h4&gt;
+      &lt;h4&gt;Últimos posts&lt;/h4&gt;
       &lt;ul&gt;
         {#each data.posts.slice(0, 2) as post}
           &lt;li&gt;
@@ -355,8 +355,8 @@ export async function load({ url }) {
   <li>Implementar as funções utilizadas do banco de dados <code>database.js</code>:
     <ol>
       <li><code>getAll()</code></li>
-      <li><code>getByYearMonth(params.ano, params.mes)</code></li>
-      <li><code>getBySlug(params.slug)</code></li>
+      <li><code>getByYearMonth(ano, mes)</code></li>
+      <li><code>getBySlug(slug)</code></li>
       <li><code>getByQuery(title, content)</code></li>
     </ol>
   </li>
