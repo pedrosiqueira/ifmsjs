@@ -1,51 +1,59 @@
-# Carregando Dados do Servidor
+# Carregando Dados no SvelteKit
 
-Before a +page.svelte component (and its containing +layout.svelte components) can be rendered, we often need to get some data. This is done by defining load functions.
+Antes que um componente `+page.svelte` (e seus componentes `+layout.svelte` correspondentes) possa ser renderizado, frequentemente precisamos obter alguns dados. Isso é feito definindo funções `load`.
 
-## Page data
+## Dados da Página
 
-A +page.svelte file can have a sibling +page.server.js that exports a load function, the return value of which is available to the page via the data prop:
+Um arquivo `+page.svelte` pode ter um arquivo irmão `+page.server.js` que exporta uma função `load`. O valor retornado por essa função estará disponível para a página através da propriedade `data`:
 
-```
+Crie o arquivo `src/routes/03/test/+page.server.js`:
+
+```javascript
 export function load() {
 	return {
 		post: {
-			title: `Title asdff`,
-			content: `Content fwfwe`
+			title: `Título de Exemplo`,
+			content: `Conteúdo de Exemplo`
 		},
-    author:{name:'fewijew',email:'jijijiji'}
+    author: { name: 'Autor Exemplo', email: 'autor@exemplo.com' }
 	};
 }
 ```
 
-```
+Crie o arquivo `src/routes/03/test/+page.svelte`:
+
+```svelte
 <script>
 	let { data } = $props();
 </script>
 
 <h1>{data.post.title}</h1>
-<sub>by {author.name}</sub>
+<sub>por {data.author.name}</sub>
 <div>{@html data.post.content}</div>
 ```
 
-## Layout data
+**Explicação:** A função `load` em `+page.server.js` retorna um objeto com os dados necessários para a página. Esses dados são acessados no componente Svelte através da propriedade `data`.
 
-Your +layout.svelte files can also load data, via  +layout.server.js.
+## Dados do Layout
 
-para esses exemplos, vamos criar o seguinte arquivo:
+Teus arquivos `+layout.svelte` também podem carregar dados, via `+layout.server.js`.
 
-src\lib\server\database.js
-```
+Crie o arquivo `src/lib/server/database.js`:
+
+```javascript
 const posts = [
-    { slug: 'one', title: 'the one post', publish_date: '2025-03-12', content: 'this is the content of the one post' },
-    { slug: 'another', title: 'another one post', publish_date: '2025-03-25', content: 'this is the content of another one post' },
-    { slug: 'some', title: 'someother post', publish_date: '2024-11-22', content: 'this is the content of someother post' },
-    { slug: 'yap', title: 'yet another post', publish_date: '2024-11-02', content: 'this is the content of yet another post' }
-]
+    { slug: 'um', title: 'Primeiro Post', publish_date: '2025-03-12', content: 'Conteúdo do primeiro post' },
+    { slug: 'outro', title: 'Outro Post', publish_date: '2025-03-25', content: 'Conteúdo do outro post' },
+    { slug: 'algum', title: 'Mais um Post', publish_date: '2024-11-22', content: 'Conteúdo de mais um post' },
+    { slug: 'ainda', title: 'Ainda Outro Post', publish_date: '2024-11-02', content: 'Conteúdo de ainda outro post' }
+];
 ```
 
-src\routes\03\posts\+layout.server.js
-```
+**Explicação**: Esse arquivo represetará nosso banco de dados.
+
+Crie o arquivo `src/routes/03/posts/+layout.server.js`:
+
+```javascript
 import * as db from '$lib/server/database';
 
 export async function load() {
@@ -54,8 +62,9 @@ export async function load() {
 }
 ```
 
-src\routes\03\posts\+layout.svelte
-```
+Crie o arquivo `src/routes/03/posts/+layout.svelte`:
+
+```svelte
 <script>
   import { page } from '$app/state';
 
@@ -69,7 +78,7 @@ src\routes\03\posts\+layout.svelte
 <div class="row">
   <div class="col-4 bg-body-secondary">
     <aside>
-      <h4>Latest posts</h4>
+      <h4>Últimos Posts</h4>
       <ul>
         {#each data.posts.slice(0, 2) as post}
           <li>
@@ -89,32 +98,44 @@ src\routes\03\posts\+layout.svelte
 </div>
 ```
 
-Data returned from layout load functions is available to child +layout.svelte components and the +page.svelte component as well as the layout that it ‘belongs’ to.
+**Explicação:** Dados retornados pela função `load` de um arquivo `+layout.server.js` ficam disponíveis para todos os seus componentes `.svelte` filhos, bem como para ele próprio. Aqui, o arquivo `+layout.server.js` carrega todos os posts e os disponibiliza para o layout e suas páginas filhas. No layout, exibimos os dois posts mais recentes em um menu lateral.
 
-src\routes\03\posts\+page.svelte
-```
+Vamos criar uma página filha. Crie o arquivo `src/routes/03/posts/+page.svelte`:
+
+```svelte
 <script>
   let { data } = $props();
 </script>
 
-<h3>All posts</h3>
+<h3>Todos os Posts</h3>
 {#each data.posts as post}
   <p><a href="/03/posts/{post.slug}">{post.title}</a></p>
 {/each}
 ```
 
-info: If multiple load functions return data with the same key, the last one ‘wins’ — the result of a layout load returning { a: 1, b: 2 } and a page load returning { b: 3, c: 4 } would be { a: 1, b: 3, c: 4 }.
+**Explicação:** A página principal lista todos os posts disponíveis, utilizando os dados fornecidos pelo layout.
 
-## Load function params
+> **Nota:** Se múltiplas funções `load` retornarem dados com a mesma propriedade, a última sobrescreve as anteriores. Por exemplo, se uma função `load` do layout retorna `{ a: 1, b: 2 }` e a da página retorna `{ b: 3, c: 4 }`, o resultado final será `{ a: 1, b: 3, c: 4 }`.
 
-the load function is called with a ServerLoadEvent object passed as param, which has several properties, as params, url, and fetch.
+## Parâmetros da Função Load
+
+A função `load` é invocada com um objeto `ServerLoadEvent` como parâmetro, que possui várias propriedades, como `params`, `url` e `fetch`.
 
 ### params
 
-Uma rota pode ser um caminho estático, como `src/routes/about`, mas pode ser também um caminho dinâmico como `src/routes/blog/[slug]`, ou `src/routes/posts/[ano]/[mes]`. Neste caso, [slug], [a] e [b] são chamados de parâmetros de rota, isto é, variáveis em que diferentes valores podem levar à mesma página. Por exemplo, a url `/about` vai abrir a página em `src/routes/about`. Já tanto a url `/blog/post1` quanto `blog/post2` abrirão a página em `src/routes/blog/[slug]`. Já `/posts/2025/03` e `/posts/2024/11` abrirão a página `src/routes/posts/[ano]/[mes]`. A propriedade param é um objeto em que cada propriedade é um parâmetro da respectiva rota com seu valor.
+Uma rota pode ser um caminho estático, como `src/routes/about`, ou um caminho dinâmico, como `src/routes/blog/[slug]` ou `src/routes/posts/[ano]/[mes]`. Neste caso, `[slug]`, `[ano]` e `[mes]` são chamados de parâmetros de rota, ou seja, variáveis que permitem diferentes valores levarem à mesma página.
 
-src\routes\03\posts\[ano]\[mes]\+page.server.js
-```
+Por exemplo:
+
+- A URL `/about` abrirá a página em `src/routes/about`.
+- As URLs `/blog/post1` e `/blog/post2` abrirão a mesma página dinâmica em `src/routes/blog/[slug]`, sendo que o valor de `slug` será `post1` ou `post2`, respectivamente.
+- Da mesma forma, `/posts/2025/03` e `/posts/2024/11` abrirão a página `src/routes/posts/[ano]/[mes]`, com `ano` sendo `2025` ou `2024`, e `mes` sendo `03` ou `11`.
+
+A propriedade `params` é um **objeto** onde cada propriedade corresponde ao nome do parâmetro definido entre colchetes na rota, e seu valor corresponde ao trecho da URL acessada.
+
+Crie o arquivo `src/routes/03/posts/[ano]/[mes]/+page.server.js`:
+
+```javascript
 import * as db from '$lib/server/database';
 
 export async function load({ params }) {
@@ -123,23 +144,27 @@ export async function load({ params }) {
 }
 ```
 
-src\routes\03\posts\[ano]\[mes]\+page.svelte
-```
+Crie o arquivo `src/routes/03/posts/[ano]/[mes]/+page.svelte`:
+
+```svelte
 <script>
   let { data } = $props();
 </script>
 
-<h3>All posts</h3>
+<h3>Posts</h3>
 
 {#each data.posts as post}
   <p><a href="/03/posts/{post.slug}">{post.title}</a></p>
 {/each}
 ```
 
-Podemos usar a mesma página para exibir cada post separado.
+**Explicação:** Utilizamos os parâmetros de rota `ano` e `mes` para filtrar os posts por data.
 
-src\routes\03\posts\[slug]\+page.server.js
-```
+Também podemos usar uma única página para exibir cada post separadamente.
+
+Crie o arquivo `src/routes/03/posts/[slug]/+page.server.js`:
+
+```javascript
 import * as db from '$lib/server/database';
 
 export async function load({ params }) {
@@ -148,25 +173,44 @@ export async function load({ params }) {
 }
 ```
 
-src\routes\03\posts\[slug]\+page.svelte
-```
+Crie o arquivo `src/routes/03/posts/[slug]/+page.svelte`:
+
+```svelte
 <script>
   let { data } = $props();
 </script>
 
 <h1>{data.post.title}</h1>
-<sub>At {data.post.publish_date}</sub>
+<sub>Em {data.post.publish_date}</sub>
 <p>{data.post.content}</p>
 ```
 
+**Explicação:** Aqui, utilizamos o parâmetro de rota `slug` para buscar e exibir um post específico.
+
 ### url
 
-An instance of [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL), containing properties like the origin, hostname, pathname and searchParams (which contains the parsed query string as a [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) object).
+Além dos **parâmetros de rota**, também podemos passar informações pela **URL** usando o que chamamos de **parâmetros de consulta** — também conhecidos como **query params** ou **search params**.
 
-por exemplo, além de parâmetros de rotas, temos parâmetros de consulta (query params ou search params), que podem ser obtidos através do objeto URL.
+Esses parâmetros aparecem após o símbolo `?` na URL. Por exemplo:
 
-src\routes\03\posts\query\+page.server.js
 ```
+https://meusite.com/produtos?categoria=livros&ordem=preco
+```
+
+Nesse caso, a URL possui dois query params:
+
+- `categoria` com valor `"livros"`
+- `ordem` com valor `"preco"`
+
+No SvelteKit, dentro da função `load`, você pode acessar esses dados através da propriedade `url`, que é um objeto do tipo [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL). Esse objeto representa a URL da requisição e contém várias informações úteis, como:
+
+- `origin`: origem da URL (ex: `https://meusite.com`)
+- `pathname`: caminho da URL (ex: `/produtos`)
+- `searchParams`: um objeto do tipo [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams), que representa os parâmetros de consulta da URL e permite acessar facilmente os valores dos query params.
+
+Crie o arquivo `src/routes/03/posts/query/+page.server.js`:
+
+```javascript
 import * as db from '$lib/server/database';
 
 export async function load({ url }) {
@@ -180,10 +224,13 @@ export async function load({ url }) {
 }
 ```
 
-observe que usei o console.log para ver o conteúdo da url. isso é muito útil, debugar. use o console.log para saber o que está dentro de uma variável.
+> 💡 **Dica:** Neste exemplo, usamos `console.log()` para exibir o conteúdo da URL e dos parâmetros no terminal ou no console do navegador. Essa é uma ferramenta muito útil para **debugar** (ou seja, investigar e entender o que está acontecendo no seu código).
+>
+> Sempre que estiver em dúvida sobre o que uma variável contém, experimente usar `console.log(minhaVariavel)` para visualizar seu valor. Isso pode ajudar bastante na hora de identificar problemas e entender melhor o fluxo do programa.
 
-src\routes\03\posts\query\+page.svelte
-```
+Crie o arquivo `src/routes/03/posts/query/+page.svelte`:
+
+```svelte
 <script>
   let { data } = $props();
 </script>
@@ -194,25 +241,30 @@ src\routes\03\posts\query\+page.svelte
   <button type="submit">Search</button>
 </form>
 
+<h1>Busca de posts</h1>
+
 <ul>
   {#each data.posts as post}
-    <li>{post.title}</li>
+    <li><a href="/03/posts/{post.slug}">{post.title}</a></li>
   {:else}
-    <p>No posts found.</p>
+    <li>Nenhum resultado encontrado.</li>
   {/each}
 </ul>
 ```
 
+**Explicação:** Neste exemplo, a função `load` acessa os parâmetros da URL usando `url.searchParams.get('termo')`, permitindo buscar posts por título. Isso simula uma funcionalidade de busca baseada em query strings.
+
 ### fetch
 
-To get data from an external API or your own server, you can use the provided fetch function, which behaves identically to the native fetch web API with a few additional features:
+Para buscar dados de uma API externa ou do seu próprio servidor, você pode usar a função `fetch` disponibilizada pelo SvelteKit. Ela se comporta de forma idêntica à API nativa `fetch`, mas com algumas vantagens:
 
-- It can be used to make credentialed requests on the server, as it inherits the cookie and authorization headers for the page request.
-- Internal requests (e.g. for +server.js routes) go directly to the handler function when running on the server, without the overhead of an HTTP call.
-- in some cases it can be more efficient, as it (prevents additional network request)[https://svelte.dev/docs/kit/load#Making-fetch-requests].
+- Pode ser usada para fazer requisições autenticadas no servidor, herdando cookies e cabeçalhos de autorização da requisição da página.
+- Requisições internas (como para rotas `+server.js`) são redirecionadas diretamente para o manipulador de requisições no servidor, sem o overhead de uma chamada HTTP.
+- Em alguns casos, é mais eficiente, pois **evita uma requisição adicional** ([veja na documentação](https://svelte.dev/docs/kit/load#Making-fetch-requests)).
 
-src/routes/03/external/users/+page.server.js
-```
+Crie o arquivo `src/routes/03/external/users/+page.server.js`:
+
+```js
 export async function load({ fetch }) {
   const res = await fetch('https://jsonplaceholder.typicode.com/users');
   const users = await res.json();
@@ -220,13 +272,16 @@ export async function load({ fetch }) {
 }
 ```
 
-src/routes/03/external/users/+page.svelte
-```
+**Explicação:** Esse código faz uma requisição para a API externa e retorna os dados dos usuários. Como está em `+page.server.js`, a requisição sempre será feita no servidor, protegendo eventuais dados sensíveis.
+
+Crie o arquivo `src/routes/03/external/users/+page.svelte`:
+
+```svelte
 <script>
   let { data } = $props();
 </script>
 
-<h3>Users</h3>
+<h3>Usuários</h3>
 <ul>
   {#each data.users as user}
     <li><a href="/03/external/users/{user.id}">{user.name}</a></li>
@@ -234,10 +289,11 @@ src/routes/03/external/users/+page.svelte
 </ul>
 ```
 
-Para carregar as informações de um usuários, bem como suas postagens, podemos fazer:
+**Explicação:** Aqui, iteramos sobre os usuários carregados e mostramos uma lista com links para cada um.
 
-src/routes/03/external/users/[id]/+page.server.js
-```
+Agora vamos carregar as informações de um usuários, bem como suas postagens. Crie o arquivo `src/routes/03/external/users/[id]/+page.server.js`:
+
+```js
 export async function load({ params, fetch }) {
   const resUser = await fetch(`https://jsonplaceholder.typicode.com/users/${params.id}`);
   const user = await resUser.json();
@@ -249,26 +305,29 @@ export async function load({ params, fetch }) {
 }
 ```
 
-src/routes/03/external/users/[id]/+page.svelte
-```
+**Explicação:** Usamos `params.id` para buscar os dados de um usuário específico e também suas postagens. Retornamos tudo no objeto `data`.
+
+Crie o arquivo `src/routes/03/external/users/[id]/+page.svelte`:
+
+```svelte
 <script>
   let { data } = $props();
 </script>
 
 <h3>User</h3>
-<p> <strong>Name:</strong> {data.user.name} </p>
-<p> <strong>Email:</strong> {data.user.email} </p>
-<p> <strong>Phone:</strong> {data.user.phone} </p>
-<p> <strong>Website:</strong> {data.user.website} </p>
-<p> <strong>Company:</strong> {data.user.company.name} </p>
-<p> <strong>Address:</strong> {data.user.address.street}, {data.user.address.suite}, {data.user.address.city}, {data.user.address.zipcode} </p>
+<p><strong>Nome:</strong> {data.user.name}</p>
+<p><strong>Email:</strong> {data.user.email}</p>
+<p><strong>Telefone:</strong> {data.user.phone}</p>
+<p><strong>Website:</strong> {data.user.website}</p>
+<p><strong>Companhia:</strong> {data.user.company.name}</p>
+<p><strong>Endereço:</strong> {data.user.address.street}, {data.user.address.suite}, {data.user.address.city}, {data.user.address.zipcode}</p>
 
-<h3>User's posts</h3>
+<h3>Postagens do usuário</h3>
 <ul>
   {#each data.posts as post}
     <li><a href="/03/external/posts/{post.id}">{post.title}</a></li>
   {:else}
-    <p>No posts found.</p>
+    <p>Nenhuma postagem encontrada.</p>
   {/each}
 </ul>
 <p>
@@ -276,22 +335,25 @@ src/routes/03/external/users/[id]/+page.svelte
 </p>
 ```
 
-
+**Explicação:** Exibimos os detalhes do usuário e uma lista de suas postagens. Também incluímos um link de volta à lista de usuários.
 
 ## page.data
 
-The +page.svelte component, and each +layout.svelte component above it, has access to its own data plus all the data from its parents.
+O componente `+page.svelte`, assim como cada `+layout.svelte` acima dele na hierarquia, tem acesso aos seus próprios dados e também aos dados de todos os seus layouts "pais".
 
-In some cases, we might need the opposite — a parent layout might need to access page data or data from a child layout. For example, the root layout might want to access a title property returned from a load function in +page.server.js. This can be done with page.data.
+No entanto, em algumas situações precisamos do contrário — um layout "pai" pode precisar acessar dados carregados por uma página ou por um layout "filho".  
+Um exemplo comum é o layout raiz (`+layout.svelte`) querer acessar uma propriedade `title` retornada pela função `load` de um `+page.server.js`.
 
-modify the layout:
+Para isso, utilizamos `page.data`.
 
-src\routes\03\posts\+layout.svelte
-```
+**Modifique** o arquivo `src/routes/03/posts/+layout.svelte`:
+
+```svelte
 <script>
   import { page } from '$app/state';
-
   let { data, children } = $props();
+
+  console.log(page);
 </script>
 
 <svelte:head>
@@ -321,37 +383,55 @@ src\routes\03\posts\+layout.svelte
 </div>
 ```
 
-## client vs server
+**Explicação:** Aqui, o layout acessa `page.data.post?.title` para definir o título da aba dinamicamente com base na página carregada.
 
-além do +page.server.js, que sempre roda no servidor, você também pode ter o +page.js, que runs both on the server and in the browser (unless combined with export const ssr = false, in which case it will (only run in the browser)[https://svelte.dev/docs/kit/page-options#ssr]).
+## Cliente vs Servidor
 
-By default, universal load functions run on the server during SSR when the user first visits your page. They will then run again during (hydration)[https://svelte.dev/docs/kit/glossary#Hydration], reusing any responses from (fetch requests)[https://svelte.dev/docs/kit/load#Making-fetch-requests]. All subsequent invocations of universal load functions happen in the browser. You can customize the behavior through (page options)[https://svelte.dev/docs/kit/page-options]. If you disable (server side rendering)[https://svelte.dev/docs/kit/page-options#ssr], you’ll get an SPA and universal load functions always run on the client.
+Além das funções `load` nos arquivos `+layout.server.js` e `+page.server.js`, que sempre são executadas no servidor, também existem as funções `load` nos arquivos `+layout.js` e `+page.js`, conhecidas como funções `load` universais. Essas funções podem ser executadas tanto no servidor quanto no navegador (a menos que sejam combinadas com `export const ssr = false`, caso em que elas serão executadas (somente no navegador)[https://svelte.dev/docs/kit/page-options#ssr]).
 
-If a route contains both universal and server load functions, the server load runs first.
+Por padrão, as funções `load` universais são executadas no servidor durante o SSR (Server-Side Rendering) quando o usuário visita a página pela primeira vez. Elas serão executadas novamente durante o processo de (hidratação)[https://svelte.dev/docs/kit/glossary#Hydration], reutilizando quaisquer respostas de (requisições fetch)[https://svelte.dev/docs/kit/load#Making-fetch-requests] feitas anteriormente. Todas as invocações subsequentes dessas funções `load` universais ocorrerão no navegador. Você pode personalizar esse comportamento por meio das (opções da página)[https://svelte.dev/docs/kit/page-options]. Por exemplo, se desativar a opção de página (server-side rendering)[https://svelte.dev/docs/kit/page-options#ssr], você estará criando uma SPA (Single Page Application), e todas as funções `load` universais serão executadas no cliente.
 
-A load function is invoked at runtime, unless you (prerender)[https://svelte.dev/docs/kit/page-options#prerender] the page — in that case, it’s invoked at build time.
+Se uma rota contiver tanto funções `load` universais quanto funções `load` específicas para o servidor, a função `load` do servidor será executada primeiro.
 
-### When to use which
+A função `load` é invocada em tempo de execução, a menos que você (pré-renderize)[https://svelte.dev/docs/kit/page-options#prerender] a página — nesse caso, ela será invocada em tempo de compilação.
 
-If your load function should always run on the server, because it uses private environment variables, for example, or accesses a database or filesystem, then it would go in a +page.server.js.
+### Quando usar cada tipo
 
-If you need to fetch data from an external API and don’t need private credentials, since SvelteKit can get the data directly from the API rather than going via your server, then use +page.js.
-
-
+- Se a sua função `load` deve ser executada sempre no servidor, por exemplo, quando utiliza variáveis de ambiente privadas ou acessa um banco de dados ou sistema de arquivos, ela deve ser colocada em um `+page.server.js`.
+  
+- Como o SvelteKit pode acessar os dados diretamente da API sem passar pelo seu servidor, se você precisar buscar dados de uma API externa e não precisar de credenciais privadas, use o `+page.js`.
 
 ## Conclusão
 
-existem muitos outros recursos que você pode fazer ao carregar dados em uma página, você pode consultar a documentação https://svelte.dev/docs/kit/load.
-
-
+O SvelteKit oferece uma série de recursos poderosos para carregar dados de maneira eficiente, seja do servidor, de APIs externas ou de fontes internas. Ao entender as diferenças entre as funções `load` nos arquivos `+page.server.js`, `+layout.server.js`, `+page.js` e `+layout.js`, você pode otimizar o desempenho de teu aplicativo, aproveitando o que há de melhor em renderização no servidor e no cliente. Para explorar mais sobre esses recursos e como aplicá-los, consulte a [documentação oficial](https://svelte.dev/docs/kit/load).
 
 ## Exercícios
 
-fazer todas páginas navegáveis
+1.  Tornar as páginas de teu aplicativo SvelteKit completamente navegáveis, permitindo a navegação entre todas as rotas criadas.
+  
+  **Passos:**
 
-implementar as operações do banco
+  1. Crie um menu de navegação simples com links para todas as páginas criadas.
+  2. Assegure que cada página tenha um link de navegação que a leve de volta à página inicial ou para outra página do aplicativo.
+  3. Teste a navegação para garantir que todas as páginas estão acessíveis e funcionando corretamente.
 
-[mais exercícios, por favor?]
+2. Implementar operações utilizadas do banco de dados `database.js`:
+   1. getAll()
+   2. getByYearMonth(params.ano, params.mes)
+   3. getBySlug(params.slug)
+   4. getByQuery(title, content)
 
+3. Utilizando a API REST [https://pokeapi.co/](https://pokeapi.co/), implemente uma página que liste os pokémons, com um link que redireciona para a página de detalhes de cada pokémon.
 
-[observação: após cada código, eu tbm gostaria de uma explicação]
+4. Implemente paginação para listar os Pokémons.
+
+   **Passos**:
+
+   1. Exiba apenas um número limitado de itens por página (por exemplo, 20 pokémons por página).
+   2. Implemente botões de navegação para mudar de página, como "Próximo" e "Anterior".
+   3. Ao clicar em um botão de navegação, a página será atualizada com os novos itens da próxima ou da página anterior.
+   4. Teste a navegação para garantir que a paginação funcione corretamente, carregando os pokémons conforme esperado.
+
+5. Quando o usuário clicar em um pokémon, crie uma página dedicada para exibir os detalhes desse pokémon.
+
+6. Implemente uma funcionalidade de busca para filtrar os pokémons com base em parâmetros de consulta (query params), como o tipo do pokémon.
