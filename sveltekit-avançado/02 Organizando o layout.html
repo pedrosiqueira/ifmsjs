@@ -19,7 +19,7 @@
   <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
   <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
   <script defer>hljs.highlightLinesAll([
-      [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 15, end: 15, color: 'lightblue' }, { start: 10, end: 10, color: 'lightyellow' }]
+      [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 15, end: 15, color: 'lightblue' }, { start: 10, end: 10, color: 'lightblue' }]
     ]);
   </script>
 
@@ -114,23 +114,30 @@
 
 <p>Crie o arquivo <code ctc>src/lib/components/Header.svelte</code>:</p>
 
-<pre><code>&lt;header class="navbar navbar-expand-lg bg-body-tertiary"&gt;
-  &lt;button class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#mySideBar" aria-label="toggleSidebar"&gt;
-    &lt;i class="bi bi-list"&gt;&lt;/i&gt;
+<pre><code>&lt;header class=&quot;navbar navbar-expand-lg bg-body-tertiary&quot;&gt;
+  &lt;button class=&quot;navbar-toggler&quot; data-bs-toggle=&quot;offcanvas&quot; data-bs-target=&quot;#mySideBar&quot; aria-label=&quot;toggleSidebar&quot;&gt;
+    &lt;i class=&quot;bi bi-list&quot;&gt;&lt;/i&gt;
   &lt;/button&gt;
-  &lt;a class="navbar-brand" href="/"&gt;FrameWorks&lt;/a&gt;
-  &lt;button class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#navbarText" aria-label="toggleNavbar"&gt;
-    &lt;i class="bi bi-three-dots-vertical"&gt;&lt;/i&gt;
+  &lt;a class=&quot;navbar-brand&quot; href=&quot;/&quot;&gt;FrameWorks&lt;/a&gt;
+  &lt;button class=&quot;navbar-toggler&quot; data-bs-toggle=&quot;offcanvas&quot; data-bs-target=&quot;#navbarText&quot; aria-label=&quot;toggleNavbar&quot;&gt;
+    &lt;i class=&quot;bi bi-three-dots-vertical&quot;&gt;&lt;/i&gt;
   &lt;/button&gt;
-  &lt;div class="offcanvas offcanvas-end" tabindex="-1" id="navbarText"&gt;
-    &lt;div class="offcanvas-header"&gt;
-      &lt;h5 class="offcanvas-title"&gt;Menu&lt;/h5&gt;
-      &lt;button class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"&gt;&lt;/button&gt;
+  &lt;div class=&quot;offcanvas offcanvas-end&quot; tabindex=&quot;-1&quot; id=&quot;navbarText&quot;&gt;
+    &lt;div class=&quot;offcanvas-header&quot;&gt;
+      &lt;h5 class=&quot;offcanvas-title&quot;&gt;Menu&lt;/h5&gt;
+      &lt;button class=&quot;btn-close&quot; data-bs-dismiss=&quot;offcanvas&quot; aria-label=&quot;Close&quot;&gt;&lt;/button&gt;
     &lt;/div&gt;
-    &lt;div class="offcanvas-body"&gt;
-      &lt;ul class="navbar-nav me-auto"&gt;
-        &lt;li class="nav-item"&gt;&lt;a class="nav-link active" href="/01"&gt;Cap 01&lt;/a&gt;&lt;/li&gt;
-        &lt;li class="nav-item"&gt;&lt;a class="nav-link active" href="/02"&gt;Cap 02&lt;/a&gt;&lt;/li&gt;
+    &lt;div class=&quot;offcanvas-body&quot;&gt;
+      &lt;ul class=&quot;navbar-nav me-auto&quot;&gt;
+        &lt;li class=&quot;nav-item&quot;&gt;
+          &lt;a class=&quot;nav-link active&quot; target=&quot;_blank&quot; href=&quot;https://pedrosiqueira.github.io/ifmsjs/alg&quot;&gt;Algoritmos&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li class=&quot;nav-item&quot;&gt;
+          &lt;a class=&quot;nav-link active&quot; target=&quot;_blank&quot; href=&quot;https://pedrosiqueira.github.io/ifmsjs/sveltekit&quot;&gt;SvelteKit&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li class=&quot;nav-item&quot;&gt;
+          &lt;a class=&quot;nav-link active&quot; target=&quot;_blank&quot; href=&quot;https://pedrosiqueira.github.io/ifmsjs/sveltekit-avan&ccedil;ado&quot;&gt;SvelteKit++&lt;/a&gt;
+        &lt;/li&gt;
       &lt;/ul&gt;
     &lt;/div&gt;
   &lt;/div&gt;
@@ -167,5 +174,5 @@
       <li><code>me-auto</code>: Empurra os itens para a esquerda (margin end: auto).</li>
     </ul>
   </li>
-  <li><strong>Linhas 16 e 19:</strong> Os itens do menu.</li>
+  <li><strong>Linhas 16, 19 e 22:</strong> Os itens do menu.</li>
 </ul>
