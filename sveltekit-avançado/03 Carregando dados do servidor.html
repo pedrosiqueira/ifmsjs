@@ -34,7 +34,7 @@
 
 <h2 id="dados-da-página">Dados da Página</h2>
 
-<p>Um arquivo <code>+page.svelte</code> pode ter um arquivo irmão <code>+page.server.js</code> que exporta uma função <code>load</code>. O valor retornado por essa função estará disponível para a página através da propriedade <code>data</code>.</p>
+<p>Um arquivo <code>+page.svelte</code> pode ter um arquivo irmão <code>+page.server.js</code>, que será executado no servidor antes de abrir a página no cliente. Esse arquivo exporta uma função <code>load</code>. O valor retornado por essa função estará disponível para a página através da propriedade <code>data</code>.</p>
 <p>Crie o arquivo <code ctc>src/routes/03/test/+page.server.js</code>:</p>
 <pre><code class="language-javascript">export function load() {
   return {
