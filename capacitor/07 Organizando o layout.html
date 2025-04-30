@@ -56,26 +56,19 @@
 &lt;/footer&gt;
 
 &lt;SideBar /&gt;</code></pre>
-<p>Explicação:</p>
+<p><strong>Explicação:</strong></p>
 <ul>
-  <li>Linhas 2 e 3: importa dois componentes personalizados que definem o cabeçalho e a barra lateral da interface.
-
-  </li>
-  <li>Linha 4: Importa o JavaScript do Bootstrap.</li>
-  <li>Linha 5: Importa o CSS do Bootstrap.</li>
-  <li>Linha 6: importa os ícones do Bootstrap.
-
-  </li>
-  <li>Linhas 11 e 21: Como o cabeçalho e o menu lateral envolvem mais código, separei eles em componentes à parte para não poluir muito o arquivo de layout.
-  </li>
-  <li>Linha 17: Já o rodapé, como neste caso é simples, optei por deixá-lo aqui mesmo. </li>
-
+  <li><strong>Linhas 2 e 3:</strong> Importam os componentes personalizados <code>Header</code> e <code>SideBar</code>, responsáveis pelo cabeçalho e menu lateral.</li>
+  <li><strong>Linha 4:</strong> Importa o JavaScript do Bootstrap.</li>
+  <li><strong>Linha 5:</strong> Importa o CSS do Bootstrap.</li>
+  <li><strong>Linha 6:</strong> Importa os ícones do Bootstrap Icons.</li>
+  <li><strong>Linhas 11 e 21:</strong> <code>Header</code> e <code>SideBar</code> são mantidos em arquivos separados para deixar o layout mais limpo.</li>
+  <li><strong>Linha 17:</strong> O rodapé, sendo simples, permanece diretamente no layout.</li>
+  <li>O CSS do Bootstrap, importado aqui, estará disponível globalmente em todas as páginas dentro de <code>routes</code>.</li>
 </ul>
-
-<p>Como o CSS do Bootstrap foi importado no layout, ele ficará disponível a todas as páginas de routes.</p>
-
+<hr />
 <h2>Cabeçalho</h2>
-Crie o arquivo <code>/mnt/siqueiradados/Mega/dump/2025 arquivos/svelte-capacitor-drizzle-sqlite/src/lib/components/Header.svelte</code>:
+<p>Crie o arquivo <code ctc>src/lib/components/Header.svelte</code>:</p>
 <pre><code>&lt;div class=&quot;sticky-top&quot;&gt;
   &lt;nav class=&quot;navbar bg-body-tertiary&quot;&gt;
     &lt;button class=&quot;navbar-toggler border-0&quot; data-bs-toggle=&quot;offcanvas&quot; data-bs-target=&quot;#mySideBar&quot; aria-label=&quot;toggleSidebar&quot;&gt;
@@ -94,36 +87,37 @@ Crie o arquivo <code>/mnt/siqueiradados/Mega/dump/2025 arquivos/svelte-capacitor
     &lt;/div&gt;
   &lt;/nav&gt;
 &lt;/div&gt;</code></pre>
-<p>Explicação:</p>
+<p><strong>Explicação:</strong></p>
 <ul>
-  <li>Linha 1: <a href="https://getbootstrap.com/docs/5.3/helpers/position/#sticky-top"><code>sticky-top</code></a> mantém o cabeçalho sempre visível no topo, mesmo que role a página para baixo. Diferente de <a href="https://getbootstrap.com/docs/5.3/helpers/position/#fixed-top"><code>fixed-top</code></a>, um elemento “sticky” não sobrepõe outro elementos.</li>
-  <li>Linha 2: <a href="https://getbootstrap.com/docs/5.3/components/navbar/"><code>navbar</code></a> estiliza como um componente navbar do Bootstrap.</li>
-  <li>Linha 3: <a href="https://getbootstrap.com/docs/5.3/components/navbar/#responsive-behaviors"><code>navbar-toggler</code></a>: botão que abre/fecha o menu lateral definido no div com id <code>mySideBar</code>, que foi declarado no componente <code>SideBar</code>.</li>
-  <li>Linhas 4 e 9: Os ícones do bootstrap que aparecerão dentro desses botões.</li>
-  <li>Linha 7: <a href="https://getbootstrap.com/docs/5.3/components/dropdowns/"><code>btn-group</code></a> define o componente “dropdown” do bootstrap, composto de um botão e um menuzinho de links.</li>
-  <li>Linha 8: O botão, que, ao clicado, abre o menuzinho de opções</li>
-  <li>Linha 11: O menuzinho de opções.</li>
+  <li><strong>Linha 1:</strong> <a href="https://getbootstrap.com/docs/5.3/helpers/position/#sticky-top"><code>sticky-top</code></a> mantém o cabeçalho visível no topo durante a rolagem. Diferente de <a href="https://getbootstrap.com/docs/5.3/helpers/position/#fixed-top"><code>fixed-top</code></a>, ele não sobrepõe outros elementos.</li>
+  <li><strong>Linha 2:</strong> <a href="https://getbootstrap.com/docs/5.3/components/navbar/"><code>navbar</code></a> estiliza o <code>nav</code> como uma barra de navegação do Bootstrap.</li>
+  <li><strong>Linha 3:</strong> <a href="https://getbootstrap.com/docs/5.3/components/navbar/#responsive-behaviors"><code>navbar-toggler</code></a> habilita o botão para abrir o menu lateral (<code>#mySideBar</code>), definido no componente <code>SideBar</code>.</li>
+  <li><strong>Linhas 4 e 9:</strong> Ícones usados nos botões.</li>
+  <li><strong>Linha 7:</strong> <a href="https://getbootstrap.com/docs/5.3/components/dropdowns/"><code>btn-group</code></a> cria um menu dropdown.
+    <ul>
+      <li><strong>Linha 8:</strong> Botão para abrir o menu dropdown.</li>
+      <li><strong>Linha 11:</strong> Itens do menu dropdown.</li>
+    </ul>
+  </li>
 </ul>
-
+<hr />
 <h2>Menu lateral</h2>
-<p>Crie o arquivo <code>D:\Mega\dump\2025 arquivos\svelte-capacitor-drizzle-sqlite\src\lib\components\SideBar.svelte</code>:</p>
+<p>Crie o arquivo <code ctc>src/lib/components/SideBar.svelte</code>:</p>
 <pre><code>&lt;div class=&quot;offcanvas offcanvas-start&quot; tabindex=&quot;-1&quot; id=&quot;mySideBar&quot; style=&quot;max-width: 80%;&quot;&gt;
   &lt;div class=&quot;offcanvas-header&quot;&gt;
     &lt;h5 class=&quot;offcanvas-title&quot;&gt;Offcanvas&lt;/h5&gt;
-    &lt;button type=&quot;button&quot; class=&quot;btn-close&quot; data-bs-dismiss=&quot;offcanvas&quot; aria-label=&quot;close&quot;&gt;&lt;/button&gt;
+    &lt;button type=&quot;button&quot; class=&quot;btn-close&quot; data-bs-dismiss=&quot;offcanvas&quot; aria-label=&quot;Close&quot;&gt;&lt;/button&gt;
   &lt;/div&gt;
   &lt;div class=&quot;offcanvas-body&quot;&gt;
     &lt;ul class=&quot;navbar-nav justify-content-end flex-grow-1 pe-3&quot;&gt;
-      &lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link active&quot; href=&quot;/todolist&quot;&gt;Lista de tarefas&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link active&quot; href=&quot;/todolist&quot;&gt;Lista de Tarefas&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link active&quot; href=&quot;/senha&quot;&gt;Gerador de Senhas&lt;/a&gt;&lt;/li&gt;
       &lt;li class=&quot;nav-item dropdown&quot;&gt;
-        &lt;a class=&quot;nav-link dropdown-toggle&quot; href=&quot;/&quot; role=&quot;button&quot; data-bs-toggle=&quot;dropdown&quot;&gt; Dropdown &lt;/a&gt;
+        &lt;a class=&quot;nav-link dropdown-toggle&quot; href=&quot;/&quot; role=&quot;button&quot; data-bs-toggle=&quot;dropdown&quot;&gt;Dropdown&lt;/a&gt;
         &lt;ul class=&quot;dropdown-menu&quot;&gt;
           &lt;li&gt;&lt;a class=&quot;dropdown-item&quot; href=&quot;/&quot;&gt;Action&lt;/a&gt;&lt;/li&gt;
           &lt;li&gt;&lt;a class=&quot;dropdown-item&quot; href=&quot;/&quot;&gt;Another action&lt;/a&gt;&lt;/li&gt;
-          &lt;li&gt;
-            &lt;hr class=&quot;dropdown-divider&quot; /&gt;
-          &lt;/li&gt;
+          &lt;li&gt;&lt;hr class=&quot;dropdown-divider&quot; /&gt;&lt;/li&gt;
           &lt;li&gt;&lt;a class=&quot;dropdown-item&quot; href=&quot;/&quot;&gt;Something else here&lt;/a&gt;&lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
@@ -134,14 +128,15 @@ Crie o arquivo <code>/mnt/siqueiradados/Mega/dump/2025 arquivos/svelte-capacitor
     &lt;/form&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-<p>Explicação:</p>
+<p><strong>Explicação:</strong></p>
 <ul>
-  <li>Linha 1:
+  <li><strong>Linha 1:</strong>
     <ul>
-      <li><a href="https://getbootstrap.com/docs/5.3/components/navbar/#offcanvas"><code>offcanvas offcanvas-start</code></a>: habilita o efeito “offcanvas” ao menu lateral.</li>
-      <li><code>style="max-width: 80%;"</code>: por padrão, o offcanvas ocupa 100% da largura em telas pequenas, mas eu quero que ocupe apenas 80%.</li>
+      <li><a href="https://getbootstrap.com/docs/5.3/components/navbar/#offcanvas"><code>offcanvas offcanvas-start</code></a> ativa o menu lateral com o efeito offcanvas.</li>
+      <li><code>style="max-width: 80%;"</code> altera a largura do menu lateral para 80%, já que o padrão em telas pequenas é 100%.</li>
     </ul>
-  <li>Linhas 8 e 9: Simplesmente copiei o offcanvas de exemplo do Bootstrap, e alterei os links para outras páginas nessas linhas.</li>
   </li>
-
+  <li><strong>Linhas 8 e 9:</strong> Links para páginas reais do aplicativo.</li>
+  <li>As demais linhas seguem a estrutura de exemplo do Bootstrap com pequenas adaptações.</li>
 </ul>
+<hr />
