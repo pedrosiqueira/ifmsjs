@@ -346,23 +346,24 @@ export async function load({ url }) {
 <h2 id="exercícios">Exercícios</h2>
 
 <ol class="excs">
+  <li>Implementar as seguintes funções no arquivo <code>database.js</code>, responsáveis pela manipulação dos dados dos posts:
+    <ol>
+      <li><code>getAll()</code>: Retorna todos os posts cadastrados.</li>
+      <li><code>getByYearMonth(ano, mes)</code>: Retorna apenas os posts publicados no ano e mês especificados.</li>
+      <li><code>getBySlug(slug)</code>: Retorna o post que corresponde exatamente ao <code>slug</code> fornecido.</li>
+      <li><code>getByQuery(title, content)</code>: Retorna todos os posts cujo título contenha a string fornecida em <code>title</code> ou cujo conteúdo contenha a string fornecida em <code>content</code>.</li>
+    </ol>
+  </li>
+  <li>Implementar a rota faltante <code ctc>src/routes/03/external/posts/[id]</code>, que exibe a postagem com o id especificado.</li>
   <li>Tornar as páginas de teu aplicativo SvelteKit completamente navegáveis, permitindo a navegação entre todas as rotas criadas.
     <p><strong>Passos:</strong></p>
     <ol>
-      <li>Crie um menu de navegação lateral com links para todas as páginas criadas.</li>
+      <li>Adicione ao menu de navegação lateral os links para todas as páginas criadas.</li>
       <li>Assegure que cada página tenha um link de navegação que a leve de volta à página inicial ou para outra página do aplicativo.</li>
       <li>Teste a navegação para garantir que todas as páginas estão acessíveis e funcionando corretamente.</li>
     </ol>
   </li>
-  <li>Implementar as funções utilizadas do banco de dados <code>database.js</code>:
-    <ol>
-      <li><code>getAll()</code></li>
-      <li><code>getByYearMonth(ano, mes)</code></li>
-      <li><code>getBySlug(slug)</code></li>
-      <li><code>getByQuery(title, content)</code></li>
-    </ol>
-  </li>
-  <li>Utilizando a API REST <a target="_blank" href="https://pokeapi.co/">https://pokeapi.co/</a>, implemente uma página que liste os pokémons, com um link que redireciona para a página de detalhes de cada pokémon.</li>
+  <li>Utilizando a API REST <a target="_blank" href="https://pokeapi.co/">https://pokeapi.co/</a>, implementar uma página que liste os pokémons, com um link que redirecione para a página de detalhes de cada pokémon.</li>
   <p><strong>Possível solução:</strong></p>
   <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.svelte</code></p>
   <pre><code>&lt;script&gt;
