@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([
+      [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 15, end: 15, color: 'lightblue' }, { start: 10, end: 10, color: 'lightblue' }]
+    ]);
+  </script> -->
+
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Organizando o layout</h1>
+
+<h2>Separação dos componentes Svelte</h2>
+<p>Crie o arquivo <code ctc>src/routes/+layout.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+  import Header from &apos;$lib/components/Header.svelte&apos;;
+  import SideBar from &apos;$lib/components/SideBar.svelte&apos;;
+  import * as bootstrap from &apos;bootstrap&apos;;
+  import &apos;bootstrap/dist/css/bootstrap.css&apos;;
+  import &apos;bootstrap-icons/font/bootstrap-icons.css&apos;;
+
+  let { children } = $props();
+&lt;/script&gt;
+
+&lt;Header /&gt;
+
+&lt;div class=&quot;container-fluid&quot;&gt;
+  {@render children()}
+&lt;/div&gt;
+
+&lt;footer class=&quot;navbar bg-body-tertiary fixed-bottom&quot;&gt;
+  &lt;div class=&quot;container-fluid&quot;&gt;Made with SvelteKit, CapacitorJS, Drizzle, Sql.js and Bootstrap&lt;/div&gt;
+&lt;/footer&gt;
+
+&lt;SideBar /&gt;</code></pre>
+<p>Explicação:</p>
+<ul>
+  <li>Linhas 2 e 3: importa dois componentes personalizados que definem o cabeçalho e a barra lateral da interface.
+
+  </li>
+  <li>Linha 4: Importa o JavaScript do Bootstrap.</li>
+  <li>Linha 5: Importa o CSS do Bootstrap.</li>
+  <li>Linha 6: importa os ícones do Bootstrap.
+
+  </li>
+  <li>Linhas 11 e 21: Como o cabeçalho e o menu lateral envolvem mais código, separei eles em componentes à parte para não poluir muito o arquivo de layout.
+  </li>
+  <li>Linha 17: Já o rodapé, como neste caso é simples, optei por deixá-lo aqui mesmo. </li>
+
+</ul>
+
+<p>Como o CSS do Bootstrap foi importado no layout, ele ficará disponível a todas as páginas de routes.</p>
+
+<h2>Cabeçalho</h2>
+Crie o arquivo <code>/mnt/siqueiradados/Mega/dump/2025 arquivos/svelte-capacitor-drizzle-sqlite/src/lib/components/Header.svelte</code>:
+<pre><code>&lt;div class=&quot;sticky-top&quot;&gt;
+  &lt;nav class=&quot;navbar bg-body-tertiary&quot;&gt;
+    &lt;button class=&quot;navbar-toggler border-0&quot; data-bs-toggle=&quot;offcanvas&quot; data-bs-target=&quot;#mySideBar&quot; aria-label=&quot;toggleSidebar&quot;&gt;
+      &lt;i class=&quot;bi bi-list&quot;&gt;&lt;/i&gt;
+    &lt;/button&gt;
+    &lt;a class=&quot;navbar-brand&quot; href=&quot;/&quot;&gt;Disp.Móv.&lt;/a&gt;
+    &lt;div class=&quot;btn-group&quot;&gt;
+      &lt;button class=&quot;navbar-toggler border-0&quot; data-bs-toggle=&quot;dropdown&quot; data-bs-target=&quot;#navbarText&quot; aria-label=&quot;toggleNavbar&quot;&gt;
+        &lt;i class=&quot;bi bi-three-dots-vertical&quot;&gt;&lt;/i&gt;
+      &lt;/button&gt;
+      &lt;ul class=&quot;dropdown-menu dropdown-menu-end&quot;&gt;
+        &lt;li&gt;&lt;button class=&quot;dropdown-item&quot;&gt;Action&lt;/button&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;button class=&quot;dropdown-item&quot;&gt;Another action&lt;/button&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;button class=&quot;dropdown-item&quot;&gt;Something else here&lt;/button&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/nav&gt;
+&lt;/div&gt;</code></pre>
+<p>Explicação:</p>
+<ul>
+  <li>Linha 1: <a href="https://getbootstrap.com/docs/5.3/helpers/position/#sticky-top"><code>sticky-top</code></a> mantém o cabeçalho sempre visível no topo, mesmo que role a página para baixo. Diferente de <a href="https://getbootstrap.com/docs/5.3/helpers/position/#fixed-top"><code>fixed-top</code></a>, um elemento “sticky” não sobrepõe outro elementos.</li>
+  <li>Linha 2: <a href="https://getbootstrap.com/docs/5.3/components/navbar/"><code>navbar</code></a> estiliza como um componente navbar do Bootstrap.</li>
+  <li>Linha 3: <a href="https://getbootstrap.com/docs/5.3/components/navbar/#responsive-behaviors"><code>navbar-toggler</code></a>: botão que abre/fecha o menu lateral definido no div com id <code>mySideBar</code>, que foi declarado no componente <code>SideBar</code>.</li>
+  <li>Linhas 4 e 9: Os ícones do bootstrap que aparecerão dentro desses botões.</li>
+  <li>Linha 7: <a href="https://getbootstrap.com/docs/5.3/components/dropdowns/"><code>btn-group</code></a> define o componente “dropdown” do bootstrap, composto de um botão e um menuzinho de links.</li>
+  <li>Linha 8: O botão, que, ao clicado, abre o menuzinho de opções</li>
+  <li>Linha 11: O menuzinho de opções.</li>
+</ul>
+
+<h2>Menu lateral</h2>
+<p>Crie o arquivo <code>D:\Mega\dump\2025 arquivos\svelte-capacitor-drizzle-sqlite\src\lib\components\SideBar.svelte</code>:</p>
+<pre><code>&lt;div class=&quot;offcanvas offcanvas-start&quot; tabindex=&quot;-1&quot; id=&quot;mySideBar&quot; style=&quot;max-width: 80%;&quot;&gt;
+  &lt;div class=&quot;offcanvas-header&quot;&gt;
+    &lt;h5 class=&quot;offcanvas-title&quot;&gt;Offcanvas&lt;/h5&gt;
+    &lt;button type=&quot;button&quot; class=&quot;btn-close&quot; data-bs-dismiss=&quot;offcanvas&quot; aria-label=&quot;close&quot;&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;offcanvas-body&quot;&gt;
+    &lt;ul class=&quot;navbar-nav justify-content-end flex-grow-1 pe-3&quot;&gt;
+      &lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link active&quot; href=&quot;/todolist&quot;&gt;Lista de tarefas&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link active&quot; href=&quot;/senha&quot;&gt;Gerador de Senhas&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;nav-item dropdown&quot;&gt;
+        &lt;a class=&quot;nav-link dropdown-toggle&quot; href=&quot;/&quot; role=&quot;button&quot; data-bs-toggle=&quot;dropdown&quot;&gt; Dropdown &lt;/a&gt;
+        &lt;ul class=&quot;dropdown-menu&quot;&gt;
+          &lt;li&gt;&lt;a class=&quot;dropdown-item&quot; href=&quot;/&quot;&gt;Action&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a class=&quot;dropdown-item&quot; href=&quot;/&quot;&gt;Another action&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;
+            &lt;hr class=&quot;dropdown-divider&quot; /&gt;
+          &lt;/li&gt;
+          &lt;li&gt;&lt;a class=&quot;dropdown-item&quot; href=&quot;/&quot;&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;form class=&quot;d-flex mt-3&quot; role=&quot;search&quot;&gt;
+      &lt;input class=&quot;form-control me-2&quot; type=&quot;search&quot; placeholder=&quot;Search&quot; /&gt;
+      &lt;button class=&quot;btn btn-outline-success&quot; type=&quot;submit&quot;&gt;Search&lt;/button&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>Explicação:</p>
+<ul>
+  <li>Linha 1:
+    <ul>
+      <li><a href="https://getbootstrap.com/docs/5.3/components/navbar/#offcanvas"><code>offcanvas offcanvas-start</code></a>: habilita o efeito “offcanvas” ao menu lateral.</li>
+      <li><code>style="max-width: 80%;"</code>: por padrão, o offcanvas ocupa 100% da largura em telas pequenas, mas eu quero que ocupe apenas 80%.</li>
+    </ul>
+  <li>Linhas 8 e 9: Simplesmente copiei o offcanvas de exemplo do Bootstrap, e alterei os links para outras páginas nessas linhas.</li>
+  </li>
+
+</ul>

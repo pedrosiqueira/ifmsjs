@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# ainda não testado
+
 rm -rf ~/.*
 rm -rf ~/*
 
