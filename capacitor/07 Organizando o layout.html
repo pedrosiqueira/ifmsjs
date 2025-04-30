@@ -55,10 +55,10 @@
 &lt;SideBar /&gt;</code></pre>
 <p><strong>Explicação:</strong></p>
 <ul>
-  <li><strong>Linhas 2 e 3:</strong> Importam os componentes personalizados <code>Header</code> e <code>SideBar</code>, responsáveis pelo cabeçalho e menu lateral.</li>
+  <li><strong>Linhas 2 e 3:</strong> Importam os componentes personalizados <code>Header</code> e <code>SideBar</code>, responsáveis pelo cabeçalho e pelo menu lateral.</li>
   <li><strong>Linhas 8 e 18:</strong> <code>Header</code> e <code>SideBar</code> são mantidos em arquivos separados para deixar o layout mais limpo.</li>
-  <li><strong>Linha 10:</strong> Conforme a <a href="https://getbootstrap.com/docs/5.3/components/navbar/#placement">documentação oficial</a>, elementos com classes <code>fixed-top</code> e <code>fixed-bottom</code>, que são o caso dos nossos cabeçalho e rodapé, são retiradas do fluxo normal do DOM e podem exigir CSS personalizado (como <code>padding-top</code> ou <code>padding-bottom</code> ) para evitar sobreposição com outros elementos. Portanto, ajustamos o padding (<code>py-5</code>) e a margem (<code>mt-1 mb-4</code>) do conteúdo principal da página para não ser sobreposto pelos cabeçalho e rodapé.</li>
-  <li><strong>Linha 14:</strong> O rodapé, sendo simples, permanece diretamente no layout.</li>
+  <li><strong>Linha 10:</strong> Conforme a <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/navbar/#placement">documentação oficial</a>, elementos com as classes <code>fixed-top</code> e <code>fixed-bottom</code> (como nosso cabeçalho e rodapé) são retirados do fluxo normal do DOM e podem sobrepor outros elementos. Por isso, adicionamos padding (<code>py-5</code>) e margens (<code>mt-1 mb-4</code>) ao conteúdo principal, garantindo o  espaçamento necessário.</li>
+  <li><strong>Linha 14:</strong> O rodapé, por ser simples, permanece diretamente no layout. A classe <code>fixed-bottom</code> mantém o rodapé visível no sopé, mesmo durante a rolagem.</li>
 </ul>
 <hr />
 <h2>Cabeçalho</h2>
@@ -81,18 +81,18 @@
 &lt;/nav&gt;</code></pre>
 <p><strong>Explicação:</strong></p>
 <ul>
-  <li><strong>Linha 2:</strong>
+  <li><strong>Linha 1:</strong>
     <ul>
-      <li><a href="https://getbootstrap.com/docs/5.3/components/navbar/"><code>navbar</code></a> estiliza o <code>nav</code> como uma barra de navegação do Bootstrap.</li>
-      <li><a href="https://getbootstrap.com/docs/5.3/helpers/position/#fixed-top"><code>fixed-top</code></a> mantém o cabeçalho visível no topo durante a rolagem. Diferente de <a href="https://getbootstrap.com/docs/5.3/helpers/position/#fixed-top"><code>fixed-top</code></a>.</li>
+      <li>A classe <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/navbar/"><code>navbar</code></a> estiliza o <code>nav</code> como uma barra de navegação Bootstrap.</li>
+      <li><a target="_blank" href="https://getbootstrap.com/docs/5.3/helpers/position/#fixed-top"><code>fixed-top</code></a> mantém o cabeçalho visível no topo, mesmo durante a rolagem.</li>
     </ul>
   </li>
-  <li><strong>Linha 2:</strong> <a href="https://getbootstrap.com/docs/5.3/components/navbar/#responsive-behaviors"><code>navbar-toggler</code></a> habilita o botão para abrir o menu lateral (<code>#mySideBar</code>), definido no componente <code>SideBar</code>.</li>
-  <li><strong>Linhas 3 e 8:</strong> Ícones usados nos botões.</li>
-  <li><strong>Linha 6:</strong> <a href="https://getbootstrap.com/docs/5.3/components/dropdowns/"><code>btn-group</code></a> cria um menu dropdown.
+  <li><strong>Linha 2:</strong> O botão com a classe <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/navbar/#responsive-behaviors"><code>navbar-toggler</code></a> abre o menu lateral <code>#mySideBar</code>, que será definido no componente <code>SideBar</code>.</li>
+  <li><strong>Linhas 3 e 8:</strong> Contêm ícones (usando Bootstrap Icons) para os botões.</li>
+  <li><strong>Linha 6:</strong> <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/dropdowns/"><code>btn-group</code></a> cria um grupo de botões com menu suspenso (dropdown):
     <ul>
-      <li><strong>Linha 7:</strong> Botão para abrir o menu dropdown.</li>
-      <li><strong>Linha 10:</strong> Itens do menu dropdown.</li>
+      <li><strong>Linha 7:</strong> Botão que abre o dropdown.</li>
+      <li><strong>Linha 10:</strong> Itens do dropdown.</li>
     </ul>
   </li>
 </ul>
@@ -128,11 +128,10 @@
 <ul>
   <li><strong>Linha 1:</strong>
     <ul>
-      <li><a href="https://getbootstrap.com/docs/5.3/components/navbar/#offcanvas"><code>offcanvas offcanvas-start</code></a> ativa o menu lateral com o efeito offcanvas.</li>
-      <li><code>style="max-width: 80%;"</code> altera a largura do menu lateral para 80%, já que o padrão em telas pequenas é 100%.</li>
+      <li>A classe <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/navbar/#offcanvas"><code>offcanvas offcanvas-start</code></a> ativa o menu lateral com o efeito offcanvas.</li>
+      <li>O estilo <code>max-width: 80%</code> limita a largura do painel, pois o padrão para telas pequenas é ocupar 100%.</li>
     </ul>
   </li>
-  <li><strong>Linhas 8 e 9:</strong> Links para páginas reais do aplicativo.</li>
-  <li>As demais linhas seguem a estrutura de exemplo do Bootstrap com pequenas adaptações.</li>
+  <li><strong>Linhas 8 e 9:</strong> Contêm links reais para páginas do aplicativo.</li>
+  <li>As demais linhas seguem a estrutura de exemplo do Bootstrap, com adaptações pontuais.</li>
 </ul>
-<hr />

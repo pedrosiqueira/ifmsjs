@@ -204,7 +204,7 @@ export async function load({ url }) {
 &lt;form&gt;
   &lt;input type=&quot;text&quot; name=&quot;title&quot; placeholder=&quot;Busca por título...&quot; /&gt;
   &lt;input type=&quot;text&quot; name=&quot;content&quot; placeholder=&quot;Busca por conteúdo...&quot; /&gt;
-  &lt;button type=&quot;submit&quot;&gt;Search&lt;/button&gt;
+  &lt;button type=&quot;submit&quot;&gt;Buscar&lt;/button&gt;
 &lt;/form&gt;
 
 &lt;h1&gt;Busca de posts&lt;/h1&gt;
@@ -351,18 +351,11 @@ export async function load({ url }) {
       <li><code>getAll()</code>: Retorna todos os posts cadastrados.</li>
       <li><code>getByYearMonth(ano, mes)</code>: Retorna apenas os posts publicados no ano e mês especificados.</li>
       <li><code>getBySlug(slug)</code>: Retorna o post que corresponde exatamente ao <code>slug</code> fornecido.</li>
-      <li><code>getByQuery(title, content)</code>: Retorna todos os posts cujo título contenha a string fornecida em <code>title</code> ou cujo conteúdo contenha a string fornecida em <code>content</code>.</li>
+      <li><code>getByQuery(title, content)</code>: Retorna todos os posts cujo título contenha a string fornecida em <code>title</code> ou cujo conteúdo contenha a string fornecida em <code>content</code>. Não deve diferenciar letras maiúsculas de minúsculas. Se o valor for nulo, indefinido ou uma string vazia, o campo correspondente não deve ser considerado no filtro.</li>
     </ol>
   </li>
   <li>Implementar a rota faltante <code ctc>src/routes/03/external/posts/[id]</code>, que exibe a postagem com o id especificado.</li>
-  <li>Tornar as páginas de teu aplicativo SvelteKit completamente navegáveis, permitindo a navegação entre todas as rotas criadas.
-    <p><strong>Passos:</strong></p>
-    <ol>
-      <li>Adicione ao menu de navegação lateral os links para todas as páginas criadas.</li>
-      <li>Assegure que cada página tenha um link de navegação que a leve de volta à página inicial ou para outra página do aplicativo.</li>
-      <li>Teste a navegação para garantir que todas as páginas estão acessíveis e funcionando corretamente.</li>
-    </ol>
-  </li>
+  <li>Tornar as páginas de teu aplicativo SvelteKit completamente navegáveis, permitindo a navegação entre todas as rotas criadas. (Sugestão: Adicione ao menu de navegação lateral os links para as páginas).</li>
   <li>Utilizando a API REST <a target="_blank" href="https://pokeapi.co/">https://pokeapi.co/</a>, implementar uma página que liste os pokémons, com um link que redirecione para a página de detalhes de cada pokémon.</li>
   <p><strong>Possível solução:</strong></p>
   <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.svelte</code></p>
@@ -385,8 +378,12 @@ export async function load({ url }) {
   {/each}
 &lt;/div&gt;</code></pre>
   <p>Explicação:</p>
-  <p>Este código cria uma lista de pokémons com suas imagens. Cada card é colocado em uma coluna que ocupa largura 3/12 em telas médias pra cima, e largura 6/12 em telas pequenas pra cima, e ocupa 100% da largura em telas menores. O link que direciona para uma página com mais informações sobre o Pokémon.</p>
-  <p>A classe <code>card-img-top</code> é usada para a imagem, e <code>card-body</code> envolve o conteúdo textual. <code>stretched-link</code> permite que a área inteira do card seja clicável.</p>
+  <ul>
+    <li>Este código cria uma lista de pokémons com suas imagens.</li>
+    <li><strong>Linha 8</strong>: Cada <a href="https://getbootstrap.com/docs/5.3/components/card/#images">card</a> é colocado em uma coluna que ocupa largura 3/12 em telas médias pra cima (<code>col-md-3</code>), e largura 6/12 em telas pequenas pra cima (<code>col-sm-6</code>), e ocupa 100% da largura em telas menores.</li>
+    <li><strong>Linha 11:</strong> O link direciona para uma página com mais informações sobre o Pokémon.</li>
+    <li><strong>Linha 11:</strong> A classe <a href="https://getbootstrap.com/docs/5.3/helpers/stretched-link/"><code>stretched-link</code></a> permite que a área inteira do card seja clicável.</li>
+  </ul>
 
   <p>Agora vamos ver de onde os dados são carregados.</p>
   <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.js</code></p>
@@ -405,7 +402,17 @@ export async function load({ url }) {
   return { pokemons: data.results };
 }</code></pre>
   <p>Explicação:</p>
-  <p>O código faz uma requisição à PokeAPI para listar os pokémons com limite de 12 por página. Ele extrai o ID da URL e gera a URL da imagem correspondente.</p>
+  <ul>
+    <li><strong>Linhas 2 e 3:</strong> Define os parâmetros para buscar apenas 12 pokémons (<code>limit = 12</code>) a partir do início (<code>offset = 0</code>).</li>
+    <li><strong>Linha 5:</strong> Faz uma requisição para a PokéAPI, pedindo os 12 primeiros pokémons.</li>
+    <li><strong>Linha 6:</strong> A resposta inclui <strong>nomes e URLs</strong> de cada pokémon, mas <strong>não inclui a imagem diretamente</strong>.</li>
+    <li><strong>Linhas 8 a 10:</strong> A URL retornada pela PokéAPI tem um formato como <code>https://pokeapi.co/api/v2/pokemon/6/</code>, conde o número <code>6</code> é o ID do pokémon (nesse caso, o Charizard).
+      <p>Como a API <strong>não fornece diretamente a imagem</strong>, usamos esse ID para montar manualmente uma URL para a imagem, que está disponível no repositório do GitHub da PokéAPI:</p>
+      <pre><code>https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png</code></pre>
+    <li><strong>Linha 9:</strong> Para extrair o ID da URL, esta é dividida em partes usando <code>split("/")</code>, que transforma a string em uma lista. Em seguida, usamos <code>at(-2)</code> para acessar o penúltimo item da lista — que corresponde exatamente ao ID do Pokémon. Isso funciona porque as URLs da PokéAPI terminam com uma barra (ex: <code>https://pokeapi.co/api/v2/pokemon/6/</code>), deixando o ID na posição anterior à última barra vazia.</li>
+    <li><strong>Linha 13:</strong> Retorna a lista de pokémons (agora com suas imagens) para serem usados na interface do SvelteKit.</li>
+  </ul>
+  <p>Essa abordagem é comum quando a API não retorna todas as informações que você precisa. Em vez de fazer uma nova requisição para cada pokémon para obter a imagem (o que seria lento), você deduz o ID e monta a URL direto para o repositório de imagens — uma solução prática e eficiente, mesmo sendo considerada uma “gambiarra”.</p>
   <li>Implemente paginação para listar os Pokémons.
     <p><strong>Passos</strong>:</p>
     <ol>
