@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([
+      [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 15, end: 15, color: 'lightblue' }, { start: 10, end: 10, color: 'lightblue' }]
+    ]);
+  </script> -->
+
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h2>Exercícios</h2>
+<!-- depois tenho que mudar essa seção para o final -->
+<ul>
+  <li>alterar o título na barra de navegação superior conforme muda de página. tem que passar para o `data` o título da página, que pode ser lido no layout através do `page.data`.</li>
+</ul>
+
+<h1>Aplicativo de Lista de Tarefas</h1>
+<h2>A página</h2>
+<p>Vamos fazer uma lista de tarefas (todo list).</p>
+<p>Crie o arquivo <code ctc>D:\Mega\dump\2025 arquivos\svelte-capacitor-drizzle-sqlite\src\routes\todolist\+page.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+  import { onMount } from &apos;svelte&apos;;
+  import Modal from &apos;$lib/components/Modal.svelte&apos;;
+  import Toast from &apos;$lib/components/Toast.svelte&apos;;
+  import ToDoList from &apos;$lib/components/ToDoList.svelte&apos;;
+  import * as bootstrap from &apos;bootstrap&apos;;
+
+  let novaTarefa = $state(&apos;&apos;);
+  let tarefas = $state([]);
+  let tarefasFazendo = $derived(tarefas.filter((tarefa) =&gt; tarefa.status == 0));
+  let tarefasFeitas = $derived(tarefas.filter((tarefa) =&gt; tarefa.status == 1));
+  let conteudoTarefaEditando = $state(&apos;&apos;);
+  let tarefaEditando = $state();
+  let tarefaExcluindo;
+  let alertaModal;
+  let mensagemToast;
+
+  async function adicionarTarefa() { }
+
+  function editarTarefa(tarefa) { }
+
+  function confirmarEdicao() { }
+
+  function cancelarEdicao() { }
+
+  function excluirTarefa(tarefa) { }
+
+  function confirmarExclusao() { }
+
+  function alterarStatus(tarefa, status) { }
+
+  onMount(() =&gt; {
+    mensagemToast = new bootstrap.Toast(&apos;#mensagemToast&apos;);
+    alertaModal = new bootstrap.Modal(&apos;#alertaModal&apos;);
+  });
+&lt;/script&gt;
+
+&lt;div class=&quot;fixed-top pt-5&quot; style=&quot;z-index: 1020;&quot;&gt;
+  &lt;form class=&quot;container-fluid input-group px-4 pt-3&quot; onsubmit={adicionarTarefa}&gt;
+    &lt;input class=&quot;form-control form-control-lg&quot; placeholder=&quot;Nova tarefa&quot; bind:value={novaTarefa} /&gt;
+    &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary input-group-text&quot; aria-label=&quot;adicionar&quot;&gt; &lt;i class=&quot;bi bi-plus-lg&quot;&gt;&lt;/i&gt; &lt;/button&gt;
+  &lt;/form&gt;
+  &lt;Toast msg={&apos;Digite algo!&apos;} /&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;container-fluid mt-5 pt-3&quot;&gt;
+  &lt;ToDoList tarefas={tarefasFazendo} {editarTarefa} {confirmarEdicao} {cancelarEdicao} {alterarStatus} {excluirTarefa} {tarefaEditando} bind:conteudoTarefaEditando /&gt;
+  &lt;hr /&gt;
+  &lt;ToDoList tarefas={tarefasFeitas} {editarTarefa} {confirmarEdicao} {cancelarEdicao} {alterarStatus} {excluirTarefa} {tarefaEditando} bind:conteudoTarefaEditando /&gt;
+&lt;/div&gt;
+
+&lt;Modal msg={&apos;Deseja excluir a tarefa?&apos;} {confirmarExclusao} /&gt;</code></pre>
+
+<h3>Explicação:</h3>
+<p>Linha 38: <code>fixed-top</code> fixa o formulário no topo da página. Como o navbar <a href="./07 Organizando o layout.html#cabecalho">definido anteriormente</a> também foi fixado no topo da página, para não sobrepor esses dois elementos, deslocamos o formulário para baixo com <code>pt-5</code>. Mesmo deslocando para baixo, ele ainda fica por cima do navbar, impedindo de clicar nos botões do navbar; portanto, o jogamos para trás do navbar com <code>z-index: 1020;</code>, já que o padrão do navbar é <code>z-index: 1030;</code>.</p>
+<p>Linha 39: <a href="https://getbootstrap.com/docs/5.3/forms/input-group/#basic-example"><code>input-group</code></a> adiciona botões ao lado de <i>inputs</i>. <code>pt-3</code> desloca ou pouco mais para baixo o formulário, para não sobrepor o navbar. <code>px-4</code> diminui a largura do formulário, para ficar da mesma largura da lista de tarefas. <code>onsubmit={adicionarTarefa}</code> executa a função <code>adicionarTarefa</code> quando o usuário clicar no botão de submissão da linha 41.</p>
+<p>Linha 40: <code>bind:value={novaTarefa}</code> vincula o <i>input</i> "Nova tarefa" à variável <code>novaTarefa</code>.</p>
+<p>Linha 43: A seguir veremos o que é esse componente.</p>
+<p>Linha 46: Nesse div ficam as duas listas, de tarefas a fazer e de tarefas feitas. <code>mt-5 pt-3</code> desloca esse div para baixo, para não ficar sobreposto pelo formulário, conforme <a href="./07 Organizando o layout.html#position-fixed">discutido anteriormente</a>.</p>
+<div class="info">
+  <p>Você pode até estar se perguntando como cheguei nesses valores de deslocamento e margem... a resposta é que cheguei a esses valores simplesmente através de tentativa e erro, ajustando-os até chegar a um ponto desejado.</p>
+</div>
+<p>Linhas 47 e 49: Como temos duas listas, de tarefas a fazer e de tarefas feitas, ambas praticamente compartilham o mesmo código. Portanto, para não duplicar código, que é uma má prática de programação, colocamos esse código em comum em um componente <code>TodoList</code>, e passamos tudo que precisamos para carregar as tarefas corretamente no componente:</p>
+<ul>
+  <li><code>tarefas={tarefasFazendo|tarefasFeitas}</code>: <code>tarefasFazendo</code> é a lista apenas das tarefas a fazer, já <code>tarefasFeitas</code> é a lista apenas das tarefas feitas.</li>
+  <li><code>{editarTarefa}</code>: </li>
+  <li><code>{confirmarEdicao}</code>: </li>
+  <li><code>{cancelarEdicao}</code>: </li>
+  <li><code>{alterarStatus}</code>: </li>
+  <li><code>{excluirTarefa}</code>: </li>
+  <li><code>{tarefaEditando}</code>: qual tarefa está sendo editada atualmente. Apenas uma tarefa por vez pode ser editada.</li>
+  <li><code>bind:conteudoTarefaEditando</code>: </li>
+  <li>Quando passamos dados da página para um componente, a reatividade se dá da página para o componente, isto é, se algo mudar na página, isso é refletido no componente. Mas o contrário não ocorre por padrão, se mudarmos uma variável no componente e quisermos que essa variável seja refletida na página, devemos vincular essa variável. como em <code>bind:conteudoTarefaEditando</code>. Todas as outras variáveis são passadas como "somente-leitura" para o componente, menos o <code>bind:conteudoTarefaEditando</code>, que se for modificado lá, a mudança também será refletida nesta página.</li>
+</ul>
+<p>Linha 52: A seguir veremos o que é esse componente.</p>
+
+<h2></h2>

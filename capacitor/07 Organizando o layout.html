@@ -61,11 +61,11 @@
   <li><strong>Linhas 2 e 3:</strong> Importam os componentes personalizados <code>Header</code> e <code>SideBar</code>, responsáveis pelo cabeçalho e pelo menu lateral.</li>
   <li><strong>Linhas 4-6:</strong> Importa o CSS, os ícones e o JS do Bootstrap.</li>
   <li><strong>Linhas 11 e 21:</strong> <code>Header</code> e <code>SideBar</code> são mantidos em arquivos separados para deixar o layout mais limpo.</li>
-  <li><strong>Linha 13:</strong> Conforme a <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/navbar/#placement">documentação oficial</a>, elementos com as classes <code>fixed-top</code> e <code>fixed-bottom</code> (como nosso cabeçalho e rodapé) são retirados do fluxo normal do DOM e podem sobrepor outros elementos. Por isso, adicionamos padding (<code>py-5</code>) e margens (<code>mt-1 mb-4</code>) ao conteúdo principal, garantindo o espaçamento necessário.</li>
+  <li id="position-fixed"><strong>Linha 13:</strong> Conforme a <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/navbar/#placement">documentação oficial</a>, elementos com as classes <code>fixed-top</code> e <code>fixed-bottom</code> (como nosso cabeçalho e rodapé) são retirados do fluxo normal do DOM e podem sobrepor outros elementos. Por isso, adicionamos padding (<code>py-5</code>) e margens (<code>mt-1 mb-4</code>) ao conteúdo principal, garantindo o espaçamento necessário.</li>
   <li><strong>Linha 17:</strong> O rodapé, por ser simples, permanece diretamente no layout. A classe <code>fixed-bottom</code> mantém o rodapé visível no sopé, mesmo durante a rolagem.</li>
 </ul>
 <hr />
-<h2>Cabeçalho</h2>
+<h2 id="cabecalho">Cabeçalho</h2>
 <p>Crie o arquivo <code ctc>src/lib/components/Header.svelte</code>:</p>
 <pre><code>&lt;nav class=&quot;navbar fixed-top bg-body-tertiary&quot;&gt;
   &lt;button class=&quot;navbar-toggler border-0&quot; data-bs-toggle=&quot;offcanvas&quot; data-bs-target=&quot;#mySideBar&quot; aria-label=&quot;toggleSidebar&quot;&gt;
