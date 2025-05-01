@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+    <script defer>hljs.highlightLinesAll([
+            // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
+        ]);
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Propriedades</h1>
+
+<h2>Leitura</h2>
+
+<p>Leia <a href="https://pedrosiqueira.github.io/ifmsjs/alg/15%20Introdu%C3%A7%C3%A3o%20%C3%A0%20objetos.html">Introdução à objetos</a>.</p>
+<p>Leia as seguintes seções de "Props":</p>
+<ul>
+    <li><a href="https://svelte.dev/tutorial/svelte/declaring-props">Declaring props</a></li>
+    <li><a href="https://svelte.dev/tutorial/svelte/default-values">Default values</a></li>
+    <li><a href="https://svelte.dev/tutorial/svelte/spread-props">Spread props</a></li>
+</ul>
+
+<p>Leia a seguinte seção de "Logic":</p>
+<ul>
+    <li><a href="https://svelte.dev/tutorial/svelte/keyed-each-blocks">Keyed each blocks</a></li>
+</ul>
+
+<h2>Criando um componente com propriedades</h2>
+<p>Crie o arquivo <code ctc>src/lib/components/CartaMagic.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+  let { img, title, type, text } = $props();
+&lt;/script&gt;
+
+&lt;div class=&quot;card h-100&quot; style=&quot;width: 18rem;&quot;&gt;
+  &lt;img src={img} class=&quot;card-img-top&quot; alt=&quot;invisibility&quot; width=&quot;200px&quot; /&gt;
+  &lt;div class=&quot;card-body&quot;&gt;
+    &lt;h5 class=&quot;card-title&quot;&gt;{title}&lt;/h5&gt;
+    &lt;h6 class=&quot;card-subtitle mb-2 text-body-secondary&quot;&gt;{type}&lt;/h6&gt;
+    &lt;p class=&quot;card-text&quot;&gt;{text}&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<p>Explicação:</p>
+<ul>
+    <li>Linha 2: essas são as propriedades do nosso componente, que podem ser passadas a ele quando o utilizarmos em alguma página.</li>
+    <li>Linha 5: Nosso componente svelte é feito usando o componente "Card" do Bootstrap. Quando os <i>cards</i> são distribuídos em colunas (que veremos a seguir), a classe <code id="h-100">h-100</code> faz com que <a href="https://getbootstrap.com/docs/5.3/components/card/#grid-cards">todos os <i>cards</i> tenham mesma altura</a>. Para definir uma largura fixa nos <i>cards</i>, usamos <code>style="width: 18rem;"</code> (você pode mudar a largura para outro valor se preferir). Mais sobre <i>cards</i> <a href="https://getbootstrap.com/docs/5.3/components/card/">aqui</a>.</li>
+</ul>
+<div class="info">Observação: Não confunda o conceito de "componentes" do Svelte com o do Bootstrap: no Svelte, componentes são unidades reutilizáveis de código que podem incluir HTML, CSS e JavaScript. Cada componente no Svelte é basicamente uma função ou classe que representa uma parte da interface do usuário, podendo ser compartilhada, composta e reusada. Já no Bootstrap, "componentes" referem-se a elementos de UI prontos, como botões, formulários, barras de navegação, etc., que são estilizados com as classes CSS fornecidas pelo framework.</div>
+
+<h2>Carregando dados nas páginas</h2>
+<p>Em um aplicativo web profissional, os dados ficam em um banco de dados ou Content Management System (CMS). Mas para esse tutorial vamos deixar os dados no arquivo <code ctc>src/lib/data.js</code>:</p>
+<pre><code class="js">export const cards = [
+  {
+    title: 'Invisibility',
+    type: 'Enchant creature',
+    text: "Enchanted creature can't be blocked except by Walls.",
+    img: 'https://www.mtgpics.com/pics/art_th/alp/126.jpg'
+  },
+  {
+    title: 'Copper Tablet',
+    type: 'Artifact',
+    text: "At the beginning of each player's upkeep, Copper Tablet deals 1 damage to that player.",
+    img: 'https://www.mtgpics.com/pics/art/alp/047.jpg'
+  },
+  {
+    title: 'Twiddle',
+    type: 'Instant',
+    text: 'You may tap or untap target artifact, creature, or land.',
+    img: 'https://www.mtgpics.com/pics/art_th/alp/267.jpg'
+  },
+  {
+    title: 'Volcanic Eruption',
+    type: 'Sorcery',
+    text: 'Destroy X target Mountains. Volcanic Eruption deals damage to each creature and each player equal to the number of Mountains put into a graveyard this way.',
+    img: 'https://www.mtgpics.com/pics/art_th/alp/276.jpg'
+  }
+];</code></pre>
+
+<p>Explicação: definimos uma lista <code>cards</code> cujos itens são objetos que contêm informações sobre cartas do jogo <i>Magic</i>.</p>
+
+<p>Crie a página <code ctc>src/routes/08/cartas/+page.svelte</code>:
+<pre><code>&lt;script&gt;
+  import CartaMagic from &apos;$lib/components/CartaMagic.svelte&apos;;
+  import { cards } from &apos;$lib/data.js&apos;;
+&lt;/script&gt;
+
+&lt;div class=&quot;row g-4&quot;&gt;
+  {#each cards as card}
+    &lt;div class=&quot;col&quot;&gt;
+      &lt;CartaMagic {...card} /&gt;
+    &lt;/div&gt;
+  {/each}
+&lt;/div&gt;</code></pre>
+
+<p>Essa página reutiliza o componente <code>Carta.svelte</code> e carrega os dados de <code>data.js</code>. Explicação:</p>
+
+<ul>
+    <li>Linhas 1-2: Para utilizar recursos de outros arquivos, devemos importá-los nesse arquivo.</li>
+    <li>Linhas 6 e 8: As classes <code>row</code> e <code>col</code> fazem parte do sistema de grades (grid system) do Bootstrap e permitem que os conteúdos da página sejam separados por colunas responsivas. Atribuir a classe <code>h-100</code> aos <i>cards</i> dentro de colunas faz com que <a href="#h-100">todos eles tenham a mesma altura</a>. Mais sobre o sistema de grades <a href="https://getbootstrap.com/docs/5.3/layout/grid/">aqui</a>.
+        <div class="info">Observação: Responsividade é um conceito de design que permite que sites e aplicativos se ajustem automaticamente a diferentes tamanhos de tela e dispositivos. Experimente reduzir a janela do navegador e perceba que os <i>cards</i> vão sendo distribuídos no espaço disponível.</div>
+    </li>
+    <li>Linha 6: A classe <code>g-4</code> define a medianiz (gutter) entre linhas e colunas como nível 3. A medianiz pode variar entre 0 (sem gutter) e 5 (gutter máximo). Mais sobre medianiz <a href="https://getbootstrap.com/docs/5.3/layout/gutters/">aqui</a>.</li>
+</ul>
+
+<h2>Exercícios</h2>
+<ol class="excs">
+    <li>
+        Muitos sites utilizam componentes em comum, que podem ser reaproveitados em diferentes partes do mesmo site ou em outros projetos. Os componentes, por sua vez, podem ser representados como objetos javascript, com suas respectivas propriedades.
+        <ol type="a">
+            <li>Visite um site de marketplace e um site de notícias, e identifique os componentes usados nesses sites.</li>
+            <li>Analise quais componentes podem ser representados como objetos javascript, e descreva suas possíveis propriedades.</li>
+        </ol>
+    </li>
+    <li>À medida que o projeto cresce, é essencial organizar melhor seus arquivos. Em vez de deixar todos os componentes soltos dentro da pasta <code>lib</code>, é melhor criar uma pasta <code>components</code> para armazená-los de maneira mais estruturada. Mova o componente <code>Poema.svelte</code> (do <a href="./03 Introdução ao Svelte.html#poema-component">Capítulo 3</a>) para dentro da nova pasta <code>components</code> e atualize o arquivo <code>src/routes/+page.svelte</code> para importar o componente a partir de sua nova localização.</li>
+    <li>Reproduza o exemplo de <i>cards</i> que fizemos, mas com uma lista de outros itens que você desejar. Cada <i>card</i> precisa ter pelo menos um título, subtítulo, conteúdo e imagem. A imagem pode ser um link externo ou pode ser um arquivo salvo na pasta <code>static</code>.</li>
+</ol>

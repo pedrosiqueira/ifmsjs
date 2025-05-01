@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script> -->
+    <!-- <script defer>hljs.highlightLinesAll([[], [], [], [{ start: 3, end: 3, color: 'lightgreen' }]]);</script> -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Preparando o ambiente de desenvolvimento</h1>
+<h2>Instalação</h2>
+<p>Tenha certeza de ter instalado tudo de que precisamos conforme exposto na seção <a href="../alg/02 Preparando o ambiente de desenvolvimento.html#instalando">Instalando o ambiente de execução Javascript</a>.</p>
+
+<h2>Criando o projeto</h2>
+<p>Vamos executar um script que (1) solicita teu nome de usuário e email do Git, (2) instala algumas extensões no vscode, (3) instala o pnpm e (4) baixa o projeto pronto para uso. Execute no terminal <span id="executando-script">um dos seguintes scripts</span>, conforme teu sistema operacional:</p>
+
+<div class="custom-tabs">
+    <div class="custom-tabs-bar">
+        <button class="custom-tabs-btn" aria-custom-tabs-tab="windows-tab">🪟 Windows</button>
+        <button class="custom-tabs-btn" aria-custom-tabs-tab="linux-tab">🐧 Linux</button>
+    </div>
+
+    <div id="windows-tab" class="custom-tabs-tab">
+        <pre><code class="ps">Invoke-Command -ScriptBlock ([scriptblock]::Create(((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/02_project_setup.ps1')))) -ArgumentList "meu-projeto-sveltekit-avancado"</code></pre>
+    </div>
+
+    <div id="linux-tab" class="custom-tabs-tab">
+        <pre><code class="bash">wget https://raw.githubusercontent.com/pedrosiqueira/ifmsjs/refs/heads/main/scripts/02_project_setup.sh && bash 02_project_setup.sh --project meu-projeto-sveltekit-avancado && rm 02_project_setup.sh && exit</code></pre>
+    </div>
+</div>
+
+<!-- <p>Crie o arquivo <code ctc>.env</code>:</p>
+<pre><code class="language-ini">DATABASE_URL=file:meubanco.db</code></pre>
+
+<p>Crie o banco de dados, executando no terminal:</p>
+<pre><code class="bash">pnpm db:push</code></pre>
+<p>Quando solicitado, selecione:</p>
+<pre><code>❯ Yes, I want to execute all statements</code></pre> -->
+
+<h2>Executando o aplicativo web</h2>
+<p>Após criar o projeto, com o terminal aberto na pasta do mesmo, execute o comando <code ctc>pnpm dev -- --open</code>. Se tudo ocorreu bem, uma página será aberta automaticamente no navegador web, exibindo seu aplicativo web em execução. Para encerrar o aplicativo, basta voltar ao terminal onde ele está rodando e pressionar <kbd>Ctrl+C</kbd>. Você também pode executar o aplicativo web pressionando <kbd>F5</kbd>, mas deverá copiar/colar o endereço do site no navegador web.</p>
+
+<h2>Valendo!</h2>
+<p>Tudo pronto para iniciarmos nossa jornada! Nos vemos no próximo capítulo.</p>

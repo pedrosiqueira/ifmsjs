@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script> -->
+    <!-- <script defer>hljs.highlightLinesAll([[], [], [], [{ start: 3, end: 3, color: 'lightgreen' }]]);</script> -->
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Criando um projeto SvelteKit + DrizzleORM + LuciaAuth</h1>
+<p>Neste tutorial, criaremos e configuraremos um projeto <strong>SvelteKit + DrizzleORM + LuciaAuth</strong> do zero. Para isso, você já precisa ter os <a target="_blank" href="../alg/02%20Preparando%20o%20ambiente%20de%20desenvolvimento.html#instalando">programas necessários</a> instalados.</p>
+<p>Caso prefira não seguir o processo passo a passo e queira apenas baixar um projeto pronto para uso, consulte o capítulo <a target="_blank" href="./0A%20Preparando%20o%20ambiente%20de%20desenvolvimento.html#executando-script">Preparando o ambiente de desenvolvimento</a>.</p>
+<p>Se você já seguiu o tutorial <a target="_blank" href="../sveltekit/0A%20Criando%20um%20projeto%20SvelteKit.html">Criando um projeto SvelteKit</a>, grande parte do processo será familiar. A diferença é que, além do SvelteKit, neste projeto avançado também instalaremos o <a target="_blank" href="https://orm.drizzle.team/">DrizzleORM</a>, para manipulação de banco de dados, e o <a target="_blank" href="https://lucia-auth.com/">LuciaAuth</a>, para autenticação e autorização. Ambas são as tecnologias recomendadas pelo Svelte.</p>
+
+<h2>Preparando o ambiente</h2>
+<p>Certifique-se de ter instalado o <strong>Node.js, Git e VS Code</strong>, conforme descrito no tutorial <a target="_blank" href="../alg/02%20Preparando%20o%20ambiente%20de%20desenvolvimento.html#instalando">Instalando o ambiente de execução Javascript</a>.</p>
+<p>Como utilizaremos o VS Code, recomendamos instalar algumas extensões para facilitar o desenvolvimento. Execute os seguintes comandos no terminal:</p>
+<pre><code class="sh">code --install-extension VisualStudioExptTeam.vscodeintellicode
+code --install-extension dbaeumer.vscode-eslint
+code --install-extension xabikos.JavaScriptSnippets
+code --install-extension christian-kohler.npm-intellisense
+code --install-extension christian-kohler.path-intellisense
+code --install-extension svelte.svelte-vscode</code></pre>
+
+<h2 id="criando-projeto">Criando o projeto do zero</h2>
+<p>Conforme a <a target="_blank" href="https://svelte.dev/docs/kit/creating-a-project">documentação oficial do Svelte</a>, podemos criar um projeto SvelteKit usando o <strong>npm</strong>. No entanto, prefiro utilizar o gerenciador de pacotes <strong>pnpm</strong>, que é mais rápido e consome menos espaço. Para instalar o <code>pnpm</code>, execute:</p>
+<pre><code class="sh">npm install -g pnpm</code></pre>
+<div class="info">
+    <p><em>Observação:</em> Se ao executar o comando no PowerShell aparecer a mensagem “A execução de scripts foi desabilitada neste sistema”, é porque o Windows bloqueia a execução de scripts por padrão. Para habilitar a execução de scripts, execute:</p>
+    <pre><code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code></pre>
+    <p>Tecle <kbd>A</kbd> e <kbd>Enter</kbd> para confirmar. Em seguida, tente instalar o <code>pnpm</code> novamente.</p>
+</div>
+<p id="criacao-projeto">Com o <code>pnpm</code> instalado, abra o terminal <strong>na pasta onde deseja criar o projeto</strong> e execute:</p>
+<pre><code class="sh">pnpm dlx sv create meu-projeto-drizzle
+cd meu-projeto-drizzle
+pnpm install
+code -r .</code></pre>
+<p>Esses comandos fazem respectivamente: (1) cria um projeto SvelteKit com o nome <code>meu-projeto-drizzle</code>; (2) abre a pasta do projeto no terminal; (3) instala os pacotes que o projeto depende; e (4) abre a pasta do projeto no vscode.</p>
+<p>Quando solicitado, escolha as seguintes opções:</p>
+<pre>┌  Welcome to the Svelte CLI! (v0.7.1)
+│
+◇  Which template would you like?
+│  SvelteKit minimal
+│
+│
+◆  Project created
+│
+◇  What would you like to add to your project? (use arrow keys / space bar)
+│  prettier, eslint, drizzle, lucia
+│
+◇  drizzle: Which database would you like to use?
+│  SQLite
+│
+◇  drizzle: Which SQLite client would you like to use?
+│  libSQL
+│
+◇  lucia: Do you want to include a demo? (includes a login/register page)
+│  No
+│
+◆  Successfully setup add-ons
+│
+◇  Which package manager do you want to install dependencies with?
+│  pnpm
+└</pre>
+
+<h2>Configurando o projeto</h2>
+<p>Crie o arquivo <code ctc>.env</code> com o seguinte conteúdo:</p>
+<pre><code class="language-ini">DATABASE_URL=file:meubanco.db</code></pre>
+
+<p>Crie o banco de dados, executando no terminal:</p>
+<pre><code class="bash">pnpm db:push</code></pre>
+<p>Quando solicitado, selecione:</p>
+<pre><code>❯ Yes, I want to execute all statements</code></pre>
+
+<h2 id="-conclus-o-">Conclusão</h2>
+<p>Agora você tem um <strong>projeto SvelteKit configurado com DrizzleORM e LuciaAuth</strong>.</p>

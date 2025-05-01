@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([
+      // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
+    ]);
+  </script> -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Caixa de seleção</h1>
+
+<h2>Leitura</h2>
+
+<p>Leia a seguinte seção de "Bindings":</p>
+<ul>
+    <li><a href="https://svelte.dev/tutorial/svelte/checkbox-inputs">Checkbox inputs</a></li>
+</ul>
+
+<h2>Exemplo de checkbox</h2>
+<p>Crie o arquivo <code ctc>src/lib/filmes.js</code>:</p>
+<pre><code class="json">export const gêneros = ['Ação', 'Animação', 'Aventura', 'Comédia', 'Drama', 'Família', 'Fantasia', 'Faroeste', 'Guerra', 'Mistério', 'Musical', 'Romance', 'Suspense'];
+
+export const filmes = [
+  { título: "O Circo", ano: "1928", gêneros: ["Comédia", "Família", "Romance"], sinopse: "O vagabundo Carlitos é confundido com um ladrão e vai se refugiar num circo, onde se transforma na atração principal e revolta-se contra o tirânico proprietário do circo.", imagem: "https://m.media-amazon.com/images/M/MV5BN2M4ZWMyNmUtNjI3My00NDE3LThmZjgtMDgzNTU2NGFjZWJmXkEyXkFqcGdeQXVyMDI2NDg0NQ@@._V1_.jpg", referência: "https://www.imdb.com/pt/title/tt0018773/" },
+  { título: "Tempos Modernos", ano: "1936", gêneros: ["Comédia", "Drama", "Romance"], sinopse: "Um vagabundo luta para viver na sociedade industrial moderna com a ajuda de uma jovem.", imagem: "https://m.media-amazon.com/images/M/MV5BYzk1MDkxMWUtMTFmYS00YzA0LWE1YjctZjAxNjUwZTJkNTZkXkEyXkFqcGdeQXVyMDUyOTUyNQ@@._V1_.jpg", referência: "https://www.imdb.com/pt/title/tt0027977/" },
+  { título: "Branca de Neve e os Sete Anões", ano: "1937", gêneros: ["Animação", "Aventura", "Família", "Romance", "Fantasia", "Musical"], sinopse: "Deixada numa floresta perigosa por sua madrasta malvada, uma princesa é resgatada por sete mineiros anões que a fazem parte de sua casa.", imagem: "https://m.media-amazon.com/images/M/MV5BNWQ4N2I1MzctNGU2YS00YzYyLTgyNmEtMTliZTQ5MGYxYzlkXkEyXkFqcGdeQXVyMTAyOTE2ODg0._V1_.jpg", referência: "https://www.imdb.com/pt/title/tt0029583/" },
+  { título: "...E o Vento Levou", ano: "1939", gêneros: ["Drama", "Romance", "Guerra"], sinopse: "Uma mulher manipuladora e uma truhan embarcam em um romance turbulento durante a Guerra Civil Americana e o período da Reconstrução.", imagem: "https://m.media-amazon.com/images/M/MV5BYjUyZWZkM2UtMzYxYy00ZmQ3LWFmZTQtOGE2YjBkNjA3YWZlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg", referência: "https://www.imdb.com/pt/title/tt0031381/" },
+  { título: "No Tempo das Diligências", ano: "1939", gêneros: ["Aventura", "Drama", "Faroeste"], sinopse: "Um grupo de pessoas que viajam por uma diligência acham sua jornada complicada pela ameaça de Geronimo, mas conseguem aprender alguma coisa sobre cada uma delas no processo.", imagem: "https://m.media-amazon.com/images/M/MV5BYmRiMGVhYmQtMzVhZi00NGI3LTg1OTItYWM2NzA5YzI4NDE1XkEyXkFqcGdeQXVyMTAyOTE2ODg0._V1_.jpg", referência: "https://www.imdb.com/pt/title/tt0031971/" },
+  { título: "O Grande Ditador", ano: "1940", gêneros: ["Comédia", "Drama", "Guerra"], sinopse: "O ditador Hynkel tenta expandir seu império enquanto um pobre barbeiro judeu tenta evitar a perseguição do regime de Hynkel.", imagem: "https://m.media-amazon.com/images/M/MV5BMmExYWJjNTktNGUyZS00ODhmLTkxYzAtNWIzOGEyMGNiMmUwXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg", referência: "https://www.imdb.com/pt/title/tt0032553/" },
+  { título: "Dumbo", ano: "1941", gêneros: ["Animação", "Aventura", "Drama", "Família", "Fantasia", "Musical"], sinopse: "Ridicularizado por suas enormes orelhas, um jovem elefante de circo é auxiliado por um rato a alcançar todo o seu potencial.", imagem: "https://m.media-amazon.com/images/M/MV5BMmU1NjQ3YjktZGMxYS00N2IwLTllZWQtOGNjYWE4MzgxNzk2XkEyXkFqcGdeQXVyODU2MDg1NzU@._V1_.jpg", referência: "https://www.imdb.com/pt/title/tt0033563/" },
+  { título: "Casablanca", ano: "1942", gêneros: ["Drama", "Romance", "Guerra"], sinopse: "O proprietário cético de uma boate protege um antigo amor e seu marido dos nazistas no Marrocos.", imagem: "https://m.media-amazon.com/images/M/MV5BY2IzZGY2YmEtYzljNS00NTM5LTgwMzUtMzM1NjQ4NGI0OTk0XkEyXkFqcGdeQXVyNDYyMDk5MTU@._V1_.jpg", referência: "https://www.imdb.com/pt/title/tt0034583/" },
+  { título: "O Tesouro da Sierra Madre", ano: "1948", gêneros: ["Aventura", "Drama", "Faroeste"], sinopse: "Dois americanos em busca de trabalho no México convencem um homem a ajudá-los a extrair ouro nas montanhas da Serra Madre.", imagem: "https://m.media-amazon.com/images/M/MV5BOTJlZWMxYzEtMjlkMS00ODE0LThlM2ItMDI3NGQ2YjhmMzkxXkEyXkFqcGdeQXVyMDI2NDg0NQ@@._V1_.jpg", referência: "https://www.imdb.com/pt/title/tt0040897/" },
+  { título: "A Malvada", ano: "1950", gêneros: ["Drama"], sinopse: "Uma ingênua se insinua na vida de uma atriz de teatro, e de seu círculo de amigas de teatro.", imagem: "https://m.media-amazon.com/images/M/MV5BOTM4ZjUzOGUtYzdlZi00ZmM5LTk5NTEtMjQxNDVmOTc5NWNlXkEyXkFqcGc@._V1_FMjpg_UY2260_.jpg", referência: "https://www.imdb.com/pt/title/tt0042192/" },
+  { título: "Matar ou Morrer", ano: "1952", gêneros: ["Drama", "Suspense", "Faroeste"], sinopse: "Apesar dos desentendimentos com sua namorada e os habitantes da cidade, um marechal deve enfrentar uma gangue quando seu líder chegar no trem do meio-dia.", imagem: "https://m.media-amazon.com/images/M/MV5BOWIzZGUxZmItOThkMS00Y2QxLTg0MTYtMDdhMjRlNTNlYTI3L2ltYWdlXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_.jpg", referência: "https://www.imdb.com/pt/title/tt0044706/" },
+  { título: "Os Sete Samurais", ano: "1954", gêneros: ["Ação", "Drama"], sinopse: "Uma aldeia pobre sob a ameaça de bandidos recruta sete samurais para ajudá-los a se defenderem.", imagem: "https://m.media-amazon.com/images/M/MV5BNTkwY2I5NWMtMjNlNi00ZThjLWI4NzQtNDI4M2I4OGM1YjAzXkEyXkFqcGdeQXVyNzYxODE3NTQ@._V1_.jpg", referência: "https://www.imdb.com/pt/title/tt0047478/" },
+  { título: "Janela Indiscreta", ano: "1954", gêneros: ["Drama", "Mistério", "Suspense"], sinopse: "Um fotógrafo em uma cadeira de rodas espiona seus vizinhos pela janela de seu apartamento e está convencido de que um deles cometeu um assassinato.", imagem: "https://m.media-amazon.com/images/M/MV5BMjE4YjMxZGEtYTBmMi00OTQwLThjN2EtN2Y0ZGJjMmMxOWM4XkEyXkFqcGdeQXVyMTAyOTE2ODg0._V1_.jpg", referência: "https://www.imdb.com/pt/title/tt0047396/" }
+];</code></pre>
+
+<p>Crie o arquivo <code ctc>src/routes/09/filmes/+page.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+  import { filmes, gêneros } from &apos;$lib/filmes.js&apos;;
+
+  let gênerosSelecionados = $state([]);
+  let filtrados = $state(filmes.slice());
+
+  function filtrarGenero(event) {
+      if (event.target.checked) {
+          gênerosSelecionados.push(event.target.value);
+      } else {
+          gênerosSelecionados.splice(gênerosSelecionados.indexOf(event.target.value), 1);
+      }
+
+      if (gênerosSelecionados.length == 0) {
+          filtrados = filmes.slice();
+      } else {
+          filtrados = [];
+          for (const filme of filmes) {
+              for (const gênero of gênerosSelecionados) {
+                  if (filme.gêneros.includes(gênero)) {
+                      filtrados.push(filme);
+                      break;
+                  }
+              }
+          }
+      }
+  }
+&lt;/script&gt;
+
+&lt;div class=&quot;row align-items-center mb-3&quot;&gt;
+  &lt;div class=&quot;col-md-4&quot;&gt;&lt;input class=&quot;form-control&quot; placeholder=&quot;Filtrar...&quot; /&gt;&lt;/div&gt;
+  {#each gêneros as gênero}
+      &lt;div class=&quot;col&quot;&gt;
+          &lt;div class=&quot;form-check form-check-inline&quot;&gt;
+              &lt;input type=&quot;checkbox&quot; oninput={filtrarGenero} class=&quot;form-check-input&quot; id={gênero} value={gênero} /&gt;
+              &lt;label class=&quot;form-check-label&quot; for={gênero}&gt;{gênero}&lt;/label&gt;
+          &lt;/div&gt;
+      &lt;/div&gt;
+  {/each}
+&lt;/div&gt;
+&lt;div class=&quot;row g-4&quot;&gt;
+  {#each filtrados as filme}
+      &lt;div class=&quot;col-md-6 col-xl-3&quot;&gt;
+          &lt;div class=&quot;card h-100&quot;&gt;
+              &lt;div class=&quot;row g-0&quot;&gt;
+                  &lt;div class=&quot;col-3 col-sm-4&quot;&gt;
+                      &lt;img src={filme.imagem} class=&quot;img-fluid rounded-start&quot; alt=&quot;capa do filme&quot; /&gt;
+                  &lt;/div&gt;
+                  &lt;div class=&quot;col-sm-8&quot;&gt;
+                      &lt;div class=&quot;card-body&quot;&gt;
+                          &lt;h5 class=&quot;card-title&quot;&gt;{filme.título}&lt;/h5&gt;
+                          &lt;h6 class=&quot;card-subtitle mb-2 text-body-secondary&quot;&gt;{filme.ano}&lt;/h6&gt;
+                          &lt;p class=&quot;card-text&quot;&gt;{filme.sinopse}&lt;/p&gt;
+                          &lt;p class=&quot;card-text&quot;&gt;
+                              {#each filme.gêneros as gênero}
+                                  &lt;span class=&quot;badge text-bg-secondary mx-1&quot;&gt;{gênero}&lt;/span&gt;
+                              {/each}
+                          &lt;/p&gt;
+                      &lt;/div&gt;
+                  &lt;/div&gt;
+              &lt;/div&gt;
+          &lt;/div&gt;
+      &lt;/div&gt;
+  {/each}
+&lt;/div&gt;</code></pre>
+
+<h4>Explicação do HTML:</h4>
+<p>As classes <code>row</code> (linhas 30, 41, 45) e <code>col</code> (linhas 31, 43, 49) se referem ao <a href="https://getbootstrap.com/docs/5.3/layout/grid/">sistema de grades</a> do bootstrap. Podemos especificar uma largura para a coluna, como <code>col-6</code>, que pode ser entre 1 e 12. Podemos prefixar a coluna com um tamanho de tela, como <code>col-md-4</code>, para aquela largura ser aplicada somente a partir daquele tamanho de tela. Isso permite elaborar páginas responsivas, que se adequam ao tamanho de tela atual.</p>
+<p>A classe <code>mb-3</code> (linha 30) se refere ao <a href="https://getbootstrap.com/docs/5.3/utilities/spacing/#margin-and-padding">sistema de espaçamentos</a> do bootstrap, que segue o padrão <code>{property}{sides}-{size}</code>. O valor <code>mb-3</code> aplica uma margem inferior (bottom) de tamanho 3. A classe <code>align-items-center</code> (linha 30) alinha os elementos daquela linha no meio, já que o padrão é alinhamento inferior.</p>
+<p>A classe <code>form-control</code> (linha 31) <a href="https://getbootstrap.com/docs/5.3/forms/form-control">estiliza os campos de entrada</a>. As classes <code>form-check form-check-inline</code>, <code>form-check-input</code> e <code>form-check-label</code> <a href="https://getbootstrap.com/docs/5.3/forms/checks-radios/#inline">estilizam os checkbox</a>. Para cada gênero (linha 32) vamos criar um checkbox.</p>
+<p>Usamos o componente <i>card</i> do bootstrap para listar os filmes, definindo a <a href="https://getbootstrap.com/docs/5.3/components/card/#horizontal">posição da imagem na lateral</a>. A linha 42 lista apenas os filmes filtrados, e como cada filme pode ter vários gêneros, a linha 55 lista os gêneros de cada filme usando o <a href="https://getbootstrap.com/docs/5.3/components/badge/">componenge <i>badge</i></a> do bootstrap. A classe <code>mx-1</code> aplica uma margem de tamanho 1 entre os gêneros.</p>
+
+<h4>Explicação do JavaScript:</h4>
+<p>Na linha 4, a lista <code>gênerosSelecionados</code> contém os gêneros selecionados pelo usuário através dos checkboxes. Inicialmente começa vazia (<code>[]</code>) pois o usuário ainda não selecionou nenhum gênero. Na linha 5, a lista <code>filtrados</code> contém os filmes que correspondem aos gêneros selecionados. O comando <code>filmes.slice()</code> faz uma cópia da lista <code>filmes</code>, que é atribuída à lista <code>filtrados</code>. Ou seja, <code>filtrados</code> começa como uma cópia de <code>filmes</code>, para todos os filmes serem exibidos, já que nenhum gênero ainda foi escolhido.</p>
+<p>Toda vez que o usuário interagir com algum checkbox, a função <code>filtrarGenero</code> é executada com o parâmetro <code>event</code>, que possui as propriedades (informações) daquele evento, como <code>event.target</code>, que se refere ao elemento HTML onde o evento ocorreu. No HTML, todo elemento do tipo checkbox possui as propriedades <code>checked</code>, que indica se aquele checkbox está marcado, e <code>value</code>, que corresponde ao valor do atributo <code>value</code> do elemento.</p>
+<p>As linhas 8-12 determinam os gêneros atualmente selecionados. O método <code>push</code> (linha 9) adiciona um item à lista. O método <code>splice</code> (linha 11) exclui o item em determinado índice da lista. E o método <code>indexOf</code> (linha 11) procura o índice de determinado item da lista. Como para excluir um item com <code>splice</code>, precisamos saber seu índice, mas só temos o valor do item, precisamos executar o método <code>indexOf</code> para encontrar o índice do item que queremos excluir.</p>
+<p>Se nenhum gênero está selecionado, então listamos todos os filmes. Na linha 15 copiamos todos os filmes da lista original de filmes para a lista filtrada de filmes. Devemos fazer uma cópia pois a lista filtrada de filmes pode ser modificada, mas a lista original de filmes, não.</p>
+<p>Para cada filme (linha 18) e para cada gênero selecionado (linha 19), adicionados esse filme à lista de filmes filtrados apenas se ele tiver o gênero selecionado. O método <code>includes</code> (linha 20) verifica se uma lista possui determinado item. O <code>break</code> da linha 22 impede de adicionar o mesmo filme mais de uma vez se ele tiver vários gêneros selecionados.</p>
+
+<h4>Considerações:</h4>
+<!-- <p>Como a variável filtrados muda de acordo com o valor de gênerosSelecionados, poderíamos usar derivated state. Mas como ainda não vimos isso, fica para uma próxima. (na verdade fica mais complicado se não souber o paradigma funcional</p> -->
+<p>Seria melhor usar conjuntos (<code>Set</code>) em vez de listas (<code>array</code>), já que gêneros não se repetem. Mas como também não vimos isso, fica para uma próxima.</p>
+
+<h2>Exercícios</h2>
+<ol class="excs">
+    <li>No momento, o campo de texto da linha 31 não faz nada. Implemente-o de modo que quando o usuário digitá-lo, sejam exibidos apenas filmes cujo título contenha o que foi digitado.</li>
+    <li>Cada filme possui a propriedade <code>referência</code>, que é uma URL para sua página no iMDB. Adicione na página um botão para cada filme, de modo que ao clicar no botão, seja aberta a página do filme no iMDB em outra aba do navegador.</li>
+    <li>Desenvolva um carrinho de compras onde cada produto listado tenha um checkbox para selecioná-lo:
+        <ol type="a">
+            <li>Liste pelo menos 5 produtos com nome e preço.</li>
+            <li>Calcule e exiba o total de itens e o valor total dos produtos selecionados.</li>
+            <li>Adicione botões "Selecionar Tudo" e "Limpar Seleção".</li>
+            <li>Adicione um botão "Finalizar Compra" que mostre um resumo dos itens selecionados com o preço total.</li>
+        </ol>
+    </li>
+</ol>

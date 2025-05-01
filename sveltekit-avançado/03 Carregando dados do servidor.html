@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [{ start: 2, end: 2, color: 'lightblue' }, { start: 5, end: 5, color: 'lightblue' }, { start: 8, end: 10, color: 'lightblue' }]]);
+  </script>
+
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1 id="carregando-dados-no-sveltekit">Carregando Dados do Servidor</h1>
+<p>Antes que um componente <code>+page.svelte</code> (e seus componentes <code>+layout.svelte</code> correspondentes) possa ser renderizado, frequentemente precisamos obter alguns dados. Isso é feito definindo funções <code>load</code>.</p>
+
+<h2 id="dados-da-página">Dados da Página</h2>
+
+<p>Um arquivo <code>+page.svelte</code> pode ter um arquivo irmão <code>+page.server.js</code>, que será executado no servidor antes de abrir a página no cliente. Esse arquivo exporta uma função <code>load</code>. O valor retornado por essa função estará disponível para a página através da propriedade <code>data</code>.</p>
+<p>Crie o arquivo <code ctc>src/routes/03/test/+page.server.js</code>:</p>
+<pre><code class="language-javascript">export function load() {
+  return {
+    post: { title: 'Título de Exemplo', content: 'Conteúdo &lt;b&gt;supimpa&lt;/b&gt; de Exemplo' },
+    author: { name: 'Autor Exemplo', email: 'autor@exemplo.com' }
+  };
+}</code></pre>
+<p>Crie o arquivo <code ctc>src/routes/03/test/+page.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;h1&gt;{data.post.title}&lt;/h1&gt;
+&lt;sub&gt;por {data.author.name}&lt;/sub&gt;
+&lt;div&gt;{@html data.post.content}&lt;/div&gt;</code></pre>
+<p><strong>Explicação:</strong> A função <code>load</code> em <code>+page.server.js</code> retorna um objeto com os dados necessários para a página. Esses dados são acessados no componente Svelte através da propriedade <code>data</code>.</p>
+
+<h2 id="dados-do-layout">Dados do Layout</h2>
+
+<p>Teus arquivos <code>+layout.svelte</code> também podem carregar dados, via <code>+layout.server.js</code>.</p>
+<p>Crie o arquivo <code ctc>src/lib/server/database.js</code>:</p>
+<pre><code class="language-javascript">const posts = [
+  { slug: 'um', title: 'Primeiro Post', publish_date: '2025-03-12', content: 'Conteúdo do primeiro post' },
+  { slug: 'outro', title: 'Outro Post', publish_date: '2025-03-25', content: 'Conteúdo do outro post' },
+  { slug: 'algum', title: 'Mais um Post', publish_date: '2024-11-22', content: 'Conteúdo de mais um post' },
+  { slug: 'ainda', title: 'Ainda Outro Post', publish_date: '2024-11-02', content: 'Conteúdo de ainda outro post' }
+];</code></pre>
+<p><strong>Explicação</strong>: Esse arquivo represetará nosso banco de dados.</p>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/+layout.server.js</code>:</p>
+<pre><code class="language-javascript">import * as db from '$lib/server/database';
+
+export async function load() {
+  const posts = db.getAll();
+  return { posts };
+}</code></pre>
+<p>A função <code>getAll()</code> ainda não existe no arquivo <code>src/lib/server/database.js</code>. Será tua tarefa implementá-la, bem como todas as outras funções ainda não implementadas.</p>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/+layout.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  let { data, children } = $props();
+&lt;/script&gt;
+
+&lt;div class=&quot;row&quot;&gt;
+  &lt;div class=&quot;col-4 bg-body-secondary&quot;&gt;
+    &lt;aside&gt;
+      &lt;h4&gt;Últimos Posts&lt;/h4&gt;
+      &lt;ul&gt;
+        {#each data.posts.slice(0, 2) as post}
+          &lt;li&gt;
+            &lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;
+              {post.title}
+            &lt;/a&gt;
+          &lt;/li&gt;
+        {/each}
+      &lt;/ul&gt;
+    &lt;/aside&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;col&quot;&gt;
+    &lt;main&gt;
+      {@render children()}
+    &lt;/main&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p><strong>Explicação:</strong> Dados retornados pela função <code>load</code> de um arquivo <code>+layout.server.js</code> ficam disponíveis para todos os seus componentes <code>.svelte</code> filhos, bem como para ele próprio. Aqui, o arquivo <code>+layout.server.js</code> carrega todos os posts e os disponibiliza para o layout e suas páginas filhas. No layout, exibimos os dois posts mais recentes em um menu lateral.</p>
+<p>Vamos criar uma página filha. Crie o arquivo <code ctc>src/routes/03/posts/+page.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;h3&gt;Todos os Posts&lt;/h3&gt;
+{#each data.posts as post}
+  &lt;p&gt;&lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
+{/each}</code></pre>
+<p><strong>Explicação:</strong> A página principal lista todos os posts disponíveis, utilizando os dados fornecidos pelo layout.</p>
+<div class="info">
+  <p><strong>Nota:</strong> Se múltiplas funções <code>load</code> retornarem dados com a mesma propriedade, a última sobrescreve as anteriores. Por exemplo, se uma função <code>load</code> do layout retorna <code>{ a: 1, b: 2 }</code> e a da página retorna <code>{ b: 3, c: 4 }</code>, o resultado final será <code>{ a: 1, b: 3, c: 4 }</code>.</p>
+</div>
+
+<h2 id="parâmetros-da-função-load">Parâmetros da Função Load</h2>
+
+<p>A função <code>load</code> é invocada com um objeto <code>ServerLoadEvent</code> como parâmetro, que possui várias propriedades, como <code>params</code>, <code>url</code> e <code>fetch</code>.</p>
+
+<h3 id="params">params</h3>
+
+<p>Uma rota pode ser um caminho estático, como <code>src/routes/about</code>, ou um caminho dinâmico, como <code>src/routes/blog/[slug]</code> ou <code>src/routes/posts/[ano]/[mes]</code>. Neste caso, <code>[slug]</code>, <code>[ano]</code> e <code>[mes]</code> são chamados de <strong>parâmetros de rota</strong>, ou seja, variáveis que permitem diferentes valores levarem à mesma página.</p>
+<p>Por exemplo:</p>
+<ul>
+  <li>A URL <code>/about</code> abrirá a página em <code>src/routes/about</code>.</li>
+  <li>As URLs <code>/blog/post1</code> e <code>/blog/post2</code> abrirão a mesma página dinâmica em <code>src/routes/blog/[slug]</code>, sendo que o valor de <code>slug</code> será <code>post1</code> ou <code>post2</code>, respectivamente.</li>
+  <li>Da mesma forma, <code>/posts/2025/03</code> e <code>/posts/2024/11</code> abrirão a página <code>src/routes/posts/[ano]/[mes]</code>, com <code>ano</code> sendo <code>2025</code> ou <code>2024</code>, e <code>mes</code> sendo <code>03</code> ou <code>11</code>.</li>
+</ul>
+<p>A propriedade <code>params</code> é um <strong>objeto</strong> onde cada propriedade corresponde ao nome do parâmetro definido entre colchetes na rota, e seu valor corresponde ao trecho da URL acessada.</p>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/[ano]/[mes]/+page.server.js</code>:</p>
+<pre><code class="language-javascript">import * as db from '$lib/server/database';
+
+export async function load({ params }) {
+  const posts = db.getByYearMonth(params.ano, params.mes);
+  return { posts, ano: params.ano, mes: params.mes };
+}</code></pre>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/[ano]/[mes]/+page.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;h3&gt;Postagens de {data.mes}/{data.ano}&lt;/h3&gt;
+
+{#each data.posts as post}
+  &lt;p&gt;&lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
+{:else}
+  &lt;p&gt;Nenhuma postagem nesse m&ecirc;s!&lt;/p&gt;
+{/each}</code></pre>
+<p><strong>Explicação:</strong> Utilizamos os parâmetros de rota <code>ano</code> e <code>mes</code> para filtrar os posts por data.</p>
+<p>Também podemos implementar uma única página para exibir cada post separadamente.</p>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/[slug]/+page.server.js</code>:</p>
+<pre><code class="language-javascript">import * as db from '$lib/server/database';
+
+export async function load({ params }) {
+  const post = db.getBySlug(params.slug);
+  return { post };
+}</code></pre>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/[slug]/+page.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;h1&gt;{data.post.title}&lt;/h1&gt;
+&lt;sub&gt;Em {data.post.publish_date}&lt;/sub&gt;
+&lt;p&gt;{data.post.content}&lt;/p&gt;</code></pre>
+<p><strong>Explicação:</strong> Aqui, utilizamos o parâmetro de rota <code>slug</code> para buscar e exibir um post específico.</p>
+
+<h3 id="url">url</h3>
+
+<p>Além dos <strong>parâmetros de rota</strong>, também podemos passar informações pela <strong>URL</strong> usando o que chamamos de <strong>parâmetros de consulta</strong> — também conhecidos como <strong>query params</strong> ou <strong>search params</strong>.</p>
+<p>Esses parâmetros aparecem após o símbolo <code>?</code> na URL. Por exemplo:</p>
+<pre><code>https://meusite.com/produtos?categoria=livros&amp;ordem=preco</code></pre>
+<p>Nesse caso, a URL possui dois query params:</p>
+<ul>
+  <li><code>categoria</code> com valor <code>&quot;livros&quot;</code></li>
+  <li><code>ordem</code> com valor <code>&quot;preco&quot;</code></li>
+</ul>
+<p>No SvelteKit, dentro da função <code>load</code>, você pode acessar esses dados através da propriedade <code>url</code>, que é um objeto do tipo <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/URL">URL</a>. Esse objeto representa a URL da requisição e contém várias informações úteis, como:</p>
+<ul>
+  <li><code>origin</code>: origem da URL (ex: <code>https://meusite.com</code>)</li>
+  <li><code>pathname</code>: caminho da URL (ex: <code>/produtos</code>)</li>
+  <li><code>searchParams</code>: um objeto do tipo <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams">URLSearchParams</a>, que representa os parâmetros de consulta da URL e permite acessar facilmente os valores dos query params.</li>
+</ul>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/query/+page.server.js</code>:</p>
+<pre><code class="language-javascript">import * as db from '$lib/server/database';
+
+export async function load({ url }) {
+  console.log(url);
+  const title = url.searchParams.get('title') || null;
+  const content = url.searchParams.get('content') || null;
+
+  if (!title && !content) return { posts: db.getAll() };
+
+  return { posts: db.getByQuery(title, content) };
+}</code></pre>
+<div class="info">
+  <p>💡 <strong>Dica:</strong> Neste exemplo, usamos <code>console.log()</code> para exibir o conteúdo da URL e dos parâmetros no terminal ou no console do navegador. Essa é uma ferramenta muito útil para <strong>debugar</strong> (ou seja, investigar e entender o que está acontecendo no seu código).</p>
+  <p>Sempre que estiver em dúvida sobre o que uma variável contém, experimente usar <code>console.log(minhaVariavel)</code> para visualizar seu valor. Isso pode ajudar bastante na hora de identificar problemas e entender melhor o fluxo do programa.</p>
+</div>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/query/+page.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;form&gt;
+  &lt;input type=&quot;text&quot; name=&quot;title&quot; placeholder=&quot;Busca por título...&quot; /&gt;
+  &lt;input type=&quot;text&quot; name=&quot;content&quot; placeholder=&quot;Busca por conteúdo...&quot; /&gt;
+  &lt;button type=&quot;submit&quot;&gt;Buscar&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;h1&gt;Busca de posts&lt;/h1&gt;
+
+&lt;ul&gt;
+  {#each data.posts as post}
+    &lt;li&gt;&lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;{post.title}&lt;/a&gt;&lt;/li&gt;
+  {:else}
+    &lt;li&gt;Nenhum resultado encontrado.&lt;/li&gt;
+  {/each}
+&lt;/ul&gt;</code></pre>
+<p><strong>Explicação:</strong> Neste exemplo, a função <code>load</code> acessa os parâmetros da URL usando <code>url.searchParams.get('termo')</code>, permitindo buscar posts por título. Isso simula uma funcionalidade de busca baseada em query strings.</p>
+
+<h3 id="fetch">fetch</h3>
+
+<p>Para buscar dados de uma API externa ou de teu próprio servidor, você pode usar a função <code>fetch</code> disponibilizada pelo SvelteKit. Ela se comporta de forma idêntica à API nativa <code>fetch</code>, mas com algumas vantagens:</p>
+<ul>
+  <li>Pode ser usada para fazer requisições autenticadas no servidor, herdando cookies e cabeçalhos de autorização da requisição da página.</li>
+  <li>Requisições internas (como para rotas <code>+server.js</code>) são redirecionadas diretamente para o manipulador de requisições no servidor, sem a sobrecarga de uma chamada HTTP.</li>
+  <li>Em alguns casos, é mais eficiente, pois <a target="_blank" href="https://svelte.dev/docs/kit/load#Making-fetch-requests">evita uma requisição adicional</a>.</li>
+</ul>
+<p>Crie o arquivo <code ctc>src/routes/03/external/users/+page.server.js</code>:</p>
+<pre><code class="language-js">export async function load({ fetch }) {
+  const res = await fetch('https://jsonplaceholder.typicode.com/users');
+  const users = await res.json();
+  return { users };
+}</code></pre>
+<p><strong>Explicação:</strong> Esse código faz uma requisição para a API externa <a target="_blank" href="https://jsonplaceholder.typicode.com/">JSONPlaceholder</a> e retorna os dados dos usuários. Como está em <code>+page.server.js</code>, a requisição sempre será feita no servidor, protegendo eventuais dados sensíveis.</p>
+<p>Crie o arquivo <code ctc>src/routes/03/external/users/+page.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;h3&gt;Usuários&lt;/h3&gt;
+&lt;ul&gt;
+  {#each data.users as user}
+    &lt;li&gt;&lt;a href=&quot;/03/external/users/{user.id}&quot;&gt;{user.name}&lt;/a&gt;&lt;/li&gt;
+  {/each}
+&lt;/ul&gt;</code></pre>
+<p><strong>Explicação:</strong> Aqui, iteramos sobre os usuários carregados e mostramos uma lista com links para cada um.</p>
+<p>Agora vamos carregar as informações de um usuários, bem como suas postagens. Crie o arquivo <code ctc>src/routes/03/external/users/[id]/+page.server.js</code>:</p>
+<pre><code class="language-js">export async function load({ params, fetch }) {
+  const resUser = await fetch(`https://jsonplaceholder.typicode.com/users/${params.id}`);
+  const user = await resUser.json();
+
+  const resPosts = await fetch(`https://jsonplaceholder.typicode.com/users/${params.id}/posts`);
+  const posts = await resPosts.json();
+
+  return { user, posts };
+}</code></pre>
+<p><strong>Explicação:</strong> Usamos <code>params.id</code> para buscar os dados de um usuário específico e também suas postagens. Retornamos tudo no objeto <code>data</code>.</p>
+<p>Crie o arquivo <code ctc>src/routes/03/external/users/[id]/+page.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;h3&gt;User&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Nome:&lt;/strong&gt; {data.user.name}&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Email:&lt;/strong&gt; {data.user.email}&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Telefone:&lt;/strong&gt; {data.user.phone}&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Website:&lt;/strong&gt; {data.user.website}&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Companhia:&lt;/strong&gt; {data.user.company.name}&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Endereço:&lt;/strong&gt; {data.user.address.street}, {data.user.address.suite}, {data.user.address.city}, {data.user.address.zipcode}&lt;/p&gt;
+
+&lt;h3&gt;Postagens do usuário&lt;/h3&gt;
+&lt;ul&gt;
+  {#each data.posts as post}
+    &lt;li&gt;&lt;a href=&quot;/03/external/posts/{post.id}&quot;&gt;{post.title}&lt;/a&gt;&lt;/li&gt;
+  {:else}
+    &lt;p&gt;Esse usuário não postou nada ainda!&lt;/p&gt;
+  {/each}
+&lt;/ul&gt;
+&lt;p&gt;
+  &lt;a href=&quot;/03/external/users&quot;&gt;Voltar aos usuários&lt;/a&gt;
+&lt;/p&gt;</code></pre>
+<p><strong>Explicação:</strong> Exibimos os detalhes do usuário e uma lista de suas postagens. Também incluímos um link de volta à lista de usuários.</p>
+
+<h2 id="pagedata">page.data</h2>
+
+<p>O componente <code>+page.svelte</code>, assim como cada <code>+layout.svelte</code> acima dele na hierarquia, tem acesso aos seus próprios dados e também aos dados de todos os seus layouts &quot;pais&quot;.</p>
+<p>No entanto, em algumas situações precisamos do contrário — um layout &quot;pai&quot; pode precisar acessar dados carregados por uma página ou por um layout &quot;filho&quot;. Um exemplo comum é o layout raiz (<code>+layout.svelte</code>) querer acessar uma propriedade <code>title</code> retornada pela função <code>load</code> de um <code>+page.server.js</code>.</p>
+<p>Para isso, utilizamos <a target="_blank" href="https://svelte.dev/docs/kit/$app-state#page">page.data</a>.</p>
+<p><strong>Modifique</strong> o arquivo <code ctc>src/routes/03/posts/+layout.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  import { page } from '$app/state';
+  let { data, children } = $props();
+
+  console.log(page);
+&lt;/script&gt;
+
+&lt;svelte:head&gt;
+  &lt;title&gt;{page.data.post?.title || page.url.pathname}&lt;/title&gt;
+&lt;/svelte:head&gt;
+
+&lt;div class=&quot;row&quot;&gt;
+  &lt;div class=&quot;col-4 bg-body-secondary&quot;&gt;
+    &lt;aside&gt;
+      &lt;h4&gt;Últimos posts&lt;/h4&gt;
+      &lt;ul&gt;
+        {#each data.posts.slice(0, 2) as post}
+          &lt;li&gt;
+            &lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;
+              {post.title}
+            &lt;/a&gt;
+          &lt;/li&gt;
+        {/each}
+      &lt;/ul&gt;
+    &lt;/aside&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;col&quot;&gt;
+    &lt;main&gt;
+      {@render children()}
+    &lt;/main&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p><strong>Explicação:</strong> Aqui, o layout acessa <code>page.data.post?.title</code> para definir o título da aba dinamicamente com base na página carregada.</p>
+
+<h2 id="cliente-vs-servidor">Cliente vs Servidor</h2>
+
+<p>Além das funções <code>load</code> nos arquivos <code>+layout.server.js</code> e <code>+page.server.js</code>, que sempre são executadas no servidor, também existem as funções <code>load</code> nos arquivos <code>+layout.js</code> e <code>+page.js</code>, conhecidas como funções <code>load</code> universais. Essas funções podem ser executadas tanto no servidor quanto no navegador (a menos que sejam combinadas com <code>export const ssr = false</code>, caso em que elas serão executadas <a target="_blank" href="https://svelte.dev/docs/kit/page-options#ssr">somente no navegador</a>).</p>
+<p>Por padrão, as funções <code>load</code> universais são executadas no servidor durante o SSR (Server-Side Rendering) quando o usuário visita a página pela primeira vez. Elas serão executadas novamente durante o processo de <a target="_blank" href="https://svelte.dev/docs/kit/glossary#Hydration">hidratação</a>, reutilizando quaisquer respostas de <a target="_blank" href="https://svelte.dev/docs/kit/load#Making-fetch-requests">requisições fetch</a> feitas anteriormente. Todas as invocações subsequentes dessas funções <code>load</code> universais ocorrerão no navegador. Você pode personalizar esse comportamento por meio das <a target="_blank" href="https://svelte.dev/docs/kit/page-options">opções da página</a>. Por exemplo, se desativar a opção de página <a target="_blank" href="https://svelte.dev/docs/kit/page-options#ssr">server-side rendering</a>, você estará criando uma SPA (Single Page Application), e todas as funções <code>load</code> universais serão executadas no cliente.</p>
+<p>Se uma rota contiver tanto funções <code>load</code> universais quanto funções <code>load</code> específicas para o servidor, a função <code>load</code> do servidor será executada primeiro.</p>
+<p>A função <code>load</code> é invocada em tempo de execução, a menos que você <a target="_blank" href="https://svelte.dev/docs/kit/page-options#prerender">pré-renderize</a> a página — nesse caso, ela será invocada em tempo de compilação.</p>
+
+<h3 id="quando-usar-cada-tipo">Quando usar o quê</h3>
+<ul>
+  <li>
+    <p>Se a sua função <code>load</code> deve ser executada sempre no servidor, por exemplo, quando utiliza variáveis de ambiente privadas ou acessa um banco de dados ou sistema de arquivos, ela deve ser colocada em um <code>+page.server.js</code>.</p>
+  </li>
+  <li>
+    <p>Como o SvelteKit pode acessar os dados diretamente da API sem passar pelo seu servidor, se você precisar buscar dados de uma API externa e não precisar de credenciais privadas, use o <code>+page.js</code>.</p>
+  </li>
+</ul>
+
+<h2 id="conclusão">Conclusão</h2>
+
+<p>O SvelteKit oferece uma série de recursos poderosos para carregar dados de maneira eficiente, seja do servidor, de APIs externas ou de fontes internas. Ao entender as diferenças entre as funções <code>load</code> nos arquivos <code>+page.server.js</code>, <code>+layout.server.js</code>, <code>+page.js</code> e <code>+layout.js</code>, você pode otimizar o desempenho de teu aplicativo, aproveitando o que há de melhor em renderização no servidor e no cliente. Para explorar mais sobre esses recursos e como aplicá-los, consulte a <a target="_blank" href="https://svelte.dev/docs/kit/load">documentação oficial</a>.</p>
+
+<h2 id="exercícios">Exercícios</h2>
+
+<ol class="excs">
+  <li>Implementar as seguintes funções no arquivo <code>database.js</code>, responsáveis pela manipulação dos dados dos posts:
+    <ol>
+      <li><code>getAll()</code>: Retorna todos os posts cadastrados.</li>
+      <li><code>getByYearMonth(ano, mes)</code>: Retorna apenas os posts publicados no ano e mês especificados.</li>
+      <li><code>getBySlug(slug)</code>: Retorna o post que corresponde exatamente ao <code>slug</code> fornecido.</li>
+      <li><code>getByQuery(title, content)</code>: Retorna todos os posts cujo título contenha a string fornecida em <code>title</code> ou cujo conteúdo contenha a string fornecida em <code>content</code>. Não deve diferenciar letras maiúsculas de minúsculas. Se o valor for nulo, indefinido ou uma string vazia, o campo correspondente não deve ser considerado no filtro.</li>
+    </ol>
+  </li>
+  <li>Implementar a rota faltante <code ctc>src/routes/03/external/posts/[id]</code>, que exibe a postagem com o id especificado.</li>
+  <li>Tornar as páginas de teu aplicativo SvelteKit completamente navegáveis, permitindo a navegação entre todas as rotas criadas. (Sugestão: Adicione ao menu de navegação lateral os links para as páginas).</li>
+  <li>Utilizando a API REST <a target="_blank" href="https://pokeapi.co/">https://pokeapi.co/</a>, implementar uma página que liste os pokémons, com um link que redirecione para a página de detalhes de cada pokémon.</li>
+  <p><strong>Possível solução:</strong></p>
+  <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.svelte</code></p>
+  <pre><code>&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;div class="row"&gt;
+  {#each data.pokemons as p}
+    &lt;div class="col-md-3 col-sm-6 mb-3"&gt;
+      &lt;div class="card"&gt;
+        &lt;img src={p.image} alt={p.name} class="card-img-top" /&gt;
+        &lt;div class="card-body"&gt;
+          &lt;a href="/03/pokemon/{p.name}" class="stretched-link text-decoration-none"&gt;
+            &lt;h5 class="card-title text-capitalize"&gt;{p.name}&lt;/h5&gt;
+          &lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  {/each}
+&lt;/div&gt;</code></pre>
+  <p>Explicação:</p>
+  <ul>
+    <li>Este código cria uma lista de pokémons com suas imagens.</li>
+    <li><strong>Linha 8</strong>: Cada <a href="https://getbootstrap.com/docs/5.3/components/card/#images">card</a> é colocado em uma coluna que ocupa largura 3/12 em telas médias pra cima (<code>col-md-3</code>), e largura 6/12 em telas pequenas pra cima (<code>col-sm-6</code>), e ocupa 100% da largura em telas menores.</li>
+    <li><strong>Linha 11:</strong> O link direciona para uma página com mais informações sobre o Pokémon.</li>
+    <li><strong>Linha 11:</strong> A classe <a href="https://getbootstrap.com/docs/5.3/helpers/stretched-link/"><code>stretched-link</code></a> permite que a área inteira do card seja clicável.</li>
+  </ul>
+
+  <p>Agora vamos ver de onde os dados são carregados.</p>
+  <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.js</code>:</p>
+  <pre><code class="js">export async function load() {
+  const limit = 12;
+  const offset = 0;
+
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`);
+  const data = await res.json();
+
+  for (const pokemon of data.results) {
+    const id = pokemon.url.split("/").at(-2);
+    pokemon.image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+  }
+
+  return { pokemons: data.results };
+}</code></pre>
+  <p><strong>Explicação:</strong></p>
+  <ul>
+    <li><strong>Linhas 2 e 3:</strong> Define os parâmetros para buscar apenas 12 pokémons (<code>limit = 12</code>) a partir do início (<code>offset = 0</code>).</li>
+    <li><strong>Linha 5:</strong> Faz uma requisição para a PokéAPI, pedindo os 12 primeiros pokémons.</li>
+    <li><strong>Linha 6:</strong> A resposta recebida contém apenas os nomes e as URLs dos pokémons, sem trazer diretamente as imagens.</li>
+    <li><strong>Linhas 8 a 10:</strong> Para cada pokémon na lista, extraímos o seu ID da URL. Como a URL tem um formato como <code>https://pokeapi.co/api/v2/pokemon/6/</code>, usamos:
+      <ul>
+        <li><code>split("/")</code> para transformar a URL em uma lista de partes separadas por <code>/</code>;</li>
+        <li><code>at(-2)</code> para acessar o penúltimo item da lista, que corresponde ao ID do pokémon. Isso funciona porque as URLs da PokéAPI terminam com uma barra, deixando o ID na posição anterior à última barra.</li>
+      </ul>
+      <p>Esse ID é então usado para montar a URL da imagem correspondente, disponível no repositório da PokéAPI no GitHub como <code>https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png</code></p>
+    </li>
+
+    <li><strong>Linha 13:</strong> Retorna a lista de pokémons (agora com imagens adicionadas) para ser utilizada pela interface do SvelteKit.</li>
+  </ul>
+
+  <p>Essa abordagem é comum quando a API retorna informações parciais. Em vez de fazer uma nova requisição para trazer a imagem de cada pokémon (o que seria mais lento), deduzimos o ID e montamos a URL direto para o repositório de imagens — uma solução prática e eficiente.</p>
+  <li>Implemente paginação para listar os Pokémons.
+    <p><strong>Passos</strong>:</p>
+    <ol>
+      <li>Exiba apenas um número limitado de itens por página (por exemplo, 20 pokémons por página).</li>
+      <li>Implemente botões de navegação para mudar de página, como &quot;Próximo&quot; e &quot;Anterior&quot;.</li>
+      <li>Ao clicar em um botão de navegação, a página será atualizada com os novos itens da próxima ou da página anterior.</li>
+      <li>Teste a navegação para garantir que a paginação funcione corretamente, carregando os pokémons conforme esperado.</li>
+    </ol>
+  </li>
+  <li>Implemente uma funcionalidade de busca para filtrar os pokémons com base em parâmetros de consulta (query params), como o tipo do pokémon.</li>
+  <li>Quando o usuário clicar em um pokémon, crie uma página dedicada para exibir os detalhes desse pokémon.</li>
+</ol>

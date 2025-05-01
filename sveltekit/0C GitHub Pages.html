@@ -1,0 +1,210 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script defer>hljs.configure({ languages: ["js"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<div>
+    <h1 id="como-publicar-teu-projeto-sveltekit-no-github-pages">Como publicar teu site construído com SvelteKit no GitHub Pages</h1>
+    <p>Este tutorial explica como construir um site estático com SvelteKit e publicá-lo na internet usando o GitHub Pages.</p>
+    <p>Você pode acompanhar o tutorial assistindo a <a href="https://www.youtube.com/playlist?list=PLcZDQl73nB1CuD4i_1Z5I3_FAM6G7Ng7h">esta playlist</a> no YouTube.</p>
+
+    <div>
+        <h2 id="criacao-do-projeto-com-sveltekit">Criação do Projeto</h2>
+        <ol>
+            <li>
+                <p>Execute no terminal:</p>
+                <div class="custom-tabs">
+                    <div class="custom-tabs-bar">
+                        <button class="custom-tabs-btn" aria-custom-tabs-tab="windows-tab">🪟 Windows</button>
+                        <button class="custom-tabs-btn" aria-custom-tabs-tab="linux-tab">🐧 Linux</button>
+                    </div>
+
+                    <div id="windows-tab" class="custom-tabs-tab">
+                        <pre><code class="ps">$username = Read-Host "Qual teu nome de usuário do GitHub?"
+$useremail = Read-Host "Qual teu email do GitHub?"
+git config --global user.name $username
+git config --global user.email $useremail
+$desktopPath = [Environment]::GetFolderPath('Desktop')
+Set-Location -Path $desktopPath
+pnpm dlx sv create $username".github.io"
+cd $username".github.io"
+pnpm add --save-dev @sveltejs/adapter-static
+code -r .</code></pre>
+                    </div>
+                    <div id="linux-tab" class="custom-tabs-tab">
+                        <pre><code class="sh">read -p "Qual teu nome de usuário do GitHub? " input_username
+read -p "Qual teu email do GitHub? " input_useremail
+git config --global user.name "$input_username"
+git config --global user.email "$input_useremail"
+desktop_path="$(xdg-user-dir DESKTOP)"
+cd "$desktop_path"
+pnpm dlx sv create "$input_username.github.io"
+cd "$input_username.github.io"
+pnpm add --save-dev @sveltejs/adapter-static
+code -r .</code></pre>
+                    </div>
+            </li>
+            <li>
+                <p>Quando solicitado, informe teu nome de usuário e email do GitHub.</p>
+            </li>
+            <li>
+                <p>Durante a criação do projeto SvelteKit, selecione as seguintes opções:</p>
+                <pre><code>  ┌  Welcome to the Svelte CLI! (v0.5.7)
+│
+◇  Which template would you like?
+│  SvelteKit minimal
+│
+◇  Add type checking with Typescript?
+│  No
+│
+◆  Project created
+│
+◇  What would you like to add to your project?
+│  prettier, eslint
+│
+◇  Which package manager do you want to install dependencies with?      
+│  pnpm</code></pre>
+            </li>
+        </ol>
+    </div>
+
+    <div>
+        <h2 id="configuracao-do-projeto">Configuração do Projeto</h2>
+        <p>O SvelteKit oferece uma ferramenta <a href="https://svelte.dev/docs/kit/adapter-static">Static Site Generator (SSG)</a>, chamada de adaptador estático, que cria uma versão estática do teu site. Sites estáticos, embora mais simples, têm a vantagem de não necessitarem de um servidor de back-end para processar as requisições. No entanto, funcionalidades dinâmicas precisam ser implementadas via JavaScript no front-end, o que pode não ser ideal para projetos que exigem interações dinâmicas com o servidor (como painéis de controle ou sistemas de login complexos). Os SSGs são excelentes para blogs, portfólios, documentações e outros projetos que não requerem operações dinâmicas no back-end. Além disso, é possível <a href="#implantacao-github-pages">hospedar sites estáticos no GitHub Pages</a> gratuitamente!</p>
+        <p>Para configurar o site como estático, siga estes passos:</p>
+        <ol>
+            <li>
+                <p>Substitua o conteúdo do arquivo <code>svelte.config.js</code> pelo seguinte:</p>
+                <pre><code>import adapter from '@sveltejs/adapter-static';
+
+export default { kit: { adapter: adapter() } };</code></pre>
+            </li>
+            <li>
+                <p>Crie o arquivo <code ctc>src/routes/+layout.js</code> com o seguinte conteúdo:</p>
+                <pre><code class="lang-js">export const prerender = true;</code></pre>
+            </li>
+        </ol>
+    </div>
+
+    <div>
+        <h2 id="publicacao-do-projeto">Publicação do Projeto no GitHub</h2>
+        <p>O GitHub é uma plataforma de desenvolvimento colaborativo que permite que programadores armazenem, compartilhem e colaborem em projetos de software. O GitHub é baseado no Git, um sistema de controle de versão. Dentre suas funcionalidades, encontram-se: Controle de versão, Gestão de projetos, Colaboração, Contribuição em projetos de código aberto, Documentar o software, Rastrear problemas e gerenciar falhas.</p>
+        <p>Para publicar o projeto no GitHub, siga estes passos:</p>
+        <ol>
+            <li>No vscode, tecle F1, digite "publish" e selecione "Publish to GitHub".</li>
+            <li>Se solicitado, conecte-se à tua conta GitHub, que te redirecionará à página de confirmação.</li>
+            <li>De volta ao vscode, selecione "Publish to GitHub <strong>public</strong> repository" (escolha o <strong>public</strong>, e não o <em>private</em>).</li>
+        </ol>
+        <p>Pronto, teu projeto está publicado no GitHub! Agora você pode acessar o <a href="javascript:;" onclick="abrirURL('github.com/${username}/${username}.github.io')">repositório remoto</a> do projeto no GitHub.</p>
+    </div>
+
+    <div>
+        <h2>Visão Geral do Git</h2>
+        <p>O Git é um sistema de controle de versão (VCS) distribuído, amplamente utilizado por desenvolvedores para gerenciar e acompanhar mudanças em projetos de software. Ele permite que você registre o histórico de todas as versões do projeto.</p>
+        <p>Para acessar a aba do git no vscode, tecle ctrl+shift+g.</p>
+        <p>Na aba do git, em "Changes", são listados todos os arquivos modificados desde a última versão salva do projeto. Cada versão é chamada de "commit". Em "Source Control Graph" são listados todos os commits do projeto, isto é, todas as versões salvas.</p>
+
+        <h3>Principais Comandos do Git</h3>
+        <h4>Commits</h4>
+        <p>Para salvar uma nova versão, isto é, fazer um commit, clique no botão "Commit" na aba do git, ou tecle F1, digite "commit" e selecione "Git: Commit". Será aberto um arquivo para você descrever as novidades dessa nova versão. É obrigatório você escrever alguma mensagem. Depois feche o arquivo para salvar essa nova versão.</p>
+        <h4>Sync = Push + Pull</h4>
+        <p>Os commits salvos no teu computador (repositório local) não são enviados automaticamente para o GitHub (repositório remoto). Para enviar os commits para o repositório remoto, clique no botão "Sync changes", ou tecle F1, digite "sync e selecione "Git: Sync". A operação "sync" é realizada em duas etapas, conhecidas como "pull" e "push". Pull é receber todos os commits do repositório remoto para teu repositório local. E push é enviar todos os commits do teu repositório local para o repositório remoto.</p>
+        <p>Para apenas fazer o pull, isto é, receber algum commit do GitHub que não está no teu repositório local, você pode, no vscode, teclar F1, digitar "pull" e selecionar "Git: pull".</p>
+        <h4>Clone</h4>
+        <p>Se você já tem um projeto salvo no GitHub e deseja abri-lo em outro computador, você pode acessar a página do <a href="javascript:;" onclick="abrirURL('github.com/${username}/${username}.github.io')">repositório remoto</a> no GitHub, clicar no botão "Code" e copiar o link do repositório. No vscode, tecle F1, digite "clone", selecione a opção "Git: clone", cole o link copiado anteriormente, e tecle enter. Escolha o local onde salvar o projeto em teu computador. Na janela que abrir, clique em "Open".</p>
+    </div>
+
+    <div>
+        <h2 id="implantacao-github-pages">Implantação do Site no GitHub Pages</h2>
+        <p>O <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages">GitHub Pages</a> é uma solução gratuita para hospedar sites estáticos pequenos ou médios. Ele suporta integração direta com repositórios do GitHub, permitindo que a implantação (deploy) de novas versões do site seja feita automaticamente sempre que houver modificações no repositório remoto.</p>
+        <p>Para configurar o GitHub Pages, siga estes passos:</p>
+        <ol>
+            <li>Acesse o <a href="javascript:;" onclick="abrirURL('github.com/${username}/${username}.github.io')">repositório remoto</a> no GitHub e vá para "Settings" → "Pages" → "Build and deployment" → "Source". Altere de "Deploy from a branch" para "GitHub Actions".</li>
+            <li>Selecione "create your own" quando aparecer logo embaixo.</li>
+            <li>Na página que abrir, nomeie o arquivo como <code ctc>deploy.yml</code> e adicione o seguinte conteúdo:</p>
+                <pre><code class="yml">name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build_site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: build
+        env:
+          BASE_PATH: "/${{ github.event.repository.name }}"
+        run: |
+          pnpm run build
+
+      - name: Upload Artifacts
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # this should match the `pages` option in your adapter-static options
+          path: "build/"
+
+  deploy:
+    needs: build_site
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4</code></pre>
+            </li>
+            <li>Clique em "Commit changes..." e de novo em "Commit changes".</li>
+        </ol>
+    </div>
+
+    <div>
+        <h2 id="conclusao">Conclusão</h2>
+        <p>Tudo pronto! Sempre que fizer um push para o repositório remoto, teu site será automaticamente implantado (deployed) no GitHub Pages!</p>
+        <p>Para ver o andamento da implantação do site, acesse a aba "Actions" do teu <a href="javascript:;" onclick="abrirURL('github.com/${username}/${username}.github.io/actions')">repositório remoto</a> e selecione a implantação em andamento.</p>
+        <p>Para ver teu site online, acesse o <a href="javascript:;" onclick="abrirURL('${username}.github.io')">endereço do teu site</a>.</p>
+    </div>
+</div>
+
+<script>
+    let username = null;
+    function abrirURL(url) {
+        if (username == null) {
+            username = prompt("Qual teu nome de usuário do GitHub?");
+        }
+        url = url.replaceAll("${username}", username);
+        window.open("https://" + url, "_blank");
+    }
+</script>

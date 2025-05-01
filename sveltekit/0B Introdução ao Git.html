@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script> -->
+    <!-- <script defer>hljs.highlightLinesAll([[], [], [], [{ start: 3, end: 3, color: 'lightgreen' }]]);</script> -->
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1 id="introdução-ao-git-e-ao-github">Introdução ao Git e ao GitHub</h1>
+<p>Neste capítulo vamos aprender sobre duas ferramentas fundamentais para o desenvolvimento de software: Git e GitHub.</p>
+<p>O <a href="https://git-scm.com/">Git</a> é um sistema de controle de versões que rastreia mudanças no código-fonte, permitindo a colaboração simultânea de múltiplos desenvolvedores. Ele registra as alterações de forma organizada, mantendo um histórico de versões e possibilitando a restauração de versões anteriores quando necessário.</p>
+<p>O <a href="https://github.com/">GitHub</a> é uma plataforma online de hospedagem de repositórios Git que amplia suas funcionalidades com uma interface intuitiva e ferramentas para colaboração, revisão de código, automação e gerenciamento de projetos. Além disso, funciona como uma rede social para desenvolvedores, facilitando o compartilhamento e a colaboração em projetos de código aberto.</p>
+<p>Em resumo: Git é a tecnologia para controle de versão; GitHub é uma plataforma que utiliza Git e fornece ferramentas adicionais para colaboração e gerenciamento de projetos.</p>
+<p>Você pode acompanhar essa aula <a href="https://www.youtube.com/watch?v=OHoIv10ZcX4&list=PLcZDQl73nB1ACZdEAd_wNbY0tB_QutcH3&index=3&ab_channel=PedroHenriquedeAraujoSiqueira">assistindo a esse vídeo</a>.</p>
+
+
+<h2 id="criando-uma-conta-no-github">Criando uma Conta no GitHub</h2>
+<p>Primeiramente, vamos criar uma conta no GitHub, ou acessá-la, se você já tiver uma. Acesse o site <a href="https://github.com" target="_blank">https://github.com</a>. Se você já tem uma conta, pode clicar em “Sign in”. Caso contrário, clique em “Sign up” para criar uma. Depois de acessar ou criar tua conta, clique no ícone do teu usuário e anote o nome do usuário que aparecer.</p>
+<p>Agora, abra um terminal e execute os seguintes comandos, substituindo <code>username</code> e <code>useremail</code> pelo teus respectivos nome de usuário e e-mail usados ao criar tua conta no GitHub:</p>
+<ul>
+    <li>(Substitua <code>username</code> pelo teu nome de usuário!)
+        <pre><code>git config --global user.name username</code></pre>
+    </li>
+    <li>(Substitua <code>useremail</code> pelo teu e-mail de usuário!)
+        <pre><code>git config --global user.email useremail</code></pre>
+    </li>
+</ul>
+<h2 id="publicando-o-projeto-no-github">Publicando o Projeto no GitHub</h2>
+<p>Agora vamos publicar no GitHub o projeto criado no tutorial <a href="https://pedrosiqueira.github.io/ifmsjs/sveltekit/0A%20Criando%20um%20projeto%20SvelteKit.html">Criando um projeto SvelteKit</a>. Com o projeto aberto no vscode, tecle F1, digite “publish” e selecione a opção “Publish to GitHub”. A primeira vez que o VSCode tentar se conectar ao GitHub, ele pedirá para você se autenticar. Clique em “Allow”. E dê permissão para o VSCode acessar tua conta no GitHub. De volta ao VSCode, selecione a opção “Publish to GitHub public repository”. O VSCode agora publicará o projeto no GitHub. Se aparecer essa janela, selecione a opção de conectar no navegador e autorize o Git a publicar na tua conta GitHub. Depois que essa aba aparecer, você pode fechá-la e voltar ao VSCode. Ao aparecer essa mensagem, teu projeto foi publicado com sucesso no GitHub! Clique em “Open on GitHub” para ver teu projeto no GitHub.</p>
+<h2 id="repositórios">Repositórios</h2>
+<p>Agora vamos dar uma visão geral do funcionamento do Git e do GitHub. Nosso projeto nada mais é do que uma pasta que contém todos os arquivos relacionados ao projeto. No contexto do Git, chamamos essa pasta de repositório. Se você clicar com o botão direito em algum espaço vazio da aba Explorer do vscode e selecionar “Reveal in file explorer”, a pasta do projeto será aberta no explorador de arquivos. Observe que o projeto está na área de trabalho. Como também publicamos o projeto no GitHub, podemos acessá-lo através do endereço do <a href="javascript:;" onclick="abrirRepositorio()">github.com/teu_nome_de_usuario/nome_do_teu_projeto</a>. Ou seja, o GitHub funciona como uma espécie de “drive” para armazenar os arquivos do projeto na nuvem, permitindo que eles estejam acessíveis de qualquer lugar com internet. Para diferenciarmos, chamamos a pasta em nosso computador de repositório local, e a pasta no GitHub de repositório remoto.</p>
+<h2 id="commit">Commit</h2>
+<p>Toda vez que realizamos uma ou mais alterações no repositório local, salvamos essas mudanças como uma “nova versão” do projeto, chamada de <strong>commit</strong>. Por exemplo, abra o arquivo <code>src/routes/+page.svelte</code>, modifique a primeira linha para <code ctc>&lt;p&gt;Bem vindo ao meu site SvelteKit! Saiba mais &lt;a href="/sobre"&gt;aqui&lt;/a&gt;.&lt;/p&gt;</code> e adicione a linha <code ctc>&lt;p&gt;Entre em contato &lt;a href="/contato"&gt;aqui&lt;/a&gt;.&lt;/p&gt;</code>. Observe que o VSCode destaca as linhas alteradas desde o último commit e etiqueta o arquivo com a letra “M”, de modificado, facilitando a identificação das mudanças.</p>
+<p>Agora crie o arquivo <code ctc>src/routes/contato/+page.svelte</code> com o seguinte código:</p>
+<pre><code class="html">&lt;h1&gt;Contato&lt;/h1&gt;
+Nome: &lt;input&gt;&lt;br&gt;
+E-mail: &lt;input&gt;&lt;br&gt;
+Mensagem:&lt;br&gt;
+&lt;textarea&gt;&lt;/textarea&gt;&lt;br&gt;
+&lt;button&gt;Enviar&lt;/button&gt;&lt;br&gt;
+&lt;a href=&quot;/&quot;&gt;Página inicial&lt;/a&gt;</code></pre>
+<p>Observe que o VSCode etiqueta o arquivo com a letra “U”, de untracked, indicando que esse é um novo arquivo.</p>
+<p>Para visualizar essas alterações, abra a aba do GitHub (atalho Ctrl+Shift+G). Nessa aba, podemos ver todas as alterações realizadas desde o último commit. Se abrirmos o arquivo <code>src/routes/+page.svelte</code>, vemos a modificação realizada. E se abrirmos o arquivo <code>src/routes/contato/+page.svelte</code>, vemos que este arquivo é novo.</p>
+<p>Para salvar essa nova versão, clique em “Commit”. Se abrir essa janela, você pode clicar em “Always” para que essa mensagem não apareça novamente. Sempre que realizamos um commit, o Git solicita uma breve descrição das alterações realizadas. Essa descrição é importante, pois o Git mantém um histórico completo de todas as versões do projeto, incluindo os detalhes de cada commit, e é bom termos uma descrição geral do que foi mudado de uma versão para outra. Escreva a mensagem "adicionada página de contato" e tecle Ctrl+W para fechar esse arquivo, e salve-o.</p>
+<h2 id="sync-pull-push">Sync = Pull + Push</h2>
+<p>Quando todas as alterações estão salvas (commited), o botão “Commit” é substituído por “Sync Changes”. Esse botão sincroniza o repositório local com o repositório remoto, isto é, envia as alterações do repositório local para o repositório remoto no GitHub, e vice-versa. A sincronia é bidirecional, pois várias pessoas, cada uma com seu próprio repositório local, podem estar compartilhando o mesmo repositório remoto. Assim, se alguém fizer uma alteração no repositório remoto, essa alteração também poderá ser enviada ao repositório local de todos.</p>
+<p>Abra o arquivo <code>src/routes/+page.svelte</code> no GitHub e verifique que ambos os arquivos ainda estão diferentes antes da sincronização. Agora, volte ao VSCode, aba do GitHub, clique em “Sync Changes” e confirme a sincronização. Pronto, agora as alterações que fizemos no repositório local foram enviadas para o repositório remoto. Volte para o arquivo no repositório remoto e atualize a página para ver a nova versão.</p>
+<p>Quando <strong>enviamos</strong> algum commit do repositório local para o repositório remoto, dizemos que fizemos um <strong>push</strong>. E quando <strong>recebemos</strong> algum commit do repositório remoto para o repositório local, dizemos que fizemos um <strong>pull</strong>.</p>
+<h2 id="clone">Clone</h2>
+<p>Podemos abrir qualquer repositório hospedado no GitHub em nosso computador através da operação conhecida como <strong>clone</strong>. Basta copiar o endereço de clonagem do repositório, que pode ser encontrado na página inicial do projeto no GitHub, clicando no botão “Code”.</p>
+<p>Vamos clonar nosso projeto em outra pasta. Para isso, abra uma nova janela do VSCode clicando no menu “Arquivo” e depois em “Nova Janela”. Agora, tecle <kbd>F1</kbd>, digite “clone” e selecione a opção “Git: Clone”. Em seguida, cole o endereço do repositório que deseja clonar e tecle Enter.</p>
+<div class="info">Se quiser clonar um repositório da tua própria conta sem precisar colar o link, clique em “Clone from GitHub”. Isso exibirá uma lista com todos os repositórios aos quais você tem acesso, permitindo que escolha qual deseja clonar.</div>
+<p>Após selecionar o repositório, escolha um local no seu computador para salvá-lo. Certifique-se de que seja uma pasta diferente do projeto original para evitar conflitos de nomes. O VSCode fará o download do repositório e, ao concluir, perguntará se deseja abri-lo. Clique em “Open” para confirmar.</p>
+<p>Um detalhe de quando você clona um projeto javascript, é que ele não vem com a pasta node_modules, que contém os pacotes dos quais o projeto depende. Para você baixar os pacotes, execute no terminal o comando <code ctc>pnpm install</code>.</p>
+<p>Altere o arquivo <code>src/routes/+page.svelte</code> de um dos repositórios locais para que o VSCode detecte a mudança. Faça o commit e o sync da alteração.</p>
+<p>Observe que o outro repositório local não é sincronizado automaticamente com o repositório remoto. Para receber o commit do repositório remoto no outro repositório local, você pode teclar F1, digitar “pull”, e selecionar “Git: Pull”. Observe que o outro repositório local é atualizado com o último commit do repositório remoto.</p>
+<p>Então é isso, agora você já sabe como criar um projeto, salvá-lo no GitHub, cloná-lo em outro computador, e manter o projeto sincronizado entre vários computadores!</p>
+
+<script>
+    function abrirRepositorio() {
+        username = prompt("Qual o nome de usuário do GitHub?");
+        repository = prompt("Qual o nome de repositório do usuário?");
+        window.open(`https://github.com/${username}/${repository}`, "_blank");
+    }
+</script>

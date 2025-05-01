@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+<head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+        }, false);
+    </script>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ cssSelector: "code", languages: ["javascript"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+
+    <style>
+        img {
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .katex {
+            /* o padrão é 1.21, vc pode remover essa configuração se quiser deixar o padrão */
+            font-size: 1.0em;
+        }
+
+        table.custom,
+        table.custom>thead>tr>th,
+        table.custom>tbody>tr>td,
+        table.custom>tbody>tr>th {
+            /* tabela centralizada e com bordas */
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 5px;
+            padding-right: 5px;
+            text-align: center;
+        }
+
+        table pre {
+            /* Remove a margem interna de tags pre dentro de tabelas */
+            margin: 0;
+            padding: 0;
+            text-align: left;
+        }
+
+        td:has(pre) {
+            /* tags pre dentro de tabela são alinhadas no topo à esquerda */
+            vertical-align: top;
+        }
+
+        table.align-left th,
+        table.align-left td {
+            /* alinha à esquerda as células da tabela */
+            text-align: left !important;
+        }
+
+        /* inicia a lista de exercícios */
+        ol.excs {
+            padding-inline-start: 0em;
+            counter-reset: excs;
+            list-style: none;
+        }
+
+        /* põe um numerador num item da lista de exercícios, desde que não seja da classe no-mark */
+        ol.excs>li:not(.no-mark)::before {
+            counter-increment: excs;
+            content: counters(excs, ".") ". ";
+        }
+
+        /* põe uma barra vertical ao lado do item da lista de exercícios */
+        ol.excs>li {
+            /* Change this to adjust the line color and thickness */
+            border-left: 2px solid #000;
+            /* Optional: Add padding to create some space between the bar and content */
+            padding-left: 10px;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+        }
+
+        ol.section {
+            counter-reset: section;
+            list-style-type: none;
+        }
+
+        ol.section li::before {
+            counter-increment: section;
+            content: counters(section, ".") ". ";
+        }
+
+        td.hljs-ln-numbers {
+            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
+            color: #ccc;
+            border-right: 1px solid #999;
+            padding-right: 5px;
+        }
+
+        td.hljs-ln-code {
+            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
+            padding-left: 10px;
+        }
+    </style>
+</head>
+
+<div id="for">
+    <h1>Repetição <code>for</code></h1>
+    <q>A roda já deu uma volta completa. — William Shakespeare</q>
+
+    <h2>Principios da repetição controlada por contador</h2>
+    <p>Na repetição controlada por <b>contador</b>, sabemos de antemão quantas vezes o corpo da repetição será executado. O contador começa de um valor <b>inicial</b> e é <b>atualizado</b> a cada <b>iteração</b> (ciclo) até alcançar um valor <b>final</b>.</p>
+
+
+    <p>Em vez de usarmos a instrução <code>while</code> para repetição por contador, podemos usar a instrução <code>for</code>. A instrução <code>for</code> especifica no seu cabeçalho todos os detalhes da repetição.</p>
+
+    <table class="custom">
+        <tr>
+            <td>
+                <pre>// instruções antes do for
+
+for (<b>início</b>; <b>fim</b>; <b>atualização</b>) {
+    // instruções do corpo do for
+}
+
+// instruções depois do for</pre>
+            </td>
+        </tr>
+    </table>
+
+
+    <p>O <b>início</b> especifica o valor inicial do contador. É executado apenas uma vez, antes da primeira iteração.</p>
+    <p>O <b>fim</b> especifica o valor final do contador. É uma condição, que é executada no início de cada iteração. Se a condição é verdadeira, as instruções do corpo do <code>for</code> são executadas, senão, o <code>for</code> é encerrado e o programa continua da próxima instrução depois do corpo do <code>for</code>.</p>
+    <p>E <b>atualização</b> especifica o próximo valor do contador. É executada no final de cada iteração. Ela modifica o contador para que uma hora a condição encerre o <code>for</code>. Terminada a atualização, o programa volta para o início da próxima iteração.</p>
+    <p>Veja um exemplo do <code>for</code> ao lado do <code>while</code> para comparação.</p>
+
+    <table class="custom">
+        <tr>
+            <td>
+                <pre><code>let inicio = 1
+let fim = 11
+console.log("Contando até 10...")
+
+let cont = inicio // valor inicial
+while (cont &lt; fim) { // valor final
+    console.log(cont)
+    cont++ // atualização
+}
+
+console.log("Fim!")
+console.log("Valor final:", cont)</code></pre>
+            </td>
+            <td>
+                <pre><code>let inicio = 1
+let fim = 11
+console.log("Contando até 10...")
+
+
+for (let cont = inicio; cont &lt; fim; cont++) {
+    console.log(cont)
+}
+
+
+console.log("Fim!")
+console.log("Valor final:", cont)</code></pre>
+            </td>
+        </tr>
+    </table>
+
+    <p>As expressões em um cabeçalho for são opcionais.</p>
+    <ul>
+        <li>Você poderia omitir a inicialização se o contador é inicializado antes do <code>for</code>.</li>
+        <li>Você poderia omitir a atualização se o contador é atualizado dentro do <code>for</code>.</li>
+        <li>Você poderia omitir a condição se quisesse manter o controle da repetição dentro do corpo do <code>for</code> (veremos isso mais adiante com os comandos <code>continue</code>/<code>break</code>).</li>
+    </ul>
+
+    <p>Assim como qualquer estrutura que tem um corpo, as chaves do <code>for</code> são opcionais quando o seu corpo possui apenas uma instrução. Mesmo assim, é recomendável sempre colocar chaves para explicitar o corpo do <code>for</code>.</p>
+    <p>Os dois pontos-e-vírgulas no cabeçalho do <code>for</code> são obrigatórios. Mas atenção para não colocar um ponto-e-vírgula depois dos parênteses do <code>for</code>!</p>
+    <p>Variáveis declaradas dentro do <code>for</code>, inclusive variáveis do cabeçalho, só existem enquanto o <code>for</code> estiver sendo executado.</p>
+    <p>Observação: Assim como o <code>while</code>, o <code>for</code> pode nunca ser executado! Se a condição é falsa durante a primeira vez, o corpo do <code>for</code> não é executado.</p>
+
+    <h2>Diferenças e semelhanças entre <code>for</code> e <code>while</code></h2>
+
+    <p>Tudo o que dá para fazer usando <code>while</code> também dá usando <code>for</code> e vice-versa.
+        Porém dependendo da situação, um pode ser mais adequado que outro.
+        Em geral, as instruções <code>for</code> são utilizadas para repetição controlada por contador: quando sabemos quantas vezes queremos repetir determinado trecho de código…
+        E as instruções <code>while</code>, para repetição controlada por sentinela (flag): quando não sabemos o número de vezes que queremos repetir determinado trecho de código.</p>
+
+    <table class="custom align-left">
+        <tr>
+            <td>
+                <pre><code>let i = 1
+let soma = 0
+while (i &lt; 5) {
+    console.log("+", i)
+    soma += i
+    i++
+}
+console.log("= ", soma)</code></pre>
+            </td>
+            <td>
+                <pre><code>
+let soma = 0
+for (let i = 1; i &lt; 5; i++) {
+    console.log("+", i)
+    soma += i
+}
+
+console.log("= ", soma)</code></pre>
+            </td>
+        </tr>
+    </table>
+
+    <h2>Mais possibilidades com o <code>for</code></h2>
+    <p>O contador pode ser decrementado:</p>
+    <pre><code>console.log("Contagem regressiva:");
+for (let i = 10; i &gt; 0; i--) {
+    console.log(i, "...");
+}
+console.log("Decolar!");
+</code></pre>
+
+    <p>O contador não precisa ser atualizado apenas de um em um:</p>
+    <pre><code>console.log("todos os múltiplos de três entre zero e cem:");
+for (let n = 0; n &lt;= 100; n += 3) {
+    console.log(n);
+}</code></pre>
+
+    <p>Sugira uma correção para o seguinte erro:</p>
+
+    <pre><code>let i = 5;
+for (let j = 3; j &lt; 17; j += 4) {
+    console.log(i, j);
+    i--;
+}
+console.log(i, j); // erro: j não existe aqui</code></pre>
+
+    <p>O <b>início</b> e a <b>atualização</b> podem ter múltiplas expressões separadas por vírgula:</p>
+    <pre><code>for (let i = 1, j = 10; i &lt; j; i++, j--) {
+    console.log(i, j);
+}</code></pre>
+
+    <p>Como essas expressões podem tornar o código mais confuso, não é comum fazer assim. Outro exemplo:</p>
+    <pre><code>let bit, p;
+for(bit=512, p=0; bit &gt; 1; bit/=2, p+=1){
+    console.log(bit);
+}
+console.log("=", p);</code></pre>
+
+    <p>Na verdade, <b>atualização</b> pode ser qualquer expressão válida:</p>
+    <pre><code>for (let i = 1; i &lt; 1025; console.log(i *= 2));</code></pre>
+    <p>O ponto-e-vírgula no final do <code>for</code> indica que seu corpo é vazio. Na atualização, ao mesmo tempo que <code>i</code> é dobrado, também é exibido. Apesar de funcionar, essa estrutura não é recomendada por ser confusa.</p>
+
+    <h2 id="mais-exemplos">Mais exemplos de <code>for</code></h2>
+
+    <p>Contando de 1 a 100 em incrementos de 1.</p>
+    <pre><code>for (let i = 1; i &lt;= 100; i++) { console.log(i) }</code></pre>
+    <p>Contando de 100 a 1 em decrementos de 1.</p>
+    <pre><code>for (let i = 100; i >= 1; i--) { console.log(i) }</code></pre>
+    <p>Contando de 7 a 77 em incrementos de 7.</p>
+    <pre><code>for (let i = 7; i &lt;= 77; i += 7) { console.log(i) }</code></pre>
+    <p>Contando de 20 a 10 em decrementos de 2.</p>
+    <pre><code>for (let i = 20; i >= 10; i -= 2) { console.log(i) }</code></pre>
+    <p>Incrementando entre os valores 2, 5, 8, 11, 14, 17, 20.</p>
+    <pre><code>for (let i = 2; i &lt;= 20; i += 3) { console.log(i) }</code></pre>
+    <p>Decrementando entre os valores 99, 88, 77, 66, 55, 44, 33, 22, 11, 0.</p>
+    <pre><code>for (let i = 99; i >= 0; i -= 11) { console.log(i) }</code></pre>
+
+    <p>Qual a saída de cada versão a seguir?</p>
+
+    <table class="custom align-left">
+        <tr>
+            <td>
+                <pre><code>console.log("\nVersão 1:");
+let i;
+for (i = 0; i &lt; 10; i++) {
+    console.log(i);
+}</code></pre>
+            </td>
+            <td>
+                <pre><code>console.log("\nVersão 2:");
+let i;
+for (i = 0; i &lt;= 10; i++) {
+    console.log(i);
+}</code></pre>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <pre><code>console.log("\nVersão 3:");
+let i;
+for (i = 0; i &lt; 10; i++) {
+    console.log(i);
+}
+console.log(i);</code></pre>
+            </td>
+            <td>
+                <pre><code>console.log("\nVersão 4:");
+let i;
+for (i = 0; i &lt;= 10; i++) {
+    console.log(i);
+}
+console.log(i);</code></pre>
+            </td>
+        </tr>
+    </table>
+
+    <h2>Laços aninhados</h2>
+    <p>Seja estruturas de seleção ou de repetição, podemos colocá-las umas dentro das outras.</p>
+
+    <p>Veja esse exemplo de <code>if-else</code> dentro de <code>for</code>. Qual a saída?</p>
+    <pre><code>let i = 12
+for (let j = 1; j &lt;= i; j++) {
+    console.log(j)
+    if (j % 5 == 0 || j % 3 == 0)
+        console.log("A")
+    if (i % j == 0)
+        console.log("B")
+    else
+        console.log("C")
+}</code></pre>
+
+    <p>Vamos examinar um exemplo de laço <code>for</code> simples:</p>
+    <pre><code>for (let j = 0; j &lt; 5; j++)
+    console.log(j)</code></pre>
+
+    <p>A linha 2 é executada 5 vezes. Agora, vamos colocar esse laço dentro de outro laço:</p>
+
+    <pre><code>for (let i = 0; i &lt; 3; i++) {
+    console.log()
+    for (let j = 0; j &lt; 5; j++) {
+        console.log(j)
+    }
+}</code></pre>
+
+    <p>Neste novo código, devido ao laço da linha 1, as linhas 2 a 5 são executadas 3 vezes. A linha 4, que já era executada 5 vezes no laço interno, agora é executada um total de 3 * 5 = 15 vezes!</p>
+
+    <p>O laço interno repete a mesma quantidade de vezes a cada iteração (ciclo) do laço externo. Mas poderíamos alterar esse comportamento:</p>
+
+    <pre><code>for (let i = 0; i &lt; 3; i++) {
+    console.log()
+    for (let j = i; j &lt; 5; j++) {
+        console.log(j)
+    }
+}</code></pre>
+
+    <p>Qual a saída do seguinte código?</p>
+    <pre><code>let externo, interno;
+console.log("Início");
+for (externo = 1; externo &lt;= 3; externo++) {
+    console.log(">");
+    for (interno = 1; interno &lt;= 5; interno++) {
+        console.log(externo, interno);
+    }
+    console.log("&lt;");
+}
+console.log("Fim");</code></pre>
+
+    <p>Qual a saída do seguinte código?</p>
+    <pre><code>for (let i = 0; i &lt; 3; i++) {
+    for (let j = 0; j &lt; 4; j++) {
+        for (let k = 0; k &lt; 2; k++) {
+            console.log(3)
+        }
+        console.log(2)
+    }
+    console.log(1)
+}</code></pre>
+
+    <h2>Exercícios</h2>
+    <ol class="excs">
+        <li>Refaça os exemplos da seção <a href="#mais-exemplos">Mais exemplos de <code>for</code></a> usando <code>while</code> em vez de <code>for</code>.</li>
+
+        <p><b>Obs. 1: Para os seguintes exercícios, use o mais adequado entre o <code>for</code> ou o <code>while</code>.</b></p>
+        <p><b>Obs. 2: Para os seguintes exercícios, não utilize strings para processar números.</b></p>
+
+        <li>Programa de cálculo de juros compostos. Imagine que você está investindo teu dinheiro em um ativo financeiro que te proporciona juros compostos. A fórmula dos juros compostos é $$M=C(1+i)^t$$, onde: $C$ é o valor inicial do investimento (o capital); $i$ é a taxa de juros por período (por exemplo, utilize $0.05$ para $5\%$ de juros); $t$ é a quantidade de períodos investidos; $M$ é o montante total ao final de $t$ períodos. Por exemplo, ao investir $\$1000$ em um ativo que rende $5\%$ ao ano, ao final de 10 anos você terá acumulado $M=\$1000(1+0.05)^{10}=\$1628.89$.
+            <p>Dado o capital investido, a taxa de juros anual e a quantidade de anos de investimento, qual o montante ao final de cada ano?</p>
+        </li>
+        <pre><code>import scanf from 'scanf';
+
+console.log("Informe o capital inicial:")
+let C = scanf("%f")
+console.log("Informe a taxa de juros anual (por exemplo, 0.05 para 5%):")
+let i = scanf("%f")
+console.log("Informe a quantidade de anos de investimento:")
+let t = scanf("%f")
+
+for (let ano = 1; ano &lt;= t; ano++) {
+    let M = C * (1 + i) ** ano
+    console.log(`Ao final do ${ano}º ano, o montante será de ${M}`)
+}</code></pre>
+        <li>Dados dois números inteiros, multiplicá-los usando somas repetidas. Não pode usar o operador de multiplicação "*". Sugestão: usar um laço e o operador de soma (+).</li>
+        <li>Qual a tabuada dos número de 1 a 10?</li>
+        <li>Dado um natural, quais seus divisores? Por exemplo, os divisores de 90 são 1, 2, 3, 5, 6, 9, 10, 15, 18, 30, 45, 90.</li>
+        <li>Programa de caixa de loja. Ler uma sequência de triplas que correspondem às informações dos produtos comprados: quantidade, preço unitário, nome do produto. A sequência termina quando for lida uma tripla de zeros. Escrever, em uma linha para cada produto, seu nome e o preço total. Escrever na última linha o preço total da compra.</li>
+        <li>Dada uma sequência de duplas de números, representando valores e seus respectivos pesos, seguida por uma dupla de zeros, qual a média ponderada desconsiderando a dupla de zeros?</li>
+        <li>Dada uma sequência de inteiros seguida por um múltiplo de 11, 13 ou 17, qual o menor número?</li>
+        <li>Dado um inteiro $n$ e um dígito $d$, quantas vezes $d$ ocorre em $n$? Por exemplo, o dígito $2$ ocorre $3$ vezes em $762021192$.</li>
+        <li>Dado um inteiro, qual o seu valor invertido? Exemplo de entrada→saída: 5837→7385.</li>
+        <pre><code>import scanf from 'scanf'
+
+let n = scanf('%d')
+let invertido = 0
+while (n != 0) {
+    let resto = n % 10
+    invertido = invertido * 10 + resto
+    n = Math.trunc(n / 10)
+}
+console.log(invertido)</code></pre>
+        <li>Dado um natural no sistema decimal, qual seu equivalente no sistema binário? Para realizar a conversão do sistema decimal para binário, realiza-se a divisão sucessiva por 2. O resultado da conversão será dado pelo último quociente (MSB) e o agrupamento dos restos das divisões.</li>
+        <li>Dado um natural menor que 10000, qual sua forma por extenso? Por exemplo, dado o número 9243, sua forma por extenso é "nove mil duzentos e quarenta e três".</li>
+        <p>ATENÇÃO: esse exercício ainda não está completo. Pode usá-lo como base para escrever sua versão completa.</p>
+        <pre><code>import scanf from "scanf"
+let n = scanf("%d")
+
+let un = n % 10
+n = Math.trunc(n / 10)
+let dz = n % 10
+n = Math.trunc(n / 10)
+let ct = n % 10
+n = Math.trunc(n / 10)
+let ml = n % 10
+n = Math.trunc(n / 10)
+
+if (ml &gt; 0) {
+    if (ml == 1) console.log('Um mil')
+    if (ml == 2) console.log('Dois mil')
+    if (ml == 3) console.log('Três mil')
+    if (ml == 4) console.log('Quatro mil')
+    if (ml == 5) console.log('Cinco mil')
+    if (ml == 6) console.log('Seis mil')
+    if (ml == 7) console.log('Sete mil')
+    if (ml == 8) console.log('Oito mil')
+    if (ml == 9) console.log('Nove mil')
+}
+if (ct &gt; 0) {
+    if (ct == 1) console.log('Cento')
+    if (ct == 2) console.log('Duzentos')
+    if (ct == 3) console.log('Trezentos')
+    if (ct == 4) console.log('Quatrocentos')
+    if (ct == 5) console.log('Quinhentos')
+    if (ct == 6) console.log('Seiscentos')
+    if (ct == 7) console.log('Setecentos')
+    if (ct == 8) console.log('Oitocentos')
+    if (ct == 9) console.log('Novecentos')
+}
+if (dz &gt; 0) {
+    if (dz == 1) console.log('????')
+    if (dz == 2) console.log('Vinte')
+    if (dz == 3) console.log('Trinta')
+    if (dz == 4) console.log('Quarenta')
+    if (dz == 5) console.log('Cinquenta')
+    if (dz == 6) console.log('Sessenta')
+    if (dz == 7) console.log('Setenta')
+    if (dz == 8) console.log('Oitenta')
+    if (dz == 9) console.log('Noventa')
+}
+if (un &gt; 0) {
+    if (un == 1) console.log('e Um')
+    if (un == 2) console.log('e Dois')
+    if (un == 3) console.log('e Três')
+    if (un == 4) console.log('e Quatro')
+    if (un == 5) console.log('e Cinco')
+    if (un == 6) console.log('e Seis')
+    if (un == 7) console.log('e Sete')
+    if (un == 8) console.log('e Oito')
+    if (un == 9) console.log('e Nove')
+}</code></pre>
+        <li>Decompor um número em fatores primos ou, fatorá-lo, é escrever este número como uma multiplicação de números primos. Os fatores são termos da multiplicação que, neste caso, são números primos. A fatoração é uma técnica usada em muitos algoritmos de criptografia sem os quais a internet não existiria da forma como a conhecemos. A fatoração de um número natural qualquer se dá pela seguinte forma: Divida o número pelo seu menor divisor primo. O quociente será o novo número. Continue dividindo o número pelo seu menor divisor primo até chegar em 1. A multiplicação de todos os divisores dará o valor do número original. Exemplo, os fatores primos de $180$ são $2\cdot 2\cdot 3\cdot 3\cdot 5 = 180$:
+            <table style="border-spacing: 0; text-align: center;">
+                <tr>
+                    <td>180</td>
+                    <td style="text-align: left; border-left: solid;">2</td>
+                </tr>
+                <tr>
+                    <td>90</td>
+                    <td style="text-align: left; border-left: solid;">2</td>
+                </tr>
+                <tr>
+                    <td>45</td>
+                    <td style="text-align: left; border-left: solid;">3</td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td style="text-align: left; border-left: solid;">3</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td style="text-align: left; border-left: solid;">3</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td style="border-left: solid; border-top: solid;">$2\cdot 2\cdot 3\cdot 3\cdot 5 = 180$</td>
+                </tr>
+            </table>
+            <p>Dado um natural $n$, quais seus fatores primos?</p>
+        </li>
+        <li>Dado um natural, qual seu fatorial?</li>
+        <li>Sejam dois naturais $n\geq p$, podemos calcular seu número binomial como $\binom n p = \dfrac {n!} {p!(n-p)!}$. Dados dois naturais $n\geq p$, qual seu número binomial?</li>
+
+    </ol>
+</div>

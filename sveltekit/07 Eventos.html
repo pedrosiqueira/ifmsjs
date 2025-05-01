@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+    <script defer>hljs.highlightLinesAll([
+            // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
+        ]);
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Manipulação de eventos</h1>
+
+<div>
+    <h2>Leitura</h2>
+
+    <p>Leia as seções de "Events":</p>
+    <ul>
+        <li><a href="https://svelte.dev/tutorial/svelte/dom-events">DOM events</a></li>
+        <li><a href="https://svelte.dev/tutorial/svelte/inline-handlers">Inline handlers</a></li>
+        <li><a href="https://svelte.dev/tutorial/svelte/capturing">Capturing</a></li>
+        <li><a href="https://svelte.dev/tutorial/svelte/component-events">Component events</a></li>
+        <li><a href="https://svelte.dev/tutorial/svelte/spreading-events">Spreading events</a></li>
+    </ul>
+</div>
+<div>
+    <h2>Eventos HTML</h2>
+    <p>Um <strong>evento</strong> HTML é alguma ação do navegador ou interação do usuário que ocorre em algum elemento na página web. Alguns exemplos de eventos podem ser:</p>
+    <ul>
+        <li>Uma página acaba de ser carregada;</li>
+        <li>Uma página é fechada;</li>
+        <li>Uma imagem é carregada;</li>
+        <li>Um campo de entrada é preenchido;</li>
+        <li>Uma tecla é pressionada;</li>
+        <li>Um botão é clicado.</li>
+    </ul>
+    <p>Quando um evento ocorre, podemos querer fazer alguma coisa, ou seja, <strong>reagir</strong> a esse evento. Reagimos a eventos HTML usando código JavaScript.</p>
+    <p>No Svelte, para reagir a um evento ocorrido em um elemento, fazemos assim:</p>
+    <pre><code>&lt;element onevent={function}&gt;</code></pre>
+    <p>Um evento sempre ocorre em algum elemento HTML, portanto, ele é declarado como um atributo do elemento pelo qual queremos reagir. Esse atributo sempre começa com <code>on</code> seguido pelo nome do evento. Dentro das chaves colocamos apenas o nome da função que reagirá ao evento, é nesta função que fica o código a ser executado quando o evento ocorrer.</p>
+
+    <h4>Exemplo 1</h4>
+    <p>Cada botão executará uma função diferente ao ser clicado:</p>
+    <pre><code>&lt;script&gt;
+    function f() { alert(&apos;Você clicou no botão A!&apos;); }
+    function g() { alert(&apos;Você clicou no botão B!&apos;); }
+&lt;/script&gt;
+
+&lt;button onclick={f}&gt;A&lt;/button&gt;
+&lt;button onclick={g}&gt;B&lt;/button&gt;</code></pre>
+
+    <h4>Exemplo 2</h4>
+    <p>Poderíamos fazer ambos os botões executarem a mesma função ao serem clicados:</p>
+    <pre><code>&lt;script&gt;
+    function f() { alert(&apos;Você clicou em algum botão!&apos;); }
+&lt;/script&gt;
+
+&lt;button onclick={f}&gt;A&lt;/button&gt;
+&lt;button onclick={f}&gt;B&lt;/button&gt;</code></pre>
+    <p>Só que assim não saberíamos qual botão foi clicado.
+
+    <h4>Exemplo 3</h4>
+    <p>Para passar parâmetros à função, devemos usar <strong>funções flecha</strong> (<i>arrow functions</i>):</p>
+    <pre><code>&lt;script&gt;
+    function f(param) { alert(`Você clicou no botão ${param}!`); }
+&lt;/script&gt;
+
+&lt;button onclick={() =&gt; f(&apos;X&apos;)}&gt;A&lt;/button&gt;
+&lt;button onclick={() =&gt; f(&apos;Y&apos;)}&gt;B&lt;/button&gt;</code></pre>
+    <div class="info">
+        <p>Observação: Se tentarmos passar parâmetros a uma função assim...</p>
+        <pre><code>&lt;button onclick={f(&apos;A&apos;)}&gt;A&lt;/button&gt;</code></pre>
+        <p>... na realidade a função será executada apenas na primeira vez. Mais sobre essa característica do Svelte é <a href="https://stackoverflow.com/a/61025286/4072641">discutida aqui</a>.</p>
+    </div>
+
+    <h4>Exemplo 4</h4>
+    <p>Com <i>arrow function</i>, em vez de declarar a função dentro do <code>script</code> e invocá-la em <code>onclick</code>, podemos colocar o código diretamente na declaração do evento:</p>
+    <pre><code>&lt;button onclick={() =&gt; alert(`Você clicou no botão A!`)}&gt;A&lt;/button&gt;
+&lt;button onclick={() =&gt; alert(`Você clicou no botão B!`)}&gt;B&lt;/button&gt;</code></pre>
+    <p>Mais sobre arrow functions <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">aqui</a>.</p>
+</div>
+<div>
+    <h2>Propriedades de um evento</h2>
+    <p>Sempre que uma função reage a um evento, o Svelte passa como parâmetro um objeto contendo as propriedades daquele evento. Opcionalmente a função pode receber e tratar esse parâmetro (nos exemplos anteriores ignoramos esse parâmetro). Por exemplo, poderíamos ter um <code>input</code> que execute alguma coisa quando o usuário teclar <kbd>Enter</kbd>:</p>
+    <pre><code>&lt;script&gt;
+    let { text, upperText } = $state(&apos;&apos;);
+    function f(event) {
+        console.log(event);
+        if (event.key == &apos;Enter&apos;) upperText = text.toUpperCase();
+    }
+&lt;/script&gt;
+
+&lt;input placeholder=&quot;Digite algo e tecle Enter&quot; onkeydown={f} bind:value={text} /&gt;
+&lt;p&gt;{upperText}&lt;/p&gt;</code></pre>
+    <p>Na linha 9, o evento <code>onkeydown</code> ocorre sempre que o usuário teclar algo no elemento <code>input</code>. Na linha 4, serão escritas no terminal as propriedades do evento. Na linha 5, se a tecla pressionada for <kbd>Enter</kbd>, a variável <code>upperText</code> receberá o valor em maiúsculo da variável <code>text</code>.</p>
+</div>
+<div>
+    <h2>Diferença entre eventos no HTML puro e no Svelte</h2>
+    <p>No Svelte, o uso de eventos tem algumas diferenças de sua contrapartida de HTML puro. Por exemplo, considere o seguinte script:</p>
+
+    <pre><code>&lt;script&gt;
+    function f() { console.log(&quot;run!&quot;); }
+    function g(event) { console.log(event); }
+    function h(param) { console.log(param) }
+    function i(event, param) { console.log(event, param); }
+    function j() { return f; }
+&lt;/script&gt;</code></pre>
+
+    <p>Códigos "equivalentes" entre HTML e Svelte seriam:</p>
+    <table class="custom">
+        <thead>
+            <tr>
+                <th>HTML Puro</th>
+                <th>Svelte</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <pre><code class="html">&lt;button onclick=&quot;f()&quot;&gt;f&lt;/button&gt;
+&lt;button onclick=&quot;g(event)&quot;&gt;g&lt;/button&gt;
+&lt;button onclick=&quot;h(&apos;arg&apos;)&quot;&gt;h&lt;/button&gt;
+&lt;button onclick=&quot;i(event, &apos;arg&apos;)&quot;&gt;i&lt;/button&gt;
+&lt;button onclick=&quot;j()()&quot;&gt;j&lt;/button&gt;
+&lt;button onclick=&quot;console.log(&apos;run!&apos;)&quot;&gt;k&lt;/button&gt;</code></pre>
+                </td>
+                <td>
+                    <pre><code>&lt;button onclick={f}&gt;f&lt;/button&gt;
+&lt;button onclick={g}&gt;g&lt;/button&gt;
+&lt;button onclick={() =&gt; h(&apos;arg&apos;)}&gt;h&lt;/button&gt;
+&lt;button onclick={(event) =&gt; i(event, &apos;arg&apos;)}&gt;i&lt;/button&gt;
+&lt;button onclick={j()}&gt;j&lt;/button&gt;
+&lt;button onclick={() =&gt; console.log(&apos;run!&apos;)}&gt;k&lt;/button&gt;</code></pre>
+                </td>
+        </tbody>
+    </table>
+
+    <p>No HTML puro, <code>onclick</code> executa o que estiver entre aspas sempre que seu elemento for clicado. No Svelte, <code>onclick</code> deve ser uma referência a uma função que será invocada com o objeto <code>event</code> como parâmetro, sempre que seu elemento for clicado.</p>
+</div>
+<div>
+    <h2>Mais alguns eventos</h2>
+    <p>Além do clique do mouse, podemos reagir a outros eventos do mouse:</p>
+    <pre><code id="evento-confeti">&lt;script&gt;
+    let msg = $state(&apos;Passe o mouse sobre o botão e essa mensagem nunca mais será a mesma!&apos;),
+        clicado = $state(false);
+
+    function entrando() {
+        msg = &apos;Agora clique no botão!&apos;;
+    }
+
+    function saindo() {
+        if (clicado) msg = &apos;Você clicou no botão!&apos;;
+        else msg = &apos;Ok, da próxima vez faça o que eu te disser...&apos;;
+        clicado = false;
+    }
+
+    function clicando() {
+        clicado = true;
+
+        // Gera o confete com canvas-confetti
+        confetti({
+            particleCount: 100, // Quantidade de partículas
+            spread: 70, // Abertura do confete
+            origin: { y: 0.6 } // Origem do confete (altura relativa)
+        });
+    }
+&lt;/script&gt;
+
+&lt;svelte:head&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js&quot;&gt;&lt;/script&gt;
+&lt;/svelte:head&gt;
+
+&lt;div class=&quot;text-center&quot;&gt;
+    &lt;h1&gt;Eventos de mouse&lt;/h1&gt;
+    &lt;p&gt;{msg}&lt;/p&gt;
+    &lt;button class=&quot;btn btn-outline-primary&quot; onclick={clicando}
+            onmouseover={entrando} onmouseout={saindo}
+            onfocus={entrando}     onblur={saindo}&gt;BOTÃO&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+    button { transition: transform 0.3s ease; }
+    button:hover { transform: scale(1.3); }
+&lt;/style&gt;</code></pre>
+    <p>Na linha 35, os eventos <code>onmouseover</code> e <code>onmouseout</code> são acionados quando o mouse passa sobre o elemento e quando sai dele, respectivamente. O SvelteKit recomenda que esses eventos sejam acompanhados pelos eventos <code>onfocus</code> e <code>onblur</code>, da linha 36, que são acionados quando o elemento recebe ou perde o foco, geralmente por meio do teclado. Isso ajuda a garantir que qualquer funcionalidade acionada por esses eventos de mouse também seja acessível a usuários de teclado.</p>
+    <p>Quando queremos mudar o estilo de algum elemento ao passar o mouse sobre ele, podemos usar CSS, como nas linhas 40-41. Mas para executar alguma lógica ou ações mais complexas, só conseguimos com o evento <code>onmouseover</code>.</p>
+    <p>Para carregar um script externo em uma página específica no Svelte, usamos o elemento especial <code>&lt;svelte:head&gt;</code>. Mais sobre esse elemento <a href="https://v4.svelte.dev/docs/special-elements#svelte-head">aqui</a>.</p>
+
+    <p>Mais sobre eventos HTML <a href="https://www.w3schools.com/tags/ref_eventattributes.asp">aqui</a>. Exemplos de uso de eventos HTML <a href="https://www.w3schools.com/js/js_events_examples.asp">aqui</a>.</p>
+</div>
+<div>
+    <h2>O problema dos coelhos de Fibonacci</h2>
+    <p>Leonardo Fibonacci em seu livro “Liber Abaci” de 1202 propôs o seguinte problema matemático:</p>
+    <p>Imagine que você tem um casal de coelhos recém-nascidos, um macho e uma fêmea, que são colocados em um campo para se reproduzir. A reprodução segue as seguintes condições:</p>
+    <ol>
+        <li>Um casal de coelhos leva 1 mês para atingir a maturidade reprodutiva.</li>
+        <li>Após atingir a maturidade, cada casal de coelhos gera um novo casal (um macho e uma fêmea) a cada mês.</li>
+        <li>Os coelhos nunca morrem, e cada casal continua se reproduzindo indefinidamente.</li>
+    </ol>
+    <p>A pergunta de Fibonacci é: quantos casais de coelhos haverá após <code>X</code> meses?</p>
+
+    <p>Na seguinte tabela, cada linha representa um mês, e cada coluna representa uma geração de coelhos. Círculos são coelhos filhotes, e quadrados são coelhos adultos.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Mês</th>
+                <th colspan="34">Gerações</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>0</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>⚪️</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>⬜️</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>⬜️</td>
+                <td>🔴</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>⬜️</td>
+                <td>🟥</td>
+                <td>🔴</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>⬜️</td>
+                <td>🟥</td>
+                <td>🟥</td>
+                <td>🔴</td>
+                <td>🟢</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>⬜️</td>
+                <td>🟥</td>
+                <td>🟥</td>
+                <td>🟥</td>
+                <td>🟩</td>
+                <td>🔴</td>
+                <td>🟢</td>
+                <td>🟢</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>⬜️</td>
+                <td>🟥</td>
+                <td>🟥</td>
+                <td>🟥</td>
+                <td>🟩</td>
+                <td>🟥</td>
+                <td>🟩</td>
+                <td>🟩</td>
+                <td>🔴</td>
+                <td>🟢</td>
+                <td>🟢</td>
+                <td>🟢</td>
+                <td>🔵</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>⬜️</td>
+                <td>🟥</td>
+                <td>🟥</td>
+                <td>🟥</td>
+                <td>🟩</td>
+                <td>🟥</td>
+                <td>🟩</td>
+                <td>🟩</td>
+                <td>🟥</td>
+                <td>🟩</td>
+                <td>🟩</td>
+                <td>🟩</td>
+                <td>🟦</td>
+                <td>🔴</td>
+                <td>🟢</td>
+                <td>🟢</td>
+                <td>🟢</td>
+                <td>🔵</td>
+                <td>🟢</td>
+                <td>🔵</td>
+                <td>🔵</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>21</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>⬜️</td>
+                <td>🟥</td>
+                <td>🟥</td>
+                <td>🟥</td>
+                <td>🟩</td>
+                <td>🟥</td>
+                <td>🟩</td>
+                <td>🟩</td>
+                <td>🟥</td>
+                <td>🟩</td>
+                <td>🟩</td>
+                <td>🟩</td>
+                <td>🟦</td>
+                <td>🟥</td>
+                <td>🟩</td>
+                <td>🟩</td>
+                <td>🟩</td>
+                <td>🟦</td>
+                <td>🟩</td>
+                <td>🟦</td>
+                <td>🟦</td>
+                <td>🔴</td>
+                <td>🟢</td>
+                <td>🟢</td>
+                <td>🟢</td>
+                <td>🔵</td>
+                <td>🟢</td>
+                <td>🔵</td>
+                <td>🔵</td>
+                <td>🟢</td>
+                <td>🔵</td>
+                <td>🔵</td>
+                <td>🔵</td>
+                <td>🟡</td>
+                <td>34</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>O problema dos coelhos ilustra a sequência de Fibonacci, uma sequência numérica em que cada número é a soma dos dois anteriores, começando com 0 e 1. Essa sequência tem relação com o número de ouro, ou proporção áurea, um padrão amplamente encontrado na natureza, como na disposição das pétalas das flores, nas conchas de moluscos e até em galáxias. Além disso, a sequência de Fibonacci tem aplicações significativas nas ciências (algoritmos eficientes) e na arte (proporções estéticas).</p>
+
+    <p id="fibonacci">Vamos implementar uma página para ilustrar o problema dos coelhos de Fibonacci. Crie o arquivo <code ctc>src/routes/06/coelhos/+page.svelte</code>:</p>
+    <pre><code>&lt;script&gt;
+    let fibonacciNumbers = $state([0, 1]);
+
+    function increaseFibonacciNumbers() {
+        let last = fibonacciNumbers[fibonacciNumbers.length - 1];
+        let secondlast = fibonacciNumbers[fibonacciNumbers.length - 2];
+        fibonacciNumbers.push(last + secondlast);
+    }
+&lt;/script&gt;
+
+&lt;h1&gt;Os coelhos de Fibonacci&lt;/h1&gt;
+&lt;p&gt;
+    M&ecirc;s: &lt;input type=&quot;number&quot; min=&quot;0&quot; /&gt;
+    &lt;button onclick={increaseFibonacciNumbers}&gt;Pr&oacute;ximo m&ecirc;s&lt;/button&gt;
+&lt;/p&gt;
+&lt;p&gt;Ap&oacute;s {fibonacciNumbers.length - 1} meses,
+haver&aacute; {fibonacciNumbers[fibonacciNumbers.length - 1]} ninhadas de coelhos!&lt;/p&gt;</code></pre>
+</div>
+<div>
+    <h2>Exercícios</h2>
+    <ol class="excs">
+        <li>No exemplo de <a href="#fibonacci">Fibonacci</a>, o campo de mês atualmente não faz nada. Modifique a implementação de modo que, ao digitar um número no campo de mês, a mensagem seja atualizada.</li>
+        <li>Aprimore o código de modo que ao clicar no botão "Próximo mês", o campo de mês seja incrementado e a mensagem seja atualizada com o novo mês.</li>
+        <!-- 
+<script>
+    let fibonacciNumbers = $state([0, 1]),
+        month = $state(0);
+
+    function changeFibonacciNumber(total) {
+        if (total < 0) return;
+        while (fibonacciNumbers.length <= total) {
+            let last = fibonacciNumbers[fibonacciNumbers.length - 1];
+            let secondlast = fibonacciNumbers[fibonacciNumbers.length - 2];
+            fibonacciNumbers.push(last + secondlast);
+        }
+        month = total;
+    }
+</script>
+
+<h1>Os coelhos de Fibonacci</h1>
+<p>
+    Mês: <input type="number" min="0" bind:value={month} oninput={() => changeFibonacciNumber(month)} />
+    <button onclick={() => changeFibonacciNumber(month + 1)}>Próximo mês</button>
+</p>
+<p>Após {month} meses, haverá {fibonacciNumbers[month]} ninhadas de coelhos!</p>
+-->
+        <li>Adicione um botão "Mês anterior" que decremente o campo de mês e atualize a mensagem.</li>
+    </ol>
+</div>
+
+<!-- 
+mais eventos a colocar na aula
+
+onchange: An HTML element has been changed
+onload: The browser has finished loading the page
+-->

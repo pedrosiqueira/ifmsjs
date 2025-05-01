@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <!-- https://github.com/arronhunt/highlightjs-copy -->
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+    <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+    <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+    <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+    <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+    <script defer>hljs.highlightLinesAll([
+            // [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 9, color: 'lightblue' }, { start: 14, end: 14, color: 'lightblue' }]
+        ]);
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Lógica</h1>
+<h2>Leitura</h2>
+<p>Leia as seguintes seções:</p>
+<ul>
+    <li><a href="https://svelte.dev/tutorial/svelte/if-blocks">If blocks</a></li>
+    <li><a href="https://svelte.dev/tutorial/svelte/else-blocks">Else blocks</a></li>
+    <li><a href="https://svelte.dev/tutorial/svelte/else-if-blocks">Else-if blocks</a></li>
+</ul>
+
+<h2>Usando a lógica</h2>
+<p>Considere o seguinte problema:</p>
+<p>A nota final de um estudante é calculada a partir de três notas atribuídas, respectivamente, a um trabalho, a um seminário e a uma prova. A média das três notas mencionadas obedece aos pesos da tabela A.</p>
+<p>Dadas as três notas de um estudante, qual sua média ponderada e seu conceito conforme a tabela B?</p>
+<div style="display:flex;">
+    <table class="custom">
+        <caption>Tabela A</caption>
+        <thead>
+            <tr>
+                <th>Nota</th>
+                <th>Peso</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Trabalho</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>Seminário</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>Prova</td>
+                <td>5</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="custom">
+        <caption>Tabela B</caption>
+        <thead>
+            <tr>
+                <th>MÉDIA PONDERADA</th>
+                <th>CONCEITO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Maior ou igual a 8,5</td>
+                <td>A, aprovado :D</td>
+            </tr>
+            <tr>
+                <td>Maior ou igual a 7 e menor que 8,5</td>
+                <td>B, aprovado :)</td>
+            </tr>
+            <tr>
+                <td>Maior ou igual a 5 e menor que 7</td>
+                <td>C, recuperação :|</td>
+            </tr>
+            <tr>
+                <td>Maior ou igual a 2,5 e menor que 5</td>
+                <td>D, recuperação :(</td>
+            </tr>
+            <tr>
+                <td>Menor que 2,5</td>
+                <td>E, reprovado :O</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p>Vamos criar o arquivo <code ctc>src/routes/05/boletim/+page.svelte</code> para resolver esse problema:</p>
+
+<pre><code>&lt;script&gt;
+    let np, nt, ns;
+    let nf = $state();
+
+    function calcularnota() {
+        nf = (np * 5 + ns * 3 + nt * 2) / 10;
+    }
+&lt;/script&gt;
+
+&lt;h1&gt;Boletim Escolar&lt;/h1&gt;
+
+Nota da prova:
+&lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;10&quot; bind:value={np} /&gt;
+&lt;br /&gt;
+
+Nota do trabalho:
+&lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;10&quot; bind:value={nt} /&gt;
+&lt;br /&gt;
+
+Nota do seminário:
+&lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;10&quot; bind:value={ns} /&gt;
+&lt;br /&gt;
+
+&lt;button onclick={calcularnota}&gt; Calcular a nota final!&lt;/button&gt;
+
+&lt;p&gt;Tua nota final é: {nf || &apos;...&apos;}&lt;/p&gt;
+
+{#if nf &gt;= 8.5}
+    &lt;p&gt;Conceito A, aprovado 😁&lt;/p&gt;
+{:else if nf &gt;= 7}
+    &lt;p&gt;Conceito B, aprovado 😎&lt;/p&gt;
+{:else if nf &gt;= 5}
+    &lt;p&gt;Conceito C, recuperação 😅&lt;/p&gt;
+{:else if nf &gt;= 2.5}
+    &lt;p&gt;Conceito D, recuperação 😣&lt;/p&gt;
+{:else if nf}
+    &lt;p&gt;Conceito E, reprovado 😱&lt;/p&gt;
+{/if}</code></pre>
+
+<p>Explicação:</p>
+<ul>
+    <li>A linha 2 declara as variáveis <code>np</code>, <code>nt</code>, <code>ns</code> para armazenar as notas da prova, trabalho e seminário, respectivamente. A linha 3 declara a variável <code>nf</code> para armazenar a nota final. O uso de <code>$state</code> indica que apenas <code>nf</code> deve ser reativa.</li>
+    <li>A linha 5 declara a função <code>calcularnota</code>, que calcula a média ponderada das três notas. O resultado é armazenado em <code>nf</code>, atualizando automaticamente a interface graças à reatividade.</li>
+    <li>As linhas 13, 17 e 21 declaram três campos de entrada para notas, limitados entre 0 e 10. O trecho <code>bind:value={variavel}</code> vincula (conecta) o valor do campo de entrada diretamente à variável correspondente. A linha 24 declara um botão que aciona a função <code>calcularnota</code> quando clicado, que atualiza o valor de <code>nf</code> com a média calculada.</li>
+    <li>A linha 26 exibe o valor de <code>nf</code> ou <code>...</code> se <code>nf</code> ainda não tiver valor.</li>
+    <li>As linhas 28-38 declaram um bloco condicional que mostra o conceito e um emoji com base na nota final (<code>nf</code>).</li>
+</ul>
+
+<h2>Exercícios</h2>
+<ol class="excs">
+    <li>Cidadãos com menos de 16 anos não têm direito ao voto, aqueles com idades entre 16 e 17, bem como aqueles com mais de 70 anos, têm o voto como facultativo, enquanto os cidadãos entre 18 e 70 anos são obrigados a votar. Dada a idade de um cidadão, qual a sua classe eleitoral? (eleitor obrigatório, eleitor facultativo, não eleitor).</li>
+    <li>O custo ao consumidor de um carro novo é a soma do custo de fábrica, da comissão do distribuidor, e dos impostos. A comissão e os impostos são calculados sobre o custo de fábrica, de acordo com a tabela abaixo. Dado o custo de fábrica, qual o custo ao consumidor?
+        <table class="custom">
+            <tr>
+                <th>Custo de Fábrica</th>
+                <th>% do Distribuitor</th>
+                <th>% dos Impostos</th>
+            </tr>
+            <tr>
+                <td>até $\$$12mil</td>
+                <td>5</td>
+                <td>isento</td>
+            </tr>
+            <tr>
+                <td>entre $\$$12mil e $\$$25mil</td>
+                <td>10</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>acima de $\$$25mil</td>
+                <td>15</td>
+                <td>20</td>
+            </tr>
+        </table>
+    </li>
+    <li>Um professor de educação física quer avaliar o desempenho físico de um estudante em três atividades diferentes: corrida de 100 metros, flexões e abdominais. Cada atividade possui um peso de avaliação diferente, conforme a Tabela A.
+        <p>Com base nas notas de cada atividade, calcule a média ponderada do estudante e determine seu conceito físico conforme a Tabela B.</p>
+        <div style="display:flex;">
+            <table class="custom">
+                <caption>Tabela A</caption>
+                <thead>
+                    <tr>
+                        <th>Atividade</th>
+                        <th>Peso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Corrida de 100 metros</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Flexões</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Abdominais</td>
+                        <td>3</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="custom">
+                <caption>Tabela B</caption>
+                <thead>
+                    <tr>
+                        <th>MÉDIA PONDERADA</th>
+                        <th>CONCEITO FÍSICO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Maior ou igual a 8</td>
+                        <td>🏆 Super Atleta! Continue brilhando e inspire outros!</td>
+                    </tr>
+                    <tr>
+                        <td>Maior ou igual a 6 e menor que 8</td>
+                        <td>🏋 Determinação Pura! - Você está cada vez mais forte, continue com esse foco!</td>
+                    </tr>
+                    <tr>
+                        <td>Maior ou igual a 4 e menor que 6</td>
+                        <td>💪 Em Movimento! - Já está pegando o jeito, bora pegar firme!</td>
+                    </tr>
+                    <tr>
+                        <td>Maior ou igual a 2 e menor que 4</td>
+                        <td>🚶 Ainda Sedentário! Está começando a caminhada. Mantenha o ritmo!</td>
+                    </tr>
+                    <tr>
+                        <td>Menor que 2</td>
+                        <td>🛋️ Saia do Sofá! - O primeiro passo é levantar e se mexer!</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </li>
+</ol>
