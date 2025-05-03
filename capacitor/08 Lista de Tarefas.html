@@ -31,90 +31,269 @@
   <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 
-<h2>Exercícios</h2>
-<!-- depois tenho que mudar essa seção para o final -->
-<ul>
-  <li>alterar o título na barra de navegação superior conforme muda de página. tem que passar para o `data` o título da página, que pode ser lido no layout através do `page.data`.</li>
-</ul>
+<h2 id="aplicativo-de-lista-de-tarefas">Aplicativo de Lista de Tarefas</h2>
+<h3 id="a-página">A página</h3>
+<p>Vamos criar um aplicativo de lista de tarefas (<em>to-do list</em>).</p>
+<p>Crie o arquivo <code ctc>src/routes/todolist/+page.svelte</code>:</p>
+<pre class="svelte"><code>&lt;script&gt;
+  import { onMount } from 'svelte';
+  import Modal from '$lib/components/Modal.svelte';
+  import Toast from '$lib/components/Toast.svelte';
+  import ToDoList from '$lib/components/ToDoList.svelte';
+  import * as bootstrap from 'bootstrap';
 
-<h1>Aplicativo de Lista de Tarefas</h1>
-<h2>A página</h2>
-<p>Vamos fazer uma lista de tarefas (todo list).</p>
-<p>Crie o arquivo <code ctc>D:\Mega\dump\2025 arquivos\svelte-capacitor-drizzle-sqlite\src\routes\todolist\+page.svelte</code>:</p>
-<pre><code>&lt;script&gt;
-  import { onMount } from &apos;svelte&apos;;
-  import Modal from &apos;$lib/components/Modal.svelte&apos;;
-  import Toast from &apos;$lib/components/Toast.svelte&apos;;
-  import ToDoList from &apos;$lib/components/ToDoList.svelte&apos;;
-  import * as bootstrap from &apos;bootstrap&apos;;
-
-  let novaTarefa = $state(&apos;&apos;);
+  let novaTarefa = $state('');
   let tarefas = $state([]);
-  let tarefasFazendo = $derived(tarefas.filter((tarefa) =&gt; tarefa.status == 0));
-  let tarefasFeitas = $derived(tarefas.filter((tarefa) =&gt; tarefa.status == 1));
-  let conteudoTarefaEditando = $state(&apos;&apos;);
+  let tarefasPendentes = $derived(tarefas.filter(tarefa =&gt; tarefa.status == 0));
+  let tarefasConcluidas = $derived(tarefas.filter(tarefa =&gt; tarefa.status == 1));
+  let conteudoTarefaEditando = $state('');
   let tarefaEditando = $state();
   let tarefaExcluindo;
-  let alertaModal;
   let mensagemToast;
 
-  async function adicionarTarefa() { }
+  async function adicionarTarefa() {}
 
-  function editarTarefa(tarefa) { }
+  function editarTarefa(tarefa) {}
 
-  function confirmarEdicao() { }
+  function confirmarEdicao() {}
 
-  function cancelarEdicao() { }
+  function cancelarEdicao() {}
 
-  function excluirTarefa(tarefa) { }
+  function excluirTarefa(tarefa) {}
 
-  function confirmarExclusao() { }
+  function confirmarExclusao() {}
 
-  function alterarStatus(tarefa, status) { }
+  function alterarStatus(tarefa, status) {}
 
   onMount(() =&gt; {
-    mensagemToast = new bootstrap.Toast(&apos;#mensagemToast&apos;);
-    alertaModal = new bootstrap.Modal(&apos;#alertaModal&apos;);
+    mensagemToast = new bootstrap.Toast('#mensagemToast');
   });
 &lt;/script&gt;
 
-&lt;div class=&quot;fixed-top pt-5&quot; style=&quot;z-index: 1020;&quot;&gt;
-  &lt;form class=&quot;container-fluid input-group px-4 pt-3&quot; onsubmit={adicionarTarefa}&gt;
-    &lt;input class=&quot;form-control form-control-lg&quot; placeholder=&quot;Nova tarefa&quot; bind:value={novaTarefa} /&gt;
-    &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary input-group-text&quot; aria-label=&quot;adicionar&quot;&gt; &lt;i class=&quot;bi bi-plus-lg&quot;&gt;&lt;/i&gt; &lt;/button&gt;
+&lt;div class="fixed-top pt-5" style="z-index: 1020;"&gt;
+  &lt;form class="container-fluid input-group px-4 pt-3" onsubmit={adicionarTarefa}&gt;
+    &lt;input class="form-control form-control-lg" placeholder="Nova tarefa" bind:value={novaTarefa} /&gt;
+    &lt;button type="submit" class="btn btn-primary input-group-text" aria-label="adicionar"&gt; &lt;i class="bi bi-plus-lg"&gt;&lt;/i&gt; &lt;/button&gt;
   &lt;/form&gt;
-  &lt;Toast msg={&apos;Digite algo!&apos;} /&gt;
+  &lt;Toast msg={'Digite algo!'} /&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;container-fluid mt-5 pt-3&quot;&gt;
-  &lt;ToDoList tarefas={tarefasFazendo} {editarTarefa} {confirmarEdicao} {cancelarEdicao} {alterarStatus} {excluirTarefa} {tarefaEditando} bind:conteudoTarefaEditando /&gt;
+&lt;div class="container-fluid mt-5 pt-3"&gt;
+  &lt;ToDoList tarefas={tarefasPendentes} {tarefaEditando} bind:conteudoTarefaEditando {editarTarefa} {confirmarEdicao} {cancelarEdicao} {alterarStatus} {excluirTarefa} /&gt;
   &lt;hr /&gt;
-  &lt;ToDoList tarefas={tarefasFeitas} {editarTarefa} {confirmarEdicao} {cancelarEdicao} {alterarStatus} {excluirTarefa} {tarefaEditando} bind:conteudoTarefaEditando /&gt;
+  &lt;ToDoList tarefas={tarefasConcluidas} {tarefaEditando} bind:conteudoTarefaEditando {editarTarefa} {confirmarEdicao} {cancelarEdicao} {alterarStatus} {excluirTarefa} /&gt;
 &lt;/div&gt;
 
-&lt;Modal msg={&apos;Deseja excluir a tarefa?&apos;} {confirmarExclusao} /&gt;</code></pre>
-
-<h3>Explicação:</h3>
-<p>Linha 38: <code>fixed-top</code> fixa o formulário no topo da página. Como o navbar <a href="./07 Organizando o layout.html#cabecalho">definido anteriormente</a> também foi fixado no topo da página, para não sobrepor esses dois elementos, deslocamos o formulário para baixo com <code>pt-5</code>. Mesmo deslocando para baixo, ele ainda fica por cima do navbar, impedindo de clicar nos botões do navbar; portanto, o jogamos para trás do navbar com <code>z-index: 1020;</code>, já que o padrão do navbar é <code>z-index: 1030;</code>.</p>
-<p>Linha 39: <a href="https://getbootstrap.com/docs/5.3/forms/input-group/#basic-example"><code>input-group</code></a> adiciona botões ao lado de <i>inputs</i>. <code>pt-3</code> desloca ou pouco mais para baixo o formulário, para não sobrepor o navbar. <code>px-4</code> diminui a largura do formulário, para ficar da mesma largura da lista de tarefas. <code>onsubmit={adicionarTarefa}</code> executa a função <code>adicionarTarefa</code> quando o usuário clicar no botão de submissão da linha 41.</p>
-<p>Linha 40: <code>bind:value={novaTarefa}</code> vincula o <i>input</i> "Nova tarefa" à variável <code>novaTarefa</code>.</p>
-<p>Linha 43: A seguir veremos o que é esse componente.</p>
-<p>Linha 46: Nesse div ficam as duas listas, de tarefas a fazer e de tarefas feitas. <code>mt-5 pt-3</code> desloca esse div para baixo, para não ficar sobreposto pelo formulário, conforme <a href="./07 Organizando o layout.html#position-fixed">discutido anteriormente</a>.</p>
-<div class="info">
-  <p>Você pode até estar se perguntando como cheguei nesses valores de deslocamento e margem... a resposta é que cheguei a esses valores simplesmente através de tentativa e erro, ajustando-os até chegar a um ponto desejado.</p>
-</div>
-<p>Linhas 47 e 49: Como temos duas listas, de tarefas a fazer e de tarefas feitas, ambas praticamente compartilham o mesmo código. Portanto, para não duplicar código, que é uma má prática de programação, colocamos esse código em comum em um componente <code>TodoList</code>, e passamos tudo que precisamos para carregar as tarefas corretamente no componente:</p>
+&lt;Modal msg={'Deseja excluir a tarefa?'} acao={confirmarExclusao} /&gt;</code></pre>
+<hr />
+<h3 id="explicação">Explicação</h3>
 <ul>
-  <li><code>tarefas={tarefasFazendo|tarefasFeitas}</code>: <code>tarefasFazendo</code> é a lista apenas das tarefas a fazer, já <code>tarefasFeitas</code> é a lista apenas das tarefas feitas.</li>
-  <li><code>{editarTarefa}</code>: </li>
-  <li><code>{confirmarEdicao}</code>: </li>
-  <li><code>{cancelarEdicao}</code>: </li>
-  <li><code>{alterarStatus}</code>: </li>
-  <li><code>{excluirTarefa}</code>: </li>
-  <li><code>{tarefaEditando}</code>: qual tarefa está sendo editada atualmente. Apenas uma tarefa por vez pode ser editada.</li>
-  <li><code>bind:conteudoTarefaEditando</code>: </li>
-  <li>Quando passamos dados da página para um componente, a reatividade se dá da página para o componente, isto é, se algo mudar na página, isso é refletido no componente. Mas o contrário não ocorre por padrão, se mudarmos uma variável no componente e quisermos que essa variável seja refletida na página, devemos vincular essa variável. como em <code>bind:conteudoTarefaEditando</code>. Todas as outras variáveis são passadas como "somente-leitura" para o componente, menos o <code>bind:conteudoTarefaEditando</code>, que se for modificado lá, a mudança também será refletida nesta página.</li>
-</ul>
-<p>Linha 52: A seguir veremos o que é esse componente.</p>
+  <li>
+    <p><strong>Linhas 9 a 11: </strong> Declaramos três listas reativas: <code>tarefas</code>, que contém todas as tarefas; <code>tarefasPendentes</code>, que armazena apenas as tarefas pendentes; e <code>tarefasConcluidas</code>, que armazena apenas as tarefas concluídas. Para criar <code>tarefasPendentes</code> e <code>tarefasConcluidas</code>, usamos o recurso <a target="_blank" href="https://svelte.dev/tutorial/svelte/derived-state"><code>$derived</code></a> do Svelte 5, que permite derivar estados a partir de outros. Combinamos isso com o método <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter"><code>filter</code></a> do JavaScript para filtrar a lista original <code>tarefas</code> conforme o status de cada item.</p>
+  </li>
+  <li>
+    <p><strong>Linha 36: </strong> <code>fixed-top</code> fixa o formulário no topo da página. Como o <code>navbar</code> (<a target="_blank" href="./07 Organizando o layout.html#cabecalho">definido anteriormente</a>) também está fixo no topo, usamos <code>pt-5</code> para deslocar o formulário para baixo. Ainda assim, ele fica por cima da barra de navegação, então usamos <code>z-index: 1020;</code> para colocá-lo atrás da <code>navbar</code>, que tem <code>z-index: 1030</code> por padrão.</p>
+  </li>
+  <li>
+    <p><strong>Linha 37: </strong> <code>input-group</code> estiliza o formulário com o <a target="_blank" href="https://getbootstrap.com/docs/5.3/forms/input-group/#basic-example">botão ao lado do campo de entrada</a>. <code>pt-3</code> ajusta a distância vertical e <code>px-4</code> reduz a largura horizontal, mantendo a proporção com a lista de tarefas. <code>onsubmit={adicionarTarefa}</code> faz com que o clique no botão dispare a função de adicionar a tarefa.</p>
+  </li>
+  <li>
+    <p><strong>Linha 38: </strong> <code>bind:value={novaTarefa}</code> vincula o valor digitado no campo à variável <code>novaTarefa</code>, tornando o campo reativo.</p>
+  </li>
+  <li>
+    <p><strong>Linha 41: </strong> <code>Toast</code> é um componente de aviso que será detalhado <a href="#toast">a seguir</a>.</p>
+  </li>
+  <li>
+    <p><strong>Linha 44: </strong> <code>mt-5 pt-3</code> desloca a lista de tarefas para baixo, evitando que ela <a target="_blank" href="./07 Organizando o layout.html#position-fixed">fique encoberta</a> pelo formulário fixo.</p>
+  </li>
+  <div class="info">
+    <p>💡 Dica: Para descobrir os melhores valores de <code>margin</code> e <code>padding</code> ao trabalhar com elementos fixos e sobrepostos, o ideal é ir testando e ajustando visualmente. Eu cheguei nesses valores por tentativa e erro até obter o espaçamento visual adequado.</p>
+  </div>
+  <li>
+    <p><strong>Linhas 45 e 47: </strong> Como o código para exibir a lista de tarefas pendentes é praticamente o mesmo código para exibir a lista de tarefas concluídas, criamos um componente reutilizável <code>ToDoList</code>, que será detalhado <a href="#todolist">a seguir</a>. Isso evita duplicação de código, o que é uma boa prática de programação.</p>
 
-<h2></h2>
+    <h4 id="dados-e-funções-passadas-ao-componente-todolist">Dados e funções passadas ao componente <code>ToDoList</code>:</h4>
+    <ul>
+      <li><strong>Variáveis</strong>:
+        <ul>
+          <li><code>tarefas={tarefasPendentes}</code> ou <code>tarefas={tarefasConcluidas}</code>: define qual lista será passada ao componente.</li>
+          <li><code>tarefaEditando</code>: identifica qual tarefa está sendo editada no momento (somente uma por vez).</li>
+          <li><code>bind:conteudoTarefaEditando</code>: permite alterar o conteúdo da tarefa diretamente no componente e refletir essa mudança na página principal.</li>
+          <div class="info">
+            <p id="bindable">📌 Observação: Variáveis passadas normalmente a um componente são de “somente leitura”. Se quiser que o <a target="_blank" href="https://svelte.dev/docs/svelte/$bindable">componente possa alterar o valor na página principal</a>, use <code>bind:</code>.</p>
+          </div>
+        </ul>
+      </li>
+      <li><strong>Funções</strong>:
+        <ul>
+          <li><code>editarTarefa</code>: coloca a tarefa no modo de edição.</li>
+          <li><code>confirmarEdicao</code>: confirma e salva a edição.</li>
+          <li><code>cancelarEdicao</code>: cancela a edição e restaura o valor original.</li>
+          <li><code>alterarStatus</code>: marca como “feita” ou “pendente”.</li>
+          <li><code>excluirTarefa</code>: inicia o processo de exclusão da tarefa.</li>
+          <div class="info">
+            <p>📌 Observação: Passamos algumas funções ao componente <code>ToDoList</code> porque é dentro dele que as interações com as tarefas (como editar, excluir ou marcar como concluída) acontecem. No entanto, essas funções são definidas na página principal. Ou seja, o componente apenas chama (invoca) essas funções quando necessário, mas quem realmente implementa a lógica de cada ação é a própria página. Isso permite que o componente se concentre na interface e na interação, enquanto a lógica do aplicativo permanece centralizada na página.</p>
+          </div>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Linha 50: </strong><code>Modal</code> é componente de confirmação que será detalhado <a href="#modal">a seguir</a>.</li>
+</ul>
+<hr />
+
+<h2 id="toast">O <i>toast</i></h2>
+<p>Não faz sentido permitir a adição de uma tarefa sem conteúdo. Por isso, quando o usuário clicar no botão para adicionar uma nova tarefa e não tiver digitado nada, um <i>toast</i> será exibido solicitando que ele informe um conteúdo válido. Esse componente <i>toast</i> é importado na linha 4 e definido na linha 43.</p>
+<p>Conforme a <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/toasts/#overview">documentação oficial do Bootstrap</a>, <i>toasts</i> são componentes opcionais por questões de desempenho, então precisam ser inicializados manualmente. Essa inicialização ocorre na linha 33 da página. Como o Bootstrap depende de recursos do navegador — como o DOM —, a inicialização só pode acontecer após a página estar completamente carregada. Para garantir isso, utilizamos o hook <a target="_blank" href="https://svelte.dev/docs/svelte/lifecycle-hooks#onMount"><code>onMount</code></a> do SvelteKit, que é executado automaticamente assim que o componente é montado no navegador.</p>
+<p>Crie o arquivo <code ctc>src/lib/components/Toast.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+  let { msg } = $props();
+&lt;/script&gt;
+
+&lt;div id="mensagemToast" class="toast align-items-center position-absolute top-100 start-50 translate-middle-x text-bg-warning" style="z-index: 999;"&gt;
+  &lt;div class="d-flex"&gt;
+    &lt;div class="toast-body"&gt;{msg}&lt;/div&gt;
+    &lt;button class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"&gt;&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<h3>Explicação</h3>
+<ul>
+  <li><strong>Linha 2:</strong> Para tornar o <i>toast</i> reutilizável em diferentes partes do aplicativo, a mensagem não é chumbada. Ela é passada como uma propriedade, permitindo que outros componentes usem esse mesmo <i>toast</i> com mensagens personalizadas.</li>
+  <li><strong>Linha 5:</strong> O ID <code>mensagemToast</code> é necessário para que o Bootstrap possa inicializar o componente. A combinação de classes <code>position-absolute top-100 start-50 translate-middle-x</code> <a target="_blank" href="https://getbootstrap.com/docs/5.3/utilities/position/#center-elements">centraliza o <i>toast</i></a> na parte inferior do contêiner pai. O <code>z-index: 999;</code> garante que ele fique visível acima de outros elementos da página.</li>
+  <li>As demais classes e estruturas seguem o exemplo oficial dos <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/toasts/#examples">toasts do Bootstrap</a>.</li>
+</ul>
+
+<hr />
+
+<h2 id="todolist">O componente de tarefas</h2>
+<p>Crie o arquivo <code ctc>src/lib/components/ToDoList.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+  let { tarefas, tarefaEditando, conteudoTarefaEditando = $bindable(), confirmarEdicao, cancelarEdicao, alterarStatus, editarTarefa, excluirTarefa } = $props();
+&lt;/script&gt;
+
+{#each tarefas as tarefa}
+  &lt;div class="input-group mb-1 {tarefa.status == 1 ? 'text-decoration-line-through' : ''}"&gt;
+    {#if tarefaEditando == tarefa}
+      &lt;input class="form-control form-control-lg" bind:value={conteudoTarefaEditando} /&gt;
+      &lt;button class="btn btn-primary input-group-text" aria-label="confirmar" onclick={confirmarEdicao}&gt;&lt;i class="bi bi-check-lg"&gt;&lt;/i&gt;&lt;/button&gt;
+      &lt;button class="btn btn-danger input-group-text" aria-label="cancelar" onclick={cancelarEdicao}&gt;&lt;i class="bi bi-x-lg"&gt;&lt;/i&gt;&lt;/button&gt;
+    {:else}
+      &lt;button class="btn btn-success input-group-text" aria-label="concluir" onclick={() =&gt; alterarStatus(tarefa, tarefa.status == 0 ? 1 : 0)}&gt;&lt;i class="bi bi-{tarefa.status == 1 ? 'list-task' : 'check-lg'}"&gt;&lt;/i&gt;&lt;/button&gt;
+      &lt;span class="form-control form-control-lg"&gt;{tarefa.conteudo}&lt;/span&gt;
+      &lt;button class="btn btn-warning input-group-text" aria-label="editar" onclick={() =&gt; editarTarefa(tarefa)}&gt;&lt;i class="bi bi-pencil"&gt;&lt;/i&gt;&lt;/button&gt;
+      &lt;button class="btn btn-danger input-group-text" aria-label="excluir" data-bs-toggle="modal" data-bs-target="#alertaModal" onclick={() =&gt; excluirTarefa(tarefa)}&gt;&lt;i class="bi bi-trash"&gt;&lt;/i&gt;&lt;/button&gt;
+    {/if}
+  &lt;/div&gt;
+{/each}</code></pre>
+
+<h3>Explicação</h3>
+
+<ul>
+  <li><strong>Linha 1:</strong> Recebemos como propriedades todas as variáveis e funções necessárias para o funcionamento do componente. A variável <code>conteudoTarefaEditando</code> é editável dentro deste componente, por isso utilizamos <code>$bindable()</code> para mantê-la <a href="#bindable">sincronizada com o componente pai</a>.</li>
+  <li><strong>Linha 5:</strong> Iteramos sobre a lista de tarefas recebida, que pode ser a de tarefas pendentes ou concluídas.</li>
+  <li><strong>Linha 6:</strong> Se a tarefa estiver com status 1 (concluída), aplicamos um estilo com risco no texto.</li>
+  <li><strong>Linha 7:</strong> Se a tarefa está em modo de edição, exibimos um campo <code>input</code> para editar seu conteúdo.</li>
+  <li><strong>Linhas 8-9:</strong> Botões para confirmar ou cancelar a edição.</li>
+  <li><strong>Linha 11:</strong> Caso contrário, exibimos os botões normais para ações sobre a tarefa.</li>
+  <li><strong>Linha 12:</strong> Botão para alternar entre tarefa pendente e concluída. O ícone muda conforme o estado.</li>
+  <li><strong>Linha 13:</strong> Exibição do conteúdo da tarefa.</li>
+  <li><strong>Linha 14:</strong> Botão para editar a tarefa.</li>
+  <li><strong>Linha 15:</strong> Botão para exclusão, que aciona a abertura do <a href="#modal">modal de confirmação</a> <code>alertaModal</code>.</li>
+</ul>
+
+<hr />
+
+<h2 id="modal">O <i>modal</i></h2>
+<p>Antes de realizar ações irreversíveis, como excluir uma tarefa, é importante confirmar a intenção do usuário. Por isso, ao clicar no botão de exclusão (linha 15 do componente <code>ToDoList</code>), um <i>modal</i> é exibido solicitando essa confirmação. O componente do modal é importado na linha 3 da página e definido na linha 52.</p>
+<p>Crie o arquivo <code ctc>src/lib/components/Modal.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+  let { msg, acao } = $props();
+&lt;/script&gt;
+
+&lt;div class="modal fade" id="alertaModal" tabindex="-1"&gt;
+  &lt;div class="modal-dialog modal-dialog-centered"&gt;
+    &lt;div class="modal-content"&gt;
+      &lt;div class="modal-body"&gt;{msg}&lt;/div&gt;
+      &lt;div class="modal-footer"&gt;
+        &lt;button class="btn btn-danger" data-bs-dismiss="modal" onclick={acao}&gt; Sim &lt;/button&gt;
+        &lt;button class="btn btn-primary" data-bs-dismiss="modal"&gt;Cancelar&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<h3>Explicação</h3>
+<ul>
+  <li><strong>Linha 5:</strong> Definimos o modal com o ID <code>alertaModal</code>, conforme a <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/modal/">documentação oficial</a>.</li>
+  <li><strong>Linha 6:</strong> A classe <code>modal-dialog-centered</code> <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/modal/#vertically-centered">centraliza o modal verticalmente</a> na tela.</li>
+  <li><strong>Linha 8:</strong> A mensagem exibida no corpo do modal é recebida como propriedade. Assim, o modal pode ser reutilizado para outras mensagens de confirmação.</li>
+  <li><strong>Linha 10:</strong> Ao clicar em "Sim", é executada a função <code>acao</code>, que, aqui, é a função de confirmação da exclusão.</li>
+  <li><strong>Linha 11:</strong> O botão "Cancelar" simplesmente fecha o modal.</li>
+</ul>
+
+<hr />
+
+<h2>Conclusão</h2>
+
+<p>Com isso, estruturamos os componentes principais de nossa lista de tarefas: <code>Toast</code> para mensagens de alerta, <code>ToDoList</code> para exibição e interação com as tarefas, e <code>Modal</code> para confirmar a exclusão.</p>
+<p>Como tarefa, ainda falta implementar as funções que controlam a lógica de adicionar, editar e excluir tarefas. Isso permitirá que os componentes funcionem conforme o esperado e tornará o aplicativo totalmente interativo.</p>
+
+<h2>Exercícios</h2>
+<ol class="excs">
+  <li>Altere o título exibido na navbar em <code>+layout.svelte</code> para que utilize o valor recebido da página via <code>page.data</code>, ou exiba um valor padrão caso nenhum título seja informado. Na página da lista de tarefas (<code>todolist</code>), envie o título desejado para o layout por meio de <code>load</code>.</li>
+  <p>Sugestão: consulte a <a target="_blank" href="https://svelte.dev/docs/kit/load#page.data">documentação do SvelteKit</a> para ver como utilizar o <code>page.data</code> no layout.</p>
+
+  <li class="no-mark"><h4>Implemente as seguintes funções:</h4></li>
+
+  <li><code>adicionarTarefa()</code>: Se o campo <code>novaTarefa</code> estiver vazio, exiba o toast e encerre a função. Caso contrário, adicione à lista <code>tarefas</code> uma nova tarefa com o conteúdo do campo e o status inicial <code>0</code>, que representa "pendentes".</li>
+  <p>Possível solução:</p>
+  <pre><code class="js">function adicionarTarefa() {
+  novaTarefa = novaTarefa.trim();
+  if (!novaTarefa) {
+    mensagemToast.show();
+    return;
+  }
+  tarefas.push({ conteudo: novaTarefa, status: 0 });
+  novaTarefa = '';
+}</code></pre>
+
+  <li><code>editarTarefa(tarefa)</code>: Atribua a <code>tarefa</code> à variável <code>tarefaEditando</code> e o conteúdo da tarefa à variável <code>conteudoTarefaEditando</code>.</li>
+  <p>Possível solução:</p>
+  <pre><code class="js">function editarTarefa(tarefa) {
+  tarefaEditando = tarefa;
+  conteudoTarefaEditando = tarefa.conteudo;
+}</code></pre>
+
+  <li><code>confirmarEdicao()</code>: Se <code>conteudoTarefaEditando</code> estiver vazio, exiba o toast e encerre a função. Caso contrário, atualize o conteúdo de <code>tarefaEditando</code> com <code>conteudoTarefaEditando</code>. Após isso, lembre-se de tirar a tarefa do modo de edição.</li>
+
+  <li><code>cancelarEdicao()</code>: Retire a tarefa do modo de edição, desfazendo qualquer alteração.</li>
+  <p>Possível solução:</p>
+  <pre><code class="js">function cancelarEdicao() {
+  tarefaEditando = undefined;
+}</code></pre>
+
+  <li><code>alterarStatus(tarefa, status)</code>: Atualize o status da <code>tarefa</code> para <code>status</code>.</li>
+
+  <li><code>excluirTarefa(tarefa)</code>: Atribua a <code>tarefa</code> à variável <code>tarefaExcluindo</code>.</li>
+
+  <li><code>confirmarExclusao()</code>: Exclua a tarefa <code>tarefaExcluindo</code> da lista <code>tarefas</code>.</li>
+
+  <li class="no-mark"><h4>Adicione as seguintes funcionalidades extras:</h4></li>
+
+  <li>Opção para marcar todas as tarefas pendentes como concluídas.</li>
+
+  <li>Opção para marcar todas as tarefas concluídas como pendentes.</li>
+
+  <li>Opção para exibir apenas as tarefas pendentes ou apenas as tarefas concluídas.</li>
+
+  <li>Campo de busca para filtrar tarefas com base no texto digitado.</li>
+
+  <li>Exiba a quantidade de tarefas totais, concluídas e pendentes.</li>
+
+  <li>Para deixar o aplicativo com um visual mais limpo e minimalista, agrupe todos os botões de ação de cada item da lista dentro de um menu dropdown.</li>
+  <p>Sugestão: Use o <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/dropdowns/">componente dropdown</a> do Bootstrap.</p>
+
+  <li>Desafio: Implemente animações ao adicionar, excluir ou alterar o status de tarefas</li>
+  <p>Sugestão: Confira o <a target="_blank" href="https://svelte.dev/tutorial/svelte/animations">tutorial de animações do Svelte</a>.</p>
+</ol>

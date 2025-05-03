@@ -18,7 +18,7 @@
 
   <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
   <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
-  <script defer>hljs.highlightLinesAll([[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [{ start: 2, end: 2, color: 'lightblue' }, { start: 5, end: 5, color: 'lightblue' }, { start: 8, end: 10, color: 'lightblue' }]]);
+  <script defer>hljs.highlightLinesAll([[], [], [], [], [], [], [{ start: 1, end: 1, color: 'lightgreen' }, { start: 2, end: 2, color: 'lightblue' }], [], [], [], [], [], [], [], [], [], [], [], [{ start: 2, end: 2, color: 'lightblue' }, { start: 5, end: 5, color: 'lightblue' }, { start: 8, end: 10, color: 'lightblue' }]]);
   </script>
 
   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
@@ -30,6 +30,7 @@
 </head>
 
 <h1 id="carregando-dados-no-sveltekit">Carregando Dados do Servidor</h1>
+<sub><a target="_blank" href="https://svelte.dev/docs/kit/load">Adaptado daqui</a>.</sub>
 <p>Antes que um componente <code>+page.svelte</code> (e seus componentes <code>+layout.svelte</code> correspondentes) possa ser renderizado, frequentemente precisamos obter alguns dados. Isso é feito definindo funções <code>load</code>.</p>
 
 <h2 id="dados-da-página">Dados da Página</h2>
@@ -50,12 +51,12 @@
 &lt;h1&gt;{data.post.title}&lt;/h1&gt;
 &lt;sub&gt;por {data.author.name}&lt;/sub&gt;
 &lt;div&gt;{@html data.post.content}&lt;/div&gt;</code></pre>
-<p><strong>Explicação:</strong> A função <code>load</code> em <code>+page.server.js</code> retorna um objeto com os dados necessários para a página. Esses dados são acessados no componente Svelte através da propriedade <code>data</code>.</p>
+<p id="load-return"><strong>Explicação:</strong> A função <code>load</code> em <code>+page.server.js</code> retorna um objeto com os dados necessários para a página. Esses dados são acessados no componente Svelte através da propriedade <code>data</code>.</p>
 
 <h2 id="dados-do-layout">Dados do Layout</h2>
 
 <p>Teus arquivos <code>+layout.svelte</code> também podem carregar dados, via <code>+layout.server.js</code>.</p>
-<p>Crie o arquivo <code ctc>src/lib/server/database.js</code>:</p>
+<p>Crie o arquivo <code ctc>src/lib/server/postsDatabase.js</code>:</p>
 <pre><code class="language-javascript">const posts = [
   { slug: 'um', title: 'Primeiro Post', publish_date: '2025-03-12', content: 'Conteúdo do primeiro post' },
   { slug: 'outro', title: 'Outro Post', publish_date: '2025-03-25', content: 'Conteúdo do outro post' },
@@ -63,14 +64,15 @@
   { slug: 'ainda', title: 'Ainda Outro Post', publish_date: '2024-11-02', content: 'Conteúdo de ainda outro post' }
 ];</code></pre>
 <p><strong>Explicação</strong>: Esse arquivo represetará nosso banco de dados.</p>
+<div class="info">Atenção: Esse é um banco de dados apenas para fins didáticos! No mundo real, nossos dados ficariam em um banco de dados de verdade.</div>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/+layout.server.js</code>:</p>
-<pre><code class="language-javascript">import * as db from '$lib/server/database';
+<pre><code class="language-javascript">import * as db from '$lib/server/postsDatabase';
 
 export async function load() {
   const posts = db.getAll();
   return { posts };
 }</code></pre>
-<p>A função <code>getAll()</code> ainda não existe no arquivo <code>src/lib/server/database.js</code>. Será tua tarefa implementá-la, bem como todas as outras funções ainda não implementadas.</p>
+<p>A função <code>getAll()</code> ainda não existe no arquivo <code>src/lib/server/postsDatabase.js</code>. Será tua tarefa implementá-la, bem como todas as outras funções ainda não implementadas.</p>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/+layout.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { data, children } = $props();
@@ -112,9 +114,24 @@ export async function load() {
   <p><strong>Nota:</strong> Se múltiplas funções <code>load</code> retornarem dados com a mesma propriedade, a última sobrescreve as anteriores. Por exemplo, se uma função <code>load</code> do layout retorna <code>{ a: 1, b: 2 }</code> e a da página retorna <code>{ b: 3, c: 4 }</code>, o resultado final será <code>{ a: 1, b: 3, c: 4 }</code>.</p>
 </div>
 
-<h2 id="parâmetros-da-função-load">Parâmetros da Função Load</h2>
-
-<p>A função <code>load</code> é invocada com um objeto <code>ServerLoadEvent</code> como parâmetro, que possui várias propriedades, como <code>params</code>, <code>url</code> e <code>fetch</code>.</p>
+<h2 id="load-params">Parâmetros da Função <code>load</code></h2>
+<p>A função <code>load</code> recebe um objeto do tipo <a target="_blank" href="https://svelte.dev/docs/kit/@sveltejs-kit#ServerLoadEvent" id="serverloadevent">ServerLoadEvent</a> como argumento. Esse objeto contém várias propriedades úteis, como <code>params</code>, <code>url</code>, <code>fetch</code>, entre outras.</p>
+<p>Para verificar o conteúdo desse objeto, altere o arquivo <code>src/routes/03/test/+page.server.js</code>:</p>
+<pre><code>export function load(event) {
+  console.log(event);
+  return {
+    post: {
+      title: 'Título de Exemplo',
+      content: 'Conteúdo <b>supimpa</b> de Exemplo'
+    },
+    author: {
+      name: 'Autor Exemplo',
+      email: 'autor@exemplo.com'
+    }
+  };
+}</code></pre>
+<p><strong>Explicação:</strong></p>
+<p>Neste exemplo, estamos exibindo no terminal do servidor todas as propriedades do objeto <code>event</code>, que representa a requisição feita para essa página. Ao acessar a URL correspondente, observe o terminal para verificar as informações registradas.</p>
 
 <h3 id="params">params</h3>
 
@@ -127,7 +144,7 @@ export async function load() {
 </ul>
 <p>A propriedade <code>params</code> é um <strong>objeto</strong> onde cada propriedade corresponde ao nome do parâmetro definido entre colchetes na rota, e seu valor corresponde ao trecho da URL acessada.</p>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/[ano]/[mes]/+page.server.js</code>:</p>
-<pre><code class="language-javascript">import * as db from '$lib/server/database';
+<pre><code class="language-javascript">import * as db from '$lib/server/postsDatabase';
 
 export async function load({ params }) {
   const posts = db.getByYearMonth(params.ano, params.mes);
@@ -148,7 +165,7 @@ export async function load({ params }) {
 <p><strong>Explicação:</strong> Utilizamos os parâmetros de rota <code>ano</code> e <code>mes</code> para filtrar os posts por data.</p>
 <p>Também podemos implementar uma única página para exibir cada post separadamente.</p>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/[slug]/+page.server.js</code>:</p>
-<pre><code class="language-javascript">import * as db from '$lib/server/database';
+<pre><code class="language-javascript">import * as db from '$lib/server/postsDatabase';
 
 export async function load({ params }) {
   const post = db.getBySlug(params.slug);
@@ -181,7 +198,7 @@ export async function load({ params }) {
   <li><code>searchParams</code>: um objeto do tipo <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams">URLSearchParams</a>, que representa os parâmetros de consulta da URL e permite acessar facilmente os valores dos query params.</li>
 </ul>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/query/+page.server.js</code>:</p>
-<pre><code class="language-javascript">import * as db from '$lib/server/database';
+<pre><code class="language-javascript">import * as db from '$lib/server/postsDatabase';
 
 export async function load({ url }) {
   console.log(url);
@@ -346,7 +363,7 @@ export async function load({ url }) {
 <h2 id="exercícios">Exercícios</h2>
 
 <ol class="excs">
-  <li>Implementar as seguintes funções no arquivo <code>database.js</code>, responsáveis pela manipulação dos dados dos posts:
+  <li>Implementar as seguintes funções no arquivo <code>postsDatabase.js</code>, responsáveis pela manipulação dos dados dos posts:
     <ol>
       <li><code>getAll()</code>: Retorna todos os posts cadastrados.</li>
       <li><code>getByYearMonth(ano, mes)</code>: Retorna apenas os posts publicados no ano e mês especificados.</li>
