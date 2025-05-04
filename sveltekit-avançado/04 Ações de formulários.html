@@ -20,7 +20,7 @@
   <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
   <script defer>hljs.highlightLinesAll([[], [], [], [], [], [],
     [{ start: 1, end: 1, color: 'lightblue' }, { start: 7, end: 8, color: 'lightgreen' }, { start: 9, end: 13, color: 'lightblue' }],
-    [{ start: 1, end: 3, color: 'lightblue' }, { start: 12, end: 17, color: 'lightblue' }],
+    [{ start: 1, end: 3, color: 'lightblue' }, { start: 14, end: 19, color: 'lightblue' }],
     [{ start: 13, end: 21, color: 'lightblue' }, { start: 24, end: 27, color: 'lightblue' }],
     [{ start: 8, end: 9, color: 'lightgreen' }, { start: 14, end: 19, color: 'lightblue' }],
     [{ start: 1, end: 1, color: 'lightgreen' }, { start: 5, end: 6, color: 'lightgreen' }, { start: 7, end: 18, color: 'lightblue' }],
@@ -38,7 +38,7 @@
 <h1>Ações de Formulário</h1>
 <sub><a target="_blank" href="https://svelte.dev/docs/kit/form-actions">Adaptado daqui</a>.</sub>
 
-<p>No capítulo <a href="./03 Carregando dados do servidor.html">Carregando dados do servidor</a>, vimos como enviar dados do servidor para o navegador. Às vezes, é necessário fazer o inverso — enviar dados do navegador para o servidor. Para isso, utilizamos o elemento <code>&lt;form&gt;</code>, o principal recurso da plataforma web para esse tipo de comunicação.</p>
+<p>No capítulo <a target="_blank" href="./03 Carregando dados do servidor.html">Carregando dados do servidor</a>, vimos como enviar dados do servidor para o navegador. Muitas vezes, é necessário fazer o inverso — enviar dados do navegador para o servidor. Para isso, utilizamos o elemento <code>&lt;form&gt;</code>, o principal recurso da plataforma web para esse tipo de comunicação.</p>
 
 <p>Um arquivo <code>+page.server.js</code> pode exportar <em>ações</em>, permitindo o envio de dados ao servidor por meio de um formulário que utiliza o método <code>POST</code>.</p>
 
@@ -71,10 +71,10 @@
 <p>Explicação:</p>
 <ul>
   <li>A função <code>default</code> será executada sempre que houver uma requisição <code>POST</code> para a rota <code>/04/a</code>, como no exemplo do formulário acima.</li>
-  <li>O parâmetro <code>event</code> é um objeto <a href="https://svelte.dev/docs/kit/@sveltejs-kit#RequestEvent">RequestEvent</a>, que fornece informações detalhadas sobre a requisição.</li>
-  <li>Como vimos no <a href="./03 Carregando dados do servidor.html#serverloadevent">capítulo anterior</a>, a função <code>load</code> recebe um objeto <a href="https://svelte.dev/docs/kit/@sveltejs-kit#ServerLoadEvent">ServerLoadEvent</a>, que herda os métodos de <code>RequestEvent</code>. Por isso, você já deve estar familiarizado com propriedades como <code>params</code>, <code>url</code> e <code>fetch</code>, disponíveis tanto em ações de formulário quanto na função <code>load</code>.</li>
+  <li>O parâmetro <code>event</code> é um objeto <a target="_blank" href="https://svelte.dev/docs/kit/@sveltejs-kit#RequestEvent">RequestEvent</a>, que fornece informações detalhadas sobre a requisição.</li>
+  <li>Como vimos no <a target="_blank" href="./03 Carregando dados do servidor.html#serverloadevent">capítulo anterior</a>, a função <code>load</code> recebe um objeto <a target="_blank" href="https://svelte.dev/docs/kit/@sveltejs-kit#ServerLoadEvent">ServerLoadEvent</a>, que herda os métodos de <code>RequestEvent</code>. Por isso, você já deve estar familiarizado com propriedades como <code>params</code>, <code>url</code> e <code>fetch</code>, disponíveis tanto em ações de formulário quanto na função <code>load</code>.</li>
   <li>Linha 3: Imprimimos o objeto <code>event</code> no terminal do servidor, para fins de teste.</li>
-  <li>Linha 4: Para acessar os dados enviados pelo formulário, utilizamos o método assíncrono <code>formData()</code> do objeto <a href="https://developer.mozilla.org/en-US/docs/Web/API/Request"><code>request</code></a>, que é uma propriedade de <code>event</code>.</li>
+  <li>Linha 4: Para acessar os dados enviados pelo formulário, utilizamos o método assíncrono <code>formData()</code> do objeto <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Request"><code>request</code></a>, que é uma propriedade de <code>event</code>.</li>
 </ul>
 
 <div class="info">
@@ -87,8 +87,8 @@
 
 <pre><code>&lt;h4&gt;Outro formulário&lt;/h4&gt;
 &lt;form method="POST" action="/04/a"&gt;
-  &lt;input name="umnumero" type="number" placeholder="Digite um número" /&gt;
-  &lt;input type="date" /&gt;
+  &lt;input type="number" placeholder="Digite um número" /&gt;
+  &lt;input name="umadata" type="date" /&gt;
   &lt;button&gt;Submeter&lt;/button&gt;
 &lt;/form&gt;</code></pre>
 
@@ -123,11 +123,13 @@
 
 <p>Crie o arquivo <code ctc>src/routes/04/login/+page.svelte</code>:</p>
 
-<pre><code>&lt;form method="POST" action="?/login"&gt;
+<pre><code>&lt;h1&gt;Entrada / Registro&lt;/h1&gt;
+
+&lt;form method="POST" action="?/login"&gt;
   &lt;label&gt;Email &lt;input name="email" type="email" value={form?.email || ''} required /&gt;&lt;/label&gt;
-  &lt;label&gt;Password &lt;input name="password" type="password" required /&gt;&lt;/label&gt;
-  &lt;button&gt;Log in&lt;/button&gt;
-  &lt;button formaction="?/register"&gt;Register&lt;/button&gt;
+  &lt;label&gt;Senha &lt;input name="password" type="password" required /&gt;&lt;/label&gt;
+  &lt;button&gt;Entrar&lt;/button&gt;
+  &lt;button formaction="?/register"&gt;Registrar&lt;/button&gt;
 &lt;/form&gt;</code></pre>
 
 <p>Explicação:</p>
@@ -137,7 +139,7 @@
 </ul>
 
 <div class="info">
-  <p><strong>Atenção:</strong> não é recomendável combinar ações padrão com ações nomeadas na mesma página. Isso porque, se você fizer um <code>POST</code> para uma ação nomeada que não redireciona, o parâmetro de consulta (ex: <code>?/login</code>) permanece na URL. Assim, uma próxima submissão para a ação padrão continuará sendo tratada pela última ação nomeada, o que pode causar comportamentos inesperados.</p>
+  <p><strong>Atenção:</strong> não é recomendável combinar ação padrão com ações nomeadas na mesma página. Isso porque, se você fizer um <code>POST</code> para uma ação nomeada que não redireciona, o parâmetro de consulta (ex: <code>?/login</code>) permanece na URL. Assim, uma próxima submissão para a ação padrão continuará sendo tratada pela última ação nomeada, o que pode causar comportamentos inesperados.</p>
 </div>
 
 <h2>Retornando dados</h2>
@@ -148,7 +150,7 @@
 export function create(email, password) {
   if (users.has(email)) throw new Error('Email já cadastrado');
 
-  if (email == 'email@proibido') throw new Error('Email proibido');
+  if (email == 'email@proibido') throw new Error('Isso não é pra usuários... 😎');
 
   users.set(email, { email, password });
 }
@@ -159,7 +161,7 @@ export function read(email) {
 
 <p>Explicação:</p>
 <ul>
-  <li>Esse arquivo representa nosso banco de dados. No momento, as duas únicas operações disponíveis são <code>create</code> e <code>read</code>.</li>
+  <li>Esse arquivo representa nosso banco de dados de usuários. No momento, as duas únicas operações disponíveis são <code>create</code> e <code>read</code>.</li>
   <li>Linha 3: A função <code>create(email, password)</code> adiciona um novo usuário ao banco.</li>
   <li>Linha 4: Se já houver um usuário com o mesmo email, um erro é lançado.</li>
   <li>Linha 6: Um pequeno easter egg para forçar um erro de servidor em um teste futuro.</li>
@@ -190,7 +192,7 @@ export const actions = {
   <li>Linha 7: Utilizamos apenas a propriedade <code>request</code> do objeto <code>event</code>.</li>
   <li>Linhas 8–10: Extraímos o email e a senha enviados pelo formulário.</li>
   <li>Linha 12: Adicionamos o novo usuário ao banco.</li>
-  <li>Linha 13: Assim como os dados retornados por <code>load</code> <a href="./03 Carregando dados do servidor.html#load-return">ficam disponíveis</a> na propriedade <code>data</code>, os dados retornados por uma ação de formulário ficam disponíveis na propriedade <code>form</code>.</li>
+  <li>Linha 13: Assim como os dados retornados por <code>load</code> <a target="_blank" href="./03 Carregando dados do servidor.html#load-return">ficam disponíveis</a> na propriedade <code>data</code>, os dados retornados por uma ação de formulário ficam disponíveis na propriedade <code>form</code>.</li>
   <li>A lógica de registro ainda está incompleta: não validamos os dados nem verificamos duplicidade de email. Vamos tratar disso em breve.</li>
 </ul>
 
@@ -199,27 +201,29 @@ export const actions = {
   let { form } = $props();
 &lt;/script&gt;
 
-&lt;form method=&quot;POST&quot; action=&quot;?/login&quot;&gt;
-  &lt;label&gt;Email &lt;input name=&quot;email&quot; type=&quot;email&quot; /&gt;&lt;/label&gt;
-  &lt;label&gt;Password &lt;input name=&quot;password&quot; type=&quot;password&quot; /&gt;&lt;/label&gt;
-  &lt;button&gt;Log in&lt;/button&gt;
-  &lt;button formaction=&quot;?/register&quot;&gt;Register&lt;/button&gt;
+&lt;h1&gt;Entrada / Registro&lt;/h1&gt;
+
+&lt;form method="POST" action="?/login"&gt;
+  &lt;label&gt;Email &lt;input name="email" type="email" value={form?.email || ''} required /&gt;&lt;/label&gt;
+  &lt;label&gt;Senha &lt;input name="password" type="password" required /&gt;&lt;/label&gt;
+  &lt;button&gt;Entrar&lt;/button&gt;
+  &lt;button formaction="?/register"&gt;Registrar&lt;/button&gt;
 &lt;/form&gt;
 
 {#if form?.success}
-  &lt;div class=&quot;d-inline-flex mt-3 alert alert-success alert-dismissible fade show&quot;&gt;
+  &lt;div class="d-inline-flex mt-3 alert alert-success alert-dismissible fade show"&gt;
     {form?.msg || 'Sucesso!'}
-    &lt;button type=&quot;button&quot; class=&quot;btn-close&quot; data-bs-dismiss=&quot;alert&quot; aria-label=&quot;Close&quot;&gt;&lt;/button&gt;
+    &lt;button class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;/button&gt;
   &lt;/div&gt;
 {/if}</code></pre>
 
 <p>Explicação:</p>
 <ul>
   <li>Linha 2: A propriedade <code>form</code> contém os dados retornados pela ação de formulário.</li>
-  <li>Linha 12: Se a ação retornou <code>success</code>, exibimos a mensagem correspondente.</li>
-  <li>Linha 13: As classes <code>alert alert-success alert-dismissible fade show</code> definem o estilo da <a href="https://getbootstrap.com/docs/5.3/components/alerts/#dismissing">caixa de alerta</a> do Bootstrap. <code>d-inline-flex</code> faz com que ela ocupe apenas o espaço necessário.</li>
-  <li>Linha 14: Mostra a mensagem retornada ou, se ausente, "Sucesso!".</li>
-  <li>Linha 15: Exatamente como está na <a href="https://getbootstrap.com/docs/5.3/components/alerts/#dismissing">documentação do Bootstrap</a>.</li>
+  <li>Linha 14: Se a ação retornou <code>success</code>, exibimos a mensagem correspondente.</li>
+  <li>Linha 15: As classes <code>alert alert-success alert-dismissible fade show</code> definem o estilo da <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/alerts/#dismissing">caixa de alerta</a> do Bootstrap. <code>d-inline-flex</code> faz com que ela ocupe apenas o espaço necessário.</li>
+  <li>Linha 16: Mostra a mensagem retornada ou, se ausente, "Sucesso!".</li>
+  <li>Linha 17: Exatamente como está na <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/alerts/#dismissing">documentação do Bootstrap</a>.</li>
 </ul>
 
 <h2>Validação de erros</h2>
@@ -269,13 +273,13 @@ export const actions = {
   let { form } = $props();
 &lt;/script&gt;
 
-&lt;h1&gt;Login / Registro&lt;/h1&gt;
+&lt;h1&gt;Entrada / Registro&lt;/h1&gt;
 
 &lt;form method="POST" action="?/login"&gt;
   &lt;label&gt;Email &lt;input name="email" type="email" value={form?.email || ''} required /&gt;&lt;/label&gt;
-  &lt;label&gt;Password &lt;input name="password" type="password" required /&gt;&lt;/label&gt;
-  &lt;button&gt;Log in&lt;/button&gt;
-  &lt;button formaction="?/register"&gt;Register&lt;/button&gt;
+  &lt;label&gt;Senha &lt;input name="password" type="password" required /&gt;&lt;/label&gt;
+  &lt;button&gt;Entrar&lt;/button&gt;
+  &lt;button formaction="?/register"&gt;Registrar&lt;/button&gt;
 &lt;/form&gt;
 
 {#if form?.error}
@@ -298,10 +302,11 @@ export const actions = {
   <li>Linha 9: Por segurança, a senha não é mantida após erro.</li>
   <li>Linhas 14–19: Se houver erro, mostramos uma caixa de alerta vermelha com a mensagem apropriada.</li>
   <li>A validação no navegador (como <code>type="email"</code> e <code>required</code>) ajuda a evitar erros, mas a validação no servidor é indispensável, pois o código do cliente pode ser alterado pelo usuário. Para testar, inspecione o campo de e-mail, remova o atributo <code>type="email"</code> e tente enviar um endereço de e-mail inválido.</li>
+  <li>Agora é a hora, teste o easter egg!</li>
 </ul>
 
 <h2>Redirecionamentos</h2>
-<p>Redirecionamentos (assim como erros) funcionam da mesma forma que em <a href="https://svelte.dev/docs/kit/load#Redirects"><code>load</code></a>. Por exemplo, após o registro de um novo usuário, exigimos que ele faça login. E, após o login, podemos redirecioná-lo automaticamente para uma página de usuário.</p>
+<p>Redirecionamentos (assim como erros) funcionam da mesma forma que em <a target="_blank" href="https://svelte.dev/docs/kit/load#Redirects"><code>load</code></a>. Por exemplo, após o registro de um novo usuário, exigimos que ele faça login. E, após o login, podemos redirecioná-lo automaticamente para uma página de usuário.</p>
 
 <p>Agora, implemente a lógica de login no arquivo <code ctc>src/routes/04/login/+page.server.js</code>:</p>
 
@@ -323,7 +328,9 @@ export const actions = {
     if (user.password != password) return fail(400, { error: 'Senha incorreta.', email });
 
     redirect(303, '/04/dashboard');
-  },</code></pre>
+  },
+  // continua conforme estava...
+</code></pre>
 
 <p>Explicação:</p>
 <ul>
@@ -334,7 +341,7 @@ export const actions = {
   <li id="dashboard"><strong>Linha 18:</strong> Se o login for bem-sucedido, redirecionamos o usuário para <code>/04/dashboard</code> com o código HTTP 303. Essa página ainda não foi criada — fica como tarefa para você implementá-la.</li>
 </ul>
 
-<div class="info">Toda resposta a uma requisição HTTP possui um código de status. Códigos na faixa dos 400 indicam erros do cliente, os da faixa dos 500 indicam erros do servidor, e os da faixa dos 300 representam redirecionamentos. Saiba mais na <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status">documentação do MDN</a>.</div>
+<div class="info">Toda resposta a uma requisição HTTP possui um código de status. Códigos na faixa dos 400 indicam erros do cliente, os da faixa dos 500 indicam erros do servidor, e os da faixa dos 300 representam redirecionamentos. Saiba mais na <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status">documentação do MDN</a>.</div>
 
 <h2>GET vs POST</h2>
 <p>Como vimos, para invocar uma <em>ação de formulário</em>, é necessário usar <code>method="POST"</code>. No entanto, nem todo formulário precisa enviar dados ao servidor via POST — em formulários de busca, por exemplo, é comum utilizar <code>method="GET"</code> (ou simplesmente omitir o atributo <code>method</code>). Nesses casos, o SvelteKit trata o formulário como um link:</p>
