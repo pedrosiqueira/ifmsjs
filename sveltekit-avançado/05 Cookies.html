@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([[], [], [], [], [], [],
+    [{ start: 1, end: 1, color: 'lightblue' }, { start: 7, end: 8, color: 'lightgreen' }, { start: 9, end: 13, color: 'lightblue' }],
+    [{ start: 1, end: 3, color: 'lightblue' }, { start: 12, end: 17, color: 'lightblue' }],
+    [{ start: 13, end: 26, color: 'lightblue' }, { start: 29, end: 32, color: 'lightblue' }],
+    [{ start: 8, end: 9, color: 'lightgreen' }, { start: 14, end: 19, color: 'lightblue' }],
+    [{ start: 1, end: 1, color: 'lightgreen' }, { start: 5, end: 6, color: 'lightgreen' }, { start: 7, end: 18, color: 'lightblue' }],
+    ]);
+  </script>
+
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h2 id="Progressive-enhancement"><span>Progressive enhancement</span><a href="#Progressive-enhancement" class="permalink" aria-label="permalink"></a></h2>
+<p>Ao usar <code>&lt;form&gt;</code>, o JavaScript do lado do cliente é opcional, mas você pode <em>melhorar progressivamente</em> as interações do formulário com JavaScript para oferecer a melhor experiência ao usuário.</p>
+
+<h2>Exercícios</h2>
+<ol class="excs">
+  <li>é claro que no momento todos os dados estão sendo mantidos na memória. </li>
+  <li>Atualmente, as senhas estão sendo armazenadas em texto puro, o que é uma grande vulnerabilidade de segurança. Você deve usar uma biblioteca como bcrypt para hash de senhas antes de armazená-las no banco de dados. </li>
+  <li>deslogar no momento precisa manualmente apagar os cookies. implemente o logout</li>
+  <li>se está logado e tenta acessar a página de login, permite. implemente lógica para redirecionar caso já esteja logado e tente acessar a página de login.</li>
+  <li>ao registrar, lógica de confirmar senha (dois campos de senha).</li>
+  <li>Lógica de recuperar senha, com redirecionamento.</li>
+  <li>adicionar nome do usuário, que deve ter validação como se fosse variável (sem espaços, letras maiúsculas ou caracteres especiais, começando com letras). substituir a rota estática perfil para [perfil], que seja o nome do usuário.</li>
+  <li>atualizar usuário</li>
+  <li>excluir usuário</li>
+  <li>
+    5. Prevenção de Ataques de Força Bruta
+    Implemente uma lógica para limitar tentativas de login consecutivas com falha. Por exemplo:
+
+    Bloquear o IP ou o usuário após várias tentativas falhas.
+    Usar um sistema de "cooldown" para atrasar logins subsequentes.
+
+  </li>
+</ol>
+
+<h1>Cookies com SvelteKit</h1>
+<h2 id="conceitos">Estado da comunicação [me vê outro nome para essa seção]</h2>
+<p>Antes de entrar no assunto de cookies, vamos entender primeiramente por que eles foram inventados, para quê eles são necessários.</p>
+<p>Uma comunicação entre sistemas pode se dar em várias etapas. À medida que a comunicação procede, o "estado" da comunicação muda. Portanto, entendamos o "estado" da comunicação como "o conjunto de informações que descrevem o contexto atual de uma interação entre cliente e servidor". Em outras palavras: Estado representa quem é o usuário, o que ele já fez, em que etapa está, ou qualquer outro dado que o servidor precisa lembrar entre requisições. Isto posto, uma sistema pode ter uma arquitetura stateless ou stateful.</p>
+<h3 id="stateless-sem-estado">✅ <strong>Stateless</strong> (Sem estado)</h3>
+<p>Um sistema <strong>stateless</strong> não mantém informações sobre interações anteriores. Cada requisição é <strong>independente</strong>, como se fosse a <strong>primeira vez</strong> que o cliente se comunica com o servidor.</p>
+<blockquote>
+  <p>Exemplo: O protocolo HTTP puro é stateless. Toda vez que o navegador faz uma requisição, o servidor não sabe quem está pedindo a menos que a requisição traga essa informação (como um token ou cookie).</p>
+</blockquote>
+<hr />
+<h3 id="stateful-com-estado">🔁 <strong>Stateful</strong> (Com estado)</h3>
+<p>Um sistema <strong>stateful</strong> <strong>mantém informações</strong> sobre interações anteriores. O servidor <strong>lembra do cliente</strong> entre uma requisição e outra, geralmente armazenando isso em uma <strong>sessão</strong>.</p>
+<blockquote>
+  <p>Exemplo: Após fazer login em um site, o servidor armazena seus dados em uma sessão e sabe que você está autenticado ao navegar pelas páginas.</p>
+</blockquote>
+<hr />
+<h3 id="comparação">📊 Comparação</h3>
+<table border>
+  <colgroup>
+    <col style="width: 18%" />
+    <col style="width: 28%" />
+    <col style="width: 53%" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Característica</th>
+      <th>Stateless</th>
+      <th>Stateful</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Mantém estado?</td>
+      <td>❌ Não</td>
+      <td>✅ Sim</td>
+    </tr>
+    <tr>
+      <td>Complexidade no servidor</td>
+      <td>✅ Menor</td>
+      <td>🔺 Maior</td>
+    </tr>
+    <tr>
+      <td>Escalabilidade</td>
+      <td>✅ Alta (sem estado para gerenciar)</td>
+      <td>🔻 Menor (estado precisa ser compartilhado entre servidores ou persistido)</td>
+    </tr>
+    <tr>
+      <td>Exemplo na web</td>
+      <td>API REST, HTTP puro</td>
+      <td>Sessão com login, aplicações com WebSocket</td>
+    </tr>
+    <tr>
+      <td>Requisições independentes?</td>
+      <td>✅ Sim</td>
+      <td>❌ Não (dependem do histórico)</td>
+    </tr>
+    <tr>
+      <td>Armazenamento de sessão</td>
+      <td>❌ Cliente envia tudo o que é necessário</td>
+      <td>✅ Servidor armazena dados da sessão</td>
+    </tr>
+  </tbody>
+</table border>
+<hr />
+<h3 id="quando-usar-cada-um">🧩 Quando usar cada um?</h3>
+<table border>
+  <thead>
+    <tr>
+      <th>Situação</th>
+      <th>Recomendado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>APIs REST modernas</td>
+      <td>Stateless</td>
+    </tr>
+    <tr>
+      <td>Aplicações com autenticação simples</td>
+      <td>Stateful</td>
+    </tr>
+    <tr>
+      <td>Sistemas distribuídos com múltiplos servidores</td>
+      <td>Stateless</td>
+    </tr>
+    <tr>
+      <td>Aplicações interativas e tempo real</td>
+      <td>Stateful (ex: WebSockets)</td>
+    </tr>
+  </tbody>
+</table border>
+<hr />
+<h2 id="o-que-são-cookies">🍪 O que são Cookies?</h2>
+<p><strong>Cookies</strong> são pequenos arquivos de texto que os navegadores armazenam localmente no dispositivo do usuário, a pedido de um servidor web. Eles servem para guardar informações úteis entre diferentes requisições HTTP — que, por padrão, são <em>stateless</em> (sem estado).</p>
+<p>Ou seja, sem cookies (ou outros mecanismos de armazenamento), cada requisição seria como se fosse feita por um visitante completamente novo.</p>
+<hr />
+<h2 id="para-que-servem">🧠 Para que servem?</h2>
+<p>Cookies podem ser usados para diversas finalidades, incluindo:</p>
+<ul>
+  <li><strong>Autenticação</strong>: manter o usuário logado após o login.</li>
+  <li><strong>Preferências do usuário</strong>: tema escuro, idioma preferido, etc.</li>
+  <li><strong>Carrinhos de compras</strong>: guardar os itens entre visitas.</li>
+  <li><strong>Analytics e rastreamento</strong>: medir o comportamento do usuário (ex: Google Analytics).</li>
+  <li><strong>Personalização</strong>: mostrar conteúdo personalizado com base em visitas anteriores.</li>
+</ul>
+<hr />
+<h2 id="como-funcionam">🛠 Como funcionam?</h2>
+<h3 id="envio-pelo-servidor">1. Envio pelo servidor</h3>
+<p>O servidor envia um cookie para o navegador usando o cabeçalho HTTP <code>Set-Cookie</code>. Exemplo:</p>
+<pre><code>Set-Cookie: sessionId=abc123; HttpOnly; Path=/; Max-Age=3600</code></pre>
+<p>Esse cookie será armazenado pelo navegador e incluído automaticamente em cada requisição subsequente ao mesmo domínio (ou caminho correspondente).</p>
+<h3 id="envio-pelo-navegador">2. Envio pelo navegador</h3>
+<p>Sempre que o navegador fizer uma nova requisição ao servidor, ele incluirá todos os cookies válidos no cabeçalho <code>Cookie</code>:</p>
+<pre><code>Cookie: sessionId=abc123</code></pre>
+<hr />
+<h2 id="atributos-importantes-de-um-cookie">🔐 Atributos importantes de um cookie</h2>
+<table border>
+  <colgroup>
+    <col style="width: 13%" />
+    <col style="width: 86%" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Atributo</th>
+      <th>Descrição</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Name=Value</code></td>
+      <td>Nome e valor do cookie. Obrigatório.</td>
+    </tr>
+    <tr>
+      <td><code>Path</code></td>
+      <td>Define em qual caminho o cookie é enviado. Ex: <code>/</code>, <code>/admin</code>.</td>
+    </tr>
+    <tr>
+      <td><code>Domain</code></td>
+      <td>Restringe o cookie a um subdomínio (ex: <code>.meusite.com</code>).</td>
+    </tr>
+    <tr>
+      <td><code>Expires</code></td>
+      <td>Data e hora em que o cookie expira.</td>
+    </tr>
+    <tr>
+      <td><code>Max-Age</code></td>
+      <td>Tempo de vida em segundos (preferido ao invés de <code>Expires</code>).</td>
+    </tr>
+    <tr>
+      <td><code>HttpOnly</code></td>
+      <td>Impede acesso via JavaScript (aumenta segurança contra XSS).</td>
+    </tr>
+    <tr>
+      <td><code>Secure</code></td>
+      <td>Envia o cookie apenas em conexões HTTPS.</td>
+    </tr>
+    <tr>
+      <td><code>SameSite</code></td>
+      <td>Controla o envio em requisições cross-site. Pode ser <code>Strict</code>, <code>Lax</code> ou <code>None</code>.</td>
+    </tr>
+  </tbody>
+</table border>
+<p>Acesse as ferramentas de desenvolvimento do teu navegador, →..., e verifique os cookies para a página atualmente aberta.</p>
+<hr />
+<h2 id="diferença-entre-cookies-de-sessão-e-persistentes">💡 Tipos de Cookies</h2>
+<p>Podemos comparar os cookies quanto à durabilidade.</p>
+<table border>
+  <thead>
+    <tr>
+      <th>Tipo</th>
+      <th>Duração</th>
+      <th>Onde é usado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>De Sessão</strong></td>
+      <td>Até o navegador fechar</td>
+      <td>Login temporário, sessão anônima. [me dê mais exemplos]</td>
+    </tr>
+    <tr>
+      <td><strong>Persistentes</strong></td>
+      <td>Até expirar (<code>Max-Age</code> ou <code>Expires</code>)</td>
+      <td>“Lembrar de mim”, carrinhos. [me dê mais exemplos]</td>
+    </tr>
+  </tbody>
+</table border>
+<p>Também podemos separar os cookies por que tipo de servidor os utiliza.</p>
+<table border>
+  <thead>
+    <tr>
+      <th>Tipo</th>
+      <th>?</th>
+      <th>?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>?</strong></td>
+      <td>? cookies are set by the website that you are currently visiting</td>
+      <td>? cookies are generally used to provide a good user experience, collect the analytics data, remember language settings etc. [reformule] </td>
+    </tr>
+    <tr>
+      <td><strong>Cookies de terceiros</strong></td>
+      <td>Third-party cookies are set by the domains that you are not visiting</td>
+      <td>Third-party cookies are mostly used for cross-site tracking and advertising purposes these cookies collect data about your browsing habits and serve ads according to it. For example, when you visit a website, it may include content (such as ads or social media widgets) from third-party domains. These third-party domains can set cookies on your browser to track your online activity and build profiles for targeted advertising or analytics. [reformule]</td>
+    </tr>
+  </tbody>
+</table border>
+<hr />
+<h2 id="considerações-de-segurança">⚠️ Considerações de Segurança</h2>
+<ol type="1">
+  <li>
+    <p><strong>HttpOnly</strong>: Protege contra ataques XSS (impede acesso via JavaScript).</p>
+  </li>
+  <li>
+    <p><strong>Secure</strong>: Evita envio de cookies por HTTP não seguro.</p>
+  </li>
+  <li>
+    <p><strong>SameSite</strong>:</p>
+    <ul>
+      <li><code>Strict</code>: só envia o cookie em requisições do mesmo site.</li>
+      <li><code>Lax</code>: permite algumas requisições cross-site (como cliques em links).</li>
+      <li><code>None</code>: permite tudo, mas exige <code>Secure</code>.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Cookies não são criptografados por padrão</strong>. Se armazenar dados sensíveis, é necessário criptografá-los.</p>
+  </li>
+</ol>
+<hr />
+<h2>How do cookies affect privacy?</h2>
+<p>adaptador <a href="https://www.geeksforgeeks.org/understanding-cookies-in-web-browsers/">daqui</a> </p>
+<p>Cookies can have both positive and negative effects on privacy:</p>
+
+<p>Positive: Cookies can enhance user experiences by remembering preferences and login information, making websites more user-friendly.</p>
+
+<p>Negative: Cookies can raise privacy concerns when they are used for tracking and profiling without user consent. Excessive tracking can result in a loss of online privacy and the potential for data misuse.</p>
+<hr>
+<h2 id="cookies-no-sveltekit">🍃 Cookies no SvelteKit</h2>
+<p>No SvelteKit, você pode acessar e manipular cookies usando objetos como <code>event.cookies</code> dentro de <code>+page.server.js</code>, <code>+layout.server.js</code>, ou <code>hooks.server.js</code>.</p>
+<h3 id="lendo-cookies">✅ Lendo cookies:</h3>
+<div class="sourceCode" id="cb3">
+  <pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="im">export</span> <span class="kw">const</span> load <span class="op">=</span> <span class="kw">async</span> ({ cookies }) <span class="kw">=&gt;</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  <span class="kw">const</span> theme <span class="op">=</span> cookies<span class="op">.</span><span class="fu">get</span>(<span class="st">&#39;theme&#39;</span>) <span class="op">||</span> <span class="st">&#39;light&#39;</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>  <span class="cf">return</span> { theme }<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>}<span class="op">;</span></span></code></pre>
+</div>
+<h3 id="gravando-cookies">✅ Gravando cookies:</h3>
+<div class="sourceCode" id="cb4">
+  <pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="im">export</span> <span class="kw">const</span> actions <span class="op">=</span> {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>  <span class="dt">setTheme</span><span class="op">:</span> <span class="kw">async</span> ({ request<span class="op">,</span> cookies }) <span class="kw">=&gt;</span> {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>    <span class="kw">const</span> data <span class="op">=</span> <span class="cf">await</span> request<span class="op">.</span><span class="fu">formData</span>()<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>    <span class="kw">const</span> theme <span class="op">=</span> data<span class="op">.</span><span class="fu">get</span>(<span class="st">&#39;theme&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>    cookies<span class="op">.</span><span class="fu">set</span>(<span class="st">&#39;theme&#39;</span><span class="op">,</span> theme<span class="op">,</span> {</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>      <span class="dt">path</span><span class="op">:</span> <span class="st">&#39;/&#39;</span><span class="op">,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>      <span class="dt">maxAge</span><span class="op">:</span> <span class="dv">60</span> <span class="op">*</span> <span class="dv">60</span> <span class="op">*</span> <span class="dv">24</span> <span class="op">*</span> <span class="dv">30</span>  <span class="co">// 30 dias</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a>    })<span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a>  }</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a>}<span class="op">;</span></span></code></pre>
+</div>
+<h3 id="removendo-cookies">✅ Removendo cookies:</h3>
+<div class="sourceCode" id="cb5">
+  <pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>cookies<span class="op">.</span><span class="fu">delete</span>(<span class="st">&#39;theme&#39;</span><span class="op">,</span> { <span class="dt">path</span><span class="op">:</span> <span class="st">&#39;/&#39;</span> })<span class="op">;</span></span></code></pre>
+</div>
+<hr />
+<h2 id="cookies-vs.-alternativas">📦 Cookies vs. Alternativas</h2>
+<p>Além de cookies, existem outras formas de armazenamento no navegador:</p>
+<table border>
+  <thead>
+    <tr>
+      <th>Tecnologia</th>
+      <th>Visível no JS?</th>
+      <th>Expira?</th>
+      <th>Envio automático ao servidor?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Cookies</td>
+      <td>Se não for <code>HttpOnly</code></td>
+      <td>Sim</td>
+      <td>Sim</td>
+    </tr>
+    <tr>
+      <td>localStorage</td>
+      <td>Sim</td>
+      <td>Não (permanece)</td>
+      <td>Não</td>
+    </tr>
+    <tr>
+      <td>sessionStorage</td>
+      <td>Sim</td>
+      <td>Ao fechar aba</td>
+      <td>Não</td>
+    </tr>
+    <tr>
+      <td>IndexedDB</td>
+      <td>Sim</td>
+      <td>Não</td>
+      <td>Não</td>
+    </tr>
+  </tbody>
+</table border>
+<p>Use cookies quando <strong>precisar que o servidor leia os dados</strong> em cada requisição. Para demais casos, use <code>localStorage</code> ou <code>sessionStorage</code>.</p>
+<hr />
+<h2 id="conclusão">✅ Conclusão</h2>
+<p>Cookies são essenciais para dar “memória” às aplicações web. Usados corretamente, eles possibilitam autenticação, personalização e muito mais. No entanto, seu uso deve ser cuidadoso, respeitando boas práticas de segurança (como <code>HttpOnly</code>, <code>Secure</code> e <code>SameSite</code>) e privacidade do usuário.</p>
+<hr />

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([[], [], [], [], [], [],
+    [{ start: 1, end: 1, color: 'lightblue' }, { start: 7, end: 8, color: 'lightgreen' }, { start: 9, end: 13, color: 'lightblue' }],
+    [{ start: 1, end: 3, color: 'lightblue' }, { start: 14, end: 19, color: 'lightblue' }],
+    [{ start: 13, end: 21, color: 'lightblue' }, { start: 24, end: 27, color: 'lightblue' }],
+    [{ start: 8, end: 9, color: 'lightgreen' }, { start: 14, end: 19, color: 'lightblue' }],
+    [{ start: 1, end: 1, color: 'lightgreen' }, { start: 5, end: 6, color: 'lightgreen' }, { start: 7, end: 18, color: 'lightblue' }],
+    ]);
+  </script>
+
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1>Ações de Formulário</h1>
+<sub><a target="_blank" href="https://svelte.dev/docs/kit/form-actions">Adaptado daqui</a>.</sub>
+
+<p>No capítulo <a target="_blank" href="./03 Carregando dados do servidor.html">Carregando dados do servidor</a>, vimos como enviar dados do servidor para o navegador. Muitas vezes, é necessário fazer o inverso — enviar dados do navegador para o servidor. Para isso, utilizamos o elemento <code>&lt;form&gt;</code>, o principal recurso da plataforma web para esse tipo de comunicação.</p>
+
+<p>Um arquivo <code>+page.server.js</code> pode exportar <em>ações</em>, permitindo o envio de dados ao servidor por meio de um formulário que utiliza o método <code>POST</code>.</p>
+
+<h2 id="Default-actions">Ações padrão</h2>
+
+<p>Crie o arquivo <code ctc>src/routes/04/a/+page.svelte</code>:</p>
+
+<pre><code>&lt;h4&gt;Um formulário&lt;/h4&gt;
+&lt;form method="POST"&gt;
+  &lt;input name="umtexto" placeholder="Digite um texto" /&gt;
+  &lt;input name="outrotexto" placeholder="Digite outro texto" /&gt;
+  &lt;button&gt;Submeter&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+<p>Explicação:</p>
+<ul>
+  <li>Ao submeter um formulário, ele é enviado ao servidor pela URL definida no atributo <code>action</code>.</li>
+  <li>Como neste caso o atributo <code>action</code> não foi especificado, o formulário será enviado para a URL atual da página.</li>
+</ul>
+
+<p>Crie também o arquivo <code ctc>src/routes/04/a/+page.server.js</code>:</p>
+
+<pre><code>export const actions = {
+  default: async (event) =&gt; {
+    console.log(event);
+    console.log(await event.request.formData());
+  }
+};</code></pre>
+
+<p>Explicação:</p>
+<ul>
+  <li>A função <code>default</code> será executada sempre que houver uma requisição <code>POST</code> para a rota <code>/04/a</code>, como no exemplo do formulário acima.</li>
+  <li>O parâmetro <code>event</code> é um objeto <a target="_blank" href="https://svelte.dev/docs/kit/@sveltejs-kit#RequestEvent">RequestEvent</a>, que fornece informações detalhadas sobre a requisição.</li>
+  <li>Como vimos no <a target="_blank" href="./03 Carregando dados do servidor.html#serverloadevent">capítulo anterior</a>, a função <code>load</code> recebe um objeto <a target="_blank" href="https://svelte.dev/docs/kit/@sveltejs-kit#ServerLoadEvent">ServerLoadEvent</a>, que herda os métodos de <code>RequestEvent</code>. Por isso, você já deve estar familiarizado com propriedades como <code>params</code>, <code>url</code> e <code>fetch</code>, disponíveis tanto em ações de formulário quanto na função <code>load</code>.</li>
+  <li>Linha 3: Imprimimos o objeto <code>event</code> no terminal do servidor, para fins de teste.</li>
+  <li>Linha 4: Para acessar os dados enviados pelo formulário, utilizamos o método assíncrono <code>formData()</code> do objeto <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Request"><code>request</code></a>, que é uma propriedade de <code>event</code>.</li>
+</ul>
+
+<div class="info">
+  <p><strong>Observação:</strong> Ações sempre utilizam requisições <code>POST</code>, pois requisições <code>GET</code> não devem causar efeitos colaterais.</p>
+</div>
+
+<p>Também é possível enviar dados para outra rota informando o atributo <code>action</code> com a URL de destino.</p>
+
+<p>Crie o arquivo <code ctc>src/routes/04/b/+page.svelte</code>:</p>
+
+<pre><code>&lt;h4&gt;Outro formulário&lt;/h4&gt;
+&lt;form method="POST" action="/04/a"&gt;
+  &lt;input type="number" placeholder="Digite um número" /&gt;
+  &lt;input name="umadata" type="date" /&gt;
+  &lt;button&gt;Submeter&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+<p>Explicação:</p>
+<p>Ao incluir o atributo <code>action</code>, este formulário envia os dados para a rota <code>/04/a</code>, onde serão processados pela ação padrão dessa página.</p>
+
+<div class="info">
+  <p><strong>Observação:</strong> Cada campo do formulário precisa ter o atributo <code>name</code> para que seus dados sejam incluídos na requisição enviada ao servidor.</p>
+</div>
+
+<p>Ótimo! Agora temos um meio eficiente de trocar dados entre páginas!</p>
+
+<h2 id="Named-actions">Ações nomeadas</h2>
+
+<p>Em vez de usar apenas a ação <code>default</code>, uma página pode conter múltiplas ações nomeadas.</p>
+
+<p>Crie o arquivo <code ctc>src/routes/04/login/+page.server.js</code>:</p>
+
+<pre><code>export const actions = {
+  login: async () => {
+    console.log('Autenticando...');
+  },
+  register: async () => {
+    console.log('Registrando...');
+  }
+};</code></pre>
+
+<p>Explicação:</p>
+<p>Neste exemplo, simulamos duas ações distintas: <code>login</code> e <code>register</code>.</p>
+
+<p>Para invocar uma ação nomeada, usamos um parâmetro de consulta no atributo <code>action</code>, começando com <code>?/</code> seguido do nome da ação.</p>
+
+<p>Crie o arquivo <code ctc>src/routes/04/login/+page.svelte</code>:</p>
+
+<pre><code>&lt;h1&gt;Entrada / Registro&lt;/h1&gt;
+
+&lt;form method="POST" action="?/login"&gt;
+  &lt;label&gt;Email &lt;input name="email" type="email" value={form?.email || ''} required /&gt;&lt;/label&gt;
+  &lt;label&gt;Senha &lt;input name="password" type="password" required /&gt;&lt;/label&gt;
+  &lt;button&gt;Entrar&lt;/button&gt;
+  &lt;button formaction="?/register"&gt;Registrar&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+<p>Explicação:</p>
+<ul>
+  <li>Linha 1: O formulário principal será enviado para a ação nomeada <code>login</code>.</li>
+  <li>Linha 5: O botão <code>Registrar</code> usa o atributo <code>formaction</code> para enviar o mesmo formulário à ação <code>register</code>, substituindo o <code>action</code> do formulário.</li>
+</ul>
+
+<div class="info">
+  <p><strong>Atenção:</strong> não é recomendável combinar ação padrão com ações nomeadas na mesma página. Isso porque, se você fizer um <code>POST</code> para uma ação nomeada que não redireciona, o parâmetro de consulta (ex: <code>?/login</code>) permanece na URL. Assim, uma próxima submissão para a ação padrão continuará sendo tratada pela última ação nomeada, o que pode causar comportamentos inesperados.</p>
+</div>
+
+<h2>Retornando dados</h2>
+<p>Após processar a requisição (por exemplo, registrando o usuário), a ação pode retornar dados que ficam disponíveis por meio da propriedade <code>form</code> na página correspondente e também em <code>page.form</code> em todo o aplicativo, até a próxima atualização de página.</p>
+<p>Crie o arquivo <code ctc>src/lib/server/usersDatabase.js</code>:</p>
+<pre><code>const users = new Map();
+
+export function create(email, password) {
+  if (users.has(email)) throw new Error('Email já cadastrado');
+
+  if (email == 'email@proibido') throw new Error('Isso não é pra usuários... 😎');
+
+  users.set(email, { email, password });
+}
+
+export function read(email) {
+  return users.get(email);
+}</code></pre>
+
+<p>Explicação:</p>
+<ul>
+  <li>Esse arquivo representa nosso banco de dados de usuários. No momento, as duas únicas operações disponíveis são <code>create</code> e <code>read</code>.</li>
+  <li>Linha 3: A função <code>create(email, password)</code> adiciona um novo usuário ao banco.</li>
+  <li>Linha 4: Se já houver um usuário com o mesmo email, um erro é lançado.</li>
+  <li>Linha 6: Um pequeno easter egg para forçar um erro de servidor em um teste futuro.</li>
+  <li>Linha 8: Armazena o novo usuário no mapa <code>users</code>.</li>
+  <li>Linha 11: A função <code>read(email)</code> retorna o usuário correspondente ou <code>undefined</code> caso não exista.</li>
+</ul>
+<div class="info">Atenção: Esse é um banco de dados apenas para fins didáticos! Em um sistema real, os dados devem ser armazenados em um banco de dados apropriado. E o mais importante: AS SENHAS NUNCA DEVEM SER SALVAS EM TEXTO PURO!!!</div>
+
+<p>Agora, altere a função <code>register</code> no arquivo <code ctc>src/routes/04/login/+page.server.js</code> (em azul os acréscimos, em verde as modificações):</p>
+<pre><code>import * as users from '$lib/server/usersDatabase.js';
+
+export const actions = {
+  login: async () => {
+    console.log('Autenticando...');
+  },
+  register: async ({ request }) => {
+    const data = await request.formData();
+    const email = data.get('email');
+    const password = data.get('password');
+
+    users.create(email, password);
+    return { success: true, msg: 'Usuário registrado com sucesso! Agora você pode fazer o login...' };
+  }
+};</code></pre>
+
+<p>Explicação:</p>
+<ul>
+  <li>Linha 7: Utilizamos apenas a propriedade <code>request</code> do objeto <code>event</code>.</li>
+  <li>Linhas 8–10: Extraímos o email e a senha enviados pelo formulário.</li>
+  <li>Linha 12: Adicionamos o novo usuário ao banco.</li>
+  <li>Linha 13: Assim como os dados retornados por <code>load</code> <a target="_blank" href="./03 Carregando dados do servidor.html#load-return">ficam disponíveis</a> na propriedade <code>data</code>, os dados retornados por uma ação de formulário ficam disponíveis na propriedade <code>form</code>.</li>
+  <li>A lógica de registro ainda está incompleta: não validamos os dados nem verificamos duplicidade de email. Vamos tratar disso em breve.</li>
+</ul>
+
+<p>Agora, vamos exibir na página os dados retornados pelo servidor. Adicione o seguinte código ao arquivo <code ctc>src/routes/04/login/+page.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+  let { form } = $props();
+&lt;/script&gt;
+
+&lt;h1&gt;Entrada / Registro&lt;/h1&gt;
+
+&lt;form method="POST" action="?/login"&gt;
+  &lt;label&gt;Email &lt;input name="email" type="email" value={form?.email || ''} required /&gt;&lt;/label&gt;
+  &lt;label&gt;Senha &lt;input name="password" type="password" required /&gt;&lt;/label&gt;
+  &lt;button&gt;Entrar&lt;/button&gt;
+  &lt;button formaction="?/register"&gt;Registrar&lt;/button&gt;
+&lt;/form&gt;
+
+{#if form?.success}
+  &lt;div class="d-inline-flex mt-3 alert alert-success alert-dismissible fade show"&gt;
+    {form?.msg || 'Sucesso!'}
+    &lt;button class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;/button&gt;
+  &lt;/div&gt;
+{/if}</code></pre>
+
+<p>Explicação:</p>
+<ul>
+  <li>Linha 2: A propriedade <code>form</code> contém os dados retornados pela ação de formulário.</li>
+  <li>Linha 14: Se a ação retornou <code>success</code>, exibimos a mensagem correspondente.</li>
+  <li>Linha 15: As classes <code>alert alert-success alert-dismissible fade show</code> definem o estilo da <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/alerts/#dismissing">caixa de alerta</a> do Bootstrap. <code>d-inline-flex</code> faz com que ela ocupe apenas o espaço necessário.</li>
+  <li>Linha 16: Mostra a mensagem retornada ou, se ausente, "Sucesso!".</li>
+  <li>Linha 17: Exatamente como está na <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/alerts/#dismissing">documentação do Bootstrap</a>.</li>
+</ul>
+
+<h2>Validação de erros</h2>
+<p>Se a requisição não puder ser processada devido a dados inválidos, é possível retornar mensagens de erro junto com os valores inseridos anteriormente. Isso permite que o usuário corrija os dados e tente novamente. A função <code>fail</code> retorna um código HTTP (geralmente 400 ou 422 em casos de erro de validação) junto com os dados. O código de status fica acessível em <code>page.status</code> e os dados em <code>form</code>.</p>
+<p>Implemente a validação de dados na função <code>register</code> no arquivo <code ctc>src/routes/04/login/+page.server.js</code>:</p>
+<pre><code>import { fail } from '@sveltejs/kit';
+import * as users from '$lib/server/usersDatabase.js';
+
+export const actions = {
+  login: async () =&gt; {
+    console.log('Autenticando...');
+  },
+  register: async ({ request }) =&gt; {
+    const data = await request.formData();
+    const email = data.get('email');
+    const password = data.get('password');
+
+    if (!email || !password) return fail(400, { error: 'Email e senha são obrigatórios.', email });
+
+    if (!email.includes('@')) return fail(400, { error: 'Email inválido.', email });
+
+    if (password.length &lt; 4) return fail(400, { error: 'A senha deve ter pelo menos 4 caracteres.', email });
+
+    if (users.read(email)) return fail(400, { error: 'Email já cadastrado.', email });
+
+    try {
+      users.create(email, password);
+      return { success: true, msg: 'Usuário registrado com sucesso! Agora você pode fazer o login...' };
+    } catch (error) {
+      console.error('Erro ao registrar usuário:', error);
+      return fail(500, { error: 'Ocorreu um erro inesperado. Tente novamente mais tarde.', email });
+    }
+  },
+};</code></pre>
+
+<p>Explicação:</p>
+<ul>
+  <li>Linhas 13–19: Validamos os dados. Se estiverem inválidos, usamos <code>fail</code> para retornar a mensagem de erro e manter os dados do formulário.</li>
+  <li>Linha 15: A validação de email é simplificada. Em sistemas reais, utilize bibliotecas específicas e robustas para isso.</li>
+  <li>Linha 19: Impede que um email já registrado seja reutilizado.</li>
+  <li>Linha 24: Como <code>users.create</code> pode lançar erros, registramos o erro no terminal e exibimos uma mensagem genérica ao usuário.</li>
+  <div class="info">Recomendação: Não é boa prática exibir mensagens de erro técnicas diretamente ao usuário. Elas são úteis apenas para desenvolvedores e podem revelar informações sensíveis. Por isso, erros de servidor (categoria 500) devem ser registrados apenas no servidor, onde podem ser acessados por quem mantém o sistema.</div>
+</ul>
+
+<p>Adicione o tratamento de mensagens de erro no arquivo <code ctc>src/routes/04/login/+page.svelte</code>:</p>
+<pre><code>&lt;script&gt;
+  let { form } = $props();
+&lt;/script&gt;
+
+&lt;h1&gt;Entrada / Registro&lt;/h1&gt;
+
+&lt;form method="POST" action="?/login"&gt;
+  &lt;label&gt;Email &lt;input name="email" type="email" value={form?.email || ''} required /&gt;&lt;/label&gt;
+  &lt;label&gt;Senha &lt;input name="password" type="password" required /&gt;&lt;/label&gt;
+  &lt;button&gt;Entrar&lt;/button&gt;
+  &lt;button formaction="?/register"&gt;Registrar&lt;/button&gt;
+&lt;/form&gt;
+
+{#if form?.error}
+  &lt;div class="d-inline-flex mt-3 alert alert-danger alert-dismissible fade show"&gt;
+    {form?.error}
+    &lt;button class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;/button&gt;
+  &lt;/div&gt;
+{/if}
+
+{#if form?.success}
+  &lt;div class="d-inline-flex mt-3 alert alert-success alert-dismissible fade show"&gt;
+    {form?.msg || 'Sucesso!'}
+    &lt;button class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;/button&gt;
+  &lt;/div&gt;
+{/if}</code></pre>
+
+<p>Explicação:</p>
+<ul>
+  <li>Linha 8: O valor do campo email é mantido em caso de erro, para facilitar a correção por parte do usuário.</li>
+  <li>Linha 9: Por segurança, a senha não é mantida após erro.</li>
+  <li>Linhas 14–19: Se houver erro, mostramos uma caixa de alerta vermelha com a mensagem apropriada.</li>
+  <li>A validação no navegador (como <code>type="email"</code> e <code>required</code>) ajuda a evitar erros, mas a validação no servidor é indispensável, pois o código do cliente pode ser alterado pelo usuário. Para testar, inspecione o campo de e-mail, remova o atributo <code>type="email"</code> e tente enviar um endereço de e-mail inválido.</li>
+  <li>Agora é a hora, teste o easter egg!</li>
+</ul>
+
+<h2>Redirecionamentos</h2>
+<p>Redirecionamentos (assim como erros) funcionam da mesma forma que em <a target="_blank" href="https://svelte.dev/docs/kit/load#Redirects"><code>load</code></a>. Por exemplo, após o registro de um novo usuário, exigimos que ele faça login. E, após o login, podemos redirecioná-lo automaticamente para uma página de usuário.</p>
+
+<p>Agora, implemente a lógica de login no arquivo <code ctc>src/routes/04/login/+page.server.js</code>:</p>
+
+<pre><code>import { fail, redirect } from '@sveltejs/kit';
+import * as users from '$lib/server/usersDatabase.js';
+
+export const actions = {
+  login: async ({ request }) =&gt; {
+    const data = await request.formData();
+    const email = data.get('email');
+    const password = data.get('password');
+
+    if (!email || !password) return fail(400, { error: 'Email e senha são obrigatórios.', email });
+
+    const user = users.read(email);
+
+    if (!user) return fail(400, { error: 'Usuário não encontrado.', email });
+
+    if (user.password != password) return fail(400, { error: 'Senha incorreta.', email });
+
+    redirect(303, '/04/dashboard');
+  },
+  // continua conforme estava...
+</code></pre>
+
+<p>Explicação:</p>
+<ul>
+  <li><strong>Linha 1:</strong> Importamos a função <code>redirect</code>, necessária para realizar o redirecionamento.</li>
+  <li><strong>Linhas 6–8:</strong> Coletamos os dados do formulário enviado.</li>
+  <li><strong>Linhas 10, 14 e 16:</strong> Realizamos validações nos dados.</li>
+  <li><strong>Linha 12:</strong> Buscamos o usuário no "banco de dados".</li>
+  <li id="dashboard"><strong>Linha 18:</strong> Se o login for bem-sucedido, redirecionamos o usuário para <code>/04/dashboard</code> com o código HTTP 303. Essa página ainda não foi criada — fica como tarefa para você implementá-la.</li>
+</ul>
+
+<div class="info">Toda resposta a uma requisição HTTP possui um código de status. Códigos na faixa dos 400 indicam erros do cliente, os da faixa dos 500 indicam erros do servidor, e os da faixa dos 300 representam redirecionamentos. Saiba mais na <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status">documentação do MDN</a>.</div>
+
+<h2>GET vs POST</h2>
+<p>Como vimos, para invocar uma <em>ação de formulário</em>, é necessário usar <code>method="POST"</code>. No entanto, nem todo formulário precisa enviar dados ao servidor via POST — em formulários de busca, por exemplo, é comum utilizar <code>method="GET"</code> (ou simplesmente omitir o atributo <code>method</code>). Nesses casos, o SvelteKit trata o formulário como um link:</p>
+
+<pre><code>&lt;form action="/search"&gt; &lt;label&gt; Search &lt;input name="q"&gt; &lt;/label&gt; &lt;/form&gt;</code></pre>
+
+<p>Ao submeter esse formulário, o navegador navegará para <code>/search?q=...</code>, invocando a função <code>load</code>, mas sem invocar uma <code>action</code>.</p>
+
+<h2>Conclusão</h2>
+<p>Esta foi uma introdução à lógica de autenticação com formulários e redirecionamentos no SvelteKit. Ainda há muitos aspectos importantes que não abordamos — como o uso de cookies, armazenamento de sessões, proteção de rotas e logout seguro. Esses tópicos serão tratados em lições futuras. Por enquanto, concentre-se em entender bem a comunicação entre cliente e servidor.</p>
+
+<h2>Exercícios</h2>
+<ol class="excs">
+  <li>Crie a página <a href="#dashboard"><code>/04/dashboard</code></a> e exiba nela uma mensagem personalizada, como: <code>“Bem-vindo(a), [email]!”</code>, utilizando o email do usuário autenticado.</li>
+  <li>
+    <strong>Formulário de cadastro com validação no servidor</strong>
+    <p>Crie um formulário com os seguintes campos obrigatórios:</p>
+    <ul>
+      <li><code>nome</code>: Mínimo de 2 caracteres.</li>
+      <li><code>email</code>: Deve conter apenas letras, <code>@</code> e <code>.</code>, com pelo menos uma palavra antes do <code>@</code> e duas após, separadas pelo <code>.</code>.</li>
+      <li><code>data de nascimento</code>: A idade deve ser ≥ 12 anos.</li>
+    </ul>
+    <p>Se houver erros:</p>
+    <ul>
+      <li>Use <code>fail</code> para retornar os dados preenchidos e mensagens de erro.</li>
+      <li>Exiba os erros abaixo de cada campo no formulário.</li>
+    </ul>
+    <p>Se estiver tudo certo:</p>
+    <ul>
+      <li>Retorne <code>{ success: true, nome }</code> e exiba:
+        <blockquote>
+          <p>“Cadastro concluído com sucesso. Bem-vindo(a), [nome]!”</p>
+        </blockquote>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Formulário de pagamento com redirecionamento para o plano contratado</strong>
+    <p>Crie um formulário com os seguintes campos obrigatórios:</p>
+    <ul>
+      <li><code>nome no cartão</code>: Mínimo 3 letras.</li>
+      <li><code>número do cartão</code>: 16 dígitos.</li>
+      <li><code>data de validade</code>: formato MM/AA, data futura.</li>
+      <li><code>código de segurança (CVV)</code>: 3 dígitos.</li>
+      <li><code>plano</code>: Campo select com as opções: <code>Plano Bit (básico)</code>, <code>Plano Byte (intermediário)</code>, <code>Plano Quantum (premium)</code>.</li>
+    </ul>
+    <p>Se houver erros:</p>
+    <ul>
+      <li>Use <code>fail</code> para retornar os dados preenchidos e erros.</li>
+      <li>Exiba os erros abaixo de cada campo no formulário.</li>
+    </ul>
+    <p>Se estiver tudo certo, redirecione para a página com base no plano:</p>
+    <ul>
+      <li><code>/04/ex2/basico</code></li>
+      <li><code>/04/ex2/intermediario</code></li>
+      <li><code>/04/ex2/premium</code></li>
+    </ul>
+    <p>Essas páginas devem mostrar informações (inventadas) sobre o plano, bem como:</p>
+    <blockquote>
+      <p>“Pagamento aprovado. Bem-vindo(a) ao Plano [X]!”</p>
+    </blockquote>
+  </li>
+  <li><strong>CRUD completo de produtos</strong>
+    <p>Crie as seguintes rotas:</p>
+    <ul>
+      <li>
+        <strong><code>/04/ex3/produtos/novo</code></strong> (Formulário de Criação)
+        <ul>
+          <li>Formulário com os campos: nome (obrigatório, exclusivo), descrição (opcional, min. 10 caracteres), preço (positivo), quantidade (inteiro ≥ 0)</li>
+          <li>Falha: retorna dados e erros.</li>
+          <li>Sucesso: redireciona para a Lista de Produtos com uma mensagem de sucesso.</li>
+        </ul>
+      </li>
+      <li>
+        <strong><code>/04/ex3/produtos/[id]/editar</code></strong> (Formulário de Edição)
+        <ul>
+          <li>Carrega os dados do produto via <code>load</code>.</li>
+          <li>Mesma validação da criação.</li>
+          <li>Falha: retorna dados e erros.</li>
+          <li>Sucesso: redireciona para a Lista de Produtos com uma mensagem de sucesso.</li>
+        </ul>
+      </li>
+      <li>
+        <strong><code>/04/ex3/produtos</code></strong> (Lista de Produtos)
+        <ul>
+          <li>Link para o Formulário de Criação.</li>
+          <li>Tabela com nome, descrição, preço e quantidade dos produtos.</li>
+          <li>Cada item tem um link para o Formulário de Edição do produto.</li>
+          <li>Cada item também tem um formulário de exclusão do produto que executa a ação nomeada <code>excluir</code> na mesma rota. Ao excluir, retorna uma mensagem de sucesso.</li>
+          <li>Exibe mensagens de sucesso após ações como criação, edição ou exclusão.</li>
+        </ul>
+      </li>
+    </ul>
+    <p>Dicas:</p>
+    <ul>
+      <li>Os dados podem ser armazenados em um array ou mapa local em <code>$lib/server/produtos.js</code> com funções <code>create</code>, <code>read</code>, <code>update</code> e <code>delete</code>, simulando um banco de dados.</li>
+      <li>Para simplificação, use um contador incremental para IDs.</li>
+      <li>As mensagens de sucesso nos redirecionamentos podem ser passadas via parâmetros de consulta e obtidas com <code>URLSearchParams</code>.</li>
+    </ul>
+  </li>
+  <li><strong>Não se esqueça de estilizar as páginas!</strong></li>
+</ol>

@@ -38,6 +38,9 @@
 <pre><code>&lt;script&gt;
   import Header from &apos;$lib/components/Header.svelte&apos;;
   import SideBar from &apos;$lib/components/SideBar.svelte&apos;;
+  import &apos;bootstrap/dist/css/bootstrap.css&apos;;
+  import &apos;bootstrap-icons/font/bootstrap-icons.css&apos;;
+  import * as bootstrap from &apos;bootstrap&apos;;
 
   let { children } = $props();
 &lt;/script&gt;
@@ -56,12 +59,13 @@
 <p><strong>Explicação:</strong></p>
 <ul>
   <li><strong>Linhas 2 e 3:</strong> Importam os componentes personalizados <code>Header</code> e <code>SideBar</code>, responsáveis pelo cabeçalho e pelo menu lateral.</li>
-  <li><strong>Linhas 8 e 18:</strong> <code>Header</code> e <code>SideBar</code> são mantidos em arquivos separados para deixar o layout mais limpo.</li>
-  <li><strong>Linha 10:</strong> Conforme a <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/navbar/#placement">documentação oficial</a>, elementos com as classes <code>fixed-top</code> e <code>fixed-bottom</code> (como nosso cabeçalho e rodapé) são retirados do fluxo normal do DOM e podem sobrepor outros elementos. Por isso, adicionamos padding (<code>py-5</code>) e margens (<code>mt-1 mb-4</code>) ao conteúdo principal, garantindo o  espaçamento necessário.</li>
-  <li><strong>Linha 14:</strong> O rodapé, por ser simples, permanece diretamente no layout. A classe <code>fixed-bottom</code> mantém o rodapé visível no sopé, mesmo durante a rolagem.</li>
+  <li><strong>Linhas 4-6:</strong> Importa o CSS, os ícones e o JS do Bootstrap.</li>
+  <li><strong>Linhas 11 e 21:</strong> <code>Header</code> e <code>SideBar</code> são mantidos em arquivos separados para deixar o layout mais limpo.</li>
+  <li id="position-fixed"><strong>Linha 13:</strong> Conforme a <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/navbar/#placement">documentação oficial</a>, elementos com as classes <code>fixed-top</code> e <code>fixed-bottom</code> (como nosso cabeçalho e rodapé) são retirados do fluxo normal do DOM e podem sobrepor outros elementos. Por isso, adicionamos padding (<code>py-5</code>) e margens (<code>mt-1 mb-4</code>) ao conteúdo principal, garantindo o espaçamento necessário.</li>
+  <li><strong>Linha 17:</strong> O rodapé, por ser simples, permanece diretamente no layout. A classe <code>fixed-bottom</code> mantém o rodapé visível no sopé, mesmo durante a rolagem.</li>
 </ul>
 <hr />
-<h2>Cabeçalho</h2>
+<h2 id="cabecalho">Cabeçalho</h2>
 <p>Crie o arquivo <code ctc>src/lib/components/Header.svelte</code>:</p>
 <pre><code>&lt;nav class=&quot;navbar fixed-top bg-body-tertiary&quot;&gt;
   &lt;button class=&quot;navbar-toggler border-0&quot; data-bs-toggle=&quot;offcanvas&quot; data-bs-target=&quot;#mySideBar&quot; aria-label=&quot;toggleSidebar&quot;&gt;
@@ -126,12 +130,7 @@
 &lt;/div&gt;</code></pre>
 <p><strong>Explicação:</strong></p>
 <ul>
-  <li><strong>Linha 1:</strong>
-    <ul>
-      <li>A classe <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/navbar/#offcanvas"><code>offcanvas offcanvas-start</code></a> ativa o menu lateral com o efeito offcanvas.</li>
-      <li>O estilo <code>max-width: 80%</code> limita a largura do painel, pois o padrão para telas pequenas é ocupar 100%.</li>
-    </ul>
-  </li>
+  <li><strong>Linha 1:</strong> A classe <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/navbar/#offcanvas"><code>offcanvas offcanvas-start</code></a> ativa o menu lateral com o efeito offcanvas. O estilo <code>max-width: 80%</code> limita a largura do painel, pois o padrão para telas pequenas é ocupar 100%.</li>
   <li><strong>Linhas 8 e 9:</strong> Contêm links reais para páginas do aplicativo.</li>
   <li>As demais linhas seguem a estrutura de exemplo do Bootstrap, com adaptações pontuais.</li>
 </ul>

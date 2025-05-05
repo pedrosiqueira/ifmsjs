@@ -2,10 +2,19 @@
 
 ---
 
-### Checklist Diário ✅
-- Permite criar listas de tarefas diárias.
-- Marca tarefas como concluídas e exibe progresso.
-- Dados armazenados localmente.
+### To-Do List ✅
+- Permite criar listas de tarefas.
+- Marca cada tarefa como concluída ou pendente.
+- Marcar todas as tarefas pendentes como concluídas.
+- Marcar todas as tarefas concluídas como pendentes.
+- Exibir apenas as tarefas pendentes ou apenas as tarefas concluídas.
+- Campo de busca para filtrar tarefas com base no texto digitado.
+- Exiba a quantidade de tarefas totais, concluídas e pendentes.
+- Subtarefas (To-dos dentro de To-dos): Permita que cada tarefa tenha subtarefas, com o mesmo comportamento da lista principal.
+- Agrupamento por categorias/tags: Crie categorias ou etiquetas para organizar melhor as tarefas (ex: trabalho, estudos, pessoal).
+- Ordenar as tarefas arrastando-as.
+- Animações ao adicionar/remover tarefas: Use svelte:transition para animar entradas e saídas de tarefas.
+
 
 ---
 

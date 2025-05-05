@@ -18,7 +18,7 @@
 
     <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
     <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
-    <script defer>hljs.highlightLinesAll([[], [], [], [{ start: 4, end: 4, color: 'lightblue' }], [], [{ start: 2, end: 2, color: 'lightgreen' }, { start: 9, end: 10, color: 'lightblue' }, { start: 15, end: 15, color: 'lightblue' }]]);    </script>
+    <script defer>hljs.highlightLinesAll([[], [], [], [{ start: 4, end: 4, color: 'lightblue' }]]);    </script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
     <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
@@ -180,25 +180,16 @@ code -r .</code></pre>
 export const ssr = false;</code></pre>
 <hr>
 <h3>3. Importação do Bootstrap</h3>
-<p>Modifique o arquivo <code>src/app.html</code> com o seguinte conteúdo (em verde as modificações, em azul os acréscimos):</p>
-<pre><code class="html">&lt;!doctype html&gt;
-&lt;html lang=&quot;pt-br&quot;&gt;
-
-&lt;head&gt;
-  &lt;meta charset=&quot;utf-8&quot; /&gt;
-  &lt;link rel=&quot;icon&quot; href=&quot;%sveltekit.assets%/favicon.png&quot; /&gt;
-  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;
-  %sveltekit.head%
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;/node_modules/bootstrap/dist/css/bootstrap.min.css&quot;&gt;
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;/node_modules/bootstrap-icons/font/bootstrap-icons.min.css&quot;&gt;
-&lt;/head&gt;
-
-&lt;body data-sveltekit-preload-data=&quot;hover&quot;&gt;
-  &lt;div style=&quot;display: contents&quot;&gt;%sveltekit.body%&lt;/div&gt;
-  &lt;script src=&quot;/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
-&lt;/body&gt;
-
-&lt;/html&gt;</code></pre>
+<p>Crie o arquivo <code ctc>src/routes/+layout.svelte</code> com o seguinte conteúdo:</p>
+<pre><code>&lt;script&gt;
+     import 'bootstrap/dist/css/bootstrap.css';
+     import 'bootstrap-icons/font/bootstrap-icons.css';
+     import * as bootstrap from 'bootstrap';
+ 
+     let { children } = $props();
+ &lt;/script&gt;
+ 
+ {@render children()}</code></pre>
 <hr>
 <h3>Explicação da Configuração</h3>
 <h4>1. Diretório Web</h4>
@@ -233,7 +224,7 @@ export const ssr = false;</code></pre>
 <p>Essas duas opções juntas transformam nosso app em um <a href="https://svelte.dev/docs/kit/single-page-apps" target="_blank">SPA (Single Page Application)</a>, onde o conteúdo é carregado dinamicamente sem recarregamento de página, perfeito para o funcionamento offline com Capacitor.</p>
 <h4>3. Importação do Bootstrap</h4>
 <p>Como nosso app com Capacitor será executado totalmente offline, é essencial que todos os recursos necessários estejam disponíveis localmente — sem depender de CDNs. Por isso, instalamos o pacote do Bootstrap e sua biblioteca de ícones no momento da criação do projeto.</p>
-<p>Também importamos no arquivo <code>src/app.html</code> os estilos do Bootstrap, os ícones do Bootstrap Icons, e a biblioteca JavaScript do Bootstrap para uso de componentes dinâmicos como modais e tooltips. Qualquer importação ou funcionalidade inserida nesse arquivo estará disponível para todas as páginas do app.</p>
+<p>Também criamos o arquivo <code>src/routes/+layout.svelte</code>, que serve como componente de layout global, o que significa que qualquer importação ou funcionalidade inserida nele estará disponível para todas as páginas do app. Nele, importamos os estilos do Bootstrap, os ícones via <code>bootstrap-icons</code>, e a biblioteca JavaScript.</p>
 <hr>
 <h3>Resumo</h3>
 <ul>
