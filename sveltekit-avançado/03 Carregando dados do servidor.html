@@ -302,8 +302,14 @@ export async function load({ url }) {
 &lt;p&gt;
   &lt;a href=&quot;/03/external/users&quot;&gt;Voltar aos usuários&lt;/a&gt;
 &lt;/p&gt;</code></pre>
-<p><strong>Explicação:</strong> Exibimos os detalhes do usuário e uma lista de suas postagens. Também incluímos um link de volta à lista de usuários.</p>
-
+<p><strong>Explicação:</strong></p>
+<ul>
+  <li>Este componente exibe os dados completos de um usuário, incluindo nome, email, telefone, site, empresa e endereço formatado.</li>
+  <li>Abaixo das informações pessoais, é exibida a lista de postagens associadas ao usuário.</li>
+  <li>Se o usuário não tiver nenhuma postagem, uma mensagem informativa será exibida no lugar da lista.</li>
+  <li id="post-id">Os títulos das postagens são links que direcionam para a rota <code>/03/external/posts/{post.id}</code>, que ainda deverá ser implementada.</li>
+  <li>No final da página, há um link para retornar à lista geral de usuários.</li>
+</ul>
 <h2 id="pagedata">page.data</h2>
 
 <p>O componente <code>+page.svelte</code>, assim como cada <code>+layout.svelte</code> acima dele na hierarquia, tem acesso aos seus próprios dados e também aos dados de todos os seus layouts &quot;pais&quot;.</p>
@@ -375,7 +381,7 @@ export async function load({ url }) {
       <li><code>getByQuery(title, content)</code>: Retorna todos os posts cujo título contenha a string fornecida em <code>title</code> ou cujo conteúdo contenha a string em <code>content</code>. A busca não deve diferenciar maiúsculas de minúsculas. Campos vazios, nulos ou indefinidos não devem ser considerados no filtro.</li>
     </ol>
   </li>
-  <li><strong>Implemente a rota faltante</strong> <code class="ctc">src/routes/03/external/posts/[id]</code>, que exibe a postagem com o <code>id</code> especificado.</li>
+  <li><strong>Implemente a <a href="#post-id">rota faltante</a></strong> <code class="ctc">src/routes/03/external/posts/[id]</code>, que exibe a postagem com o <code>id</code> especificado da API REST <a target="_blank" href="https://jsonplaceholder.typicode.com/">JSONPlaceholder</a>.</li>
   <li><strong>Deixe seu aplicativo SvelteKit totalmente navegável.</strong> Garanta que todas as rotas criadas possam ser acessadas por meio de links. Para isso: <ul>
       <li>Crie os arquivos correspondentes indicados neste capítulo.</li>
       <li>Adicione os links ao menu de navegação lateral.</li>
