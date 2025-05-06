@@ -57,13 +57,18 @@
 
 <p>Teus arquivos <code>+layout.svelte</code> também podem carregar dados, via <code>+layout.server.js</code>.</p>
 <p>Crie o arquivo <code ctc>src/lib/server/postsDatabase.js</code>:</p>
-<pre><code class="language-javascript">const posts = [
+<pre id="postsdatabase"><code class="language-javascript">const posts = [
   { slug: 'um', title: 'Primeiro Post', publish_date: '2025-03-12', content: 'Conteúdo do primeiro post' },
   { slug: 'outro', title: 'Outro Post', publish_date: '2025-03-25', content: 'Conteúdo do outro post' },
   { slug: 'algum', title: 'Mais um Post', publish_date: '2024-11-22', content: 'Conteúdo de mais um post' },
   { slug: 'ainda', title: 'Ainda Outro Post', publish_date: '2024-11-02', content: 'Conteúdo de ainda outro post' }
-];</code></pre>
-<p><strong>Explicação</strong>: Esse arquivo represetará nosso banco de dados.</p>
+];
+
+export const function getAll(){ }
+export const function getByYearMonth(ano, mes){ }
+export const function getBySlug(slug){ }
+export const function getByQuery(title, content){ }</code></pre>
+<p><strong>Explicação</strong>: Este arquivo simula um banco de dados de posts. Ele armazena um conjunto de dados em memória e define funções para acessar esses dados. No momento, as funções estão declaradas mas ainda não foram implementadas — essa será a tua tarefa.</p>
 <div class="info">Atenção: Esse é um banco de dados apenas para fins didáticos! No mundo real, nossos dados ficariam em um banco de dados de verdade.</div>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/+layout.server.js</code>:</p>
 <pre><code class="language-javascript">import * as db from '$lib/server/postsDatabase';
@@ -363,7 +368,7 @@ export async function load({ url }) {
 <h2 id="exercícios">Exercícios</h2>
 
 <ol class="excs">
-  <li>Implementar as seguintes funções no arquivo <code>postsDatabase.js</code>, responsáveis pela manipulação dos dados dos posts:
+  <li>Implementar as seguintes funções <a href="#postsdatabase">no arquivo <code>postsDatabase.js</code></a>, responsáveis pela manipulação dos dados dos posts:
     <ol>
       <li><code>getAll()</code>: Retorna todos os posts cadastrados.</li>
       <li><code>getByYearMonth(ano, mes)</code>: Retorna apenas os posts publicados no ano e mês especificados.</li>
@@ -372,7 +377,7 @@ export async function load({ url }) {
     </ol>
   </li>
   <li>Implementar a rota faltante <code ctc>src/routes/03/external/posts/[id]</code>, que exibe a postagem com o id especificado.</li>
-  <li>Tornar as páginas de teu aplicativo SvelteKit completamente navegáveis, permitindo a navegação entre todas as rotas criadas. (Sugestão: Adicione ao menu de navegação lateral os links para as páginas).</li>
+  <li>Tornar as páginas de teu aplicativo SvelteKit completamente navegáveis, permitindo a navegação entre todas as rotas criadas. Para isso, primeiramente, você terá que criar cada um dos arquivos expostos aqui no capítulo 3. (Sugestão: Adicione ao menu de navegação lateral os links para as páginas).</li>
   <li>Utilizando a API REST <a target="_blank" href="https://pokeapi.co/">https://pokeapi.co/</a>, implementar uma página que liste os pokémons, com um link que redirecione para a página de detalhes de cada pokémon.</li>
   <p><strong>Possível solução:</strong></p>
   <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.svelte</code></p>
