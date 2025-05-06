@@ -368,20 +368,23 @@ export async function load({ url }) {
 <h2 id="exercícios">Exercícios</h2>
 
 <ol class="excs">
-  <li>Implementar as seguintes funções <a href="#postsdatabase">no arquivo <code>postsDatabase.js</code></a>, responsáveis pela manipulação dos dados dos posts:
-    <ol>
+  <li><strong>Implemente as seguintes funções</strong> <a href="#postsdatabase">no arquivo <code>postsDatabase.js</code></a>, responsáveis por manipular os dados dos posts: <ol>
       <li><code>getAll()</code>: Retorna todos os posts cadastrados.</li>
-      <li><code>getByYearMonth(ano, mes)</code>: Retorna apenas os posts publicados no ano e mês especificados.</li>
+      <li><code>getByYearMonth(ano, mes)</code>: Retorna os posts publicados no ano e mês especificados.</li>
       <li><code>getBySlug(slug)</code>: Retorna o post que corresponde exatamente ao <code>slug</code> fornecido.</li>
-      <li><code>getByQuery(title, content)</code>: Retorna todos os posts cujo título contenha a string fornecida em <code>title</code> ou cujo conteúdo contenha a string fornecida em <code>content</code>. Não deve diferenciar letras maiúsculas de minúsculas. Se o valor for nulo, indefinido ou uma string vazia, o campo correspondente não deve ser considerado no filtro.</li>
+      <li><code>getByQuery(title, content)</code>: Retorna todos os posts cujo título contenha a string fornecida em <code>title</code> ou cujo conteúdo contenha a string em <code>content</code>. A busca não deve diferenciar maiúsculas de minúsculas. Campos vazios, nulos ou indefinidos não devem ser considerados no filtro.</li>
     </ol>
   </li>
-  <li>Implementar a rota faltante <code ctc>src/routes/03/external/posts/[id]</code>, que exibe a postagem com o id especificado.</li>
-  <li>Tornar as páginas de teu aplicativo SvelteKit completamente navegáveis, permitindo a navegação entre todas as rotas criadas. Para isso, primeiramente, você terá que criar cada um dos arquivos expostos aqui no capítulo 3. (Sugestão: Adicione ao menu de navegação lateral os links para as páginas).</li>
-  <li>Utilizando a API REST <a target="_blank" href="https://pokeapi.co/">https://pokeapi.co/</a>, implementar uma página que liste os pokémons, com um link que redirecione para a página de detalhes de cada pokémon.</li>
+  <li><strong>Implemente a rota faltante</strong> <code class="ctc">src/routes/03/external/posts/[id]</code>, que exibe a postagem com o <code>id</code> especificado.</li>
+  <li><strong>Deixe seu aplicativo SvelteKit totalmente navegável.</strong> Garanta que todas as rotas criadas possam ser acessadas por meio de links. Para isso: <ul>
+      <li>Crie os arquivos correspondentes indicados neste capítulo.</li>
+      <li>Adicione os links ao menu de navegação lateral.</li>
+    </ul>
+  </li>
+  <li><strong>Consuma a API REST da <a href="https://pokeapi.co/" target="_blank">PokéAPI</a></strong> para criar uma página que liste os Pokémons. Cada item da lista deve conter um link para a página de detalhes do respectivo Pokémon.</li>
   <p><strong>Possível solução:</strong></p>
   <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.svelte</code></p>
-  <pre><code>&lt;script&gt;
+  <pre><code class="language-svelte">&lt;script&gt;
   let { data } = $props();
 &lt;/script&gt;
 
@@ -399,17 +402,16 @@ export async function load({ url }) {
     &lt;/div&gt;
   {/each}
 &lt;/div&gt;</code></pre>
-  <p>Explicação:</p>
+  <p><strong>Explicação:</strong></p>
   <ul>
-    <li>Este código cria uma lista de pokémons com suas imagens.</li>
+    <li>O código acima exibe uma grade de cards com os Pokémons listados.</li>
     <li><strong>Linha 8</strong>: Cada <a href="https://getbootstrap.com/docs/5.3/components/card/#images">card</a> é colocado em uma coluna que ocupa largura 3/12 em telas médias pra cima (<code>col-md-3</code>), e largura 6/12 em telas pequenas pra cima (<code>col-sm-6</code>), e ocupa 100% da largura em telas menores.</li>
     <li><strong>Linha 11:</strong> O link direciona para uma página com mais informações sobre o Pokémon.</li>
     <li><strong>Linha 11:</strong> A classe <a href="https://getbootstrap.com/docs/5.3/helpers/stretched-link/"><code>stretched-link</code></a> permite que a área inteira do card seja clicável.</li>
   </ul>
-
-  <p>Agora vamos ver de onde os dados são carregados.</p>
+  <p><strong>Carregando os dados:</strong></p>
   <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.js</code>:</p>
-  <pre><code class="js">export async function load() {
+  <pre><code class="language-js">export async function load() {
   const limit = 12;
   const offset = 0;
 
@@ -438,17 +440,15 @@ export async function load({ url }) {
 
     <li><strong>Linha 13:</strong> Retorna a lista de pokémons (agora com imagens adicionadas) para ser utilizada pela interface do SvelteKit.</li>
   </ul>
-
   <p>Essa abordagem é comum quando a API retorna informações parciais. Em vez de fazer uma nova requisição para trazer a imagem de cada pokémon (o que seria mais lento), deduzimos o ID e montamos a URL direto para o repositório de imagens — uma solução prática e eficiente.</p>
-  <li>Implemente paginação para listar os Pokémons.
-    <p><strong>Passos</strong>:</p>
+  <li><strong>Implemente a paginação</strong> para a listagem dos Pokémons. <p><strong>Passos sugeridos:</strong></p>
     <ol>
-      <li>Exiba apenas um número limitado de itens por página (por exemplo, 20 pokémons por página).</li>
-      <li>Implemente botões de navegação para mudar de página, como &quot;Próximo&quot; e &quot;Anterior&quot;.</li>
+      <li>Exiba um número limitado de Pokémons por página (ex: 20).</li>
+      <li>Adicione botões "Próximo" e "Anterior" para navegar entre as páginas.</li>
       <li>Ao clicar em um botão de navegação, a página será atualizada com os novos itens da próxima ou da página anterior.</li>
-      <li>Teste a navegação para garantir que a paginação funcione corretamente, carregando os pokémons conforme esperado.</li>
+      <li>Teste a funcionalidade para garantir que a navegação funcione corretamente.</li>
     </ol>
   </li>
-  <li>Implemente uma funcionalidade de busca para filtrar os pokémons com base em parâmetros de consulta (query params), como o tipo do pokémon.</li>
-  <li>Quando o usuário clicar em um pokémon, crie uma página dedicada para exibir os detalhes desse pokémon.</li>
+  <li><strong>Adicione uma funcionalidade de busca</strong> para filtrar Pokémons com base em parâmetros de consulta (query params) (por exemplo, tipo, nome etc.).</li>
+  <li><strong>Crie uma página de detalhes</strong> para cada Pokémon. Essa página será acessada ao clicar em um Pokémon na lista.</li>
 </ol>
