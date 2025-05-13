@@ -147,7 +147,16 @@ protocolo   domínio     parâmetros parâmetros
   <p>Os parâmetros de rota (route params) também podem ser chamados de parâmetros de caminho (path params).</p>
   <p>Os parâmetros de consulta (query params) também podem ser chamados de parâmetros de busca (search params).</p>
   <p>Exemplo de uma URL real:</p>
-  <p class="text-center"><a href="https://www.youtube.com/watch?v=TiT7TlAWDEs&list=PLcZDQl73nB1ACZdEAd_wNbY0tB_QutcH3&index=2&t=63s&ab_channel=PedroHenriquedeAraujoSiqueira">https://www.youtube.com/watch?v=TiT7TlAWDEs&list=PLcZDQl73nB1ACZdEAd_wNbY0tB_QutcH3&index=2&t=63s&ab_channel=PedroHenriquedeAraujoSiqueira</a></p>
+  <p class="text-center"><a target="_blank" href="https://www.youtube.com/watch?v=TiT7TlAWDEs&list=PLcZDQl73nB1ACZdEAd_wNbY0tB_QutcH3&index=2&t=60s&ab_channel=PedroHenriquedeAraujoSiqueira">
+      <pre>https://
+www.youtube.com
+/watch
+?v=TiT7TlAWDEs
+&list=PLcZDQl73nB1ACZdEAd_wNbY0tB_QutcH3
+&index=2
+&t=360s
+&ab_channel=PedroHenriquedeAraujoSiqueira</pre>
+    </a></p>
 </div>
 <h3 id="params">params</h3>
 
@@ -158,23 +167,22 @@ protocolo   domínio     parâmetros parâmetros
   <li>As URLs <code>/blog/post1</code> e <code>/blog/post2</code> abrirão a mesma página dinâmica em <code>src/routes/blog/[slug]</code>, sendo que o valor de <code>slug</code> será <code>post1</code> ou <code>post2</code>, respectivamente.</li>
   <li>Da mesma forma, <code>/posts/2025/03</code> e <code>/posts/2024/11</code> abrirão a página <code>src/routes/posts/[ano]/[mes]</code>, com <code>ano</code> sendo <code>2025</code> ou <code>2024</code>, e <code>mes</code> sendo <code>03</code> ou <code>11</code>.</li>
 </ul>
-<div class="info">
-  <ol class="excs">
-    <h4>Exercício de fixação</h4>
-    <li class="no-mark">Ligue os pontos:
-      <pre>                                    * https://meusite.com/blog
-                                    * https://meusite.com/sobre
-                                    * https://meusite.com/blog/[slug]
-src/routes/about            *       * https://meusite.com/blog/artigo
-src/routes/blog             *       * https://meusite.com/slug
-src/routes/blog/[slug]      *       * https://meusite.com/blog/2025/03
-src/routes/blog/[ano]/[mes] *       * https://meusite.com/2025/03
-                                    * https://meusite.com/blog/2025
-                                    * https://meusite.com/blog/outro/artigo
-                                    * https://meusite.com/blog/about</pre>
-    </li>
-  </ol>
-</div>
+<ol class="excs">
+  <h4>Exercício de fixação</h4>
+  <li class="no-mark">Ligue as URLs da esquerda às rotas da direita:
+    <pre>https://meusite.com/blog              (a)
+https://meusite.com/sobre             (b)
+https://meusite.com/blog/[slug]       (c)
+https://meusite.com/blog/artigo       (d)           (1) src/routes/about
+https://meusite.com/slug              (e)           (2) src/routes/blog
+https://meusite.com/blog/2025/03      (f)           (3) src/routes/blog/[slug]
+https://meusite.com/2025/03           (g)           (4) src/routes/blog/[ano]/[mes]
+https://meusite.com/blog/2025         (h)           (5) "erro 404"
+https://meusite.com/blog/outro/artigo (i)
+https://meusite.com/blog/about        (j)
+https://meusite.com/blog/2025/03/01   (k)</pre>
+  </li>
+</ol>
 <p>A propriedade <code>params</code> é um <strong>objeto</strong> onde cada propriedade corresponde ao nome do parâmetro definido entre colchetes na rota, e seu valor corresponde ao trecho da URL acessada.</p>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/[ano]/[mes]/+page.server.js</code>:</p>
 <pre><code class="language-javascript">import * as db from '$lib/server/postsDatabase';
@@ -267,13 +275,12 @@ export async function load({ url }) {
   {/each}
 &lt;/ul&gt;</code></pre>
 <p><strong>Explicação:</strong> Neste exemplo, a função <code>load</code> acessa os parâmetros da URL usando <code>url.searchParams.get('termo')</code>, permitindo buscar posts por título. Isso simula uma funcionalidade de busca baseada em query strings.</p>
-<div class="info">
-  <h4>Exercício de fixação</h4>
-  <ol class="excs">
-    <li class="no-mark">
-      <p>Considere os seguintes arquivos:</p>
-      <p><code>src/routes/03/[p1]/[p2]/+page.server.js</code></p>
-      <pre><code class="language-js">export async function load({ params, url }) {
+<h4>Exercício de fixação</h4>
+<ol class="excs">
+  <li class="no-mark">
+    <p>Considere os seguintes arquivos:</p>
+    <p><code>src/routes/03/[p1]/[p2]/+page.server.js</code></p>
+    <pre><code class="language-js">export async function load({ params, url }) {
     const rp1 = params.p1;
     const rp2 = params.p2;
     const sp1 = url.searchParams.get('p1');
@@ -281,8 +288,8 @@ export async function load({ url }) {
 
     return { rp1, rp2, sp1, sp2 };
 }</code></pre>
-      <p><code>src/routes/03/[p1]/[p2]/+page.svelte</code></p>
-      <pre><code class="language-html">&lt;script&gt;
+    <p><code>src/routes/03/[p1]/[p2]/+page.svelte</code></p>
+    <pre><code class="language-html">&lt;script&gt;
   let { data } = $props();
 &lt;/script&gt;
 
@@ -291,18 +298,18 @@ export async function load({ url }) {
 
 &lt;p&gt;Parâmetros de busca:&lt;/p&gt;
 &lt;ul&gt;&lt;li&gt;{data.sp1}&lt;/li&gt;&lt;li&gt;{data.sp2}&lt;/li&gt;&lt;/ul&gt;</code></pre>
-      <p>O que aparece na tela para cada uma das seguintes URLs?</p>
-      <ul>
-        <li><a href="https://meusite.com/03/uma/pagina?p1=123&amp;p2=oi">https://meusite.com/03/uma/pagina?p1=123&amp;p2=oi</a></li>
-        <li><a href="https://meusite.com/03/123/oi?p1=uma&amp;p2=pagina">https://meusite.com/03/123/oi?p1=uma&amp;p2=pagina</a></li>
-        <li><a href="https://meusite.com/03/outra/url?p1=td_blz&amp;p2=ok">https://meusite.com/03/outra/url?p1=td_blz&amp;p2=ok</a></li>
-        <li><a href="https://meusite.com/03/uma/pagina">https://meusite.com/03/uma/pagina</a></li>
-        <li><a href="https://meusite.com/03/uma/pagina?p1=123&amp;q4=567">https://meusite.com/03/uma/pagina?p1=123&amp;q4=567</a></li>
-        <li><a href="https://meusite.com/03/p1/123?p2=567">https://meusite.com/03/p1/123?p2=567</a></li>
-      </ul>
-    </li>
-  </ol>
-</div>
+    <p>O que aparece na tela para cada uma das seguintes URLs?</p>
+    <ol type="a">
+      <li>https://meusite.com/03/uma/pagina?p1=123&amp;p2=oi</li>
+      <li>https://meusite.com/03/123/oi?p1=uma&amp;p2=pagina</li>
+      <li>https://meusite.com/03/outra/url?p1=td_blz&amp;p2=ok</li>
+      <li>https://meusite.com/03/uma/pagina</li>
+      <li>https://meusite.com/03/uma/outra/pagina</li>
+      <li>https://meusite.com/03/uma/pagina?p1=123&amp;q4=567</li>
+      <li>https://meusite.com/03/p1/123?p2=567</li>
+    </ol>
+  </li>
+</ol>
 <h3 id="fetch">fetch</h3>
 
 <p>Para buscar dados de uma API externa ou de teu próprio servidor, você pode usar a função <code>fetch</code> disponibilizada pelo SvelteKit. Ela se comporta de forma idêntica à API nativa <code>fetch</code>, mas com algumas vantagens:</p>
@@ -450,7 +457,7 @@ export async function load({ url }) {
       <li>Adicione os links ao menu de navegação lateral.</li>
     </ul>
   </li>
-  <li><strong>Consuma a API REST da <a href="https://pokeapi.co/" target="_blank">PokéAPI</a></strong> para criar uma página que liste os Pokémons. Cada item da lista deve conter um link para a página de detalhes do respectivo Pokémon.</li>
+  <li><strong>Consuma a API REST da <a target="_blank" href="https://pokeapi.co/">PokéAPI</a></strong> para criar uma página que liste os Pokémons. Cada item da lista deve conter um link para a página de detalhes do respectivo Pokémon.</li>
   <p><strong>Possível solução:</strong></p>
   <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.svelte</code></p>
   <pre><code class="language-svelte">&lt;script&gt;
@@ -474,9 +481,9 @@ export async function load({ url }) {
   <p><strong>Explicação:</strong></p>
   <ul>
     <li>O código acima exibe uma grade de cards com os Pokémons listados.</li>
-    <li><strong>Linha 8</strong>: Cada <a href="https://getbootstrap.com/docs/5.3/components/card/#images">card</a> é colocado em uma coluna que ocupa largura 3/12 em telas médias pra cima (<code>col-md-3</code>), e largura 6/12 em telas pequenas pra cima (<code>col-sm-6</code>), e ocupa 100% da largura em telas menores.</li>
+    <li><strong>Linha 8</strong>: Cada <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/card/#images">card</a> é colocado em uma coluna que ocupa largura 3/12 em telas médias pra cima (<code>col-md-3</code>), e largura 6/12 em telas pequenas pra cima (<code>col-sm-6</code>), e ocupa 100% da largura em telas menores.</li>
     <li><strong>Linha 11:</strong> O link direciona para uma página com mais informações sobre o Pokémon.</li>
-    <li><strong>Linha 11:</strong> A classe <a href="https://getbootstrap.com/docs/5.3/helpers/stretched-link/"><code>stretched-link</code></a> permite que a área inteira do card seja clicável.</li>
+    <li><strong>Linha 11:</strong> A classe <a target="_blank" href="https://getbootstrap.com/docs/5.3/helpers/stretched-link/"><code>stretched-link</code></a> permite que a área inteira do card seja clicável.</li>
   </ul>
   <p><strong>Carregando os dados:</strong></p>
   <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.js</code>:</p>
