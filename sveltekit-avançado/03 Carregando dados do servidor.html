@@ -147,6 +147,23 @@ export async function load() {
   <li>As URLs <code>/blog/post1</code> e <code>/blog/post2</code> abrirão a mesma página dinâmica em <code>src/routes/blog/[slug]</code>, sendo que o valor de <code>slug</code> será <code>post1</code> ou <code>post2</code>, respectivamente.</li>
   <li>Da mesma forma, <code>/posts/2025/03</code> e <code>/posts/2024/11</code> abrirão a página <code>src/routes/posts/[ano]/[mes]</code>, com <code>ano</code> sendo <code>2025</code> ou <code>2024</code>, e <code>mes</code> sendo <code>03</code> ou <code>11</code>.</li>
 </ul>
+<div class="info">
+  <ol class="excs">
+    <h4>Exercício de fixação</h4>
+    <li class="no-mark">Ligue os pontos:
+      <pre>                                    * https://meusite.com/blog
+                                    * https://meusite.com/sobre
+                                    * https://meusite.com/blog/[slug]
+src/routes/about            *       * https://meusite.com/blog/artigo
+src/routes/blog             *       * https://meusite.com/slug
+src/routes/blog/[slug]      *       * https://meusite.com/blog/2025/03
+src/routes/blog/[ano]/[mes] *       * https://meusite.com/2025/03
+                                    * https://meusite.com/blog/2025
+                                    * https://meusite.com/blog/outro/artigo
+                                    * https://meusite.com/blog/about</pre>
+    </li>
+  </ol>
+</div>
 <p>A propriedade <code>params</code> é um <strong>objeto</strong> onde cada propriedade corresponde ao nome do parâmetro definido entre colchetes na rota, e seu valor corresponde ao trecho da URL acessada.</p>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/[ano]/[mes]/+page.server.js</code>:</p>
 <pre><code class="language-javascript">import * as db from '$lib/server/postsDatabase';
@@ -239,7 +256,42 @@ export async function load({ url }) {
   {/each}
 &lt;/ul&gt;</code></pre>
 <p><strong>Explicação:</strong> Neste exemplo, a função <code>load</code> acessa os parâmetros da URL usando <code>url.searchParams.get('termo')</code>, permitindo buscar posts por título. Isso simula uma funcionalidade de busca baseada em query strings.</p>
+<div class="info">
+  <h4>Exercício de fixação</h4>
+  <ol class="excs">
+    <li class="no-mark">
+      <p>Considere os seguintes arquivos:</p>
+      <p><code>src/routes/03/[p1]/[p2]/+page.server.js</code></p>
+      <pre><code class="language-js">export async function load({ params, url }) {
+    const rp1 = params.p1;
+    const rp2 = params.p2;
+    const sp1 = url.searchParams.get('p1');
+    const sp2 = url.searchParams.get('p2');
 
+    return { rp1, rp2, sp1, sp2 };
+}</code></pre>
+      <p><code>src/routes/03/[p1]/[p2]/+page.svelte</code></p>
+      <pre><code class="language-html">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;p&gt;Parâmetros de rota:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;{data.rp1}&lt;/li&gt;&lt;li&gt;{data.rp2}&lt;/li&gt;&lt;/ul&gt;
+
+&lt;p&gt;Parâmetros de busca:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;{data.sp1}&lt;/li&gt;&lt;li&gt;{data.sp2}&lt;/li&gt;&lt;/ul&gt;</code></pre>
+      <p>O que aparece na tela para cada uma das seguintes URLs?</p>
+      <ul>
+        <li><a href="https://meusite.com/03/uma/pagina?p1=123&amp;p2=oi">https://meusite.com/03/uma/pagina?p1=123&amp;p2=oi</a></li>
+        <li><a href="https://meusite.com/03/123/oi?p1=uma&amp;p2=pagina">https://meusite.com/03/123/oi?p1=uma&amp;p2=pagina</a></li>
+        <li><a href="https://meusite.com/03/outra/url?p1=td_blz&amp;p2=ok">https://meusite.com/03/outra/url?p1=td_blz&amp;p2=ok</a></li>
+        <li><a href="https://meusite.com/03/uma/pagina">https://meusite.com/03/uma/pagina</a></li>
+        <li><a href="https://meusite.com/03/uma/pagina?p1=123&amp;q4=567">https://meusite.com/03/uma/pagina?p1=123&amp;q4=567</a></li>
+        <li><a href="https://meusite.com/03/p1/123?p2=567">https://meusite.com/03/p1/123?p2=567</a></li>
+      </ul>
+    </li>
+  </ol>
+</div>
 <h3 id="fetch">fetch</h3>
 
 <p>Para buscar dados de uma API externa ou de teu próprio servidor, você pode usar a função <code>fetch</code> disponibilizada pelo SvelteKit. Ela se comporta de forma idêntica à API nativa <code>fetch</code>, mas com algumas vantagens:</p>
