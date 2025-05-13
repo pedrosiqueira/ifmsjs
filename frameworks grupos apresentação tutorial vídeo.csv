@@ -1,48 +1,62 @@
-fab	1	arthur aleixo	
-fab	1	clara	
-fab	1	eduardo	
-fab	1	maria fernanda	
-fab	1	reinaldo	
-fab	2	ana clara	
-fab	2	heloisa	
-fab	2	mirela	
-fab	3	guilherme felix	
-fab	3	mikael	
-fab	3	vinicius	
-fab	4	kaua neves	
-fab	4	nathalia	
-fab	4	rafael	
-fab	5	gustavo	
-fab	5	joao	
-fab	5	linton	
-fab	5	mateus	
-fba	1	wanderson	
-fba	1	joão samuel	
-fba	1	lucas	
-fba	1	vitor	
-fba	1	bianca	
-fba	2	luiz gustavo de souza	8,73333333333333
-fba	2	bruno vinícius	8,73333333333333
-fba	2	geovane eduardo	8,73333333333333
-fba	2	jardel gomes	8,73333333333333
-fba	3	laine	9,41666666666667
-fba	3	ana julia dos santos	9,41666666666667
-fba	3	geovana	9,41666666666667
-fba	3	eduarda	9,41666666666667
-faa	2	arthur corveloni	10
-faa	2	alana	10
-faa	2	davi	3,33333333333333
-faa	2	ana luiza	10
-faa	1	amanda	8
-faa	1	julia	8
-faa	1	manoela	8
-faa	1	polyana	8
-faa	1	sabrine	8
-faa	3	kauã negrão	7
-faa	3	nícolas	8,75
-faa	3	luiz felipe ramirez	8,75
-faa	4	weverson	6
-faa	4	evellyn	7,7
-faa	4	lívia souza	7
-faa	4	yasmin	6
-faa	4	guilherme frança	7,5
+faa	1	amanda	8	5,6
+faa	1	julia	8	5,6
+faa	1	manoela	8	5,6
+faa	1	polyana	8	5,6
+faa	1	sabrine	8	5,6
+faa	2	alana	10	7
+faa	2	ana luiza	10	7
+faa	2	arthur corveloni	10	7
+faa	2	davi	3,33333333333333	2,33333333333333
+faa	3	kauã negrão	7	4,9
+faa	3	luiz felipe ramirez	8,75	6,125
+faa	3	nícolas	8,75	6,125
+faa	4	evellyn	7,7	5,39
+faa	4	guilherme frança	7,5	5,25
+faa	4	lívia souza	7	4,9
+faa	4	weverson	6	4,2
+faa	4	yasmin	6	4,2
+fab	1	arthur aleixo	8,5	5,95
+fab	1	clara	8,5	5,95
+fab	1	eduardo	8,5	5,95
+fab	1	maria fernanda	8,5	5,95
+fab	1	reinaldo	8,5	5,95
+fab	2	ana clara	8,5	5,95
+fab	2	heloisa	8	5,6
+fab	2	mirela	9	6,3
+fab	3	guilherme felix	9	6,3
+fab	3	mikael	9	6,3
+fab	3	vinicius	9,5	6,65
+fab	4	kaua neves	6	4,2
+fab	4	nathalia	6	4,2
+fab	4	rafael	6	4,2
+fab	5	gustavo	8,83333333333333	6,18333333333333
+fab	5	joao	8,83333333333333	6,18333333333333
+fab	5	linton	8,83333333333333	6,18333333333333
+fab	5	mateus	8,83333333333333	6,18333333333333
+fab	6	eduarda	4,5	3,15
+fab	6	isabella	9	6,3
+fab	6	maria vitória	4,5	3,15
+fba	1	bianca		0
+fba	1	joão samuel		0
+fba	1	lucas		0
+fba	1	vitor		0
+fba	1	wanderson		0
+fba	2	bruno vinícius	8,73333333333333	6,11333333333333
+fba	2	geovane eduardo	8,73333333333333	6,11333333333333
+fba	2	jardel gomes	8,73333333333333	6,11333333333333
+fba	2	luiz gustavo de souza	8,73333333333333	6,11333333333333
+fba	3	ana julia dos santos	9,41666666666667	6,59166666666667
+fba	3	eduarda	9,41666666666667	6,59166666666667
+fba	3	geovana	9,41666666666667	6,59166666666667
+fba	3	laine	9,41666666666667	6,59166666666667
+fbb	1	ana julia santos costa	7,6	5,32
+fbb	1	beatriz	7,6	5,32
+fbb	1	ghiulia	7,6	5,32
+fbb	1	larissa	7,6	5,32
+fbb	2	ana beatriz	4	2,8
+fbb	2	heloa	4	2,8
+fbb	2	maria julia	4	2,8
+fbb	2	yasmin	4	2,8
+fbb	3	gabrielly	8	5,6
+fbb	3	luis	8	5,6
+fbb	3	romulo	0	0

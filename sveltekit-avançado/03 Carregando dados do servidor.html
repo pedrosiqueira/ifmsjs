@@ -65,7 +65,7 @@
 ];
 
 export function getAll(){ }
-export function getByYearMonth(ano, mes){ }
+export function getByYearMonth(year, month){ }
 export function getBySlug(slug){ }
 export function getByQuery(title, content){ }</code></pre>
 <p><strong>Explicação</strong>: Este arquivo simula um banco de dados de posts. Ele armazena um conjunto de dados em memória e define funções para acessar esses dados. No momento, as funções estão declaradas mas ainda não foram implementadas — essa será a tua tarefa.</p>
@@ -376,7 +376,7 @@ export async function load({ url }) {
 <ol class="excs">
   <li><strong>Implemente as seguintes funções</strong> <a href="#postsdatabase">no arquivo <code>postsDatabase.js</code></a>, responsáveis por manipular os dados dos posts: <ol>
       <li><code>getAll()</code>: Retorna todos os posts cadastrados.</li>
-      <li><code>getByYearMonth(ano, mes)</code>: Retorna os posts publicados no ano e mês especificados.</li>
+      <li><code>getByYearMonth(year, month)</code>: Retorna os posts publicados no ano e mês especificados.</li>
       <li><code>getBySlug(slug)</code>: Retorna o post que corresponde exatamente ao <code>slug</code> fornecido.</li>
       <li><code>getByQuery(title, content)</code>: Retorna todos os posts cujo título contenha a string fornecida em <code>title</code> ou cujo conteúdo contenha a string em <code>content</code>. A busca não deve diferenciar maiúsculas de minúsculas. Campos vazios, nulos ou indefinidos não devem ser considerados no filtro.</li>
     </ol>
