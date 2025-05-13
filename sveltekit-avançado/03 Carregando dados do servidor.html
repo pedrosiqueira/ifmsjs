@@ -137,7 +137,18 @@ export async function load() {
 }</code></pre>
 <p><strong>Explicação:</strong></p>
 <p>Neste exemplo, estamos exibindo no terminal do servidor todas as propriedades do objeto <code>event</code>, que representa a requisição feita para essa página. Ao acessar a URL correspondente, observe o terminal para verificar as informações registradas.</p>
-
+<div class="info">
+  <h4>Anatomia de uma URL</h4>
+  <pre>    https://meusite.com/uma/pagina?p1=123&p2=oi
+    11111   22222222222 3333333333 444444444444
+protocolo   domínio     parâmetros parâmetros  
+                        de rota    de consulta
+  </pre>
+  <p>Os parâmetros de rota (route params) também podem ser chamados de parâmetros de caminho (path params).</p>
+  <p>Os parâmetros de consulta (query params) também podem ser chamados de parâmetros de busca (search params).</p>
+  <p>Exemplo de uma URL real:</p>
+  <p class="text-center"><a href="https://www.youtube.com/watch?v=TiT7TlAWDEs&list=PLcZDQl73nB1ACZdEAd_wNbY0tB_QutcH3&index=2&t=63s&ab_channel=PedroHenriquedeAraujoSiqueira">https://www.youtube.com/watch?v=TiT7TlAWDEs&list=PLcZDQl73nB1ACZdEAd_wNbY0tB_QutcH3&index=2&t=63s&ab_channel=PedroHenriquedeAraujoSiqueira</a></p>
+</div>
 <h3 id="params">params</h3>
 
 <p>Uma rota pode ser um caminho estático, como <code>src/routes/about</code>, ou um caminho dinâmico, como <code>src/routes/blog/[slug]</code> ou <code>src/routes/posts/[ano]/[mes]</code>. Neste caso, <code>[slug]</code>, <code>[ano]</code> e <code>[mes]</code> são chamados de <strong>parâmetros de rota</strong>, ou seja, variáveis que permitem diferentes valores levarem à mesma página.</p>
