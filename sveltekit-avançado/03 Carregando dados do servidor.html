@@ -168,8 +168,8 @@ www.youtube.com
   <li>Da mesma forma, <code>/posts/2025/03</code> e <code>/posts/2024/11</code> abrirão a página <code>src/routes/posts/[ano]/[mes]</code>, com <code>ano</code> sendo <code>2025</code> ou <code>2024</code>, e <code>mes</code> sendo <code>03</code> ou <code>11</code>.</li>
 </ul>
 <ol class="excs">
-  <h4>Exercício de fixação</h4>
-  <li class="no-mark">Ligue as URLs da esquerda às rotas da direita:
+  <h4>Exercícios de fixação</h4>
+  <li>Ligue as URLs da esquerda às rotas da direita:
     <pre>https://meusite.com/blog              (a)
 https://meusite.com/sobre             (b)
 https://meusite.com/blog/[slug]       (c)
@@ -275,11 +275,10 @@ export async function load({ url }) {
   {/each}
 &lt;/ul&gt;</code></pre>
 <p><strong>Explicação:</strong> Neste exemplo, a função <code>load</code> acessa os parâmetros da URL usando <code>url.searchParams.get('termo')</code>, permitindo buscar posts por título. Isso simula uma funcionalidade de busca baseada em query strings.</p>
-<h4>Exercício de fixação</h4>
+<h4>Exercícios de fixação</h4>
 <ol class="excs">
-  <li class="no-mark">
-    <p>Considere os seguintes arquivos:</p>
-    <p><code>src/routes/03/[p1]/[p2]/+page.server.js</code></p>
+  <li>Considere os seguintes arquivos:
+    <p><code>src/routes/03/[p1]/[p2]/+page.server.js</code>:</p>
     <pre><code class="language-js">export async function load({ params, url }) {
     const rp1 = params.p1;
     const rp2 = params.p2;
@@ -288,7 +287,7 @@ export async function load({ url }) {
 
     return { rp1, rp2, sp1, sp2 };
 }</code></pre>
-    <p><code>src/routes/03/[p1]/[p2]/+page.svelte</code></p>
+    <p><code>src/routes/03/[p1]/[p2]/+page.svelte</code>:</p>
     <pre><code class="language-html">&lt;script&gt;
   let { data } = $props();
 &lt;/script&gt;
@@ -419,6 +418,38 @@ export async function load({ url }) {
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 <p><strong>Explicação:</strong> Aqui, o layout acessa <code>page.data.post?.title</code> para definir o título da aba dinamicamente com base na página carregada.</p>
+
+<h4>Exercícios de fixação</h4>
+<ol class="excs">
+  <li>Considere os dois arquivos seguintes:
+    <p><code>src/routes/uva/[jaca]/pera/+page.svelte</code>:</p>
+    <pre><code class="language-svelte">&lt;script&gt;
+  import { page } from '$app/state';
+&lt;/script&gt;
+{page.params.jaca}
+</code></pre>
+    <p><code>src/routes/uva/jaca/[pera]/+page.svelte</code>:</p>
+    <pre><code class="language-svelte">&lt;script&gt;
+  import { page } from '$app/state';
+&lt;/script&gt;
+{page.params.pera}
+</code></pre>
+    <p>O que aparecerá na tela ao acessar cada uma das seguintes URLs?</p>
+    <ul>
+      <li>/jaca</li>
+      <li>/jaca/uva/pera</li>
+      <li>/uva</li>
+      <li>/uva/caju/jaca</li>
+      <li>/uva/figo/caqui</li>
+      <li>/uva/jaca</li>
+      <li>/uva/jaca/caju</li>
+      <li>/uva/jaca/pera</li>
+      <li>/uva/kiwi/pera</li>
+      <li>/uva/pera/jaca</li>
+      <li>/uva/pera/kiwi</li>
+    </ul>
+  </li>
+</ol>
 
 <h2 id="cliente-vs-servidor">Cliente vs Servidor</h2>
 
