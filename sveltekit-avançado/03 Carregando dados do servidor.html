@@ -71,10 +71,10 @@ export function getByQuery(title, content){ }</code></pre>
 <p><strong>Explicação</strong>: Este arquivo simula um banco de dados de posts. Ele armazena um conjunto de dados em memória e define funções para acessar esses dados. No momento, as funções estão declaradas mas ainda não foram implementadas — essa será a tua tarefa.</p>
 <div class="info">Atenção: Esse é um banco de dados apenas para fins didáticos! No mundo real, nossos dados ficariam em um banco de dados de verdade.</div>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/+layout.server.js</code>:</p>
-<pre><code class="language-javascript">import * as db from '$lib/server/postsDatabase';
+<pre><code class="language-javascript">import * as postsDatabase from '$lib/server/postsDatabase';
 
 export async function load() {
-  const posts = db.getAll();
+  const posts = postsDatabase.getAll();
   return { posts };
 }</code></pre>
 <p>A função <code>getAll()</code> ainda não existe no arquivo <code>src/lib/server/postsDatabase.js</code>. Será tua tarefa implementá-la, bem como todas as outras funções ainda não implementadas.</p>
@@ -185,10 +185,10 @@ https://meusite.com/blog/2025/03/01   (k)</pre>
 </ol>
 <p>A propriedade <code>params</code> é um <strong>objeto</strong> onde cada propriedade corresponde ao nome do parâmetro definido entre colchetes na rota, e seu valor corresponde ao trecho da URL acessada.</p>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/[ano]/[mes]/+page.server.js</code>:</p>
-<pre><code class="language-javascript">import * as db from '$lib/server/postsDatabase';
+<pre><code class="language-javascript">import * as postsDatabase from '$lib/server/postsDatabase';
 
 export async function load({ params }) {
-  const posts = db.getByYearMonth(params.ano, params.mes);
+  const posts = postsDatabase.getByYearMonth(params.ano, params.mes);
   return { posts, ano: params.ano, mes: params.mes };
 }</code></pre>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/[ano]/[mes]/+page.svelte</code>:</p>
@@ -206,10 +206,10 @@ export async function load({ params }) {
 <p><strong>Explicação:</strong> Utilizamos os parâmetros de rota <code>ano</code> e <code>mes</code> para filtrar os posts por data.</p>
 <p>Também podemos implementar uma única página para exibir cada post separadamente.</p>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/[slug]/+page.server.js</code>:</p>
-<pre><code class="language-javascript">import * as db from '$lib/server/postsDatabase';
+<pre><code class="language-javascript">import * as postsDatabase from '$lib/server/postsDatabase';
 
 export async function load({ params }) {
-  const post = db.getBySlug(params.slug);
+  const post = postsDatabase.getBySlug(params.slug);
   return { post };
 }</code></pre>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/[slug]/+page.svelte</code>:</p>
@@ -239,16 +239,16 @@ export async function load({ params }) {
   <li><code>searchParams</code>: um objeto do tipo <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams">URLSearchParams</a>, que representa os parâmetros de consulta da URL e permite acessar facilmente os valores dos query params.</li>
 </ul>
 <p>Crie o arquivo <code ctc>src/routes/03/posts/query/+page.server.js</code>:</p>
-<pre><code class="language-javascript">import * as db from '$lib/server/postsDatabase';
+<pre><code class="language-javascript">import * as postsDatabase from '$lib/server/postsDatabase';
 
 export async function load({ url }) {
   console.log(url);
   const title = url.searchParams.get('title') || null;
   const content = url.searchParams.get('content') || null;
 
-  if (!title && !content) return { posts: db.getAll() };
+  if (!title && !content) return { posts: postsDatabase.getAll() };
 
-  return { posts: db.getByQuery(title, content) };
+  return { posts: postsDatabase.getByQuery(title, content) };
 }</code></pre>
 <div class="info">
   <p>💡 <strong>Dica:</strong> Neste exemplo, usamos <code>console.log()</code> para exibir o conteúdo da URL e dos parâmetros no terminal ou no console do navegador. Essa é uma ferramenta muito útil para <strong>debugar</strong> (ou seja, investigar e entender o que está acontecendo no seu código).</p>
