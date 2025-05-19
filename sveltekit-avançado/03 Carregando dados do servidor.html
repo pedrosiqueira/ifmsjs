@@ -18,7 +18,7 @@
 
   <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
   <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
-  <script defer>hljs.highlightLinesAll([[], [], [], [], [], [], [{ start: 1, end: 1, color: 'lightgreen' }, { start: 2, end: 2, color: 'lightblue' }], [], [], [], [], [], [], [], [], [], [], [], [], [], [{ start: 2, end: 2, color: 'lightblue' }, { start: 5, end: 5, color: 'lightblue' }, { start: 8, end: 10, color: 'lightblue' }]]);
+  <script defer>hljs.highlightLinesAll([[], [], [], [], [], [], [{ start: 1, end: 1, color: 'lightgreen' }, { start: 2, end: 2, color: 'lightblue' }], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [{ start: 2, end: 2, color: 'lightblue' }, { start: 5, end: 5, color: 'lightblue' }, { start: 8, end: 10, color: 'lightblue' }]]);
   </script>
 
   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
@@ -307,6 +307,55 @@ export async function load({ url }) {
       <li>https://meusite.com/03/uma/pagina?p1=123&amp;q4=567</li>
       <li>https://meusite.com/03/p1/123?p2=567</li>
     </ol>
+  </li>
+  <li>Considere os seguintes arquivos:
+    <p><code>src/routes/a/[b]/c/+page.server.js</code>:</p>
+    <pre><code class="js">export async function load({ params, url }) {
+    const b = params.b;
+    const d = url.searchParams.get('d');
+    const e = url.searchParams.get('e');
+
+    return { b, d, e };
+}</code></pre>
+    <p><code>src/routes/a/[b]/c/+page.svelte</code>:</p>
+    <pre><code>&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+{data.b} {data.d} {data.e}</code></pre>
+    <p>Dê URLs de exemplo que mostrariam valores válidos para as variáveis <code>b</code>, <code>d</code> e <code>e</code>. O que apareceria na tela para cada URL de exemplo?</p>
+  </li>
+  <li>Considere os seguintes arquivos:
+    <p><code>src/routes/a/[b]/[c]/+page.server.js</code>:</p>
+    <pre><code class="js">export async function load({ params, url }) {
+    const x = params.b;
+    const y = params.c;
+    const z = url.searchParams.get('d');
+
+    return { x, y, z };
+}</code></pre>
+    <p><code>src/routes/a/[b]/[c]/+page.svelte</code>:</p>
+    <pre><code>&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+{data.x} {data.y} {data.z}</code></pre>
+    <p>Dê URLs de exemplo que mostrariam valores válidos para as variáveis <code>x</code>, <code>y</code> e <code>z</code>. O que apareceria na tela para cada URL de exemplo?</p>
+  </li>
+  <li>Considere os seguintes arquivos:
+    <p><code>src/routes/[a]/b/[c]/+page.server.js</code>:</p>
+    <pre><code class="js">export async function load({ params, url }) {
+    const w = params.a;
+    const x = params.c;
+    const y = url.searchParams.get('d');
+    const z = url.searchParams.get('e');
+
+    return { w, x, y, z };
+}</code></pre>
+    <p><code>src/routes/[a]/b/[c]/+page.svelte</code>:</p>
+    <pre><code>&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+{data.w} {data.x} {data.y} {data.z}</code></pre>
+    <p>Dê URLs de exemplo que mostrariam valores válidos para as variáveis <code>w</code>, <code>x</code>, <code>y</code> e <code>z</code>. O que apareceria na tela para cada URL de exemplo?</p>
   </li>
 </ol>
 <h3 id="fetch">fetch</h3>
