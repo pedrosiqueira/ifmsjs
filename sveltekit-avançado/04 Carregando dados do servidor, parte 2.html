@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([[], [], [], [], [], [], [], [], [], [], [{ start: 2, end: 2, color: 'lightblue' }, { start: 5, end: 5, color: 'lightblue' }, { start: 8, end: 10, color: 'lightblue' }]]);
+  </script>
+
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1 id="carregando-dados-no-sveltekit">Carregando Dados do Servidor, parte 2</h1>
+<sub><a target="_blank" href="https://svelte.dev/docs/kit/load">Adaptado daqui</a>.</sub>
+<h2 id="dados-do-layout">Dados do Layout</h2>
+
+<p>Teus arquivos <code>+layout.svelte</code> também podem carregar dados, via <code>+layout.server.js</code>.</p>
+<p>Crie o arquivo <code ctc>src/lib/server/postsDatabase.js</code>:</p>
+<pre id="postsdatabase"><code class="language-javascript">const posts = [
+  { slug: 'um', title: 'Primeiro Post', publish_date: '2025-03-12', content: 'Conteúdo do primeiro post' },
+  { slug: 'outro', title: 'Outro Post', publish_date: '2025-03-25', content: 'Conteúdo do outro post' },
+  { slug: 'algum', title: 'Mais um Post', publish_date: '2024-11-22', content: 'Conteúdo de mais um post' },
+  { slug: 'ainda', title: 'Ainda Outro Post', publish_date: '2024-11-02', content: 'Conteúdo de ainda outro post' }
+];
+
+export function getAll(){ }
+export function getByYearMonth(year, month){ }
+export function getBySlug(slug){ }
+export function getByQuery(title, content){ }</code></pre>
+<p><strong>Explicação</strong>: Este arquivo simula um banco de dados de posts. Ele armazena um conjunto de dados em memória e define funções para acessar esses dados. No momento, as funções estão declaradas mas ainda não foram implementadas — essa será a tua tarefa.</p>
+<div class="info">Atenção: Esse é um banco de dados apenas para fins didáticos! No mundo real, nossos dados ficariam em um banco de dados de verdade.</div>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/+layout.server.js</code>:</p>
+<pre><code class="language-javascript">import * as postsDatabase from '$lib/server/postsDatabase';
+
+export async function load() {
+  const posts = postsDatabase.getAll();
+  return { posts };
+}</code></pre>
+<p>A função <code>getAll()</code> ainda não existe no arquivo <code>src/lib/server/postsDatabase.js</code>. Será tua tarefa implementá-la, bem como todas as outras funções ainda não implementadas.</p>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/+layout.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  let { data, children } = $props();
+&lt;/script&gt;
+
+&lt;div class=&quot;row&quot;&gt;
+  &lt;div class=&quot;col-4 bg-body-secondary&quot;&gt;
+    &lt;aside&gt;
+      &lt;h4&gt;Últimos Posts&lt;/h4&gt;
+      &lt;ul&gt;
+        {#each data.posts.slice(0, 2) as post}
+          &lt;li&gt;
+            &lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;
+              {post.title}
+            &lt;/a&gt;
+          &lt;/li&gt;
+        {/each}
+      &lt;/ul&gt;
+    &lt;/aside&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;col&quot;&gt;
+    &lt;main&gt;
+      {@render children()}
+    &lt;/main&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p><strong>Explicação:</strong> Dados retornados pela função <code>load</code> de um arquivo <code>+layout.server.js</code> ficam disponíveis para todos os seus componentes <code>.svelte</code> filhos, bem como para ele próprio. Aqui, o arquivo <code>+layout.server.js</code> carrega todos os posts e os disponibiliza para o layout e suas páginas filhas. No layout, exibimos os dois posts mais recentes em um menu lateral.</p>
+<p>Vamos criar uma página filha. Crie o arquivo <code ctc>src/routes/03/posts/+page.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;h3&gt;Todos os Posts&lt;/h3&gt;
+{#each data.posts as post}
+  &lt;p&gt;&lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
+{/each}</code></pre>
+<p><strong>Explicação:</strong> A página principal lista todos os posts disponíveis, utilizando os dados fornecidos pelo layout.</p>
+<div class="info">
+  <p><strong>Nota:</strong> Se múltiplas funções <code>load</code> retornarem dados com a mesma propriedade, a última sobrescreve as anteriores. Por exemplo, se uma função <code>load</code> do layout retorna <code>{ a: 1, b: 2 }</code> e a da página retorna <code>{ b: 3, c: 4 }</code>, o resultado final será <code>{ a: 1, b: 3, c: 4 }</code>.</p>
+</div>
+
+<h2>Parâmetros de rota</h2>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/[ano]/[mes]/+page.server.js</code>:</p>
+<pre><code class="language-javascript">import * as postsDatabase from '$lib/server/postsDatabase';
+
+export async function load({ params }) {
+  const posts = postsDatabase.getByYearMonth(params.ano, params.mes);
+  return { posts, ano: params.ano, mes: params.mes };
+}</code></pre>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/[ano]/[mes]/+page.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;h3&gt;Postagens de {data.mes}/{data.ano}&lt;/h3&gt;
+
+{#each data.posts as post}
+  &lt;p&gt;&lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
+{:else}
+  &lt;p&gt;Nenhuma postagem nesse m&ecirc;s!&lt;/p&gt;
+{/each}</code></pre>
+<p><strong>Explicação:</strong> Utilizamos os parâmetros de rota <code>ano</code> e <code>mes</code> para filtrar os posts por data.</p>
+<p>Também podemos implementar uma única página para exibir cada post separadamente.</p>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/[slug]/+page.server.js</code>:</p>
+<pre><code class="language-javascript">import * as postsDatabase from '$lib/server/postsDatabase';
+
+export async function load({ params }) {
+  const post = postsDatabase.getBySlug(params.slug);
+  return { post };
+}</code></pre>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/[slug]/+page.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;h1&gt;{data.post.title}&lt;/h1&gt;
+&lt;sub&gt;Em {data.post.publish_date}&lt;/sub&gt;
+&lt;p&gt;{data.post.content}&lt;/p&gt;</code></pre>
+<p><strong>Explicação:</strong> Aqui, utilizamos o parâmetro de rota <code>slug</code> para buscar e exibir um post específico.</p>
+
+<h2 id="url">Parâmetros de consulta</h2>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/query/+page.server.js</code>:</p>
+<pre><code class="language-javascript">import * as postsDatabase from '$lib/server/postsDatabase';
+
+export async function load({ url }) {
+  const title = url.searchParams.get('title') || null;
+  const content = url.searchParams.get('content') || null;
+
+  if (!title && !content) return { posts: postsDatabase.getAll() };
+
+  return { posts: postsDatabase.getByQuery(title, content) };
+}</code></pre>
+<p>Crie o arquivo <code ctc>src/routes/03/posts/query/+page.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;form&gt;
+  &lt;input type=&quot;text&quot; name=&quot;title&quot; placeholder=&quot;Busca por título...&quot; /&gt;
+  &lt;input type=&quot;text&quot; name=&quot;content&quot; placeholder=&quot;Busca por conteúdo...&quot; /&gt;
+  &lt;button type=&quot;submit&quot;&gt;Buscar&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;h1&gt;Busca de posts&lt;/h1&gt;
+
+&lt;ul&gt;
+  {#each data.posts as post}
+    &lt;li&gt;&lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;{post.title}&lt;/a&gt;&lt;/li&gt;
+  {:else}
+    &lt;li&gt;Nenhum resultado encontrado.&lt;/li&gt;
+  {/each}
+&lt;/ul&gt;</code></pre>
+<p><strong>Explicação:</strong> Neste exemplo, a função <code>load</code> acessa os parâmetros da URL usando <code>url.searchParams.get('termo')</code>, permitindo buscar posts por título. Isso simula uma funcionalidade de busca baseada em query strings.</p>
+
+<h2 id="pagedata">page.data</h2>
+
+<p>O componente <code>+page.svelte</code>, assim como cada <code>+layout.svelte</code> acima dele na hierarquia, tem acesso aos seus próprios dados e também aos dados de todos os seus layouts &quot;pais&quot;.</p>
+<p>No entanto, em algumas situações precisamos do contrário — um layout &quot;pai&quot; pode precisar acessar dados carregados por uma página ou por um layout &quot;filho&quot;. Um exemplo comum é o layout raiz (<code>+layout.svelte</code>) querer acessar uma propriedade <code>title</code> retornada pela função <code>load</code> de um <code>+page.server.js</code>.</p>
+<p>Para isso, utilizamos <a target="_blank" href="https://svelte.dev/docs/kit/$app-state#page">page.data</a>.</p>
+<p><strong>Modifique</strong> o arquivo <code ctc>src/routes/03/posts/+layout.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  import { page } from '$app/state';
+  let { data, children } = $props();
+
+  console.log(page);
+&lt;/script&gt;
+
+&lt;svelte:head&gt;
+  &lt;title&gt;{page.data.post?.title || page.url.pathname}&lt;/title&gt;
+&lt;/svelte:head&gt;
+
+&lt;div class=&quot;row&quot;&gt;
+  &lt;div class=&quot;col-4 bg-body-secondary&quot;&gt;
+    &lt;aside&gt;
+      &lt;h4&gt;Últimos posts&lt;/h4&gt;
+      &lt;ul&gt;
+        {#each data.posts.slice(0, 2) as post}
+          &lt;li&gt;
+            &lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;
+              {post.title}
+            &lt;/a&gt;
+          &lt;/li&gt;
+        {/each}
+      &lt;/ul&gt;
+    &lt;/aside&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;col&quot;&gt;
+    &lt;main&gt;
+      {@render children()}
+    &lt;/main&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p><strong>Explicação:</strong> Aqui, o layout acessa <code>page.data.post?.title</code> para definir o título da aba dinamicamente com base na página carregada.</p>
+
+<h4>Exercícios de fixação</h4>
+<ol class="excs">
+  <li>Considere os dois arquivos seguintes:
+    <p><code>src/routes/uva/[jaca]/pera/+page.svelte</code>:</p>
+    <pre><code class="language-svelte">&lt;script&gt;
+  import { page } from '$app/state';
+&lt;/script&gt;
+{page.params.jaca}
+</code></pre>
+    <p><code>src/routes/uva/jaca/[pera]/+page.svelte</code>:</p>
+    <pre><code class="language-svelte">&lt;script&gt;
+  import { page } from '$app/state';
+&lt;/script&gt;
+{page.params.pera}
+</code></pre>
+    <p>O que aparecerá na tela ao acessar cada uma das seguintes URLs?</p>
+    <ul>
+      <li>/jaca</li>
+      <li>/jaca/uva/pera</li>
+      <li>/uva</li>
+      <li>/uva/caju/jaca</li>
+      <li>/uva/figo/caqui</li>
+      <li>/uva/jaca</li>
+      <li>/uva/jaca/caju</li>
+      <li>/uva/jaca/pera</li>
+      <li>/uva/kiwi/pera</li>
+      <li>/uva/pera/jaca</li>
+      <li>/uva/pera/kiwi</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="exercícios">Exercícios</h2>
+
+<ol class="excs">
+  <li><strong>Implemente as seguintes funções</strong> <a href="#postsdatabase">no arquivo <code>postsDatabase.js</code></a>, responsáveis por manipular os dados dos posts: <ol>
+      <li><code>getAll()</code>: Retorna todos os posts cadastrados.</li>
+      <li><code>getByYearMonth(year, month)</code>: Retorna os posts publicados no ano e mês especificados.</li>
+      <li><code>getBySlug(slug)</code>: Retorna o post que corresponde exatamente ao <code>slug</code> fornecido.</li>
+      <li><code>getByQuery(title, content)</code>: Retorna todos os posts cujo título contenha a string fornecida em <code>title</code> ou cujo conteúdo contenha a string em <code>content</code>. A busca não deve diferenciar maiúsculas de minúsculas. Campos vazios, nulos ou indefinidos não devem ser considerados no filtro.</li>
+    </ol>
+  </li>
+  <!-- mais exercícios, por favor -->
+  <li><strong>Deixe seu aplicativo SvelteKit totalmente navegável.</strong> Garanta que todas as rotas criadas possam ser acessadas por meio de links. Para isso: <ul>
+      <li>Crie os arquivos correspondentes indicados neste capítulo.</li>
+      <li>Adicione os links ao menu de navegação lateral.</li>
+    </ul>
+  </li>
+</ol>
