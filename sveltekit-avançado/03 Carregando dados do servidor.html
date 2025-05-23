@@ -121,14 +121,14 @@ https://meusite.com/blog/2025/03/01   (k)</pre>
   </li>
 </ol>
 <p>A propriedade <code>params</code> é um <strong>objeto</strong> que armazena os valores dos parâmetros definidos nas rotas dinâmicas (aquelas com colchetes). Cada atributo do objeto corresponde ao nome do parâmetro, e o valor é o trecho da URL que foi utilizado.</p>
-<p>Crie o arquivo <code ctc>src/03/[rota]/[dinamica]/+page.server.js</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/03/[rota]/[dinamica]/+page.server.js</code>:</p>
 <pre><code class='js'>export async function load(event) {
     const parametro1 = event.params.rota;
     const parametro2 = event.params.dinamica;
 
     return { parametro1, parametro2 };
 }</code></pre>
-<p>Crie o arquivo <code ctc>src/03/[rota]/[dinamica]/+page.svelte</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/03/[rota]/[dinamica]/+page.svelte</code>:</p>
 <pre><code class="svelte">&lt;script&gt;
   let { data } = $props();
 &lt;/script&gt;
@@ -234,6 +234,7 @@ https://meusite.com/blog/2025/03/01   (k)</pre>
     <ol type="a">
       <li>https://meusite.com/03/uma/pagina?p1=123&amp;p2=oi</li>
       <li>https://meusite.com/03/123/oi?p1=uma&amp;p2=pagina</li>
+      <li>https://meusite.com/03/umapagina?p1=123&amp;p2=oi</li>
       <li>https://meusite.com/03/outra/url?p1=td_blz&amp;p2=ok</li>
       <li>https://meusite.com/03/uma/pagina</li>
       <li>https://meusite.com/03/uma/outra/pagina</li>
@@ -386,7 +387,13 @@ https://meusite.com/blog/2025/03/01   (k)</pre>
 <h2 id="exercícios">Exercícios</h2>
 
 <ol class="excs">
-  <li><strong>Implemente a <a href="#post-id">rota faltante</a></strong> <code class="ctc">src/routes/03/external/posts/[id]</code>, que exibe a postagem com o <code>id</code> especificado da API REST <a target="_blank" href="https://jsonplaceholder.typicode.com/">JSONPlaceholder</a>.</li>
+  <li><strong>Implemente a <a href="#post-id">rota faltante</a></strong> <code class="ctc">src/routes/03/external/posts/[id]</code>. Essa rota deve:
+    <ul>
+      <li>Buscar os dados da API REST <a href="https://jsonplaceholder.typicode.com/" target="_blank">JSONPlaceholder</a>.</li>
+      <li>Exibir os dados da <strong>postagem</strong> correspondente ao <code>id</code> informado na URL;</li>
+      <li>Exibir também os <strong>comentários</strong> relacionados a essa postagem.</li>
+    </ul>
+  </li>
   <li><strong>Consuma a API REST da <a target="_blank" href="https://pokeapi.co/">PokéAPI</a></strong> para criar uma página que liste os Pokémons. Cada item da lista deve conter um link para a página de detalhes do respectivo Pokémon.</li>
   <p><strong>Possível solução:</strong></p>
   <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.svelte</code></p>
