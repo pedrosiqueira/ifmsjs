@@ -39,14 +39,108 @@
 
 <h1>Protocolo HTTP de Comunicação</h1>
 <p id="comunicacao-http">
-  A comunicação na Internet ocorre por meio do protocolo HTTP (Hypertext Transfer Protocol), que define as regras para a troca de informações entre clientes e servidores. Quando você acessa um site, seu dispositivo (cliente) envia uma "carta" (requisição HTTP) ao servidor que hospeda esse site. O servidor, por sua vez, processa a solicitação e retorna uma "carta" (resposta HTTP) contendo os dados necessários para exibir a página no seu navegador.
+  A comunicação na Internet ocorre por meio do protocolo HTTP (Hypertext Transfer Protocol), que define as regras para a troca de informações entre clientes e servidores. Quando você acessa um site, seu dispositivo (cliente) envia uma "carta" (requisição HTTP) ao servidor que hospeda esse site. O servidor, por sua vez, processa a requisição e retorna uma "carta" (resposta HTTP) contendo os dados necessários para exibir a página no seu navegador.
 </p>
 
-<div style="display: flex; justify-content: center; gap: 20px;">
-  <img id="protocolo-http-comunicacao" alt="Fluxo de comunicação HTTP entre cliente e servidor">
-  <img id="anatomia-carta-http" alt="Estrutura de uma requisição e resposta HTTP">
-</div>
+<p><img id="protocolo-http-comunicacao" alt="Fluxo de comunicação HTTP entre cliente e servidor"></p>
 
+<h2>Troca de Dados</h2>
+
+<p>Podemos fazer uma analogia entre o protocolo HTTP e uma comunicação por cartas. Toda carta possui um envelope que contém o endereço do destinatário — essas informações são públicas e visíveis por qualquer pessoa. Dentro do envelope, temos a mensagem, composta por um cabeçalho e um corpo, que são privados e acessíveis apenas ao destinatário.</p>
+
+<p><img id="anatomia-carta-http" alt="Estrutura de uma requisição e resposta HTTP" /></p>
+
+<p>No protocolo HTTP, o endereço do destinatário corresponde à URL. A “mensagem” enviada pelo cliente também é composta por um cabeçalho e um corpo. Assim, um cliente pode transmitir dados a um servidor de três formas principais:</p>
+
+<ol>
+  <li>
+    <p><strong>Pela URL</strong>, como em <code>https://meusite.com/uma/pagina?p1=123&p2=oi</code>.</p>
+    <p><strong>Vantagens:</strong></p>
+    <ul>
+      <li>Visível e fácil de rastrear.</li>
+      <li>Ideal para requisições idempotentes (sem efeitos colaterais, como buscas e filtros).</li>
+    </ul>
+    <p><strong>Desvantagens:</strong></p>
+    <ul>
+      <li>Limite de tamanho (geralmente entre 2k e 8k caracteres, dependendo do navegador e servidor).</li>
+      <li>Não recomendado para dados sensíveis, pois são visíveis na URL.</li>
+      <li>Indicado apenas para requisições que não modificam dados.</li>
+    </ul>
+  </li>
+
+  <li>
+    <p><strong>Pelo corpo (body)</strong>. É o método mais comum para envio de JSON (em APIs REST), arquivos e formulários HTML.</p>
+    <p><strong>Vantagens:</strong></p>
+    <ul>
+      <li>Suporta grande volume de dados.</li>
+      <li>Permite formatos estruturados como JSON, XML ou FormData.</li>
+      <li>Os dados não aparecem na URL.</li>
+      <li>Recomendado para operações que criam ou modificam recursos.</li>
+    </ul>
+    <p><strong>Limitações:</strong></p>
+    <ul>
+      <li>Menos transparente (é necessário usar ferramentas para inspecionar).</li>
+      <li>Requer configuração correta do cabeçalho <code>Content-Type</code>.</li>
+    </ul>
+  </li>
+
+  <li>
+    <p><strong>Pelos cabeçalhos (headers)</strong>. Não fazem parte da URL nem do corpo, mas carregam informações auxiliares e metadados, como autenticação (<code>Authorization</code>), tipo de conteúdo (<code>Content-Type</code>) e idioma (<code>Accept-Language</code>).</p>
+    <p><strong>Vantagens:</strong></p>
+    <ul>
+      <li>Ideal para dados técnicos ou metadados.</li>
+      <li>Os dados não são visíveis na URL nem no corpo.</li>
+      <li>Podem ser usados em qualquer método HTTP.</li>
+    </ul>
+    <p><strong>Limitações:</strong></p>
+    <ul>
+      <li>Não é possível o envio de dados de formulário ou carga útil (payload).</li>
+      <li>Alguns cabeçalhos não são acessíveis no lado cliente, especialmente em requisições entre domínios (CORS).</li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>Observações:</strong></p>
+<ul>
+  <li>O endereço do remetente (cliente) não está visível no envelope HTTP por padrão.</li>
+  <li>O corpo da requisição é opcional, especialmente em métodos como <code>GET</code>.</li>
+</ul>
+
+<h3>Resumo</h3>
+<table class="custom">
+  <thead>
+    <tr>
+      <th>Forma de envio</th>
+      <th>Visível na URL?</th>
+      <th>Ideal para...</th>
+      <th>Tamanho</th>
+      <th>Exemplo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>URL</td>
+      <td>Sim</td>
+      <td>Filtros, buscas, navegação</td>
+      <td>Limitado</td>
+      <td><code>GET /busca?q=livro</code></td>
+    </tr>
+    <tr>
+      <td>Cabeçalho</td>
+      <td>Não</td>
+      <td>Autenticação, metadados</td>
+      <td>Médio</td>
+      <td><code>Authorization: Bearer xyz</code></td>
+    </tr>
+    <tr>
+      <td>Corpo</td>
+      <td>Não</td>
+      <td>Formulários, JSON, upload de arquivos</td>
+      <td>Amplo</td>
+      <td><code>POST { nome: 'Ana' }</code></td>
+    </tr>
+  </tbody>
+</table>
 <h2>Características do HTTP</h2>
 <ul>
   <li>O cliente sempre inicia a comunicação enviando uma requisição ao servidor.</li>
