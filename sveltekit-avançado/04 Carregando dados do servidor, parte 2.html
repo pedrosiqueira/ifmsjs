@@ -48,7 +48,7 @@ export function getBySlug(slug){ }
 export function getByQuery(title, content){ }</code></pre>
 <p><strong>Explicação</strong>: Este arquivo simula um banco de dados de posts. Ele armazena um conjunto de dados em memória e define funções para acessar esses dados. No momento, as funções estão declaradas mas ainda não foram implementadas — essa será a tua tarefa.</p>
 <div class="info">Atenção: Esse é um banco de dados apenas para fins didáticos! No mundo real, nossos dados ficariam em um banco de dados de verdade.</div>
-<p>Crie o arquivo <code ctc>src/routes/03/posts/+layout.server.js</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/04/posts/+layout.server.js</code>:</p>
 <pre><code class="language-javascript">import * as postsDatabase from '$lib/server/postsDatabase';
 
 export async function load() {
@@ -56,7 +56,7 @@ export async function load() {
   return { posts };
 }</code></pre>
 <p>A função <code>getAll()</code> ainda não existe no arquivo <code>src/lib/server/postsDatabase.js</code>. Será tua tarefa implementá-la, bem como todas as outras funções ainda não implementadas.</p>
-<p>Crie o arquivo <code ctc>src/routes/03/posts/+layout.svelte</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/04/posts/+layout.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { data, children } = $props();
 &lt;/script&gt;
@@ -68,7 +68,7 @@ export async function load() {
       &lt;ul&gt;
         {#each data.posts.slice(0, 2) as post}
           &lt;li&gt;
-            &lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;
+            &lt;a href=&quot;/04/posts/{post.slug}&quot;&gt;
               {post.title}
             &lt;/a&gt;
           &lt;/li&gt;
@@ -83,14 +83,14 @@ export async function load() {
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 <p><strong>Explicação:</strong> Dados retornados pela função <code>load</code> de um arquivo <code>+layout.server.js</code> ficam disponíveis para todos os seus componentes <code>.svelte</code> filhos, bem como para ele próprio. Aqui, o arquivo <code>+layout.server.js</code> carrega todos os posts e os disponibiliza para o layout e suas páginas filhas. No layout, exibimos os dois posts mais recentes em um menu lateral.</p>
-<p>Vamos criar uma página filha. Crie o arquivo <code ctc>src/routes/03/posts/+page.svelte</code>:</p>
+<p>Vamos criar uma página filha. Crie o arquivo <code ctc>src/routes/04/posts/+page.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { data } = $props();
 &lt;/script&gt;
 
 &lt;h3&gt;Todos os Posts&lt;/h3&gt;
 {#each data.posts as post}
-  &lt;p&gt;&lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;a href=&quot;/04/posts/{post.slug}&quot;&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
 {/each}</code></pre>
 <p><strong>Explicação:</strong> A página principal lista todos os posts disponíveis, utilizando os dados fornecidos pelo layout.</p>
 <div class="info">
@@ -98,14 +98,14 @@ export async function load() {
 </div>
 
 <h2>Parâmetros de rota</h2>
-<p>Crie o arquivo <code ctc>src/routes/03/posts/[ano]/[mes]/+page.server.js</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/04/posts/[ano]/[mes]/+page.server.js</code>:</p>
 <pre><code class="language-javascript">import * as postsDatabase from '$lib/server/postsDatabase';
 
 export async function load({ params }) {
   const posts = postsDatabase.getByYearMonth(params.ano, params.mes);
   return { posts, ano: params.ano, mes: params.mes };
 }</code></pre>
-<p>Crie o arquivo <code ctc>src/routes/03/posts/[ano]/[mes]/+page.svelte</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/04/posts/[ano]/[mes]/+page.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { data } = $props();
 &lt;/script&gt;
@@ -113,20 +113,20 @@ export async function load({ params }) {
 &lt;h3&gt;Postagens de {data.mes}/{data.ano}&lt;/h3&gt;
 
 {#each data.posts as post}
-  &lt;p&gt;&lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;a href=&quot;/04/posts/{post.slug}&quot;&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
 {:else}
   &lt;p&gt;Nenhuma postagem nesse m&ecirc;s!&lt;/p&gt;
 {/each}</code></pre>
 <p><strong>Explicação:</strong> Utilizamos os parâmetros de rota <code>ano</code> e <code>mes</code> para filtrar os posts por data.</p>
 <p>Também podemos implementar uma única página para exibir cada post separadamente.</p>
-<p>Crie o arquivo <code ctc>src/routes/03/posts/[slug]/+page.server.js</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/04/posts/[slug]/+page.server.js</code>:</p>
 <pre><code class="language-javascript">import * as postsDatabase from '$lib/server/postsDatabase';
 
 export async function load({ params }) {
   const post = postsDatabase.getBySlug(params.slug);
   return { post };
 }</code></pre>
-<p>Crie o arquivo <code ctc>src/routes/03/posts/[slug]/+page.svelte</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/04/posts/[slug]/+page.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { data } = $props();
 &lt;/script&gt;
@@ -137,7 +137,7 @@ export async function load({ params }) {
 <p><strong>Explicação:</strong> Aqui, utilizamos o parâmetro de rota <code>slug</code> para buscar e exibir um post específico.</p>
 
 <h2 id="url">Parâmetros de consulta</h2>
-<p>Crie o arquivo <code ctc>src/routes/03/posts/query/+page.server.js</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/04/posts/query/+page.server.js</code>:</p>
 <pre><code class="language-javascript">import * as postsDatabase from '$lib/server/postsDatabase';
 
 export async function load({ url }) {
@@ -148,7 +148,7 @@ export async function load({ url }) {
 
   return { posts: postsDatabase.getByQuery(title, content) };
 }</code></pre>
-<p>Crie o arquivo <code ctc>src/routes/03/posts/query/+page.svelte</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/04/posts/query/+page.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { data } = $props();
 &lt;/script&gt;
@@ -163,7 +163,7 @@ export async function load({ url }) {
 
 &lt;ul&gt;
   {#each data.posts as post}
-    &lt;li&gt;&lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;{post.title}&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;/04/posts/{post.slug}&quot;&gt;{post.title}&lt;/a&gt;&lt;/li&gt;
   {:else}
     &lt;li&gt;Nenhum resultado encontrado.&lt;/li&gt;
   {/each}
@@ -175,7 +175,7 @@ export async function load({ url }) {
 <p>O componente <code>+page.svelte</code>, assim como cada <code>+layout.svelte</code> acima dele na hierarquia, tem acesso aos seus próprios dados e também aos dados de todos os seus layouts &quot;pais&quot;.</p>
 <p>No entanto, em algumas situações precisamos do contrário — um layout &quot;pai&quot; pode precisar acessar dados carregados por uma página ou por um layout &quot;filho&quot;. Um exemplo comum é o layout raiz (<code>+layout.svelte</code>) querer acessar uma propriedade <code>title</code> retornada pela função <code>load</code> de um <code>+page.server.js</code>.</p>
 <p>Para isso, utilizamos <a target="_blank" href="https://svelte.dev/docs/kit/$app-state#page">page.data</a>.</p>
-<p><strong>Modifique</strong> o arquivo <code ctc>src/routes/03/posts/+layout.svelte</code>:</p>
+<p><strong>Modifique</strong> o arquivo <code ctc>src/routes/04/posts/+layout.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   import { page } from '$app/state';
   let { data, children } = $props();
@@ -194,7 +194,7 @@ export async function load({ url }) {
       &lt;ul&gt;
         {#each data.posts.slice(0, 2) as post}
           &lt;li&gt;
-            &lt;a href=&quot;/03/posts/{post.slug}&quot;&gt;
+            &lt;a href=&quot;/04/posts/{post.slug}&quot;&gt;
               {post.title}
             &lt;/a&gt;
           &lt;/li&gt;
