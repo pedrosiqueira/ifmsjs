@@ -164,6 +164,18 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
   <li><code>categoria</code> com valor <code>&quot;livros&quot;</code></li>
   <li><code>ordem</code> com valor <code>&quot;preco&quot;</code></li>
 </ul>
+<p>Para acessar uma página, você pode digitar a URL diretamente na barra de endereço do navegador, mas também pode acessá-la através de um link. Semelhantemente, para enviar parâmetros de consulta ao servidor, você pode digitá-los diretamente na URL, mas também pode passá-los através de um formulário.</p>
+<p>Crie o arquivo <code ctc>src/routes/03/formulario-enviando/+page.svelte</code>:</p>
+<pre><code class="svelte">&lt;form action=&quot;/03/formulario-recebendo&quot;&gt;
+  &lt;input name=&quot;fruta&quot; placeholder=&quot;Qual tua fruta preferida?&quot; /&gt;
+  &lt;input name=&quot;legume&quot; placeholder=&quot;E legume?&quot; /&gt;
+  &lt;button&gt;Enviar&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;p&gt;
+  &lt;a href=&quot;/03/formulario-recebendo&quot;&gt;Acessa a página sem enviar o formulário&lt;/a&gt;.
+&lt;/p&gt;</code></pre>
+<p><strong>Explicação:</strong> Tanto o formulário, através do atributo <code>action</code>, quanto o link, através do atributo <code>href</code>, te levam à rota <code>/03/formulario-recebendo</code>. Porém, o formulário anexa como parâmetros de consulta na URL os campos <code>fruta</code> e <code>legume</code>.</p>
 <p>No SvelteKit, dentro da função <code>load</code>, você pode acessar esses dados através da propriedade <code>url</code>, que é um objeto do tipo <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/URL">URL</a>. Esse objeto representa a URL da requisição e contém várias informações úteis, como:</p>
 <ul>
   <li><code>origin</code>: origem da URL (ex: <code>https://meusite.com</code>)</li>
@@ -171,7 +183,7 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
   <li><code>searchParams</code>: um objeto do tipo <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams">URLSearchParams</a>, que representa os parâmetros de consulta da URL e permite acessar facilmente seus valores.</li>
 </ul>
 
-<p>Crie o arquivo <code ctc>src/routes/03/formulario/+page.server.js</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/03/formulario-recebendo/+page.server.js</code>:</p>
 <pre><code class="js">export async function load({ url }) {
   console.log(url);
 
@@ -186,22 +198,18 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
   <p>Sempre que estiver em dúvida sobre o que uma variável contém, experimente usar <code>console.log(minhaVariavel)</code> para visualizar seu valor. Isso pode ajudar bastante na hora de identificar problemas e entender melhor o fluxo do programa.</p>
 </div>
 
-<p>Crie o arquivo <code ctc>src/routes/03/formulario/+page.svelte</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/03/formulario-recebendo/+page.svelte</code>:</p>
 <pre><code class="svelte">&lt;script&gt;
   let { data } = $props();
 &lt;/script&gt;
 
-&lt;form&gt;
-  &lt;input name="fruta" placeholder="Qual tua fruta preferida?" /&gt;
-  &lt;input name="legume" placeholder="E legume?" /&gt;
-  &lt;button&gt;Buscar&lt;/button&gt;
-&lt;/form&gt;
-
 {#if data.fruta &amp;&amp; data.legume}
-  &lt;p&gt;Você gosta da fruta {data.fruta} e do legume {data.legume}.&lt;/p&gt;
+  Você gosta da fruta {data.fruta} e do legume {data.legume}
 {:else}
-  &lt;p&gt;Informe uma fruta e um legume...&lt;/p&gt;
-{/if}</code></pre>
+  Informe uma fruta e um legume...
+{/if}
+
+&lt;p&gt;&lt;a href=&quot;/03/formulario-enviando&quot;&gt;Volta ao formulário&lt;/a&gt;.&lt;/p&gt;</code></pre>
 
 <p><strong>Explicação:</strong></p>
 <p>Por padrão, os dados de um formulário HTML são enviados pela URL através dos parâmetros de consulta (como <code>?fruta=banana&amp;legume=cenoura</code>). Esses dados podem ser acessados no servidor usando <code>url.searchParams.get()</code> dentro da função <code>load</code>.</p>

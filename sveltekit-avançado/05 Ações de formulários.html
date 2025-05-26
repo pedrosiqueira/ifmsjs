@@ -38,7 +38,7 @@
 <h1>Ações de Formulário</h1>
 <sub><a target="_blank" href="https://svelte.dev/docs/kit/form-actions">Adaptado daqui</a>.</sub>
 
-<p>No capítulo <a target="_blank" href="./03 Carregando dados do servidor.html">Carregando dados do servidor</a>, vimos como enviar dados do servidor para o navegador. Muitas vezes, é necessário fazer o inverso — enviar dados do navegador para o servidor. Para isso, utilizamos o elemento <code>&lt;form&gt;</code>, o principal recurso da plataforma web para esse tipo de comunicação.</p>
+<p>No capítulo <a target="_blank" href="./03 Carregando dados do servidor.html">Carregando dados do servidor</a>, vimos como enviar dados do servidor para o navegador. Muitas vezes, é necessário fazer o inverso — enviar dados do navegador para o servidor. Para isso, utilizamos o elemento <code>&lt;form&gt;</code>, o principal recurso da plataforma web para esse tipo de comunicação. No entanto, por padrão, o elemento <code>form</code> envia os dados para o servidor com o método HTTP POST, que não possui corpo: os dados ficam visíveis na URL, o que possui <a target="_blank" href="../sveltekit/0D Protocolo HTTP.html#desvantagens">várias desvantagens</a>. </p>
 
 <p>Um arquivo <code>+page.server.js</code> pode exportar <em>ações</em>, permitindo o envio de dados ao servidor por meio de um formulário que utiliza o método <code>POST</code>.</p>
 
@@ -92,8 +92,7 @@
   &lt;button&gt;Submeter&lt;/button&gt;
 &lt;/form&gt;</code></pre>
 
-<p>Explicação:</p>
-<p>Ao incluir o atributo <code>action</code>, este formulário envia os dados para a rota <code>/04/a</code>, onde serão processados pela ação padrão dessa página.</p>
+<p>Explicação: Ao incluir o atributo <code>action</code>, este formulário envia os dados para a rota <code>/04/a</code>, onde serão processados pela ação padrão dessa página.</p>
 
 <div class="info">
   <p><strong>Observação:</strong> Cada campo do formulário precisa ter o atributo <code>name</code> para que seus dados sejam incluídos na requisição enviada ao servidor.</p>
@@ -147,26 +146,29 @@
 <p>Crie o arquivo <code ctc>src/lib/server/usersDatabase.js</code>:</p>
 <pre><code>const users = new Map();
 
-export function create(email, password) {
-  if (users.has(email)) throw new Error('Email já cadastrado');
+export const usersDatabase = {
 
-  if (email == 'email@proibido') throw new Error('Isso não é pra usuários... 😎');
+  create(email, password) {
+    if (users.has(email)) throw new Error('Email já cadastrado');
 
-  users.set(email, { email, password });
-}
+    if (email == 'email@proibido') throw new Error('Email proibido');
 
-export function read(email) {
-  return users.get(email);
-}</code></pre>
+    users.set(email, { email, password });
+  },
+
+  read(email) {
+    return users.get(email);
+  }
+};</code></pre>
 
 <p>Explicação:</p>
 <ul>
   <li>Esse arquivo representa nosso banco de dados de usuários. No momento, as duas únicas operações disponíveis são <code>create</code> e <code>read</code>.</li>
-  <li>Linha 3: A função <code>create(email, password)</code> adiciona um novo usuário ao banco.</li>
-  <li>Linha 4: Se já houver um usuário com o mesmo email, um erro é lançado.</li>
-  <li>Linha 6: Um pequeno easter egg para forçar um erro de servidor em um teste futuro.</li>
-  <li>Linha 8: Armazena o novo usuário no mapa <code>users</code>.</li>
-  <li>Linha 11: A função <code>read(email)</code> retorna o usuário correspondente ou <code>undefined</code> caso não exista.</li>
+  <li>Linha 4: A função <code>create(email, password)</code> adiciona um novo usuário ao banco.</li>
+  <li>Linha 5: Se já houver um usuário com o mesmo email, um erro é lançado.</li>
+  <li>Linha 7: Um pequeno easter egg para forçar um erro de servidor em um teste futuro.</li>
+  <li>Linha 9: Armazena o novo usuário no mapa <code>users</code>.</li>
+  <li>Linha 12: A função <code>read(email)</code> retorna o usuário correspondente ou <code>undefined</code> caso não exista.</li>
 </ul>
 <div class="info">Atenção: Esse é um banco de dados apenas para fins didáticos! Em um sistema real, os dados devem ser armazenados em um banco de dados apropriado. E o mais importante: AS SENHAS NUNCA DEVEM SER SALVAS EM TEXTO PURO!!!</div>
 
