@@ -96,14 +96,15 @@
         </p>
     </li>
     <li>
-        <p>No terminal:</p>
+        <p>No terminal, com o celular conectado via cabo:</p>
         <pre><code class="sh">adb tcpip 5555
 adb connect x.x.x.x:5555</code></pre>
 
         <blockquote>
-            <p>Substitua <code>x.x.x.x</code> pelo IP de teu celular.</p>
+            <p>Substitua <code>x.x.x.x</code> pelo IP de teu celular. Se a porta <code>5555</code> estiver ocupada, pode escolher outra desocupada.</p>
         </blockquote>
     </li>
+    <li>Agora você pode desconectar o cabo do celular!</li>
     <li>Instale o app via Wi-Fi:
         <pre><code class="sh">npx cap run android --target x.x.x.x:5555</code></pre>
     </li>

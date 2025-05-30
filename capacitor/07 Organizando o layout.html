@@ -103,34 +103,44 @@
 <hr />
 <h2>Menu lateral</h2>
 <p>Crie o arquivo <code ctc>src/lib/components/SideBar.svelte</code>:</p>
-<pre><code>&lt;div class=&quot;offcanvas offcanvas-start&quot; tabindex=&quot;-1&quot; id=&quot;mySideBar&quot; style=&quot;max-width: 80%;&quot;&gt;
-  &lt;div class=&quot;offcanvas-header&quot;&gt;
-    &lt;h5 class=&quot;offcanvas-title&quot;&gt;Offcanvas&lt;/h5&gt;
-    &lt;button type=&quot;button&quot; class=&quot;btn-close&quot; data-bs-dismiss=&quot;offcanvas&quot; aria-label=&quot;Close&quot;&gt;&lt;/button&gt;
+<pre><code>&lt;script&gt;
+  import * as bootstrap from 'bootstrap';
+  import { onMount } from 'svelte';
+  onMount(() =&gt; {
+    document.querySelectorAll('.close-offcanvas').forEach((e) =&gt; e.addEventListener('click', () =&gt; bootstrap.Offcanvas.getInstance(document.getElementById('mySideBar')).hide()));
+  });
+&lt;/script&gt;
+
+&lt;div class="offcanvas offcanvas-start" tabindex="-1" id="mySideBar" style="max-width: 80%;"&gt;
+  &lt;div class="offcanvas-header"&gt;
+    &lt;h5 class="offcanvas-title"&gt;Offcanvas&lt;/h5&gt;
+    &lt;button class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"&gt;&lt;/button&gt;
   &lt;/div&gt;
-  &lt;div class=&quot;offcanvas-body&quot;&gt;
-    &lt;ul class=&quot;navbar-nav justify-content-end flex-grow-1 pe-3&quot;&gt;
-      &lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link active&quot; href=&quot;/todolist&quot;&gt;Lista de Tarefas&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link active&quot; href=&quot;/senha&quot;&gt;Gerador de Senhas&lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;nav-item dropdown&quot;&gt;
-        &lt;a class=&quot;nav-link dropdown-toggle&quot; href=&quot;/&quot; role=&quot;button&quot; data-bs-toggle=&quot;dropdown&quot;&gt;Dropdown&lt;/a&gt;
-        &lt;ul class=&quot;dropdown-menu&quot;&gt;
-          &lt;li&gt;&lt;a class=&quot;dropdown-item&quot; href=&quot;/&quot;&gt;Action&lt;/a&gt;&lt;/li&gt;
-          &lt;li&gt;&lt;a class=&quot;dropdown-item&quot; href=&quot;/&quot;&gt;Another action&lt;/a&gt;&lt;/li&gt;
-          &lt;li&gt;&lt;hr class=&quot;dropdown-divider&quot; /&gt;&lt;/li&gt;
-          &lt;li&gt;&lt;a class=&quot;dropdown-item&quot; href=&quot;/&quot;&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+  &lt;div class="offcanvas-body"&gt;
+    &lt;ul class="navbar-nav justify-content-end flex-grow-1 pe-3"&gt;
+      &lt;li class="nav-item"&gt;&lt;a class="nav-link active close-offcanvas" href="/todolist"&gt;Lista de Tarefas&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="nav-item"&gt;&lt;a class="nav-link active close-offcanvas" href="/senha"&gt;Gerador de Senhas&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="nav-item"&gt;&lt;a class="nav-link active close-offcanvas" href="/calculadora"&gt;Calculadora&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="nav-item dropdown"&gt;
+        &lt;a class="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown"&gt;Dropdown&lt;/a&gt;
+        &lt;ul class="dropdown-menu"&gt;
+          &lt;li&gt;&lt;a class="dropdown-item close-offcanvas" href="/"&gt;Action&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a class="dropdown-item close-offcanvas" href="/"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;hr class="dropdown-divider" /&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a class="dropdown-item close-offcanvas" href="/"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
-    &lt;form class=&quot;d-flex mt-3&quot; role=&quot;search&quot;&gt;
-      &lt;input class=&quot;form-control me-2&quot; type=&quot;search&quot; placeholder=&quot;Search&quot; /&gt;
-      &lt;button class=&quot;btn btn-outline-success&quot; type=&quot;submit&quot;&gt;Search&lt;/button&gt;
+    &lt;form class="d-flex mt-3" role="search"&gt;
+      &lt;input class="form-control me-2" type="search" placeholder="Search" /&gt;
+      &lt;button class="btn btn-outline-success" type="submit"&gt;Search&lt;/button&gt;
     &lt;/form&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 <p><strong>Explicação:</strong></p>
 <ul>
-  <li><strong>Linha 1:</strong> A classe <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/navbar/#offcanvas"><code>offcanvas offcanvas-start</code></a> ativa o menu lateral com o efeito offcanvas. O estilo <code>max-width: 80%</code> limita a largura do painel, pois o padrão para telas pequenas é ocupar 100%.</li>
-  <li><strong>Linhas 8 e 9:</strong> Contêm links reais para páginas do aplicativo.</li>
+  <li><strong>Linha 9:</strong> A classe <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/navbar/#offcanvas"><code>offcanvas offcanvas-start</code></a> ativa o menu lateral com o efeito offcanvas. O estilo <code>max-width: 80%</code> limita a largura do painel, pois o padrão para telas pequenas é ocupar 100%.</li>
+  <li><strong>Linhas 16 e 17:</strong> Contêm links reais para páginas do aplicativo.</li>
+  <li><strong>Linha 5:</strong> Links dentro do offcanvas não o fecham automaticamente ao serem clicados. Por isso, adicionamos um listener para fechá-lo manualmente ao clicar em qualquer link.</li>
   <li>As demais linhas seguem a estrutura de exemplo do Bootstrap, com adaptações pontuais.</li>
 </ul>
