@@ -75,12 +75,11 @@
 <h3>Anatomia de uma URL</h3>
 <pre>    https://meusite.com/uma/pagina?p1=123&p2=oi
     11111   22222222222 3333333333 444444444444
-protocolo   domínio     parâmetros parâmetros  
-                        de rota    de consulta
+protocolo   domínio     rota       consulta
   </pre>
 <ul>
-  <li>Os parâmetros de rota (route params) também podem ser chamados de parâmetros de caminho (path params).</li>
-  <li>Os parâmetros de consulta (query params) também podem ser chamados de parâmetros de busca (search params).</li>
+  <li>A rota (route) também podem ser chamada de caminho (path).</li>
+  <li>A consulta (query) também pode ser chamada de busca (search).</li>
   <li>Exemplo de uma URL real:
     <p class="text-center"><a target="_blank" href="https://www.youtube.com/watch?v=TiT7TlAWDEs&list=PLcZDQl73nB1ACZdEAd_wNbY0tB_QutcH3&index=2&t=360s&ab_channel=PedroHenriquedeAraujoSiqueira">
         <pre>https://
@@ -97,12 +96,12 @@ www.youtube.com
 
 <h3 id="params">Parâmetros de rota</h3>
 
-<p>Uma rota pode ser um caminho estático, como <code>src/routes/about</code>, ou um caminho dinâmico, como <code>src/routes/blog/[slug]</code> ou <code>src/routes/posts/[ano]/[mes]</code>. Neste caso, <code>[slug]</code>, <code>[ano]</code> e <code>[mes]</code> são chamados de <strong>parâmetros de rota</strong>, ou seja, variáveis que permitem diferentes valores levarem à mesma página.</p>
+<p>Uma rota pode ser um caminho estático, como <code>src/routes/about</code>, ou um caminho dinâmico, como <code>src/routes/blog/[slug]</code> ou <code>src/routes/posts/[ano]/[mes]</code>. Neste caso, <code>[slug]</code>, <code>[ano]</code> e <code>[mes]</code> são pastas "curingas", que definem os <strong>parâmetros de rota</strong>, ou seja, variáveis que permitem diferentes valores levarem à mesma página.</p>
 <p>Por exemplo:</p>
 <ul>
   <li>A URL <code>/about</code> abrirá a página em <code>src/routes/about</code>.</li>
-  <li>As URLs <code>/blog/post1</code> e <code>/blog/post2</code> abrirão a mesma página dinâmica em <code>src/routes/blog/[slug]</code>, sendo que o valor de <code>slug</code> será <code>post1</code> ou <code>post2</code>, respectivamente.</li>
-  <li>Da mesma forma, <code>/posts/2025/03</code> e <code>/posts/2024/11</code> abrirão a página <code>src/routes/posts/[ano]/[mes]</code>, com <code>ano</code> sendo <code>2025</code> ou <code>2024</code>, e <code>mes</code> sendo <code>03</code> ou <code>11</code>.</li>
+  <li>As URLs <code>/blog/post1</code> e <code>/blog/post2</code> abrirão a mesma página no caminho dinâmico <code>src/routes/blog/[slug]</code>, sendo que o valor de <code>[slug]</code> será <code>post1</code> ou <code>post2</code>, respectivamente.</li>
+  <li>Da mesma forma, <code>/posts/2025/03</code> e <code>/posts/2024/11</code> abrirão a página em <code>src/routes/posts/[ano]/[mes]</code>, com <code>ano</code> sendo <code>2025</code> ou <code>2024</code>, e <code>mes</code> sendo <code>03</code> ou <code>11</code>.</li>
 </ul>
 <ol class="excs">
   <h4>Exercícios de fixação</h4>
@@ -120,7 +119,7 @@ https://meusite.com/blog/about ------ (j)
 https://meusite.com/blog/2025/03/01 - (k)</pre>
   </li>
 </ol>
-<p>A propriedade <code>params</code> é um <strong>objeto</strong> que armazena os valores dos parâmetros definidos nas rotas dinâmicas (aquelas com colchetes). Cada atributo do objeto corresponde ao nome do parâmetro, e o valor é o trecho da URL que foi utilizado.</p>
+<p>No SvelteKit, dentro da função <code>load</code>, você pode obter os valores dos parâmetros de rota através da propriedade <code>params</code>.</p>
 <p>Crie o arquivo <code ctc>src/routes/03/[rota]/[dinamica]/+page.server.js</code>:</p>
 <pre><code class='js'>export async function load(event) {
     const parametro1 = event.params.rota;
@@ -128,6 +127,7 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
 
     return { parametro1, parametro2 };
 }</code></pre>
+
 <p>Crie o arquivo <code ctc>src/routes/03/[rota]/[dinamica]/+page.svelte</code>:</p>
 <pre><code class="svelte">&lt;script&gt;
   let { data } = $props();
@@ -136,9 +136,9 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
 &lt;p&gt;O primeiro parâmetro da rota é {data.parametro1}.&lt;/p&gt;
 &lt;p&gt;O segundo parâmetro da rota é {data.parametro2}.&lt;/p&gt;</code></pre>
 <p><strong>Explicação:</strong></p>
-<p>Em SvelteKit, pastas com nomes entre colchetes (como <code>[rota]</code> e <code>[dinamica]</code>) representam <strong>parâmetros dinâmicos</strong> na URL. Essas pastas funcionam como "curingas", permitindo que diferentes URLs acessem a mesma estrutura de rota.</p>
+<p>Em SvelteKit, pastas com nomes entre colchetes (como <code>[rota]</code> e <code>[dinamica]</code>) representam <strong>parâmetros de rota</strong> na URL. Essas pastas funcionam como "curingas", permitindo que diferentes URLs acessem a mesma estrutura de rota.</p>
 
-<p>Os valores fornecidos na URL são automaticamente extraídos e disponibilizados no objeto <code>params</code>, que é recebido pela função <code>load</code> no <code>+page.server.js</code>. Esses valores são então passados para o <code>+page.svelte</code> através da propriedade <code>data</code>.</p>
+<p>Os parâmetros de rota fornecidos na URL são automaticamente extraídos e disponibilizados no objeto <code>params</code>, que é recebido pela função <code>load</code> no <code>+page.server.js</code>. Esses valores são então passados para o <code>+page.svelte</code> através da propriedade <code>data</code>.</p>
 <div class="info">
   <p><strong>Observação:</strong> Quando uma função recebe um objeto com várias propriedades, é comum utilizarmos <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">a técnica de <em>desestruturação</em></a> para extrair apenas as partes que realmente vamos usar. Isso torna o código mais limpo e direto.</p>
 
@@ -159,23 +159,11 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
 <p>Além dos <strong>parâmetros de rota</strong>, também podemos passar informações pela <strong>URL</strong> usando o que chamamos de <strong>parâmetros de consulta</strong> — também conhecidos como <strong>query params</strong> ou <strong>search params</strong>.</p>
 <p>Esses parâmetros aparecem após o símbolo <code>?</code> na URL. Por exemplo:</p>
 <pre><code>https://meusite.com/produtos?categoria=livros&amp;ordem=preco</code></pre>
-<p>Nesse caso, a URL possui dois query params:</p>
+<p>Nesse caso, a URL possui dois parâmetros de consulta:</p>
 <ul>
   <li><code>categoria</code> com valor <code>&quot;livros&quot;</code></li>
   <li><code>ordem</code> com valor <code>&quot;preco&quot;</code></li>
 </ul>
-<p>Para acessar uma página, você pode digitar a URL diretamente na barra de endereço do navegador, mas também pode acessá-la através de um link. Semelhantemente, para enviar parâmetros de consulta ao servidor, você pode digitá-los diretamente na URL, mas também pode passá-los através de um formulário.</p>
-<p>Crie o arquivo <code ctc>src/routes/03/formulario-enviando/+page.svelte</code>:</p>
-<pre><code class="svelte">&lt;form action=&quot;/03/formulario-recebendo&quot;&gt;
-  &lt;input name=&quot;fruta&quot; placeholder=&quot;Qual tua fruta preferida?&quot; /&gt;
-  &lt;input name=&quot;legume&quot; placeholder=&quot;E legume?&quot; /&gt;
-  &lt;button&gt;Enviar&lt;/button&gt;
-&lt;/form&gt;
-
-&lt;p&gt;
-  &lt;a href=&quot;/03/formulario-recebendo&quot;&gt;Acessa a página sem enviar o formulário&lt;/a&gt;.
-&lt;/p&gt;</code></pre>
-<p><strong>Explicação:</strong> Tanto o formulário, através do atributo <code>action</code>, quanto o link, através do atributo <code>href</code>, te levam à rota <code>/03/formulario-recebendo</code>. Porém, o formulário anexa como parâmetros de consulta na URL os campos <code>fruta</code> e <code>legume</code>.</p>
 <p>No SvelteKit, dentro da função <code>load</code>, você pode acessar esses dados através da propriedade <code>url</code>, que é um objeto <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/URL">URL</a>. Esse objeto representa a URL da requisição e contém várias informações úteis, como:</p>
 <ul>
   <li><code>origin</code>: origem da URL (ex: <code>https://meusite.com</code>)</li>
@@ -195,7 +183,7 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
 
 <div class="info">
   <p>💡 <strong>Dica:</strong> Neste exemplo, usamos <code>console.log()</code> para exibir o conteúdo da URL e dos parâmetros no terminal ou no console do navegador. Essa é uma ferramenta muito útil para <strong>debugar</strong> (ou seja, investigar e entender o que está acontecendo no seu código).</p>
-  <p>Sempre que estiver em dúvida sobre o que uma variável contém, experimente usar <code>console.log(minhaVariavel)</code> para visualizar seu valor. Isso pode ajudar bastante na hora de identificar problemas e entender melhor o fluxo do programa.</p>
+  <p>Sempre que estiver em dúvida sobre o que uma variável <code>x</code> contém, experimente usar <code>console.log(x)</code> para visualizar seu valor. Isso pode ajudar bastante na hora de identificar problemas e entender melhor o fluxo do programa.</p>
 </div>
 
 <p>Crie o arquivo <code ctc>src/routes/03/formulario-recebendo/+page.svelte</code>:</p>
@@ -212,9 +200,33 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
 &lt;p&gt;&lt;a href=&quot;/03/formulario-enviando&quot;&gt;Volta ao formulário&lt;/a&gt;.&lt;/p&gt;</code></pre>
 
 <p><strong>Explicação:</strong></p>
-<p>Por padrão, os dados de um formulário HTML são enviados pela URL através dos parâmetros de consulta (como <code>?fruta=banana&amp;legume=cenoura</code>). Esses dados podem ser acessados no servidor usando <code>url.searchParams.get()</code> dentro da função <code>load</code>.</p>
+<ul>
+  <li>Se você acessar essa rota informando parâmetros de consulta, estes serão extraídos na função load usando url.searchParams.get.</li>
+  <li>Esses dados são atribuídos às variáveis fruta e legume, que são retornadas à página.</li>
+  <li>Por fim, a página exibe essas variáveis, caso a URL de fato tenha os parâmetros de consulta esperados, ou os solicita, caso contrário.</li>
+</ul>
+<p>Experimente acessar a url <code>/03/formulario-recebendo</code> no navegador, com e sem os parâmetros de consulta corretos, para ver os resultados!</p>
 
-<p>As informações extraídas são então retornadas para a página, e ficam disponíveis no componente <code>+page.svelte</code> por meio da propriedade <code>data</code>. A renderização condicional (<code>{#if ...}{:else}{/if}</code>) exibe uma mensagem personalizada com base nos dados informados.</p>
+<h3>Enviando dados via formulário</h3>
+<p>Para acessar uma página, você pode digitar a URL diretamente na barra de endereço do navegador, mas também pode acessá-la através de um link. Semelhantemente, para enviar parâmetros de consulta ao servidor, você pode digitá-los diretamente na URL, mas também pode passá-los através de um formulário.</p>
+<p>Crie o arquivo <code ctc>src/routes/03/formulario-enviando/+page.svelte</code>:</p>
+<pre><code class="svelte">&lt;form action=&quot;/03/formulario-recebendo&quot;&gt;
+  &lt;input name=&quot;fruta&quot; placeholder=&quot;Qual tua fruta preferida?&quot; /&gt;
+  &lt;input name=&quot;legume&quot; placeholder=&quot;E legume?&quot; /&gt;
+  &lt;button&gt;Enviar&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;p&gt;
+  &lt;a href=&quot;/03/formulario-recebendo&quot;&gt;Ir&lt;/a&gt;.
+&lt;/p&gt;</code></pre>
+<p><strong>Explicação:</strong></p>
+<ul>
+  <li>Tanto o elemento <code>&lt;form&gt;</code>, através do atributo <code>action</code>, quanto o elemento <code>&lt;a&gt;</code>, através do atributo <code>href</code>, te levam à rota <code>/03/formulario-recebendo</code>.</li>
+  <li>Porém, o <code>&lt;form&gt;</code> também envia dados àquela rota.</li>
+  <li>Os dados enviados devem ser campos de entrada de dados, como <code>input</code>, <code>textarea</code> ou <code>select</code>, e possuir um atributo name.</li>
+  <li>Por padrão, os dados de um <code>&lt;form&gt;</code> são enviados pela URL através de parâmetros de consulta (como <code>?fruta=banana&amp;legume=cenoura</code>).</li>
+  <li>Esses dados podem ser acessados na função <code>load</code> do servidor usando <code>url.searchParams.get()</code>.</li>
+</ul>
 
 <h4>Exercícios de fixação</h4>
 <ol class="excs">
@@ -252,6 +264,11 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
       <li>https://meusite.com/03/p1/uma/pagina?p1=123&p2=oi</li>
     </ol>
   </li>
+  <p>Dicas:</p>
+  <ul>
+    <li>Os parâmetros de rota são obrigatórios, devem bater com uma das rotas do servidor. Senão, ocorre o Erro 404, Página não encontrada.</li>
+    <li>Os parâmetros de consulta são "opcionais". Se não informados e tentar acessál-los com <code>url.searchParas.get</code>, seus valores serão <code>null</code>, que não é exibido no HTML.</li>
+  </ul>
   <li>Considere os seguintes arquivos:
     <p><code>src/routes/a/[b]/c/+page.server.js</code>:</p>
     <pre><code class="js">export async function load({ params, url }) {

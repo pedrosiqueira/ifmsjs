@@ -120,121 +120,135 @@
 <h3>Diagrama Entidade-Relacionamento</h3>
 <p><img id="der" alt="diagrama entidade relacionamento"></p>
 <h3>Tabelas relacionais</h3>
-<p>Usuários</p>
-<table border>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>nome</th>
-            <th>email</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>Fulano</td>
-            <td>ful@ano</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Sicrano</td>
-            <td>sicr@ano</td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>Beltrano</td>
-            <td>beltr@ano</td>
-        </tr>
-    </tbody>
-</table>
-<p>Posts</p>
-<table border>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>titulo</th>
-            <th>conteudo</th>
-            <th>usuario_id</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>um título</td>
-            <td>um conteúdo</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>outro título</td>
-            <td>outro conteúdo</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>algum título</td>
-            <td>algum conteúdo</td>
-            <td>7</td>
-        </tr>
-    </tbody>
-</table>
-<p>Tags</p>
-<table border>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>categoria</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>tecnologia</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>informática</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>filosofia</td>
-        </tr>
-    </tbody>
-</table>
-<p>PostTags</p>
-<table border>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>post_id</th>
-            <th>tag_id</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>3</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>4</td>
-            <td>3</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>1</td>
-            <td>2</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>3</td>
-            <td>3</td>
-        </tr>
-    </tbody>
+<table>
+    <tr>
+        <td>
+            <p>Usuários</p>
+            <table border>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>nome</th>
+                        <th>email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Fulano</td>
+                        <td>ful@ano</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Sicrano</td>
+                        <td>sicr@ano</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Beltrano</td>
+                        <td>beltr@ano</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td>
+            <p>Tags</p>
+            <table border>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>categoria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>tecnologia</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>informática</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>filosofia</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p>Posts</p>
+            <table border>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>titulo</th>
+                        <th>conteudo</th>
+                        <th>usuario_id</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>um título</td>
+                        <td>um conteúdo</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>outro título</td>
+                        <td>outro conteúdo</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>algum título</td>
+                        <td>algum conteúdo</td>
+                        <td>7</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td>
+            <p>PostTags</p>
+            <table border>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>post_id</th>
+                        <th>tag_id</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>1</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>3</td>
+                        <td>3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
 </table>
