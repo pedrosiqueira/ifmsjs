@@ -72,7 +72,7 @@
 }</code></pre>
 <p><strong>Explicação:</strong></p>
 <p>Neste exemplo, estamos exibindo no terminal do servidor todas as propriedades do objeto <code>event</code>, que representa a requisição feita para essa página. Ao acessar a URL correspondente, observe o terminal para verificar as informações registradas.</p>
-<h3>Anatomia de uma URL</h3>
+<h2>Anatomia de uma URL</h2>
 <pre>    https://meusite.com/uma/pagina?p1=123&p2=oi
     11111   22222222222 3333333333 444444444444
 protocolo   domínio     rota       consulta
@@ -94,9 +94,9 @@ www.youtube.com
   </li>
 </ul>
 
-<h3 id="params">Parâmetros de rota</h3>
+<h2 id="params">Parâmetros de rota</h2>
 
-<p>Uma rota pode ser um caminho estático, como <code>src/routes/about</code>, ou um caminho dinâmico, como <code>src/routes/blog/[slug]</code> ou <code>src/routes/posts/[ano]/[mes]</code>. Neste caso, <code>[slug]</code>, <code>[ano]</code> e <code>[mes]</code> são pastas "curingas", que definem os <strong>parâmetros de rota</strong>, ou seja, variáveis que permitem diferentes valores levarem à mesma página.</p>
+<p>Uma rota pode ser um caminho estático, como <code>src/routes/about</code>, ou um caminho dinâmico, como <code>src/routes/blog/[slug]</code> ou <code>src/routes/posts/[ano]/[mes]</code>. Neste caso, <code>[slug]</code>, <code>[ano]</code> e <code>[mes]</code> são pastas "curingas", que definem os <strong>parâmetros de rota</strong>, ou seja, variáveis que permitem que diferentes valores levem à mesma página.</p>
 <p>Por exemplo:</p>
 <ul>
   <li>A URL <code>/about</code> abrirá a página em <code>src/routes/about</code>.</li>
@@ -121,7 +121,7 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
 </ol>
 <p>No SvelteKit, dentro da função <code>load</code>, você pode obter os valores dos parâmetros de rota através da propriedade <code>params</code>.</p>
 <p>Crie o arquivo <code ctc>src/routes/03/[rota]/[dinamica]/+page.server.js</code>:</p>
-<pre><code class='js'>export async function load(event) {
+<pre><code class='js'>export function load(event) {
     const parametro1 = event.params.rota;
     const parametro2 = event.params.dinamica;
 
@@ -136,15 +136,17 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
 &lt;p&gt;O primeiro parâmetro da rota é {data.parametro1}.&lt;/p&gt;
 &lt;p&gt;O segundo parâmetro da rota é {data.parametro2}.&lt;/p&gt;</code></pre>
 <p><strong>Explicação:</strong></p>
-<p>Em SvelteKit, pastas com nomes entre colchetes (como <code>[rota]</code> e <code>[dinamica]</code>) representam <strong>parâmetros de rota</strong> na URL. Essas pastas funcionam como "curingas", permitindo que diferentes URLs acessem a mesma estrutura de rota.</p>
-
-<p>Os parâmetros de rota fornecidos na URL são automaticamente extraídos e disponibilizados no objeto <code>params</code>, que é recebido pela função <code>load</code> no <code>+page.server.js</code>. Esses valores são então passados para o <code>+page.svelte</code> através da propriedade <code>data</code>.</p>
+<ul>
+  <li>Em SvelteKit, pastas com nomes entre colchetes (como <code>[rota]</code> e <code>[dinamica]</code>) representam <strong>parâmetros de rota</strong> na URL. Essas pastas funcionam como "curingas", permitindo que diferentes URLs acessem a mesma estrutura de rota.</li>
+  <li>Os parâmetros de rota fornecidos na URL são automaticamente extraídos e disponibilizados como propriedades no objeto <code>params</code>, que é recebido pela função <code>load</code> no <code>+page.server.js</code>. Os nomes das propriedades devem ser os mesmos dos nomes das pastas curingas que representam os parâmetros de rota.</li>
+  <li>Esses valores são então passados para o <code>+page.svelte</code> através da propriedade <code>data</code>.</li>
+</ul>
 <div class="info">
   <p><strong>Observação:</strong> Quando uma função recebe um objeto com várias propriedades, é comum utilizarmos <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">a técnica de <em>desestruturação</em></a> para extrair apenas as partes que realmente vamos usar. Isso torna o código mais limpo e direto.</p>
 
   <p>Por exemplo, o arquivo <code>src/03/[rota]/[dinamica]/+page.server.js</code> poderia ficar assim:</p>
 
-  <pre><code class="js">export async function load({ params }) {
+  <pre><code class="js">export function load({ params }) {
   const parametro1 = params.rota;
   const parametro2 = params.dinamica;
 
@@ -154,9 +156,9 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
   <p>No exemplo acima, estamos desestruturando apenas a propriedade <code>params</code> do objeto <code>event</code> recebido pela função <code>load</code>, já que as demais propriedades não são necessárias neste caso.</p>
 </div>
 
-<h3 id="url">Parâmetros de consulta</h3>
+<h2 id="url">Parâmetros de consulta</h2>
 
-<p>Além dos <strong>parâmetros de rota</strong>, também podemos passar informações pela <strong>URL</strong> usando o que chamamos de <strong>parâmetros de consulta</strong> — também conhecidos como <strong>query params</strong> ou <strong>search params</strong>.</p>
+<p>Além dos <strong>parâmetros de rota</strong>, também podemos passar informações pela <strong>URL</strong> através do que chamamos de <strong>parâmetros de consulta</strong> — também conhecidos como <strong>query params</strong> ou <strong>search params</strong>.</p>
 <p>Esses parâmetros aparecem após o símbolo <code>?</code> na URL. Por exemplo:</p>
 <pre><code>https://meusite.com/produtos?categoria=livros&amp;ordem=preco</code></pre>
 <p>Nesse caso, a URL possui dois parâmetros de consulta:</p>
@@ -172,7 +174,7 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
 </ul>
 
 <p>Crie o arquivo <code ctc>src/routes/03/formulario-recebendo/+page.server.js</code>:</p>
-<pre><code class="js">export async function load({ url }) {
+<pre><code class="js">export function load({ url }) {
   console.log(url);
 
   const fruta = url.searchParams.get('fruta');
@@ -232,7 +234,7 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
 <ol class="excs">
   <li>Considere os seguintes arquivos:
     <p><code>src/routes/03/[p1]/[p2]/+page.server.js</code>:</p>
-    <pre><code class="language-js">export async function load({ params, url }) {
+    <pre><code class="language-js">export function load({ params, url }) {
     const rp1 = params.p1;
     const rp2 = params.p2;
     const sp1 = url.searchParams.get('p1');
@@ -271,7 +273,7 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
   </ul>
   <li>Considere os seguintes arquivos:
     <p><code>src/routes/a/[b]/c/+page.server.js</code>:</p>
-    <pre><code class="js">export async function load({ params, url }) {
+    <pre><code class="js">export function load({ params, url }) {
     const b = params.b;
     const d = url.searchParams.get('d');
     const e = url.searchParams.get('e');
@@ -287,7 +289,7 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
   </li>
   <li>Considere os seguintes arquivos:
     <p><code>src/routes/a/[b]/[c]/+page.server.js</code>:</p>
-    <pre><code class="js">export async function load({ params, url }) {
+    <pre><code class="js">export function load({ params, url }) {
     const x = params.b;
     const y = params.c;
     const z = url.searchParams.get('d');
@@ -303,7 +305,7 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
   </li>
   <li>Considere os seguintes arquivos:
     <p><code>src/routes/[a]/b/[c]/+page.server.js</code>:</p>
-    <pre><code class="js">export async function load({ params, url }) {
+    <pre><code class="js">export function load({ params, url }) {
     const w = params.a;
     const x = params.c;
     const y = url.searchParams.get('d');
@@ -319,7 +321,7 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
     <p>Dê exemplos de URLs que poderiam ser usadas para acessar essa rota. Para cada URL, explique o que apareceria na tela do navegador.</p>
   </li>
 </ol>
-<h3 id="fetch">fetch</h3>
+<h2 id="fetch">Trazendo dados externos</h2>
 
 <p>Para buscar dados de uma API externa ou de teu próprio servidor, você pode usar a função <code>fetch</code> disponibilizada pelo SvelteKit. Ela se comporta de forma idêntica à API nativa <code>fetch</code>, mas com algumas vantagens:</p>
 <ul>
@@ -420,6 +422,13 @@ https://meusite.com/blog/2025/03/01 - (k)</pre>
       <li>Exibir os dados da <strong>postagem</strong> correspondente ao <code>id</code> informado na URL;</li>
       <li>Exibir também os <strong>comentários</strong> relacionados a essa postagem.</li>
     </ul>
+  </li>
+  <li>Agora, utilizando a API REST <a target="_blank" href="https://dummyjson.com/">dummyjson</a>, implemente as seguintes páginas:
+    <ol type="a">
+      <li>Lista todos os usuários, cada qual com um link que leve à página de detalhes do usuário.</li>
+      <li>Exibe a página de detalhes do usuário, bem como a lista de todas as postagens daquele usuário, cada uma com um link que leve à página da postagem.</li>
+      <li>Exibe a postagem, bem como a lista de comentários da postagem.</li>
+    </ol>
   </li>
   <li><strong>Utilize a API REST da <a target="_blank" href="https://pokeapi.co/">PokéAPI</a></strong> para criar uma página que liste os Pokémons. Cada item da lista deve conter um link para a página de detalhes do respectivo Pokémon.</li>
   <p><strong>Possível solução:</strong></p>
