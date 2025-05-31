@@ -31,12 +31,12 @@
 
 <h1 id="fetch">Trazendo dados externos</h1>
 
-<p>Para buscar dados de uma API externa ou de teu próprio servidor, você pode usar a função <code>fetch</code> fornecida pelo SvelteKit. Ela funciona da mesma forma que a API nativa <code>fetch</code>, mas com vantagens adicionais:</p>
+<p>Para buscar dados de uma API externa ou de teu próprio servidor, você pode usar a função <code>fetch</code> fornecida pelo SvelteKit. Ela se comporta como a API nativa do navegador, mas com vantagens adicionais:</p>
 
 <ul>
   <li>Permite fazer requisições autenticadas no servidor, herdando cookies e cabeçalhos da requisição original da página.</li>
-  <li>Requisições internas (como para rotas <code>+server.js</code>) são redirecionadas diretamente ao manipulador de requisições no servidor, evitando a sobrecarga de uma chamada HTTP.</li>
-  <li>Em muitos casos, é mais eficiente, pois <a href="https://svelte.dev/docs/kit/load#Making-fetch-requests" target="_blank">evita uma requisição adicional</a>.</li>
+  <li>Requisições internas (como para rotas <code>+server.js</code>) são tratadas diretamente no servidor, sem necessidade de uma chamada HTTP separada.</li>
+  <li>É mais eficiente em muitos casos, pois <a href="https://svelte.dev/docs/kit/load#Making-fetch-requests" target="_blank">evita requisições adicionais</a>.</li>
 </ul>
 
 <h3>Exemplo prático</h3>
@@ -109,11 +109,11 @@
 
 <p><strong>Explicação:</strong></p>
 <ul>
-  <li>Exibe dados detalhados do usuário.</li>
-  <li>Mostra suas postagens em forma de lista, com links individuais.</li>
-  <li id="post-id">Esses links direcionam para a rota <code>/03/external/posts/{post.id}</code>, que ainda deverá ser implementada.</li>
+  <li>Exibe informações detalhadas do usuário.</li>
+  <li>Lista suas postagens com links individuais.</li>
+  <li id="post-id">Esses links direcionam para a rota <code>/03/external/posts/{post.id}</code>, que ainda não está implementada.</li>
   <li>Se não houver postagens, exibe uma mensagem informativa.</li>
-  <li>Inclui um link para retornar à lista de usuários.</li>
+  <li>Um link para retornar à lista de usuários.</li>
 </ul>
 
 <h2 id="cliente-vs-servidor">Cliente vs Servidor</h2>
