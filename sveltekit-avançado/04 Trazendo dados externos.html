@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([[], [], [{ start: 2, end: 2, color: 'lightblue' }]]);
+  </script> -->
+
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1 id="fetch">Trazendo dados externos</h1>
+
+<p>Para buscar dados de uma API externa ou de teu próprio servidor, você pode usar a função <code>fetch</code> fornecida pelo SvelteKit. Ela funciona da mesma forma que a API nativa <code>fetch</code>, mas com vantagens adicionais:</p>
+
+<ul>
+  <li>Permite fazer requisições autenticadas no servidor, herdando cookies e cabeçalhos da requisição original da página.</li>
+  <li>Requisições internas (como para rotas <code>+server.js</code>) são redirecionadas diretamente ao manipulador de requisições no servidor, evitando a sobrecarga de uma chamada HTTP.</li>
+  <li>Em muitos casos, é mais eficiente, pois <a href="https://svelte.dev/docs/kit/load#Making-fetch-requests" target="_blank">evita uma requisição adicional</a>.</li>
+</ul>
+
+<h3>Exemplo prático</h3>
+
+<p>Crie o arquivo <code ctc>src/routes/03/external/users/+page.server.js</code>:</p>
+
+<pre><code class="language-js">export async function load({ fetch }) {
+  const res = await fetch('https://jsonplaceholder.typicode.com/users');
+  const users = await res.json();
+  return { users };
+}</code></pre>
+
+<p><strong>Explicação:</strong> Esse código faz uma requisição à API externa <a href="https://jsonplaceholder.typicode.com/" target="_blank">JSONPlaceholder</a> e retorna a lista de usuários. Como está em <code>+page.server.js</code>, a requisição ocorre sempre no servidor, protegendo eventuais dados sensíveis.</p>
+
+<p>Crie o arquivo <code ctc>src/routes/03/external/users/+page.svelte</code>:</p>
+
+<pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;h3&gt;Usuários&lt;/h3&gt;
+&lt;ul&gt;
+  {#each data.users as user}
+    &lt;li&gt;&lt;a href="/03/external/users/{user.id}"&gt;{user.name}&lt;/a&gt;&lt;/li&gt;
+  {/each}
+&lt;/ul&gt;</code></pre>
+
+<p><strong>Explicação:</strong> Percorremos os usuários carregados e exibimos uma lista de links para suas respectivas páginas.</p>
+
+<h3>Detalhes de um usuário</h3>
+
+<p>Agora vamos exibir as informações detalhadas de um usuário, bem como suas postagens. Crie o arquivo <code ctc>src/routes/03/external/users/[id]/+page.server.js</code>:</p>
+
+<pre><code class="language-js">export async function load({ params, fetch }) {
+  const resUser = await fetch(`https://jsonplaceholder.typicode.com/users/${params.id}`);
+  const user = await resUser.json();
+
+  const resPosts = await fetch(`https://jsonplaceholder.typicode.com/users/${params.id}/posts`);
+  const posts = await resPosts.json();
+
+  return { user, posts };
+}</code></pre>
+
+<p><strong>Explicação:</strong> Com <code>params.id</code>, buscamos os dados do usuário e suas postagens. Retornamos ambos no objeto <code>data</code>.</p>
+
+<p>Crie o arquivo <code ctc>src/routes/03/external/users/[id]/+page.svelte</code>:</p>
+
+<pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;h3&gt;Usuário&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Nome:&lt;/strong&gt; {data.user.name}&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Email:&lt;/strong&gt; {data.user.email}&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Telefone:&lt;/strong&gt; {data.user.phone}&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Website:&lt;/strong&gt; {data.user.website}&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Empresa:&lt;/strong&gt; {data.user.company.name}&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Endereço:&lt;/strong&gt; {data.user.address.street}, {data.user.address.suite}, {data.user.address.city}, {data.user.address.zipcode}&lt;/p&gt;
+
+&lt;h3&gt;Postagens do usuário&lt;/h3&gt;
+&lt;ul&gt;
+  {#each data.posts as post}
+    &lt;li&gt;&lt;a href="/03/external/posts/{post.id}"&gt;{post.title}&lt;/a&gt;&lt;/li&gt;
+  {:else}
+    &lt;p&gt;Esse usuário não postou nada ainda!&lt;/p&gt;
+  {/each}
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href="/03/external/users"&gt;Voltar aos usuários&lt;/a&gt;&lt;/p&gt;</code></pre>
+
+<p><strong>Explicação:</strong></p>
+<ul>
+  <li>Exibe dados detalhados do usuário.</li>
+  <li>Mostra suas postagens em forma de lista, com links individuais.</li>
+  <li id="post-id">Esses links direcionam para a rota <code>/03/external/posts/{post.id}</code>, que ainda deverá ser implementada.</li>
+  <li>Se não houver postagens, exibe uma mensagem informativa.</li>
+  <li>Inclui um link para retornar à lista de usuários.</li>
+</ul>
+
+<h2 id="cliente-vs-servidor">Cliente vs Servidor</h2>
+
+<p>O SvelteKit permite usar funções <code>load</code> em arquivos como <code>+page.server.js</code> e <code>+layout.server.js</code>, que são sempre executadas no servidor. Também existem as funções <code>load</code> universais (declaradas em arquivos <code>+page.js</code> e <code>+layout.js</code>), que podem rodar tanto no servidor quanto no navegador.</p>
+
+<p>Por padrão, as funções <code>load</code> universais são executadas no servidor durante o SSR (Server-Side Rendering) quando o usuário visita a página pela primeira vez. Elas serão executadas novamente durante o processo de <a target="_blank" href="https://svelte.dev/docs/kit/glossary#Hydration">hidratação</a>, reutilizando quaisquer respostas de <a target="_blank" href="https://svelte.dev/docs/kit/load#Making-fetch-requests">requisições fetch</a> feitas anteriormente. Todas as invocações subsequentes dessas funções <code>load</code> universais ocorrerão no navegador. Você pode personalizar esse comportamento por meio das <a target="_blank" href="https://svelte.dev/docs/kit/page-options">opções da página</a>. Por exemplo, se desativar a opção de página <a target="_blank" href="https://svelte.dev/docs/kit/page-options#ssr">server-side rendering</a>, você estará criando uma SPA (Single Page Application), e todas as funções <code>load</code> universais serão executadas exclusivamente no navegador.</p>
+<p>Se uma rota contiver tanto funções <code>load</code> universais quanto funções <code>load</code> específicas para o servidor, a função <code>load</code> do servidor será executada primeiro.</p>
+<p>A função <code>load</code> é invocada em tempo de execução, a menos que você <a target="_blank" href="https://svelte.dev/docs/kit/page-options#prerender">pré-renderize</a> a página — nesse caso, ela será invocada em tempo de compilação.</p>
+
+<h3 id="quando-usar-cada-tipo">Quando usar o quê</h3>
+<ul>
+  <li><strong>Use <code>+page.server.js</code></strong> se precisar acessar dados protegidos, como variáveis de ambiente, banco de dados ou sistema de arquivos.</li>
+  <li><strong>Use <code>+page.js</code></strong> para buscar dados de APIs públicas, especialmente se não forem necessárias credenciais privadas.</li>
+</ul>
+
+<h2 id="conclusao">Conclusão</h2>
+
+<p>O SvelteKit oferece uma série de recursos poderosos para carregar dados de maneira eficiente, seja do servidor, de APIs externas ou de fontes internas. Ao entender as diferenças entre as funções <code>load</code> nos arquivos <code>+page.server.js</code>, <code>+layout.server.js</code>, <code>+page.js</code> e <code>+layout.js</code>, você pode otimizar o desempenho de teu aplicativo, aproveitando o que há de melhor em renderização no servidor e no cliente. Para explorar mais sobre esses recursos e como aplicá-los, consulte a <a target="_blank" href="https://svelte.dev/docs/kit/load">documentação oficial</a>.</p>
+
+<h2 id="exercícios">Exercícios</h2>
+<ol class="excs">
+  <li><strong>Implemente a <a href="#post-id">rota faltante</a></strong> <code class="ctc">src/routes/03/external/posts/[id]</code>. Essa rota deve:
+    <ul>
+      <li>Buscar os dados da API REST <a href="https://jsonplaceholder.typicode.com/" target="_blank">JSONPlaceholder</a>.</li>
+      <li>Exibir os dados da <strong>postagem</strong> correspondente ao <code>id</code> informado na URL;</li>
+      <li>Exibir também os <strong>comentários</strong> relacionados a essa postagem.</li>
+    </ul>
+  </li>
+  <li><strong>Utilizando a API REST <a target="_blank" href="https://dummyjson.com/">dummyjson</a></strong>, implemente as seguintes rotas:
+    <ol type="a">
+      <li><code class="ctc">/03/dummy/users</code>: Lista os usuários, com links para os detalhes de cada um.</li>
+      <li><code class="ctc">/03/dummy/users/[id]</code>: Exibe os dados do usuário e uma lista de suas postagens, com links para os detalhes de cada postagem.</li>
+      <li><code class="ctc">/03/dummy/posts/[id]</code>: Exibe os detalhes da postagem, com seus comentários.</li>
+    </ol>
+  </li>
+  <li>Na página em <code class="ctc">/03/dummy/users</code>, implemente um formulário para filtrar usuários por alguma propriedade, como data de nascimento ou gênero </li>
+  <li><strong>Utilizando a API REST <a target="_blank" href="https://pokeapi.co/">PokéAPI</a></strong>, implemente uma página que liste os Pokémons, com nome e imagem. Cada Pokémon deve ter um link para sua página de detalhes.</li>
+  <p><strong>Possível solução:</strong></p>
+  <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.svelte</code></p>
+  <pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;div class="row"&gt;
+  {#each data.pokemons as p}
+    &lt;div class="col-md-3 col-sm-6 mb-3"&gt;
+      &lt;div class="card"&gt;
+        &lt;img src={p.image} alt={p.name} class="card-img-top" /&gt;
+        &lt;div class="card-body"&gt;
+          &lt;a href="/03/pokemon/{p.name}" class="stretched-link text-decoration-none"&gt;
+            &lt;h5 class="card-title text-capitalize"&gt;{p.name}&lt;/h5&gt;
+          &lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  {/each}
+&lt;/div&gt;</code></pre>
+  <p><strong>Explicação:</strong></p>
+  <ul>
+    <li>O código acima exibe uma grade de cards com os Pokémons listados.</li>
+    <li><strong>Linha 8</strong>: Cada <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/card/#images">card</a> é colocado em uma coluna que ocupa largura 3/12 em telas médias pra cima (<code>col-md-3</code>), e largura 6/12 em telas pequenas pra cima (<code>col-sm-6</code>), e ocupa 100% da largura em telas menores.</li>
+    <li><strong>Linha 11:</strong> O link direciona para uma página com mais informações sobre o Pokémon.</li>
+    <li><strong>Linha 11:</strong> A classe <a target="_blank" href="https://getbootstrap.com/docs/5.3/helpers/stretched-link/"><code>stretched-link</code></a> permite que a área inteira do card seja clicável.</li>
+  </ul>
+  <p><strong>Carregando os dados:</strong></p>
+  <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.js</code>:</p>
+  <pre><code class="language-js">export async function load() {
+  const limit = 12;
+  const offset = 0;
+
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`);
+  const data = await res.json();
+
+  for (const pokemon of data.results) {
+    const id = pokemon.url.split("/").at(-2);
+    pokemon.image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+  }
+
+  return { pokemons: data.results };
+}</code></pre>
+  <p><strong>Explicação:</strong></p>
+  <ul>
+    <li><strong>Linhas 2 e 3:</strong> Define os parâmetros para buscar apenas 12 pokémons (<code>limit = 12</code>) a partir do início (<code>offset = 0</code>).</li>
+    <li><strong>Linha 5:</strong> Faz uma requisição para a PokéAPI, pedindo os 12 primeiros pokémons.</li>
+    <li><strong>Linha 6:</strong> A resposta recebida contém apenas os nomes e as URLs dos pokémons, sem trazer diretamente as imagens.</li>
+    <li><strong>Linhas 8 a 10:</strong> Para cada pokémon na lista, extraímos o seu ID da URL. Como a URL tem um formato como <code>https://pokeapi.co/api/v2/pokemon/6/</code>, usamos:
+      <ul>
+        <li><code>split("/")</code> para transformar a URL em uma lista de partes separadas por <code>/</code>;</li>
+        <li><code>at(-2)</code> para acessar o penúltimo item da lista, que corresponde ao ID do pokémon. Isso funciona porque as URLs da PokéAPI terminam com uma barra, deixando o ID na posição anterior à última barra.</li>
+      </ul>
+      <p>Esse ID é então usado para montar a URL da imagem correspondente, disponível no repositório da PokéAPI no GitHub como <code>https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png</code></p>
+      <p>Essa abordagem é comum quando a API retorna informações parciais. Em vez de fazer uma nova requisição para trazer a imagem de cada pokémon (o que seria mais lento), deduzimos o ID e montamos a URL direto para o repositório de imagens — uma solução prática e eficiente.</p>
+    </li>
+
+    <li><strong>Linha 13:</strong> Retorna a lista de pokémons (agora com imagens adicionadas) para ser exibida no componente.</li>
+  </ul>
+  <li><strong>Crie a rota </strong> <code class="ctc">/03/pokemon/[name]</code> para exibir informações sobre o Pokémon. Inclua: nome, imagem, altura, peso, tipos e habilidades.</li>
+  <li><strong>Implemente paginação na listagem de Pokémons</strong>:
+    <ol>
+      <li>Mostre um número limitado de Pokémons por página (por exemplo, 12).</li>
+      <li>Adicione botões de navegação "Anterior" e "Próximo".</li>
+      <li>Use parâmetros de busca (<code>?offset=</code>, <code>?page=</code> etc.) para manter o estado da página.</li>
+    </ol>
+  </li>
+  <li><strong>Implemente um campo de busca</strong> para filtrar Pokémons:
+    <ul>
+      <li>Permita filtrar pelo nome digitado.</li>
+      <li>Exiba mensagens de erro caso o nome não exista.</li>
+    </ul>
+  </li>
+  <li><strong>Desafio:</strong> Crie uma interface que filtre os Pokémons por tipo (ex: fogo, água, planta).
+    <ul>
+      <li>Use a API <code>https://pokeapi.co/api/v2/type</code> para obter os tipos disponíveis.</li>
+      <li>Ao selecionar um tipo, liste apenas os Pokémons correspondentes.</li>
+    </ul>
+  </li>
+  <li><strong>Extra: Crie um componente reutilizável</strong> chamado <code class="ctc">PokemonCard.svelte</code> que receba como <em>prop</em> os dados de um Pokémon e exiba o card com nome e imagem.
+    <ul>
+      <li>Utilize esse componente na listagem e nos resultados filtrados.</li>
+    </ul>
+  </li>
+</ol>
