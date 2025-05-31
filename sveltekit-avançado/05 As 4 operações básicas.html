@@ -276,11 +276,11 @@ export async function load({ url }) {
     </ol>
   </li>
 
-  <li>Você já tem a rota dinâmica <code class="ctc">src/routes/04/posts/[ano]/[mes]</code>, que exibe as postagens de um determinado mês. Agora, implemente uma nova página que permita ao usuário digitar (ou selecionar) um <code>ano</code> e um <code>mês</code>, e que redirecione automaticamente para a rota correspondente.
-    <p><strong>Dica:</strong> Você pode usar a função <code>goto()</code> do módulo <code>$app/navigation</code> para <a target="_blank" href="https://svelte.dev/docs/kit/$app-navigation#goto">fazer o redirecionamento programaticamente</a>.</p>
+  <li>Você já tem a rota dinâmica <code class="ctc">src/routes/04/posts/[ano]/[mes]</code>, que exibe as postagens de um determinado mês. Agora, implemente nessa página um formulário que permita ao usuário digitar (ou selecionar) um <code>ano</code> e um <code>mês</code>, e que redirecione automaticamente para a rota correspondente.
+    <p><strong>Dica:</strong> Em vez do formulário enviar os campos como parâmetros de consulta, você pode sobrescrever o comportamento padrão ao adicionar um evento <a href="https://svelte.dev/docs/kit/form-actions#Progressive-enhancement-Custom-event-listener"><code>onsubmit</code></a> ao formulário, e usar a função <code>goto()</code> do módulo <code>$app/navigation</code> para <a target="_blank" href="https://svelte.dev/docs/kit/$app-navigation#goto">fazer o redirecionamento programaticamente</a>.</p>
   </li>
 
-  <li>Utilizando o objeto <code>page</code>, exiba os parâmetros de rota e de consulta das páginas <a href="#ano-mes"><code>src/routes/04/posts/[ano]/[mes]/+page.svelte</code></a> e <a href="#query"><code>src/routes/04/posts/query/+page.svelte</code></a>.</li>
+  <li>Em vez da função <code>load</code> retornar os parâmetros de rota e de consulta das páginas <a href="#ano-mes"><code>src/routes/04/posts/[ano]/[mes]/+page.svelte</code></a> e <a href="#query"><code>src/routes/04/posts/query/+page.svelte</code></a>, exiba esses parâmetros nas respectivas páginas usando o objeto <code>page</code>.</li>
 
   <li><strong>Deixe seu aplicativo SvelteKit totalmente navegável.</strong> Garanta que todas as rotas criadas possam ser acessadas por meio de links. Para isso: <ul>
       <li>Crie os arquivos correspondentes indicados neste capítulo.</li>

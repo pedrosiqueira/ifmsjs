@@ -349,24 +349,24 @@ return { parametro1, parametro2 };
 <ol class="excs">
   <li><strong>Mensagem de boas-vindas com data atual</strong>
     <ul>
-      <li>Crie o arquivo <code ctc>src/routes/03/exercicios/01/+page.server.js</code> que retorna um objeto com uma mensagem de boas-vindas e a data atual do servidor.</li>
+      <li>Crie o arquivo <code ctc>src/routes/03/bem-vindo/+page.server.js</code> que retorna um objeto com uma mensagem de boas-vindas e a data atual do servidor.</li>
       <li>Em seguida, crie o componente <code>+page.svelte</code> que exibe essa mensagem e a data formatada.</li>
     </ul>
   </li>
   <li><strong>Mensagem personalizada com parâmetro de rota</strong>
     <ul>
-      <li>Crie a rota <code ctc>src/routes/03/exercicios/02/[nome]/</code> que exibe uma mensagem de boas-vindas personalizada com base no valor do parâmetro de rota <code>nome</code>.</li>
+      <li>Crie a rota <code ctc>src/routes/03/bem-vindo/[nome]/</code> que exibe uma mensagem de boas-vindas personalizada com base no valor do parâmetro de rota <code>nome</code>.</li>
     </ul>
   </li>
   <li><strong>Mensagem personalizada com parâmetro de consulta</strong>
     <ul>
-      <li>Crie a rota <code ctc>src/routes/03/exercicios/03/</code> que exibe uma mensagem de boas-vindas com base no parâmetro de consulta <code>nome</code>.</li>
+      <li>Modifique a rota <code ctc>src/routes/03/bem-vindo/</code> de modo que a mensagem de boas-vindas exiba o parâmetro de consulta <code>nome</code>.</li>
       <li>Caso o parâmetro não seja informado, exiba uma mensagem padrão.</li>
     </ul>
   </li>
   <li><strong>Formulário com verificação de idade</strong>
     <ul>
-      <li>Implemente a rota <code ctc>src/routes/03/exercicios/04/</code> com os seguintes arquivos:
+      <li>Implemente a rota <code ctc>src/routes/03/verificacao/</code> com os seguintes arquivos:
         <ul>
           <li><code>+page.server.js</code>: recebe os parâmetros de consulta <code>nome</code> e <code>data_nascimento</code>. Retorna <code>true</code> e o <code>nome</code> se a idade for maior ou igual a 18 anos; se a idade for menor que 18 anos, retorna <code>false</code>; se o nome ou a idade não foram informados, retorna <code>undefined</code>.</li>
           <li><code>+page.svelte</code>: exibe um formulário com os campos <code>nome</code> e <code>data_nascimento</code>, enviado para a própria página. Caso o servidor retorne <code>true</code>, exibe uma mensagem de boas-vindas com o nome; se <code>false</code>, exibe uma mensagem de acesso negado; se <code>undefined</code>, não exibe nenhuma mensagem.</li>
@@ -374,7 +374,7 @@ return { parametro1, parametro2 };
       </li>
     </ul>
   </li>
-  <li class="no-mark">Considere o seguinte arquivo de banco de dados somente-leitura <code ctc>src/lib/server/03/produtos.js</code>:
+  <li class="no-mark">Para os próximos exercícios, considere o seguinte arquivo de banco de dados somente-leitura <code ctc>src/lib/server/03/produtos.js</code>:
     <pre><code>export const produtos = [
   {
       id: 1,
@@ -430,7 +430,7 @@ return { parametro1, parametro2 };
   </li>
   <li><strong>Exibição por categoria</strong>
     <ul>
-      <li>Crie a rota <code ctc>src/routes/04/produtos/[categoria]/</code> que exibe apenas os produtos cuja categoria corresponde ao parâmetro de rota <code>categoria</code>.</li>
+      <li>Crie a rota <code ctc>src/routes/03/produtos/[categoria]/</code> que exibe apenas os produtos cuja categoria corresponde ao parâmetro de rota <code>categoria</code>.</li>
     </ul>
   </li>
   <li><strong>Busca por texto</strong>
