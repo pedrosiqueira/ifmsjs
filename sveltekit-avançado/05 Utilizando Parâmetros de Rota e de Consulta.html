@@ -312,7 +312,6 @@ export async function load({ url }) {
     </ul>
   </li>
 </ol>
-
 <h2 id="exercícios">Exercícios</h2>
 <ol class="excs">
   <li>Implemente as seguintes funções no arquivo <a href="#postsdatabase"><code>postsDatabase.js</code></a>, responsáveis pela lógica de consulta:
@@ -320,7 +319,7 @@ export async function load({ url }) {
       <li><code>getAll()</code>: retorna todos os posts.</li>
       <li><code>getByYearMonth(year, month)</code>: retorna os posts publicados no ano e mês especificados.</li>
       <li><code>getBySlug(slug)</code>: retorna o post cujo <code>slug</code> corresponda exatamente ao fornecido.</li>
-      <li><code>getByQuery(title, content)</code>: retorna posts cujo título contenha a string <code>title</code> ou cujo conteúdo contenha a string <code>content</code>, sem diferenciar maiúsculas e minúsculas. Se <code>title</code> ou <code>content</code> estiverem vazios ou nulos, ignore-os no filtro.</li>
+      <li><code>getByQuery(title, content)</code>: retorna todos os posts cujo título contenha a string <code>title</code> ou cujo conteúdo contenha a string <code>content</code>, sem diferenciar maiúsculas de minúsculas. Se <code>title</code> ou <code>content</code> estiver vazio, indefinido ou nulo, ignore-os no filtro.</li>
     </ol>
   </li>
   <li>
@@ -328,7 +327,7 @@ export async function load({ url }) {
     <p><strong>Dica:</strong> Para evitar que o formulário envie dados como parâmetros de consulta, adicione um ouvinte <a target="_blank" href="https://svelte.dev/docs/kit/form-actions#Progressive-enhancement-Custom-event-listener"><code>onsubmit</code></a> ao formulário e utilize a função <code>goto()</code> do módulo <code>$app/navigation</code> para <a target="_blank" href="https://svelte.dev/docs/kit/$app-navigation#goto">fazer o redirecionamento programático</a>.</p>
   </li>
   <li>
-    Em vez de retornar os parâmetros de rota e consulta diretamente de <code>+page.server.js</code> nas páginas <a href="#ano-mes"><code>/04/posts/[ano]/[mes]</code></a> e <a href="#query"><code>/04/posts/query</code></a>, exiba esses parâmetros nas respectivas páginas usando o objeto <code>page</code> (importado de <code>$app/state</code>).
+    Em vez de retornar os parâmetros de rota e consulta diretamente de <code>+page.server.js</code> nas páginas <a href="#ano-mes"><code>/04/posts/[ano]/[mes]</code></a> e <a href="#query"><code>/04/posts/query</code></a>, exiba seus valores nas respectivas páginas usando o objeto <code>page</code> (importado de <code>$app/state</code>).
   </li>
   <li>Garanta que seu aplicativo SvelteKit seja totalmente navegável:
     <ul>
@@ -337,8 +336,8 @@ export async function load({ url }) {
     </ul>
   </li>
   <li>Na rota <a href="#query"><code>/04/posts/query</code></a>, acrescente uma opção que permita escolher entre ordenar os posts por data ou por título.</li>
-  <li>Na rota <a href="#query"><code>/04/posts/query</code></a>, acrescente campos "De" e "Até", que permitam filtrar posts entre essas datas.</li>
-  <li>Adicione a rota <a href="#query"><code>/04/posts/[ano]/[mes]/[dia]</code></a>, para exibir apenas os postes de determinado dia.</li>
+  <li>Ainda em <a href="#query"><code>/04/posts/query</code></a>, adicione dois campos de data (“De” e “Até”) para filtrar apenas os posts publicados nesse intervalo.</li>
+  <li>Crie a rota <code ctc>src/routes/04/posts/[ano]/[mes]/[dia]</code> para exibir apenas os posts de um dia específico.</li>
   <li>Crie um sub-layout <code ctc>src/routes/04/posts/[ano]/[mes]/+layout.svelte</code> que exiba um campo de busca de títulos por palavra-chave. Assim, as rotas filhas, além de filtrar por data, também podem ser filtradas por título.</li>
-  <li>Em <code ctc>src/routes/04/posts/+layout.svelte</code>, adicione um div para sempre exibir os valores de parâmetros de consulta, quando houver. Utilize o objeto <code>page</code> (importado de <code>$app/state</code>).</li>
+  <li>Em <code ctc>src/routes/04/posts/+layout.svelte</code>, adicione uma <code>&lt;div&gt;</code> para exibir os valores dos parâmetros de consulta, quando houver. Utilize o objeto <code>page</code> (importado de <code>$app/state</code>).</li>
 </ol>
