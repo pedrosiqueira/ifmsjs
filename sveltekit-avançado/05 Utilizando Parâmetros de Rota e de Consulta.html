@@ -239,7 +239,7 @@ export async function load({ url }) {
 
 <p><strong>Explicação:</strong> O formulário envia parâmetros pela URL (query params). A função <code>load</code> no servidor lê esses parâmetros com <code>url.searchParams.get()</code> e retorna os posts filtrados.</p>
 
-<h2 id="pagedata">Utilizando <code>page.data</code> nos layouts</h2>
+<h2 id="pagedata">Utilizando <code>page.data</code> no layout</h2>
 
 <p>O componente <code>+page.svelte</code>, assim como cada <code>+layout.svelte</code> acima dele na hierarquia, tem acesso aos seus próprios dados e também aos dados de todos os seus layouts &quot;pais&quot;.</p>. Mas às vezes precisamos do contrário — que um layout “pai” acesse dados de um layout página “filha”.</p>
 <p>Por exemplo, podemos querer que o layout principal (raiz) mostre no título da aba do navegador o <code>title</code> retornado pelo <code>load</code> de um post específico.</p>
@@ -284,7 +284,7 @@ export async function load({ url }) {
 <p>Além da propriedade <code>data</code>, o objeto <code>page</code> também possui outras propriedades, como <code>params</code>, que contém os parâmetros de rotas, e <code>url</code>, que contém os parâmetros de consulta. Assim, você também pode acessas esses dados não só no servidor, mas também no cliente.</p>
 
 <h4>Exercícios de fixação</h4>
-<ol class="excs">
+<ol>
   <li>Considere os dois arquivos seguintes:
     <p><code>src/routes/uva/[jaca]/pera/+page.svelte</code>:</p>
     <pre><code class="language-svelte">&lt;script&gt;
