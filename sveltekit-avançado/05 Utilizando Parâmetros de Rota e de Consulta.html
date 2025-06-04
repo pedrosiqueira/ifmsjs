@@ -95,7 +95,7 @@ getByQuery(title, content) { }
 <h2 id="dados-do-layout">Carregando Dados no Layout</h2>
 <p>Arquivos <code>+layout.svelte</code> também podem usar um arquivo <code>+layout.server.js</code> para carregar dados antes de renderizar as páginas filhas.</p>
 
-<p>Crie o arquivo <code ctc>src/routes/04/posts/+layout.server.js</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/05/posts/+layout.server.js</code>:</p>
 <pre><code class="language-javascript">import { postsDatabase } from '$lib/server/postsDatabase';
 
 export async function load() {
@@ -104,7 +104,7 @@ return { posts };
 }</code></pre>
 <p><strong>Explicação:</strong> A função <code>getAll()</code> ainda não existe; você precisará implementá-la no arquivo <code>postsDatabase.js</code>. Essa função deve retornar a lista completa de posts.</p>
 
-<p>Crie o arquivo <code ctc>src/routes/04/posts/+layout.svelte</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/05/posts/+layout.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { data, children } = $props();
 &lt;/script&gt;
@@ -116,7 +116,7 @@ return { posts };
       &lt;ul&gt;
         {#each data.posts.slice(0, 2) as post}
           &lt;li&gt;
-            &lt;a href="/04/posts/{post.slug}"&gt;
+            &lt;a href="/05/posts/{post.slug}"&gt;
               {post.title}
             &lt;/a&gt;
           &lt;/li&gt;
@@ -138,14 +138,14 @@ return { posts };
 </ul>
 
 <h2>Listando todos os posts</h2>
-<p>Crie o arquivo <code ctc>src/routes/04/posts/+page.svelte</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/05/posts/+page.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { data } = $props();
 &lt;/script&gt;
 
 &lt;h3&gt;Todos os Posts&lt;/h3&gt;
 {#each data.posts as post}
-  &lt;p&gt;&lt;a href="/04/posts/{post.slug}"&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;a href="/05/posts/{post.slug}"&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
 {/each}</code></pre>
 <p><strong>Explicação:</strong> Esta página utiliza os dados fornecidos pelo layout para listar todos os posts disponíveis.</p>
 <div class="info">
@@ -155,7 +155,7 @@ return { posts };
 <h2>Exibindo um post individual</h2>
 <p>Para mostrar um post específico, um parâmetro de rota.</p>
 
-<p>Crie o arquivo <code ctc>src/routes/04/posts/[slug]/+page.server.js</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/05/posts/[slug]/+page.server.js</code>:</p>
 <pre><code class="language-javascript">import { postsDatabase } from '$lib/server/postsDatabase';
 
 export async function load({ params }) {
@@ -164,7 +164,7 @@ export async function load({ params }) {
 }</code></pre>
 <p><strong>Explicação:</strong> A função <code>getBySlug</code> deve retornar uma postagem cujo <code>slug</code> corresponda ao parâmetro de rota.</p>
 
-<p>Crie o arquivo <code ctc>src/routes/04/posts/[slug]/+page.svelte</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/05/posts/[slug]/+page.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { data } = $props();
 &lt;/script&gt;
@@ -177,7 +177,7 @@ export async function load({ params }) {
 <h2>Filtrando por ano e mês</h2>
 <p>Vamos criar uma rota para listar posts publicados em determinado mês.</p>
 
-<p>Crie o arquivo <code ctc>src/routes/04/posts/[ano]/[mes]/+page.server.js</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/05/posts/[ano]/[mes]/+page.server.js</code>:</p>
 <pre><code class="language-javascript">import { postsDatabase } from '$lib/server/postsDatabase';
 
 export async function load({ params }) {
@@ -186,7 +186,7 @@ export async function load({ params }) {
 }</code></pre>
 <p><strong>Explicação:</strong> A função <code>getByYearMonth</code> deve filtrar <code>posts</code> pelo ano e mês informados.</p>
 
-<p id="ano-mes">Crie o arquivo <code ctc>src/routes/04/posts/[ano]/[mes]/+page.svelte</code>:</p>
+<p id="ano-mes">Crie o arquivo <code ctc>src/routes/05/posts/[ano]/[mes]/+page.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { data } = $props();
 &lt;/script&gt;
@@ -194,7 +194,7 @@ export async function load({ params }) {
 &lt;h3&gt;Postagens de {data.mes}/{data.ano}&lt;/h3&gt;
 
 {#each data.posts as post}
-  &lt;p&gt;&lt;a href="/04/posts/{post.slug}"&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;a href="/05/posts/{post.slug}"&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
 {:else}
   &lt;p&gt;Nenhuma postagem nesse mês!&lt;/p&gt;
 {/each}</code></pre>
@@ -203,7 +203,7 @@ export async function load({ params }) {
 <h2 id="url">Filtrando posts por título e conteúdo</h2>
 <p>Agora vamos buscar posts por palavras-chave no título ou conteúdo.</p>
 
-<p>Crie o arquivo <code ctc>src/routes/04/posts/query/+page.server.js</code>:</p>
+<p>Crie o arquivo <code ctc>src/routes/05/posts/query/+page.server.js</code>:</p>
 <pre><code class="language-javascript">import { postsDatabase } from '$lib/server/postsDatabase';
 
 export async function load({ url }) {
@@ -215,7 +215,7 @@ export async function load({ url }) {
 
 <p><strong>Explicação:</strong> A função <code>getByQuery</code> deve filtrar posts cujo título contenha <code>title</code> ou cujo conteúdo contenha <code>content</code>, sem diferenciar maiúsculas e minúsculas. Se os parâmetros forem nulos ou vazios, eles devem ser ignorados.</p>
 
-<p id="query">Crie o arquivo <code ctc>src/routes/04/posts/query/+page.svelte</code>:</p>
+<p id="query">Crie o arquivo <code ctc>src/routes/05/posts/query/+page.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { data } = $props();
 &lt;/script&gt;
@@ -229,7 +229,7 @@ export async function load({ url }) {
 &lt;h3&gt;Resultados da busca&lt;/h3&gt;
 &lt;ul&gt;
   {#each data.posts as post}
-    &lt;li&gt;&lt;a href="/04/posts/{post.slug}"&gt;{post.title}&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="/05/posts/{post.slug}"&gt;{post.title}&lt;/a&gt;&lt;/li&gt;
   {:else}
     &lt;li&gt;Nenhum resultado encontrado.&lt;/li&gt;
   {/each}
@@ -242,7 +242,7 @@ export async function load({ url }) {
 <p>O componente <code>+page.svelte</code>, assim como cada <code>+layout.svelte</code> acima dele na hierarquia, tem acesso aos seus próprios dados e também aos dados de todos os seus layouts &quot;pais&quot;.</p>. Mas às vezes precisamos do contrário — que um layout “pai” acesse dados de um layout página “filha”.</p>
 <p>Por exemplo, podemos querer que o layout principal (raiz) mostre no título da aba do navegador o <code>title</code> retornado pelo <code>load</code> de um post específico.</p>
 <p>Para isso, utilizamos <a target="_blank" href="https://svelte.dev/docs/kit/$app-state#page">page.data</a>. Ele contém todos os dados retornados pelas funções <code>load</code> na hierarquia de layouts e páginas.</p>
-<p><strong>Modifique</strong> o arquivo <code ctc>src/routes/04/posts/+layout.svelte</code>:</p>
+<p><strong>Modifique</strong> o arquivo <code ctc>src/routes/05/posts/+layout.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   import { page } from '$app/state';
   let { data, children } = $props();
@@ -261,7 +261,7 @@ export async function load({ url }) {
       &lt;ul&gt;
         {#each data.posts.slice(0, 2) as post}
           &lt;li&gt;
-            &lt;a href="/04/posts/{post.slug}"&gt;{post.title}&lt;/a&gt;
+            &lt;a href="/05/posts/{post.slug}"&gt;{post.title}&lt;/a&gt;
           &lt;/li&gt;
         {/each}
       &lt;/ul&gt;
@@ -276,7 +276,7 @@ export async function load({ url }) {
 &lt;/div&gt;</code></pre>
 <p><strong>Explicação:</strong></p>
 <ul>
-  <li>O objeto <code>page.data</code> contém todos os dados devolvidos pelas funções <code>load</code> deste layout e das páginas filhas. Em particular, <code>page.data.post?.title</code> pega o título do post carregado em <code>+page.server.js</code> de <code>/04/posts/[slug]</code>.</li>
+  <li>O objeto <code>page.data</code> contém todos os dados devolvidos pelas funções <code>load</code> deste layout e das páginas filhas. Em particular, <code>page.data.post?.title</code> pega o título do post carregado em <code>+page.server.js</code> de <code>/05/posts/[slug]</code>.</li>
   <li>Se não houver um post carregado (por exemplo, na listagem de todos os posts), usamos <code>page.url.pathname</code> como título padrão.</li>
 </ul>
 <p>Além da propriedade <code>data</code>, o objeto <code>page</code> também possui outras propriedades, como <code>params</code>, que contém os parâmetros de rotas, e <code>url</code>, que contém os parâmetros de consulta. Assim, você também pode acessas esses dados não só no servidor, mas também no cliente.</p>
@@ -323,11 +323,11 @@ export async function load({ url }) {
     </ol>
   </li>
   <li>
-    Você já tem a rota dinâmica <code>/04/posts/[ano]/[mes]</code> que exibe as postagens de um mês específico. Agora, implemente nessa página um formulário que permita ao usuário digitar (ou selecionar) um <code>ano</code> e um <code>mês</code> e redirecione automaticamente para a rota correspondente.
+    Você já tem a rota dinâmica <code>/05/posts/[ano]/[mes]</code> que exibe as postagens de um mês específico. Agora, implemente nessa página um formulário que permita ao usuário digitar (ou selecionar) um <code>ano</code> e um <code>mês</code> e redirecione automaticamente para a rota correspondente.
     <p><strong>Dica:</strong> Para evitar que o formulário envie dados como parâmetros de consulta, adicione um ouvinte <a target="_blank" href="https://svelte.dev/docs/kit/form-actions#Progressive-enhancement-Custom-event-listener"><code>onsubmit</code></a> ao formulário e utilize a função <code>goto()</code> do módulo <code>$app/navigation</code> para <a target="_blank" href="https://svelte.dev/docs/kit/$app-navigation#goto">fazer o redirecionamento programático</a>.</p>
   </li>
   <li>
-    Em vez de retornar os parâmetros de rota e consulta diretamente de <code>+page.server.js</code> nas páginas <a href="#ano-mes"><code>/04/posts/[ano]/[mes]</code></a> e <a href="#query"><code>/04/posts/query</code></a>, exiba seus valores nas respectivas páginas usando o objeto <code>page</code> (importado de <code>$app/state</code>).
+    Em vez de retornar os parâmetros de rota e consulta diretamente de <code>+page.server.js</code> nas páginas <a href="#ano-mes"><code>/05/posts/[ano]/[mes]</code></a> e <a href="#query"><code>/05/posts/query</code></a>, exiba seus valores nas respectivas páginas usando o objeto <code>page</code> (importado de <code>$app/state</code>).
   </li>
   <li>Garanta que seu aplicativo SvelteKit seja totalmente navegável:
     <ul>
@@ -335,9 +335,9 @@ export async function load({ url }) {
       <li>Adicione links de navegação no menu lateral para acessar cada rota.</li>
     </ul>
   </li>
-  <li>Na rota <a href="#query"><code>/04/posts/query</code></a>, acrescente uma opção que permita escolher entre ordenar os posts por data ou por título.</li>
-  <li>Ainda em <a href="#query"><code>/04/posts/query</code></a>, adicione dois campos de data (“De” e “Até”) para filtrar apenas os posts publicados nesse intervalo.</li>
-  <li>Crie a rota <code ctc>src/routes/04/posts/[ano]/[mes]/[dia]</code> para exibir apenas os posts de um dia específico.</li>
-  <li>Crie um sub-layout <code ctc>src/routes/04/posts/[ano]/[mes]/+layout.svelte</code> que exiba um campo de busca de títulos por palavra-chave. Assim, as rotas filhas, além de filtrar por data, também podem ser filtradas por título.</li>
-  <li>Em <code ctc>src/routes/04/posts/+layout.svelte</code>, adicione uma <code>&lt;div&gt;</code> para exibir os valores dos parâmetros de consulta, quando houver. Utilize o objeto <code>page</code> (importado de <code>$app/state</code>).</li>
+  <li>Na rota <a href="#query"><code>/05/posts/query</code></a>, acrescente uma opção que permita escolher entre ordenar os posts por data ou por título.</li>
+  <li>Ainda em <a href="#query"><code>/05/posts/query</code></a>, adicione dois campos de data (“De” e “Até”) para filtrar apenas os posts publicados nesse intervalo.</li>
+  <li>Crie a rota <code ctc>src/routes/05/posts/[ano]/[mes]/[dia]</code> para exibir apenas os posts de um dia específico.</li>
+  <li>Crie um sub-layout <code ctc>src/routes/05/posts/[ano]/[mes]/+layout.svelte</code> que exiba um campo de busca de títulos por palavra-chave. Assim, as rotas filhas, além de filtrar por data, também podem ser filtradas por título.</li>
+  <li>Em <code ctc>src/routes/05/posts/+layout.svelte</code>, adicione uma <code>&lt;div&gt;</code> para exibir os valores dos parâmetros de consulta, quando houver. Utilize o objeto <code>page</code> (importado de <code>$app/state</code>).</li>
 </ol>
