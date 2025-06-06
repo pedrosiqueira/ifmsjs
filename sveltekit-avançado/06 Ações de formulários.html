@@ -37,9 +37,29 @@
 
 <h1>Ações de Formulário</h1>
 <h2>Tipos de requisições HTTP</h2>
-<p>Existem x tipos de requisições HTTP que podem ser enviadas a um servidor. São os chamados verbos HTTP, ou métodos HTTP... [continue]</p>
-<p>Até o momento só temos trabalhado com requisições GET. Nesse capítulo, vamos trabalhar com requisições POST.</p>
-<img src="." alt="uma imagem de um cliente enviando dois tipos de cartas ao servidor, uma carta GET, que só possui o envelope, com o endereço do destinatário como uma url; e uma carta POST, que possui uma mensagem dentro do envelope, além do endereço.">
+<p>O protocolo HTTP define diversos tipos de requisições que um cliente pode enviar a um servidor. Esses tipos de requisições são os chamados “verbos” ou “métodos” HTTP, e indicam a ação que o cliente deseja realizar no servidor. Até agora, utilizamos apenas requisições <strong>GET</strong> para recuperar dados do servidor (via <code>load</code>). No entanto, muitas vezes precisamos enviar dados do navegador para o servidor — seja para criar, atualizar ou excluir informações. Para isso, usaremos requisições <strong>POST</strong> (e, posteriormente, outros métodos, quando aplicável). Neste capítulo veremos como definir <em>ações de formulário</em> usando requisições POST, permitindo enviar dados de formulários de maneira segura, evitando que informações sensíveis fiquem expostas na URL, e possibilitando retornos personalizados de sucesso ou erro.</p>
+<table class="custom">
+  <thead>
+
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>GET</strong>:</td>
+      <td>Solicita a representação de um recurso (por exemplo, uma página HTML ou dados JSON).</td>
+      <td>Não possui corpo (body); todos os parâmetros são enviados pela URL (query string).</td>
+      <td>É considerado “seguro” e “idempotente” — não deve modificar estado no servidor e múltiplas requisições devem retornar o mesmo resultado.</td>
+    </tr>
+    <tr>
+      <td><strong>POST</strong>:</td>
+      <td>Envia dados ao servidor para criar ou processar um recurso (por exemplo, enviar um formulário de cadastro).</td>
+      <td>Possui corpo (body) onde podem ser incluídos campos de formulário, JSON, etc.</td>
+      <td>Não é idempotente — múltiplas requisições podem criar múltiplos recursos ou causar alterações distintas.</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<img src="./cliente-servidor.png" alt="uma imagem de um cliente enviando dois tipos de cartas ao servidor, uma carta GET, que só possui o envelope, com o endereço do destinatário como uma url; e uma carta POST, que possui uma mensagem dentro do envelope, além do endereço.">
 
 <h2>Enviando uma carta GET</h2>
 <p>No capítulo <a target="_blank" href="./03 Carregando dados do servidor.html">Carregando dados do servidor</a>, vimos como enviar dados do servidor para o navegador. Muitas vezes, precisamos fazer o inverso — enviar dados do navegador para o servidor. Para isso, utilizamos o elemento <code>&lt;form&gt;</code>, o principal recurso da web para esse tipo de comunicação. Por padrão, o formulário envia dados via requisição HTTP <code>GET</code>, que não possui corpo e deixa as informações visíveis na URL — o que traz <a target="_blank" href="../sveltekit/0D Protocolo HTTP.html#desvantagens">várias desvantagens</a>.</p>
@@ -413,7 +433,7 @@ export const actions = {
 </ol>
 <h2>Exercícios</h2>
 <ol class="excs">
-  <li>Crie a página <code ctc>src/routes/06/profile/+page.svelte</code>, que <a href="#profile">faltou ser criada</a>, para exibir uma mensagem de boas-vindas.</li>
+  <li>Crie a página <code ctc>src/routes/06/profile/+page.svelte</code>, que <a href="#profile">faltou ser criada</a>, para exibir uma mensagem de boas-vindas. Verifique se a rota <code>/06/post</code> redireciona para a página de boas-vindas.</li>
   <li>Considere a rota <code ctc>src/routes/06/teste</code>.
     <ol type="a">
       <li>Crie um formulário em um arquivo <code>+page.svelte</code> que envie via POST um campo chamado <code>mensagem</code> para a mesma rota.</li>
@@ -421,8 +441,54 @@ export const actions = {
       <li>Altere o <code>+page.svelte</code> para exibir uma mensagem diferente dependendo do status retornado.</li>
     </ol>
   </li>
-  <li>post</li>
-  <li>envio para outra rota</li>
-  <li>redireionamento</li>
-  <li>falha</li>
+  <li>Considere a rota <code ctc>src/routes/06/cadastro-produto</code>. Crie uma página com um formulário POST para cadastrar produtos contendo: “nome do produto” (texto), “preço” (número decimal) e “quantidade em estoque” (número inteiro). Ao submeter o formulário, faça as seguintes validações:
+    <ul>
+      <li>Se “nome” estiver vazio, devolva fail(400, { error: 'Nome obrigatório.', nome, preco, quantidade }).</li>
+      <li>Se “preço” não for número válido ou ≤ 0, devolva fail(400, { error: 'Preço inválido.', nome, preco, quantidade }).</li>
+      <li>Se “quantidade” não for inteiro ≥ 1, devolva fail(400, { error: 'Quantidade inválida.', nome, preco, quantidade }).</li>
+    </ul>
+    <p>Somente quando todos estiverem válidos, devolva { sucesso: true, produto: nome }.</p>
+    <p>No componente, exiba o texto de erro (caso haja) e mantenha os valores preenchidos nos campos. Se der certo, mostre “Produto {nome} cadastrado com sucesso!”.</p>
+  </li>
+  <li>Recentemente, três novas irmandades abriram inscrições em seu reino de fantasia. Para se juntar a cada uma dessas irmandades, existem pré-requisitos específicos:
+    <ul>
+      <li><strong>Ordem dos Guerreiros</strong>: mínimo de 18 anos; força física ≥ 7 (numa escala de 1 a 10).</li>
+      <li><strong>Círculo dos Magos</strong>: mínimo de 16 anos; inteligência ≥ 8; possui “conhecimento de magia” (checkbox).</li>
+      <li><strong>Guilda dos Artesãos</strong>: mínimo de 15 anos; habilidade manual (“destreza”) ≥ 6; possui “ferramentas de artesão” (checkbox).</li>
+    </ul>
+    <p>Crie uma página de inscrição que permita ao usuário tentar se registrar em qualquer uma das três irmandades:</p>
+    <ul>
+      <li>Cada botão do formulário acionará uma <strong>ação nomeada</strong> diferente que validará os requisitos daquele clã.</li>
+      <li>Se o usuário atender aos requisitos daquele clã, a ação deverá <strong>redirecionar</strong> para a página inicial da respectiva irmandade (que você também implementará).</li>
+      <li>Se faltar qualquer requisito, a ação deve retornar um erro via <code>fail()</code>, preservando os campos preenchidos e exibindo a mensagem de erro apropriada.</li>
+    </ul>
+    <p>Para isso, crie as seguintes rotas:</p>
+    <ul>
+      <li><code>src/routes/06/irmandades</code>: Rota para a inscrição.</li>
+      <li><code>src/routes/06/irmandades/guerreiros</code>: Rota para a página inicial dos guerreiros.</li>
+      <li><code>src/routes/06/irmandades/magos</code>: Rota para a página inicial dos magos.</li>
+      <li><code>src/routes/06/irmandades/artesaos</code>: Rota para a página inicial dos artesãos.</li>
+    </ul>
+  </li>
+  <li>Você faz parte de um banco digital que oferece três tipos de empréstimo. Cada modalidade exige pré-requisitos diferentes:
+    <ul>
+      <li><strong>Empréstimo Pessoal</strong>: renda mensal ≥ R$ 2 000; score de crédito ≥ 600.</li>
+      <li><strong>Empréstimo Imobiliário</strong>: renda mensal ≥ R$ 5 000; score de crédito ≥ 700; possui imóvel para garantia (checkbox).</li>
+      <li><strong>Empréstimo Automotivo</strong>: renda mensal ≥ 3 000; score de crédito ≥ 650; valor do veículo ≥ R$ 15 000.</li>
+    </ul>
+    <p>Crie uma página de solicitação de empréstimo que permita ao usuário escolher qual modalidade deseja:</p>
+    <ul>
+      <li>Cada botão do formulário acionará uma <strong>ação nomeada</strong> diferente que validará os requisitos daquela modalidade.</li>
+      <li>Se o usuário atender aos requisitos daquele empréstimo, a ação deverá <strong>redirecionar</strong> para a página de confirmação daquele tipo de empréstimo (que você também implementará).</li>
+      <li>Se faltar algum requisito, a ação deve retornar um erro via <code>fail()</code>, preservando os campos preenchidos e exibindo a mensagem de erro apropriada.</li>
+    </ul>
+    <p>Para isso, crie as seguintes rotas:</p>
+    <ul>
+      <li><code>src/routes/06/emprestimo</code>: Rota para a inscrição.</li>
+      <li><code>src/routes/06/emprestimo/pessoal</code>: Rota para a página de confirmação do empréstimo pessoal.</li>
+      <li><code>src/routes/06/emprestimo/imobiliario</code>: Rota para a página de confirmação do empréstimo imobiliário.</li>
+      <li><code>src/routes/06/emprestimo/automotivo</code>: Rota para a página de confirmação do empréstimo automotivo.</li>
+    </ul>
+
+  </li>
 </ol>
