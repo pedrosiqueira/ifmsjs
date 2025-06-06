@@ -458,14 +458,18 @@ return { parametro1, parametro2 };
       <li>Exibir também os <strong>comentários</strong> relacionados a essa postagem.</li>
     </ul>
   </li>
-  <li><strong>Utilizando a API REST <a target="_blank" href="https://dummyjson.com/">dummyjson</a></strong>, implemente as seguintes rotas:
+  <li class="no-mark"><strong>Utilizando a API REST <a target="_blank" href="https://dummyjson.com/">dummyjson</a></strong>, implemente as seguintes rotas, para os exercícios 2 a 4:</li>
+  <li><code ctc>src/routes/03/dummy/users</code>: Lista o nome e sobrenome dos usuários, com links para a página de detalhes de cada um.</li>
+  <li><code ctc>src/routes/03/dummy/users/[id]</code>: Exibe os detalhes do usuário e uma lista de suas postagens, com links para os detalhes de cada postagem.</li>
+  <li><code ctc>src/routes/03/dummy/posts/[id]</code>: Exibe os detalhes da postagem, incluindo seus comentários.</li>
+  <li>Por questões de desempenho, a API <a target="_blank" href="https://dummyjson.com/">dummyjson</a> retorna apenas uma parte dos usuários por vez. Portanto, na página <code ctc>src/routes/03/dummy/users</code>, implemente paginação para permitir a navegação entre todos os usuários. Sugestões:
     <ol type="a">
-      <li><code class="ctc">/03/dummy/users</code>: Lista os usuários, com links para os detalhes de cada um.</li>
-      <li><code class="ctc">/03/dummy/users/[id]</code>: Exibe os dados do usuário e uma lista de suas postagens, com links para os detalhes de cada postagem.</li>
-      <li><code class="ctc">/03/dummy/posts/[id]</code>: Exibe os detalhes da postagem, com seus comentários.</li>
+      <li>Mostre um número limitado de usuários por página (por exemplo, 10).</li>
+      <li>Adicione botões de navegação "Anterior" e "Próximo".</li>
+      <li>Use um parâmetro de consulta <code>?page=</code> para manter o estado da navegação.</li>
     </ol>
   </li>
-  <li>Na página em <code class="ctc">/03/dummy/users</code>, implemente um formulário para filtrar usuários por alguma propriedade, como data de nascimento ou gênero </li>
+  <li>Ainda na página <code ctc>src/routes/03/dummy/users</code>, implemente um formulário para filtrar usuários por alguma propriedade, como data de nascimento ou gênero.</li>
   <li><strong>Utilizando a API REST <a target="_blank" href="https://pokeapi.co/">PokéAPI</a></strong>, implemente uma página que liste os Pokémons, com nome e imagem. Cada Pokémon deve ter um link para sua página de detalhes.</li>
   <p><strong>Possível solução:</strong></p>
   <p>Crie o arquivo <code ctc>src/routes/03/pokemon/+page.svelte</code></p>

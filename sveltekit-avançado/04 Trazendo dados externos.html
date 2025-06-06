@@ -136,7 +136,7 @@
 
 <h2 id="exercícios">Exercícios</h2>
 <ol class="excs">
-  <li><strong>Implemente a <a href="#post-id">rota faltante</a></strong> <code class="ctc">src/routes/04/external/posts/[id]</code>. Essa rota deve:
+  <li><strong>Implemente a <a href="#post-id">rota faltante</a></strong> <code ctc>src/routes/04/external/posts/[id]</code>. Essa rota deve:
     <ul>
       <li>Buscar os dados da API REST <a href="https://jsonplaceholder.typicode.com/" target="_blank">JSONPlaceholder</a>.</li>
       <li>Exibir os dados da <strong>postagem</strong> correspondente ao <code>id</code> informado na URL;</li>
@@ -144,10 +144,17 @@
     </ul>
   </li>
   <li class="no-mark"><strong>Utilizando a API REST <a target="_blank" href="https://dummyjson.com/">dummyjson</a></strong>, implemente as seguintes rotas, para os exercícios 2 a 4:</li>
-  <li><code class="ctc">/04/dummy/users</code>: Lista os usuários, com links para os detalhes de cada um.</li>
-  <li><code class="ctc">/04/dummy/users/[id]</code>: Exibe os dados do usuário e uma lista de suas postagens, com links para os detalhes de cada postagem.</li>
-  <li><code class="ctc">/04/dummy/posts/[id]</code>: Exibe os detalhes da postagem, com seus comentários.</li>
-  <li>Na página em <code class="ctc">/04/dummy/users</code>, implemente um formulário para filtrar usuários por alguma propriedade, como data de nascimento ou gênero </li>
+  <li><code ctc>src/routes/04/dummy/users</code>: Lista o nome e sobrenome dos usuários, com links para a página de detalhes de cada um.</li>
+  <li><code ctc>src/routes/04/dummy/users/[id]</code>: Exibe os detalhes do usuário e uma lista de suas postagens, com links para os detalhes de cada postagem.</li>
+  <li><code ctc>src/routes/04/dummy/posts/[id]</code>: Exibe os detalhes da postagem, incluindo seus comentários.</li>
+  <li>Por questões de desempenho, a API <a target="_blank" href="https://dummyjson.com/">dummyjson</a> retorna apenas uma parte dos usuários por vez. Portanto, na página <code ctc>src/routes/04/dummy/users</code>, implemente paginação para permitir a navegação entre todos os usuários. Sugestões:
+    <ol type="a">
+      <li>Mostre um número limitado de usuários por página (por exemplo, 10).</li>
+      <li>Adicione botões de navegação "Anterior" e "Próximo".</li>
+      <li>Use um parâmetro de consulta <code>?page=</code> para manter o estado da navegação.</li>
+    </ol>
+  </li>
+  <li>Ainda na página <code ctc>src/routes/04/dummy/users</code>, implemente um formulário para filtrar usuários por alguma propriedade, como data de nascimento ou gênero.</li>
   <li><strong>Utilizando a API REST <a target="_blank" href="https://pokeapi.co/">PokéAPI</a></strong>, implemente uma página que liste os Pokémons, com nome e imagem. Cada Pokémon deve ter um link para sua página de detalhes.</li>
   <p><strong>Possível solução:</strong></p>
   <p>Crie o arquivo <code ctc>src/routes/04/pokemon/+page.svelte</code></p>
@@ -208,7 +215,7 @@
 
     <li><strong>Linha 13:</strong> Retorna a lista de pokémons (agora com imagens adicionadas) para ser exibida no componente.</li>
   </ul>
-  <li><strong>Crie a rota </strong> <code class="ctc">/04/pokemon/[name]</code> para exibir informações sobre o Pokémon. Inclua: nome, imagem, altura, peso, tipos e habilidades.</li>
+  <li><strong>Crie a rota </strong> <code ctc>/04/pokemon/[name]</code> para exibir informações sobre o Pokémon. Inclua: nome, imagem, altura, peso, tipos e habilidades.</li>
   <li><strong>Implemente paginação na listagem de Pokémons</strong>:
     <ol>
       <li>Mostre um número limitado de Pokémons por página (por exemplo, 12).</li>
@@ -228,7 +235,7 @@
       <li>Ao selecionar um tipo, liste apenas os Pokémons correspondentes.</li>
     </ul>
   </li>
-  <li><strong>Extra: Crie um componente reutilizável</strong> chamado <code class="ctc">PokemonCard.svelte</code> que receba como <em>prop</em> os dados de um Pokémon e exiba o card com nome e imagem.
+  <li><strong>Extra: Crie um componente reutilizável</strong> chamado <code ctc>PokemonCard.svelte</code> que receba como <em>prop</em> os dados de um Pokémon e exiba o card com nome e imagem.
     <ul>
       <li>Utilize esse componente na listagem e nos resultados filtrados.</li>
     </ul>
