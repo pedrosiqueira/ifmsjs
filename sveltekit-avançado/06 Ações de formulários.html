@@ -370,36 +370,31 @@ export const actions = {
   <p><strong>Atenção:</strong> Não é recomendável combinar ação padrão com ações nomeadas na mesma página. Se você submeter uma ação nomeada sem redirecionar, o parâmetro <code>?/acao</code> permanecerá na URL. Assim, uma próxima submissão para a ação padrão continuará sendo tratada pela última ação nomeada, o que pode causar comportamentos inesperados.</p>
 </div>
 
-<!--
-### 🧠 **Parte 1 — Questões Conceituais**
-
-**1. Explique a diferença entre uma requisição GET e uma requisição POST em formulários HTML.**
-
-**14. Quando é mais vantajoso usar `POST` em vez de `GET` em formulários?**
-
-**2. Qual das opções abaixo representa um risco de segurança quando se usa GET para envio de formulários?**
-a) Os dados são criptografados automaticamente.
-b) Os dados ficam visíveis na URL.
-c) O formulário não envia os dados.
-d) A requisição GET exige autenticação via token.
-
-**3. Complete: Requisições GET não devem causar \_\_\_\_\_\_\_ no servidor, enquanto requisições POST são usadas para \_\_\_\_\_\_\_ .**
-
-**4. O que acontece se você omitir o atributo `name` de um campo de formulário?**
-
-**15. Qual é o papel do objeto `event` em uma ação de formulário no SvelteKit? Cite ao menos duas propriedades úteis.**
-
-**5. Onde os dados retornados por uma ação de formulário ficam disponíveis na página?**
-
-a) `data`
-b) `event.params`
-c) `form`
-d) `load.formData`
-
-**6. Observe este trecho:**
-
-```js
-export const actions = {
+<h2>Exercícios de Fixação</h2>
+<ol>
+  <li>Explique a diferença entre uma requisição GET e uma requisição POST em formulários HTML.</li>
+  <li>Quando é mais vantajoso usar <code>POST</code> em vez de <code>GET</code> em formulários?</li>
+  <li>Qual das opções abaixo representa um risco de segurança quando se usa GET para envio de formulários?
+    <ol type="a">
+      <li>Os dados são criptografados automaticamente.</li>
+      <li>Os dados ficam visíveis na URL.</li>
+      <li>O formulário não envia os dados.</li>
+      <li>A requisição GET exige autenticação via token.</li>
+    </ol>
+  </li>
+  <li>Complete: Requisições GET não devem causar _______ no servidor, enquanto requisições POST são usadas para _______ .</li>
+  <li>O que acontece se você omitir o atributo <code>name</code> de um campo de formulário?</li>
+  <li>Qual é o papel do objeto <code>event</code> em uma ação de formulário no SvelteKit? Cite ao menos duas propriedades úteis.</li>
+  <li>Onde os dados retornados por uma ação de formulário ficam disponíveis na página?
+    <ol type="a">
+      <li><code>data</code></li>
+      <li><code>event.params</code></li>
+      <li><code>form</code></li>
+      <li><code>load.formData</code></li>
+    </ol>
+  </li>
+  <li>Observe este trecho:
+    <pre><code class="language-js">export const actions = {
   default: async ({ request }) => {
     const data = await request.formData();
     const nome = data.get('nome');
@@ -407,35 +402,25 @@ export const actions = {
     if (!nome || !idade) return { status: 400 };
     return { status: 200, nome };
   }
-};
-```
-
-**6a. Quais são os dois campos obrigatórios esperados neste formulário?**
-**6b. Qual valor será retornado se o campo "nome" estiver vazio?**
-**6c. Onde os dados `status` e `nome` poderão ser usados na página `.svelte` correspondente?**
-
-### 🛠️ **Parte 3 — Prática Guiada**
-
-**9. Crie um formulário em um arquivo `+page.svelte` que envie via POST um campo chamado `mensagem` para a mesma rota.**
-
-**10. Crie a ação default correspondente em `+page.server.js` que retorne o texto da mensagem com status 200, ou status 400 caso o campo esteja vazio.**
-
-**11. Altere o `+page.svelte` para exibir uma mensagem diferente dependendo do status retornado.**
-
-### 🧩 **Parte 4 — Desafio com Redirecionamento de Ação**
-
-**12. Crie um novo formulário em `src/routes/06/form/+page.svelte` com os seguintes campos:**
-
-* `name="produto"`
-* `name="quantidade"`
-
-**O formulário deve ser enviado para a ação da rota `/06/post`.**
-
--->
-
+};</code></pre>
+    <ol type="a">
+      <li>Quais são os dois campos obrigatórios esperados neste formulário?</li>
+      <li>Qual valor será retornado se o campo &quot;nome&quot; estiver vazio?</li>
+      <li>Onde os dados <code>status</code> e <code>nome</code> poderão ser usados na página <code>.svelte</code> correspondente?</p>
+      </li>
+    </ol>
+  </li>
+</ol>
 <h2>Exercícios</h2>
 <ol class="excs">
   <li>Crie a página <code ctc>src/routes/06/profile/+page.svelte</code>, que <a href="#profile">faltou ser criada</a>, para exibir uma mensagem de boas-vindas.</li>
+  <li>Considere a rota <code ctc>src/routes/06/teste</code>.
+    <ol type="a">
+      <li>Crie um formulário em um arquivo <code>+page.svelte</code> que envie via POST um campo chamado <code>mensagem</code> para a mesma rota.</li>
+      <li>Crie a ação default correspondente em <code>+page.server.js</code> que retorne o texto da mensagem com status 200, ou status 400 caso o campo esteja vazio.</li>
+      <li>Altere o <code>+page.svelte</code> para exibir uma mensagem diferente dependendo do status retornado.</li>
+    </ol>
+  </li>
   <li>post</li>
   <li>envio para outra rota</li>
   <li>redireionamento</li>
