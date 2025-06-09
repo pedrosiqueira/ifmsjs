@@ -34,17 +34,17 @@
 <h2>Preparando o banco de dados</h2>
 <p>Crie o arquivo <code ctc>src/lib/server/postsDatabase.js</code>:</p>
 <pre id="postsdatabase"><code class="language-javascript">const posts = [
-  { slug: 'um', title: 'Primeiro Post Bacana', publish_date: '2025-03-12', content: 'Conteúdo do primeiro post' },
-  { slug: 'outro', title: 'Outro Post Joia', publish_date: '2025-03-25', content: 'Conteúdo do outro post' },
-  { slug: 'algum', title: 'Mais um Post Joia', publish_date: '2024-11-22', content: 'Conteúdo de mais um post' },
-  { slug: 'ainda', title: 'Ainda Outro Bacana', publish_date: '2024-11-02', content: 'Conteúdo de ainda outro post' }
+  { slug: &apos;um&apos;, title: &apos;Primeiro Post Bacana&apos;, publish_date: &apos;2025-03-12&apos;, content: &apos;Conteúdo do primeiro post&apos; },
+  { slug: &apos;outro&apos;, title: &apos;Outro Post Joia&apos;, publish_date: &apos;2025-03-25&apos;, content: &apos;Conteúdo do outro post&apos; },
+  { slug: &apos;algum&apos;, title: &apos;Mais um Post Joia&apos;, publish_date: &apos;2024-11-22&apos;, content: &apos;Conteúdo de mais um post&apos; },
+  { slug: &apos;ainda&apos;, title: &apos;Ainda Outro Bacana&apos;, publish_date: &apos;2024-11-02&apos;, content: &apos;Conteúdo de ainda outro post&apos; }
 ];
 
 export const postsDatabase = {
-getAll() { },
-getByYearMonth(ano, mes) { },
-getBySlug(slug) { },
-getByQuery(title, content) { }
+  getAll() { },
+  getByYearMonth(ano, mes) { },
+  getBySlug(slug) { },
+  getByQuery(title, content) { }
 };</code></pre>
 
 <p><strong>Explicação:</strong> Este arquivo simula um banco de dados de posts em memória e declara quatro funções para consulta. No momento, essas funções estão vazias — tua tarefa será implementá-las.</p>
@@ -99,8 +99,8 @@ getByQuery(title, content) { }
 <pre><code class="language-javascript">import { postsDatabase } from '$lib/server/postsDatabase';
 
 export async function load() {
-const posts = postsDatabase.getAll();
-return { posts };
+  const posts = postsDatabase.getAll();
+  return { posts };
 }</code></pre>
 <p><strong>Explicação:</strong> A função <code>getAll()</code> ainda não existe; você precisará implementá-la no arquivo <code>postsDatabase.js</code>. Essa função deve retornar a lista completa de posts.</p>
 
