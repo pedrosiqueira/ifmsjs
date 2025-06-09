@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([[], [], [{ start: 2, end: 2, color: 'lightblue' }]]);</script>
+
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<div class="container">
+  <h1>Autenticação Simplificada com Ações de Formulário no SvelteKit</h1>
+
+  <section id="introducao">
+    <h2>Introdução</h2>
+    <p>Nesta aula, vamos construir uma lógica de autenticação básica utilizando as Ações de Formulário do SvelteKit. Focaremos no fluxo de registro e login de usuários, demonstrando como lidar com dados de formulários no servidor.</p>
+  </section>
+
+  <section id="banco-de-dados">
+    <h2>O Banco de Dados (Simulado)</h2>
+    <p>Para fins didáticos, utilizaremos um banco de dados em memória simulado. Em um cenário real, você usaria um banco de dados como PostgreSQL ou MongoDB. Este exemplo serve para ilustrar a lógica de autenticação sem a complexidade de configurar um banco de dados real.</p>
+
+    <p>Primeiro, crie o arquivo <code ctc>src/lib/server/usersDB.js</code>:</p>
+
+    <pre><code class="js">const usersData = new Map();
+
+export const usersDB = {
+  create(email, password) {
+    if (usersData.has(email)) throw new Error('Email já cadastrado');
+
+    if (email == 'email@proibido') throw new Error('Email proibido');
+
+    usersData.set(email, { email, password });
+  },
+  read(email) {
+    return usersData.get(email);
+  }
+};</code></pre>
+
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li>Este arquivo simula um banco de dados de usuários. No momento, as operações disponíveis para os dados de usuários são <code>create</code> e <code>read</code>.</li>
+      <li>A função <code>create(email, password)</code> adiciona um novo usuário ao "banco de dados".</li>
+      <li>Se já existir um usuário com o mesmo email, um erro é lançado, impedindo a criação duplicada.</li>
+      <li>Existe um "easter egg" (email proibido) para simular um erro de servidor em testes futuros.</li>
+      <li>O novo usuário é armazenado no mapa <code>usersData</code>.</li>
+      <li>A função <code>read(email)</code> retorna o usuário correspondente ou <code>undefined</code> caso não exista.</li>
+    </ul>
+    <div class="info">
+      <strong>Atenção:</strong> Este é um banco de dados apenas para fins didáticos! Em um sistema real, os dados devem ser armazenados em um banco de dados apropriado. E o mais importante: AS SENHAS NUNCA DEVEM SER SALVAS EM TEXTO PURO!!! Utilize técnicas de hash e salt para proteger as senhas.
+    </div>
+  </section>
+
+  <section id="registro">
+    <h2>Implementando o Registro de Usuário</h2>
+    <p>Agora vamos implementar a ação de registro de usuário no arquivo <code ctc>src/routes/07/login/+page.server.js</code>.</p>
+    <pre><code class="js">import { usersDB } from '$lib/server/usersDB.js';
+import { fail } from '@sveltejs/kit';
+
+export const actions = {
+  register: async ({ request }) =&gt; {
+    const data = await request.formData();
+    const email = data.get('email');
+    const password = data.get('password');
+
+    if (!email || !password) return fail(400, { error: 'Email e senha são obrigatórios.', email });
+
+    if (!email.includes('@')) return fail(400, { error: 'Email inválido.', email });
+
+    if (password.length &lt; 4) return fail(400, { error: 'A senha deve ter pelo menos 4 caracteres.', email });
+
+    if (usersDB.read(email)) return fail(400, { error: 'Email já cadastrado.', email });
+
+    try {
+      usersDB.create(email, password);
+      return { success: true, msg: 'Usuário registrado com sucesso! Agora você pode fazer o login...' };
+    } catch (error) {
+      console.error('Erro ao registrar usuário:', error);
+      return fail(500, { error: 'Ocorreu um erro inesperado. Tente novamente mais tarde.', email });
+    }
+  }
+};</code></pre>
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li>Importamos <code>fail</code> do <code>@sveltejs/kit</code> para retornar erros e <code>usersDB</code> do nosso "banco de dados" simulado.</li>
+      <li>Dentro do objeto <code>actions</code>, definimos a ação <code>register</code>, que será chamada quando o formulário de registro for submetido.</li>
+      <li>Extraímos os dados do formulário (email e senha) utilizando <code>request.formData()</code>.</li>
+      <li>Realizamos diversas validações: se email ou senha estão ausentes, se o email é válido e se a senha tem o tamanho mínimo.
+        <div class="info">A validação de email é simplificada. Em sistemas reais, utilize bibliotecas específicas e robustas para isso!</div>
+      </li>
+      <li>Verificamos se o email já está cadastrado para evitar duplicidade.</li>
+      <li>Chamamos <code>usersDB.create(email, password)</code> para criar o usuário no "banco de dados".</li>
+      <li>Em caso de sucesso, retornamos um objeto com <code>success: true</code> e uma mensagem amigável.</li>
+      <li>Em caso de erro, capturamos a exceção, registramos o erro no console e retornamos um erro genérico ao usuário.
+        <div class="info">Recomendação: Não é boa prática exibir mensagens de erro técnicas diretamente ao usuário. Elas são úteis apenas para desenvolvedores e podem revelar informações sensíveis. Por isso, erros de servidor (categoria 500) devem ser registrados apenas no servidor, onde podem ser acessados por quem mantém o sistema.</div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="login">
+    <h2>Implementando a Autenticação de Usuário</h2>
+    <p>Agora, vamos adicionar a ação de login no mesmo arquivo <code ctc>src/routes/07/login/+page.server.js</code>.</p>
+    <pre><code class="js">import { usersDB } from '$lib/server/usersDB.js';
+import { redirect, fail } from '@sveltejs/kit';
+</code>
+<code class="js" data-ln-start-from="26">  , login: async ({ request }) =&gt; {
+    const data = await request.formData();
+    const email = data.get('email');
+    const password = data.get('password');
+
+    if (!email || !password) return fail(400, { error: 'Email e senha são obrigatórios.', email });
+
+    const user = usersDB.read(email);
+
+    if (!user) return fail(400, { error: 'Usuário ou senha inválidos.', email });
+
+    if (user.password != password) return fail(400, { error: 'Usuário ou senha inválidos.', email });
+
+    redirect(303, '/07/dashboard');
+  }</code></pre>
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li>Importamos <code>redirect</code> do <code>@sveltejs/kit</code> para redirecionar o usuário após o login bem-sucedido.</li>
+      <li>Definimos a ação <code>login</code> dentro do objeto <code>actions</code>.</li>
+      <li>Extraímos email e senha do formulário.</li>
+      <li>Validamos se email e senha foram preenchidos.</li>
+      <li>Buscamos o usuário no "banco de dados" usando <code>usersDB.read(email)</code>.</li>
+      <li>Verificamos se o usuário existe e se a senha está correta. É importante não informar se o erro foi no usuário ou na senha. Isso dificulta ataques de força bruta que tentam descobrir usuários válidos e focar apenas na quebra de senhas.</li>
+      <li id="dashboard">Se o login for bem-sucedido, redirecionamos o usuário para a página <code>/07/dashboard</code>, que ainda deve ser criada.</li>
+    </ul>
+  </section>
+
+  <section id="interface">
+    <h2>Criando a Interface do Usuário</h2>
+    <p>Agora vamos criar a interface do usuário no arquivo <code ctc>src/routes/07/login/+page.svelte</code>.</p>
+    <pre><code class="svelte">&lt;script&gt;
+  let { form } = $props();
+&lt;/script&gt;
+
+&lt;h1&gt;Entrada / Registro&lt;/h1&gt;
+
+&lt;form method="POST" action="?/login"&gt;
+  &lt;label&gt;Email &lt;input name="email" type="email" value={form?.email || ''} required /&gt;&lt;/label&gt;
+  &lt;label&gt;Senha &lt;input name="password" type="password" required /&gt;&lt;/label&gt;
+  &lt;button&gt;Entrar&lt;/button&gt;
+  &lt;button formaction="?/register"&gt;Registrar&lt;/button&gt;
+&lt;/form&gt;
+
+{#if form?.error}
+  &lt;div class="d-inline-flex mt-3 alert alert-danger alert-dismissible fade show"&gt;
+    {form?.error}
+    &lt;button class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;/button&gt;
+  &lt;/div&gt;
+{/if}
+
+{#if form?.success}
+  &lt;div class="d-inline-flex mt-3 alert alert-success alert-dismissible fade show"&gt;
+    {form?.msg || 'Sucesso!'}
+    &lt;button class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;/button&gt;
+  &lt;/div&gt;
+{/if}</code></pre>
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li>Recebemos a propriedade <code>form</code>, que contém os dados retornados pelas ações de formulário.</li>
+      <li>Criamos um formulário com dois campos: email e senha.</li>
+      <li>O formulário utiliza o método POST e a ação <code>?/login</code>.</li>
+      <li>Adicionamos um botão para submeter o formulário de login e outro para o formulário de registro (usando <code>formaction="?/register"</code>).</li>
+      <li>Condicionalmente, exibimos mensagens de erro ou sucesso com estilos do Bootstrap. As classes <code>alert alert-success alert-dismissible fade show</code> definem o estilo da <a target="_blank" href="https://getbootstrap.com/docs/5.3/components/alerts/#dismissing">caixa de alerta</a> do Bootstrap. <code>d-inline-flex</code> faz com que ela ocupe apenas o espaço necessário.</li>
+      <li>O valor do campo email é mantido em caso de erro para facilitar a correção.</li>
+    </ul>
+
+    <p>A validação no navegador (como <code>type="email"</code> e <code>required</code>) ajuda a evitar erros, mas a validação no servidor é indispensável, pois o código do cliente pode ser alterado pelo usuário. Para testar, inspecione o campo de e-mail, remova o atributo <code>type="email"</code> e tente enviar um endereço de e-mail inválido.</p>
+    <p>Agora é a hora, também teste o easter egg!</p>
+
+  </section>
+
+  <section id="conclusao">
+    <h2>Conclusão</h2>
+    <p>Esta foi uma introdução à lógica de autenticação com formulários e redirecionamentos no SvelteKit. Vimos como criar um "banco de dados" simulado, implementar ações de registro e login e criar a interface do usuário. Ainda há muitos aspectos importantes que não abordamos — como o uso de cookies, armazenamento de sessões, proteção de rotas e logout seguro. Esses tópicos serão tratados em lições futuras. Por enquanto, concentre-se em entender bem a comunicação entre cliente e servidor.</p>
+  </section>
+
+  <section id="exercicios">
+    <h2>Exercícios</h2>
+    <ol class="excs">
+      <li>Crie a página <code ctc>src/routes/07/dashboard/+page.svelte</code>, <a href="#dashboard">que ainda não foi criada</a>, e exiba nela uma mensagem personalizada, como: <code>“Bem-vindo(a), Usuário!”</code>.</li>
+      <li>
+        <strong>CRUD completo de produtos</strong>
+        <p>Crie as seguintes rotas:</p>
+        <ul>
+          <li>
+            <strong><code>/07/produtos/novo</code></strong> (Formulário de Criação)
+            <ul>
+              <li>Formulário com os campos: nome (obrigatório, exclusivo), descrição (opcional, min. 10 caracteres), preço (positivo), quantidade (inteiro ≥ 0)</li>
+              <li>Falha: retorna dados e erros.</li>
+              <li>Sucesso: redireciona para a Lista de Produtos com uma mensagem de sucesso.</li>
+            </ul>
+          </li>
+          <li>
+            <strong><code>/07/produtos/[id]</code></strong> (Detalhes do Produto)
+            <ul>
+              <li>Carrega os dados do produto via <code>load</code>.</li>
+              <li>Links para editar o produto, e listar todos os produtos.</li>
+              <li>Um formulário de exclusão do produto que executa a ação nomeada <code>excluir</code> na rota <code>/07/produtos</code>.</li>
+            </ul>
+          </li>
+          <li>
+            <strong><code>/07/produtos/[id]/editar</code></strong> (Formulário de Edição)
+            <ul>
+              <li>Carrega os dados do produto via <code>load</code>.</li>
+              <li>Mesma validação da criação.</li>
+              <li>Falha: retorna dados e erros.</li>
+              <li>Sucesso: redireciona para a Lista de Produtos com uma mensagem de sucesso.</li>
+            </ul>
+          </li>
+          <li>
+            <strong><code>/07/produtos</code></strong> (Lista de Produtos)
+            <ul>
+              <li>Link para o Formulário de Criação.</li>
+              <li>Tabela com nome, preço e quantidade dos produtos. Cada item tem:
+                <ol type="a">
+                  <li>Um link para o Formulário de Edição do produto</li>
+                  <li>Um link para a página de detalhes do produto.</li>
+                  <li>Um formulário de exclusão do produto que executa a ação nomeada <code>excluir</code> na mesma rota.</li>
+                </ol>
+              <li>Exibe mensagens de sucesso após ações como criação, edição ou exclusão.</li>
+            </ul>
+          </li>
+        </ul>
+        <p>Dicas:</p>
+        <ul>
+          <li>Os dados podem ser armazenados em um array ou mapa local em <code>$lib/server/produtos.js</code> com funções <code>create</code>, <code>read</code>, <code>update</code> e <code>delete</code>, simulando um banco de dados.</li>
+          <li>Para simplificação, use um contador incremental para IDs.</li>
+          <li>As mensagens de sucesso nos redirecionamentos podem ser passadas via parâmetros de consulta e obtidas com <code>URLSearchParams</code>.</li>
+        </ul>
+      </li>
+      <li><strong>Não se esqueça de estilizar as páginas!</strong></li>
+    </ol>
+  </section>
+</div>
