@@ -87,7 +87,7 @@ export const actions = {
 
     if (!email.includes('@')) return fail(400, { error: 'Email inválido.', email });
 
-    if (password.length &lt; 4) return fail(400, { error: 'A senha deve ter pelo menos 4 caracteres.', email });
+    if (password.length < 4) return fail(400, { error: 'A senha deve ter pelo menos 4 caracteres.', email });
 
     if (usersDB.read(email)) return fail(400, { error: 'Email já cadastrado.', email });
 
