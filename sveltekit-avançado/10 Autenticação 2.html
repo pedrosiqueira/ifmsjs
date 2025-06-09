@@ -31,16 +31,16 @@
 <h1>Cookies com SvelteKit</h1>
 
 <h2 id="gerenciamento-estado">Gerenciamento de Estado na Web</h2>
-<p>Antes de entrar no assunto de cookies, vamos entender primeiramente por que eles foram inventados, para quê eles são necessários.</p>
-<p>Uma comunicação entre sistemas pode se dar em várias etapas. À medida que a comunicação procede, o "estado" da comunicação muda. Portanto, entendamos o "estado" da comunicação como "o conjunto de informações que descrevem o contexto atual de uma interação entre cliente e servidor". Em outras palavras: Estado representa quem é o usuário, o que ele já fez, em que etapa está, ou qualquer outro dado que o servidor precisa lembrar entre requisições. Isto posto, uma sistema pode ter uma arquitetura stateless ou stateful.</p>
+<p>Antes de entrarmos no assunto de cookies, vamos entender primeiramente o contexto em que eles foram inventados e por que são necessários.</p>
+<p>A comunicação entre sistemas frequentemente se desenrola em várias etapas. Conforme essa comunicação avança, o "estado" da interação muda. Podemos definir o "estado" da comunicação como "o conjunto de informações que descreve o contexto atual de uma interação entre cliente e servidor". Em outras palavras: o estado representa a identidade do usuário, suas ações prévias, o estágio atual da interação ou qualquer outro dado que o servidor precise lembrar entre requisições. Isto posto, um sistema pode ser classificado como stateless ou stateful.</p>
 
 <h3 id="stateless">✅ Stateless (Sem Estado)</h3>
-<p>Um sistema <strong>stateless</strong> não mantém informações sobre interações anteriores. Cada requisição é <strong>independente</strong>, como se fosse a <strong>primeira vez</strong> que o cliente se comunica com o servidor.</p>
-<p>Exemplo: O protocolo HTTP puro é stateless. A cada requisição, o servidor não reconhece o cliente, a menos que a requisição traga algum identificador (token, cookie etc.).</p>
+<p>Um sistema <strong>stateless</strong> não retém informações sobre interações anteriores. Cada requisição é tratada de forma <strong>independente</strong>, como se fosse a <strong>primeira interação</strong> entre o cliente e o servidor.</p>
+<p>Exemplo: O protocolo HTTP puro é stateless. Em cada requisição, o servidor não reconhece o cliente, a menos que a requisição inclua um identificador (token, cookie, etc.).</p>
 
 <h3 id="stateful">🔁 Stateful (Com Estado)</h3>
-<p>Um sistema <strong>stateful</strong> <strong>mantém informações</strong> sobre interações anteriores. O servidor <strong>lembra do cliente</strong> entre uma requisição e outra, geralmente armazenando isso em uma <strong>sessão</strong>.</p>
-<p>Exemplo: Após fazer login em um site, o servidor armazena seus dados em uma sessão e sabe que você está autenticado ao navegar pelas páginas.</p>
+<p>Um sistema <strong>stateful</strong> <strong>mantém informações</strong> sobre interações passadas. O servidor <strong>lembra do cliente</strong> entre requisições, geralmente armazenando esses dados em uma <strong>sessão</strong>.</p>
+<p>Exemplo: Após o login em um site, o servidor armazena os dados do usuário em uma sessão, permitindo que ele permaneça autenticado enquanto navega pelas páginas.</p>
 
 <h3 id="comparacao-estado">📊 Comparação</h3>
 <table border>
@@ -88,17 +88,17 @@
 <hr />
 
 <h2 id="o-que-sao-cookies">🍪 O que são Cookies?</h2>
-<p><strong>Cookies</strong> são pequenos arquivos de texto que os navegadores armazenam localmente no dispositivo do usuário, a pedido de um servidor web. Eles servem para guardar informações úteis entre diferentes requisições HTTP — que, por padrão, são <em>stateless</em> (sem estado).</p>
-<p>Ou seja, sem cookies (ou outros mecanismos de armazenamento), cada requisição seria como se fosse feita por um visitante completamente novo.</p>
+<p><strong>Cookies</strong> são pequenos arquivos de texto que os navegadores armazenam localmente no dispositivo do usuário a pedido de um servidor web. Eles servem para guardar informações úteis entre diferentes requisições HTTP, que, por padrão, são <em>stateless</em> (sem estado).</p>
+<p>Ou seja, sem cookies (ou outros mecanismos de armazenamento), cada requisição seria tratada como se fosse feita por um visitante completamente novo.</p>
 
 <h3 id="para-que-servem">🧠 Para que servem?</h3>
 <p>Cookies podem ser usados para diversas finalidades, incluindo:</p>
 <ul>
-  <li><strong>Autenticação</strong>: manter usuário logado.</li>
-  <li><strong>Preferências</strong>: tema, idioma, layout.</li>
-  <li><strong>Carrinho de compras</strong>: itens persistentes.</li>
-  <li><strong>Analytics</strong>: rastrear o comportamento do usuário.</li>
-  <li><strong>Personalização</strong>: conteúdos personalizados (marketing).</li>
+  <li><strong>Autenticação</strong>: manter o usuário logado.</li>
+  <li><strong>Preferências</strong>: tema, idioma, layout do site.</li>
+  <li><strong>Carrinho de compras</strong>: persistência dos itens selecionados.</li>
+  <li><strong>Análise de dados (Analytics)</strong>: rastrear o comportamento do usuário para fins estatísticos.</li>
+  <li><strong>Personalização</strong>: exibir conteúdos personalizados com base no perfil do usuário (marketing).</li>
 </ul>
 
 <h3 id="como-funcionam">🛠 Como funcionam?</h3>
@@ -137,29 +137,29 @@
     </tr>
     <tr>
       <td><code>Max-Age</code></td>
-      <td>Tempo de vida em segundos (preferido ao invés de <code>Expires</code>).</td>
+      <td>Tempo de vida em segundos (preferível em vez de <code>Expires</code>).</td>
     </tr>
     <tr>
       <td><code>HttpOnly</code></td>
-      <td>Impede acesso via JavaScript (aumenta segurança contra XSS).</td>
+      <td>Impede o acesso via JavaScript, aumentando a segurança contra ataques XSS (Cross-Site Scripting).</td>
     </tr>
     <tr>
       <td><code>Secure</code></td>
-      <td>Envia o cookie apenas em conexões HTTPS.</td>
+      <td>Garante que o cookie seja enviado apenas em conexões HTTPS (seguras).</td>
     </tr>
     <tr>
       <td><code>SameSite</code></td>
-      <td>Controla o envio em requisições cross-site. Pode ser <code>Strict</code>, <code>Lax</code> ou <code>None</code>.</td>
+      <td>Controla o envio do cookie em requisições cross-site, protegendo contra ataques CSRF (Cross-Site Request Forgery). Pode ser <code>Strict</code>, <code>Lax</code> ou <code>None</code>.</td>
     </tr>
   </tbody>
 </table>
 
 <div class="info">
-  <p>Dica: Acesse as ferramentas de desenvolvimento do teu navegador, →..., e verifique os cookies de alguma página!</p>
+  <p>Dica: Use as ferramentas de desenvolvedor do seu navegador (geralmente acessíveis pelo menu "Mais ferramentas" ou clicando com o botão direito na página e selecionando "Inspecionar") para visualizar os cookies de qualquer página web!</p>
 </div>
 
 <h3 id="tipos-de-cookies">💡 Tipos de Cookies</h3>
-<p>Podemos comparar os cookies quanto à durabilidade:</p>
+<p>Podemos classificar os cookies com base na sua durabilidade:</p>
 <table border>
   <thead>
     <tr>
@@ -171,18 +171,18 @@
   <tbody>
     <tr>
       <td><strong>De Sessão</strong></td>
-      <td>Até fechar o navegador</td>
-      <td>Login temporário, sessão anônima. [me dê mais exemplos]</td>
+      <td>Até o fechamento do navegador</td>
+      <td>Login temporário, carrinhos de compras para usuários não registrados, manter preferências durante uma sessão anônima.</td>
     </tr>
     <tr>
       <td><strong>Persistentes</strong></td>
-      <td>Até expirar (<code>Max-Age</code> ou <code>Expires</code>)</td>
-      <td>“Lembrar de mim”, carrinhos, preferências de tema</td>
+      <td>Até a data de expiração definida (<code>Max-Age</code> ou <code>Expires</code>)</td>
+      <td>Funcionalidade "Lembrar de mim" em logins, preferências de tema e idioma, itens salvos no carrinho de compras entre visitas.</td>
     </tr>
   </tbody>
 </table>
 
-<p>Também podemos separar os cookies por que tipo de servidor os utiliza:</p>
+<p>Também podemos classificar os cookies com base no domínio que os define:</p>
 
 <table border>
   <thead>
@@ -194,42 +194,42 @@
   </thead>
   <tbody>
     <tr>
-      <td><strong>Próprios</strong></td>
-      <td>? cookies are set by the website that you are currently visiting</td>
-      <td>? cookies are generally used to provide a good user experience, collect the analytics data, remember language settings etc. [reformule] </td>
+      <td><strong>Próprios (First-party)</strong></td>
+      <td>Cookies definidos pelo próprio site que você está visitando.</td>
+      <td>Melhorar a experiência do usuário, coletar dados analíticos sobre o comportamento do usuário no site, lembrar configurações de idioma ou outras preferências.</td>
     </tr>
     <tr>
-      <td><strong>De terceiros</strong></td>
-      <td>Definido por domínios externos (ads, widgets)</td>
-      <td>Third-party cookies are mostly used for cross-site tracking and advertising purposes these cookies collect data about your browsing habits and serve ads according to it. For example, when you visit a website, it may include content (such as ads or social media widgets) from third-party domains. These third-party domains can set cookies on your browser to track your online activity and build profiles for targeted advertising or analytics. [reformule]</td>
+      <td><strong>De Terceiros (Third-party)</strong></td>
+      <td>Cookies definidos por um domínio diferente do site que você está visitando (geralmente por anunciantes, redes sociais ou outros serviços externos).</td>
+      <td>Rastreamento do usuário em diferentes sites para fins de publicidade direcionada, exibir anúncios personalizados com base nos seus interesses, integrar funcionalidades de redes sociais (como botões de "curtir" ou "compartilhar").</td>
     </tr>
   </tbody>
 </table>
 
 <h3 id="seguranca">⚠️ Boas Práticas de Segurança</h3>
 <ol>
-  <li><strong>HttpOnly</strong>: Protege contra ataques XSS (impede acesso via JavaScript).</li>
-  <li><strong>Secure</strong>: Evita envio de cookies por HTTP não seguro.</li>
-  <li><strong>SameSite</strong>:
+  <li><strong>HttpOnly</strong>: Protege contra ataques XSS, impedindo que scripts JavaScript acessem o cookie.</li>
+  <li><strong>Secure</strong>: Garante que o cookie seja transmitido apenas por conexões HTTPS (criptografadas), evitando interceptação por terceiros.</li>
+  <li><strong>SameSite</strong>: Controla quando o cookie é enviado em requisições cross-site, mitigando o risco de ataques CSRF.
     <ul>
-      <li><code>Strict</code>: Só envia o cookie em requisições do mesmo site.</li>
-      <li><code>Lax</code>: Permite algumas requisições cross-site (como cliques em links).</li>
-      <li><code>None</code>: Permite tudo, mas exige <code>Secure</code>.</li>
+      <li><code>Strict</code>: O cookie só é enviado em requisições originadas do mesmo site. Oferece a maior proteção contra CSRF, mas pode afetar a usabilidade em alguns cenários (ex: links externos).</li>
+      <li><code>Lax</code>: Permite o envio do cookie em algumas requisições cross-site "seguras", como ao clicar em links (método GET). Oferece um bom equilíbrio entre segurança e usabilidade.</li>
+      <li><code>None</code>: Permite o envio do cookie em todas as requisições cross-site. Requer que o atributo <code>Secure</code> também seja definido, garantindo que o cookie seja transmitido apenas por HTTPS.</li>
     </ul>
   </li>
-  <li><strong>Cookies não são criptografados por padrão</strong>. Se armazenar dados sensíveis, é necessário criptografá-los.</li>
+  <li><strong>Cookies não são criptografados por padrão</strong>. Se você precisar armazenar dados sensíveis, é essencial criptografá-los antes de armazenar no cookie.</li>
 </ol>
 
-<h3>How do cookies affect privacy?</h3>
-<p>adaptador <a href="https://www.geeksforgeeks.org/understanding-cookies-in-web-browsers/">daqui</a> </p>
-<p>Cookies can have both positive and negative effects on privacy:</p>
+<h3>Como os cookies afetam a privacidade?</h3>
+<p>Adaptado <a href="https://www.geeksforgeeks.org/understanding-cookies-in-web-browsers/">daqui</a> </p>
+<p>Os cookies podem ter efeitos tanto positivos quanto negativos na privacidade:</p>
 
-<p>Positive: Cookies can enhance user experiences by remembering preferences and login information, making websites more user-friendly.</p>
+<p>Positivo: Cookies podem melhorar a experiência do usuário, lembrando preferências e informações de login, tornando os sites mais fáceis de usar.</p>
 
-<p>Negative: Cookies can raise privacy concerns when they are used for tracking and profiling without user consent. Excessive tracking can result in a loss of online privacy and the potential for data misuse.</p>
+<p>Negativo: Cookies podem levantar preocupações com a privacidade quando são usados para rastreamento e criação de perfis sem o consentimento do usuário. O rastreamento excessivo pode resultar em perda de privacidade online e potencial uso indevido de dados.</p>
 
 <h3 id="alternativas">📦 Cookies vs Alternativas</h3>
-<p>Além de cookies, existem outras formas de armazenamento no navegador:</p>
+<p>Além dos cookies, existem outras formas de armazenamento no navegador:</p>
 <table border>
   <thead>
     <tr>
@@ -255,7 +255,7 @@
     <tr>
       <td>sessionStorage</td>
       <td>Sim</td>
-      <td>Ao fechar aba</td>
+      <td>Ao fechar a aba</td>
       <td>Não</td>
     </tr>
     <tr>
@@ -266,10 +266,10 @@
     </tr>
   </tbody>
 </table>
-<p>Use cookies quando <strong>precisar que o servidor leia os dados</strong> em cada requisição. Para demais casos, use <code>localStorage</code> ou <code>sessionStorage</code>.</p>
+<p>Use cookies quando você <strong>precisar que o servidor tenha acesso aos dados</strong> em cada requisição. Para outros casos, utilize <code>localStorage</code> ou <code>sessionStorage</code>.</p>
 
 <h3 id="conclusão">✅ Conclusão</h3>
-<p>Cookies são essenciais para dar “memória” aos aplicativos web. Usados corretamente, eles possibilitam autenticação, personalização e muito mais. No entanto, seu uso deve ser cuidadoso, respeitando boas práticas de segurança (como <code>HttpOnly</code>, <code>Secure</code> e <code>SameSite</code>) e privacidade do usuário.</p>
+<p>Cookies são essenciais para adicionar "memória" aos aplicativos web. Quando utilizados corretamente, eles permitem autenticação, personalização e muito mais. No entanto, seu uso deve ser feito com cautela, respeitando as boas práticas de segurança (como <code>HttpOnly</code>, <code>Secure</code> e <code>SameSite</code>) e a privacidade do usuário.</p>
 <hr />
 
 <h2 id="cookies-no-sveltekit">🍃 Cookies no SvelteKit</h2>
