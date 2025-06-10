@@ -1,31 +1,144 @@
 <!DOCTYPE html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
-  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+	<script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
 
-  <!-- https://github.com/arronhunt/highlightjs-copy -->
-  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
-  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
-  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+	<!-- https://github.com/arronhunt/highlightjs-copy -->
+	<link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+	<script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+	<script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
 
-  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
-  <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+	<!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+	<!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
   <script defer>hljs.highlightLinesAll([[], [], [{ start: 2, end: 2, color: 'lightblue' }]]);</script> -->
 
-  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
-  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+	<script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 
 <h1>Hooks</h1>
+<div class="text svelte-zb31s9"><!---->
+	<h2>handle</h2>
+	<p>SvelteKit provides several <em>hooks</em> — ways to intercept and override the framework’s default behaviour.</p>
+	<p>The most elementary hook is <code>handle</code>, which lives in <code>src/hooks.server.js</code>. It receives an <code>event</code> object along with a <code>resolve</code> function, and returns a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response"><code>Response</code></a>.</p>
+	<p>This function runs every time the SvelteKit server receives a <a href="web-standards#Fetch-APIs-Request">request</a> — whether that happens while the app is running, or during <a href="page-options#prerender">prerendering</a> — and determines the <a href="web-standards#Fetch-APIs-Response">response</a>. It receives an <code>event</code> object representing the request and a function called <code>resolve</code>, which renders the route and generates a <code>Response</code>. This allows you to modify response headers or bodies, or bypass SvelteKit entirely (for implementing routes programmatically, for example).</p>
+	<p><code>resolve</code> is where the magic happens: SvelteKit matches the incoming request URL to a route of your app, imports the relevant code (<code>+page.server.js</code> and <code>+page.svelte</code> files and so on), loads the data needed by the route, and generates the response.</p>
+	<p>The default <code>handle</code> hook looks like this:</p>
+	<div class="code-block">
+		<div class="controls"><span class="filename" data-ext=".js">src/hooks.server</span><button class="copy-to-clipboard raised" title="Copy to clipboard" aria-label="Copy to clipboard"></button></div>
+		<pre data-language="js" class="shiki css-variables" style="background-color:var(--shiki-background);color:var(--shiki-foreground)"><code><span class="line"><span style="color:var(--shiki-token-keyword)">export</span> <span style="color:var(--shiki-token-keyword)">async</span> <span style="color:var(--shiki-token-keyword)">function</span> <span style="color:var(--shiki-token-function)">handle</span><span style="color:var(--shiki-foreground)">({ event</span><span style="color:var(--shiki-token-punctuation)">,</span> <span style="color:var(--shiki-foreground)">resolve }) {</span></span>
+<span class="line">	<span style="color:var(--shiki-token-keyword)">return</span> <span style="color:var(--shiki-token-keyword)">await</span> <span style="color:var(--shiki-token-function)">resolve</span><span style="color:var(--shiki-foreground)">(event);</span></span>
+<span class="line"><span style="color:var(--shiki-foreground)">}</span></span></code></pre>
+	</div>
+	<p>For pages (as opposed to <a href="get-handlers">API routes</a>), you can modify the generated HTML with <code>transformPageChunk</code>:</p>
+	<div class="code-block">
+		<div class="controls"><span class="filename" data-ext=".js">src/hooks.server</span><button class="copy-to-clipboard raised" title="Copy to clipboard" aria-label="Copy to clipboard"></button></div>
+		<pre data-language="js" class="shiki css-variables" style="background-color:var(--shiki-background);color:var(--shiki-foreground)"><code><span class="line"><span style="color:var(--shiki-token-keyword)">export</span> <span style="color:var(--shiki-token-keyword)">async</span> <span style="color:var(--shiki-token-keyword)">function</span> <span style="color:var(--shiki-token-function)">handle</span><span style="color:var(--shiki-foreground)">({ event</span><span style="color:var(--shiki-token-punctuation)">,</span> <span style="color:var(--shiki-foreground)">resolve }) {</span></span>
+<span class="line">	<span style="color:var(--shiki-token-keyword)">return</span> <span style="color:var(--shiki-token-keyword)">await</span> <span style="color:var(--shiki-token-function)">resolve</span><span style="color:var(--shiki-foreground)">(event</span><span style="color:var(--shiki-token-punctuation)">,</span> <span style="color:var(--shiki-foreground)">{</span></span>
+<span class="line"><span class="highlight add">		<span style="color:var(--shiki-token-function)">transformPageChunk</span><span style="color:var(--shiki-token-keyword)">:</span> <span style="color:var(--shiki-foreground)">({ html })</span> <span style="color:var(--shiki-token-keyword)">=&gt;</span> <span style="color:var(--shiki-token-constant)">html</span><span style="color:var(--shiki-token-function)">.replace</span><span style="color:var(--shiki-foreground)">(</span></span></span>
+<span class="highlight add"><span class="line">			<span style="color:var(--shiki-token-string-expression)">'&lt;body'</span><span style="color:var(--shiki-token-punctuation)">,</span></span></span>
+<span class="highlight add"><span class="line">			<span style="color:var(--shiki-token-string-expression)">'&lt;body style="color: hotpink"'</span></span></span>
+<span class="highlight add"><span class="line">		<span style="color:var(--shiki-foreground)">)</span></span></span>
+<span class="line">	<span style="color:var(--shiki-foreground)">});</span></span>
+<span class="line"><span style="color:var(--shiki-foreground)">}</span></span></code></pre>
+	</div>
+	<p>You can also create entirely new routes:</p>
+	<div class="code-block">
+		<div class="controls"><span class="filename" data-ext=".js">src/hooks.server</span><button class="copy-to-clipboard raised" title="Copy to clipboard" aria-label="Copy to clipboard"></button></div>
+		<pre data-language="js" class="shiki css-variables" style="background-color:var(--shiki-background);color:var(--shiki-foreground)"><code><span class="line"><span style="color:var(--shiki-token-keyword)">export</span> <span style="color:var(--shiki-token-keyword)">async</span> <span style="color:var(--shiki-token-keyword)">function</span> <span style="color:var(--shiki-token-function)">handle</span><span style="color:var(--shiki-foreground)">({ event</span><span style="color:var(--shiki-token-punctuation)">,</span> <span style="color:var(--shiki-foreground)">resolve }) {</span></span>
+<span class="line"><span class="highlight add">	<span style="color:var(--shiki-token-keyword)">if</span> <span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-constant)">event</span><span style="color:var(--shiki-foreground)">.</span><span style="color:var(--shiki-token-constant)">url</span><span style="color:var(--shiki-foreground)">.pathname</span> <span style="color:var(--shiki-token-keyword)">===</span> <span style="color:var(--shiki-token-string-expression)">'/ping'</span><span style="color:var(--shiki-foreground)">) {</span></span></span>
+<span class="highlight add"><span class="line">		<span style="color:var(--shiki-token-keyword)">return</span> <span style="color:var(--shiki-token-keyword)">new</span> <span style="color:var(--shiki-token-function)">Response</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">'pong'</span><span style="color:var(--shiki-foreground)">);</span></span></span>
+<span class="highlight add"><span class="line">	<span style="color:var(--shiki-foreground)">}</span></span></span>
+<span class="line"></span>
+<span class="line">	<span style="color:var(--shiki-token-keyword)">return</span> <span style="color:var(--shiki-token-keyword)">await</span> <span style="color:var(--shiki-token-function)">resolve</span><span style="color:var(--shiki-foreground)">(event</span><span style="color:var(--shiki-token-punctuation)">,</span> <span style="color:var(--shiki-foreground)">{</span></span>
+<span class="line">		<span style="color:var(--shiki-token-function)">transformPageChunk</span><span style="color:var(--shiki-token-keyword)">:</span> <span style="color:var(--shiki-foreground)">({ html })</span> <span style="color:var(--shiki-token-keyword)">=&gt;</span> <span style="color:var(--shiki-token-constant)">html</span><span style="color:var(--shiki-token-function)">.replace</span><span style="color:var(--shiki-foreground)">(</span></span>
+<span class="line">			<span style="color:var(--shiki-token-string-expression)">'&lt;body'</span><span style="color:var(--shiki-token-punctuation)">,</span></span>
+<span class="line">			<span style="color:var(--shiki-token-string-expression)">'&lt;body style="color: hotpink"'</span></span>
+<span class="line">		<span style="color:var(--shiki-foreground)">)</span></span>
+<span class="line">	<span style="color:var(--shiki-foreground)">});</span></span>
+<span class="line"><span style="color:var(--shiki-foreground)">}</span></span></code></pre>
+	</div><!----><!---->
+
+	<pre><code class="js">/** @type {import('@sveltejs/kit').Handle} */
+export async function handle({ event, resolve }) {
+	event.locals.user = await getUserInformation(event.cookies.get('sessionid'));
+
+	const response = await resolve(event);
+
+	// Note that modifying response headers isn't always safe.
+	// Response objects can have immutable headers
+	// (e.g. Response.redirect() returned from an endpoint).
+	// Modifying immutable headers throws a TypeError.
+	// In that case, clone the response or avoid creating a
+	// response object with immutable headers.
+	response.headers.set('x-custom-header', 'potato');
+
+	return response;
+}</code></pre>
+</div>
+<div class="text svelte-zb31s9"><!---->
+	<h2>The RequestEvent object</h2>
+	<p>The <code>event</code> object passed into <code>handle</code> is the same object — an instance of a <a href="/docs/kit/@sveltejs-kit#RequestEvent"><code>RequestEvent</code></a> — that is passed into <a href="get-handlers">API routes</a> in <code>+server.js</code> files, <a href="the-form-element">form actions</a> in <code>+page.server.js</code> files, and <code>load</code> functions in <code>+page.server.js</code> and <code>+layout.server.js</code>.</p>
+	<p>It contains a number of useful properties and methods, some of which we’ve already encountered:</p>
+	<ul>
+		<li><code>cookies</code> — the <a href="cookies">cookies API</a></li>
+		<li><code>fetch</code> — the standard <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">Fetch API</a>, with additional powers</li>
+		<li><code>getClientAddress()</code> — a function to get the client’s IP address</li>
+		<li><code>isDataRequest</code> — <code>true</code> if the browser is requesting data for a page during client-side navigation, <code>false</code> if a page/route is being requested directly</li>
+		<li><code>locals</code> — a place to put arbitrary data</li>
+		<li><code>params</code> — the route parameters</li>
+		<li><code>request</code> — the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Request">Request</a> object</li>
+		<li><code>route</code> — an object with an <code>id</code> property representing the route that was matched</li>
+		<li><code>setHeaders(...)</code> — a function for <a href="headers">setting HTTP headers</a> on the response</li>
+		<li><code>url</code> — a <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL">URL</a> object representing the current request</li>
+	</ul>
+	<p>To add custom data to the request, which is passed to handlers in <code>+server.js</code> and server <code>load</code> functions, populate the <code>event.locals</code> object, as shown below.</p>
+	<p>A useful pattern is to add some data to <code>event.locals</code> in <code>handle</code> so that it can be read in subsequent <code>load</code> functions:</p>
+	<div class="code-block">
+		<div class="controls"><span class="filename" data-ext=".js">src/hooks.server</span><button class="copy-to-clipboard raised" title="Copy to clipboard" aria-label="Copy to clipboard"></button></div>
+		<pre data-language="js" class="shiki css-variables" style="background-color:var(--shiki-background);color:var(--shiki-foreground)"><code><span class="line"><span style="color:var(--shiki-token-keyword)">export</span> <span style="color:var(--shiki-token-keyword)">async</span> <span style="color:var(--shiki-token-keyword)">function</span> <span style="color:var(--shiki-token-function)">handle</span><span style="color:var(--shiki-foreground)">({ event</span><span style="color:var(--shiki-token-punctuation)">,</span> <span style="color:var(--shiki-foreground)">resolve }) {</span></span>
+<span class="line">	<span class="highlight add"><span style="color:var(--shiki-token-constant)">event</span><span style="color:var(--shiki-foreground)">.</span><span style="color:var(--shiki-token-constant)">locals</span><span style="color:var(--shiki-foreground)">.answer</span> <span style="color:var(--shiki-token-keyword)">=</span> <span style="color:var(--shiki-token-constant)">42</span><span style="color:var(--shiki-foreground)">;</span></span></span>
+<span class="line">	<span style="color:var(--shiki-token-keyword)">return</span> <span style="color:var(--shiki-token-keyword)">await</span> <span style="color:var(--shiki-token-function)">resolve</span><span style="color:var(--shiki-foreground)">(event);</span></span>
+<span class="line"><span style="color:var(--shiki-foreground)">}</span></span></code></pre>
+	</div>
+	<div class="code-block">
+		<div class="controls"><span class="filename" data-ext=".js">src/routes/+page.server</span><button class="copy-to-clipboard raised" title="Copy to clipboard" aria-label="Copy to clipboard"></button></div>
+		<pre data-language="js" class="shiki css-variables" style="background-color:var(--shiki-background);color:var(--shiki-foreground)"><code><span class="line"><span style="color:var(--shiki-token-keyword)">export</span> <span style="color:var(--shiki-token-keyword)">function</span> <span style="color:var(--shiki-token-function)">load</span><span style="color:var(--shiki-foreground)">(<span class="highlight add">event</span>) {</span></span>
+<span class="line">	<span style="color:var(--shiki-token-keyword)">return</span> <span style="color:var(--shiki-foreground)">{</span></span>
+<span class="line">		<span style="color:var(--shiki-foreground)">message</span><span style="color:var(--shiki-token-keyword)">:</span> <span style="color:var(--shiki-token-string-expression)">`the answer is</span> <span style="color:var(--shiki-token-keyword)">${</span><span class="highlight add"><span style="color:var(--shiki-token-constant)">event</span><span style="color:var(--shiki-foreground)">.</span><span style="color:var(--shiki-token-constant)">locals</span><span style="color:var(--shiki-foreground)">.answer</span></span><span style="color:var(--shiki-token-keyword)">}</span><span style="color:var(--shiki-token-string-expression)">`</span></span>
+<span class="line">	<span style="color:var(--shiki-foreground)">};</span></span>
+<span class="line"><span style="color:var(--shiki-foreground)">}</span></span></code></pre>
+	</div><!----><!---->
+
+	<p>You can define multiple <code>handle</code> functions and execute them with <a href="@sveltejs-kit-hooks">the <code>sequence</code> helper function</a>.</p>
+	<p><code>resolve</code> also supports a second, optional parameter that gives you more control over how the response will be rendered. That parameter is an object that can have the following fields:</p>
+	<ul>
+		<li><code>transformPageChunk(opts: { html: string, done: boolean }): MaybePromise&lt;string | undefined&gt;</code> — applies custom transforms to HTML. If <code>done</code> is true, it’s the final chunk. Chunks are not guaranteed to be well-formed HTML (they could include an element’s opening tag but not its closing tag, for example) but they will always be split at sensible boundaries such as <code>%sveltekit.head%</code> or layout/page components.</li>
+		<li><code>filterSerializedResponseHeaders(name: string, value: string): boolean</code> — determines which headers should be included in serialized responses when a <code>load</code> function loads a resource with <code>fetch</code>. By default, none will be included.</li>
+		<li><code>preload(input: { type: 'js' | 'css' | 'font' | 'asset', path: string }): boolean</code> — determines what files should be added to the <code>&lt;head&gt;</code> tag to preload it. The method is called with each file that was found at build time while constructing the code chunks — so if you for example have <code>import './styles.css</code> in your <code>+page.svelte</code>, <code>preload</code> will be called with the resolved path to that CSS file when visiting that page. Note that in dev mode <code>preload</code> is <em>not</em> called, since it depends on analysis that happens at build time. Preloading can improve performance by downloading assets sooner, but it can also hurt if too much is downloaded unnecessarily. By default, <code>js</code> and <code>css</code> files will be preloaded. <code>asset</code> files are not preloaded at all currently, but we may add this later after evaluating feedback.</li>
+	</ul>
+</div>
+
+<div>
+	<h2>mais informações</h2>
+	<p>There are three hooks files, all optional:</p>
+	<ul>
+		<li><code>src/hooks.server.js</code> — your app’s server hooks</li>
+		<li><code>src/hooks.client.js</code> — your app’s client hooks</li>
+		<li><code>src/hooks.js</code> — your app’s hooks that run on both the client and server</li>
+	</ul>
+	<p>Code in these modules will run when the application starts up, making them useful for initializing database clients and so on.</p>
+	para mais informações, consulte a documentação oficial https://svelte.dev/docs/kit/hooks
+</div>

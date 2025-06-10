@@ -41,6 +41,63 @@
 - Operações básicas: **soma, subtração, multiplicação e divisão**.
 - Interface simples com botões numéricos e operadores.
 - Exibição do histórico das últimas operações.
+- funções adicionais: inverter sinal, quadrado, raiz quadrada, arredondar, logaritmo, resto da divisão, apagar último dígito.
+
+---
+
+### Dicionário
+
+- Busca por Palavra
+  - Campo de texto para digitar a palavra.
+  - Filtro por prefixo (ex: “ab” mostra “aba”, “abacate”, etc).
+- Exibição da Definição
+  - Mostra definição da palavra buscada.
+  - Ao clicar em qualquer palavra da definição, abrir sua definição.
+- Lista de Palavras (paginada ou por letra)
+  - A–Z ou rolagem com agrupamento por letras iniciais.
+- Palavra aleatória do dia.
+
+Para uso quando tiver salvando dados:
+
+- opção de selecionar múltiplos dicionários pt-pt, pt-en, en-pt...
+- Favoritos: Marcar palavras para consulta rápida (usando armazenamento local).
+- Histórico de buscas: Salvar últimas palavras buscadas e contagem das palavras.
+- Diferentes temas: Interface adaptável ao sistema.
+
+---
+
+### Treinador de Tabuada
+
+- Mostra multiplicações aleatórias para o aluno resolver.
+- Não precisa salvar o desempenho.
+
+---
+
+### Quiz com Perguntas Embutidas
+
+- Perguntas e respostas codificadas no próprio app.
+- Sem necessidade de banco de dados.
+
+---
+
+### Gerador de Frases Motivacionais
+
+- Mostra uma nova frase toda vez que o usuário toca na tela.
+- Frases embutidas no código.
+
+---
+
+### App de Sorteio (tipo roleta ou número aleatório)
+
+- Gira uma roleta ou escolhe um número aleatório.
+- Nenhum dado salvo.
+
+---
+
+### Jogo de Lógica ou Puzzle
+
+- Sudoku, jogo da memória, quebra-cabeças.
+- Estados podem ser armazenados em variáveis temporárias.
 
 ---
 
