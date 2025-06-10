@@ -80,6 +80,7 @@
   &lt;input name="senha" type="password" placeholder="Senha" /&gt;
   &lt;button&gt;Entrar&lt;/button&gt;
 &lt;/form&gt;
+
 {#if data.status == 400}
   &lt;p&gt;E-mail e senha são obrigatórios!&lt;/p&gt;
 {:else if data.status == 401}
@@ -312,22 +313,9 @@ export const actions = {
   <p>O equivalente de <code>form?.email || ''</code> usando <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator">operador ternário</a> seria <code>form? form.email : ''</code>, que significa: obtenha o <code>email</code> de <code>form</code>, caso exista, senão, obtenha uma string vazia.</p>
 </div>
 
-<h2>GET vs POST</h2>
-<p>Para invocar uma ação de formulário, é necessário usar <code>method="POST"</code>. Formulários com <code>method="GET"</code> (ou sem especificar) simplesmente navegam para a URL indicada, como se fosse um link (<code>&lt;a&gt;</code>), anexando os campos como parâmetros de consulta, e acionam apenas a função <code>load</code> da rota de destino – nada é enviado ao objeto <code>actions</code>. Exemplo:</p>
-
-<pre><code class="language-svelte">&lt;form action="/search"&gt;
-  &lt;label&gt;
-    Pesquisa:
-    &lt;input name="q" type="text" /&gt;
-  &lt;/label&gt;
-  &lt;button&gt;Buscar&lt;/button&gt;
-&lt;/form&gt;</code></pre>
-
-<p>Ao submeter, o navegador vai para <code>/search?q=...</code> usando GET e o SvelteKit chama <code>load</code> em <code>/search</code>, mas não aciona nenhuma ação de formulário.</p>
-
 <h2 id="Named-actions">Ações Nomeadas</h2>
 
-<p>Além da ação padrão, podemos declarar várias ações nomeadas em um mesmo arquivo <code>+page.server.js</code>. Cada ação é chamada ao especificar <code>?/nomeDaAcao</code> em <code>action</code> ou em <code>formaction</code>.</p>
+<p>Além da ação padrão, podemos declarar várias ações nomeadas em um mesmo arquivo <code>+page.server.js</code>. Cada ação é executada ao especificar <code>?/nomeDaAcao</code> em <code>action</code> ou em <code>formaction</code>.</p>
 
 <p>Crie o arquivo <code ctc>src/routes/06/named/+page.server.js</code>:</p>
 <pre><code class="language-javascript">import { fail } from '@sveltejs/kit';
@@ -402,6 +390,50 @@ export const actions = {
   <p><strong>Atenção:</strong> Não é recomendável combinar ação padrão com ações nomeadas na mesma página. Se você submeter uma ação nomeada sem redirecionar, o parâmetro <code>?/acao</code> permanecerá na URL. Assim, uma próxima submissão para a ação padrão continuará sendo tratada pela última ação nomeada, o que pode causar comportamentos inesperados.</p>
 </div>
 
+<h2>GET vs POST</h2>
+<p>Para invocar uma ação de formulário, é necessário usar <code>method="POST"</code>. Formulários com <code>method="GET"</code> (ou sem especificar) simplesmente navegam para a URL indicada, como se fosse um link (<code>&lt;a&gt;</code>), anexando os campos como parâmetros de consulta, e acionam apenas a função <code>load</code> da rota de destino – nada é enviado ao objeto <code>actions</code>. Exemplo:</p>
+
+<pre><code class="language-svelte">&lt;form action="/search"&gt;
+  &lt;label&gt;
+    Pesquisa:
+    &lt;input name="q" type="text" /&gt;
+  &lt;/label&gt;
+  &lt;button&gt;Buscar&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+<p>Ao submeter, o navegador vai para <code>/search?q=...</code> usando GET e o SvelteKit executa <code>load</code> em <code>/search</code>, mas não aciona nenhuma ação de formulário.</p>
+
+Veja as principais diferenças de tratamento entre as requisições GET e POST:
+
+<table border>
+  <thead>
+    <tr>
+      <th>Operação</th>
+      <th>GET</th>
+      <th>POST</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Quem recebe as requisições</td>
+      <td>A função <code>load</code></td>
+      <td>As funções do objeto <code>actions</code></td>
+    </tr>
+    <tr>
+      <td>Como obter os dados do formulário</td>
+      <td>Através do método <code>url.searchParams()</code></td>
+      <td>Através do método <code>request.formData()</code></td>
+    </tr>
+    <tr>
+      <td>Como os dados do servidor chegam até a página</td>
+      <td>Através da variável <code>data</code></td>
+      <td>Através da variável <code>form</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="info">Atenção: Mesmo uma requisição POST pode enviar parâmetros de consulta pela URL. Apesar de requisições GET também poderem enviar dados por um corpo, <a href="https://www.baeldung.com/cs/http-get-with-body">isso não ser recomendado</a>.</div>
+
 <h2>Exercícios de Fixação</h2>
 <ol>
   <li>Explique a diferença entre uma requisição GET e uma requisição POST em formulários HTML.</li>
@@ -446,7 +478,9 @@ export const actions = {
 
 <h2>Exercícios Práticos</h2>
 <ol class="excs">
-  <li>Crie a página <code ctc>src/routes/06/profile/+page.svelte</code> (mencionada <a href="#profile">anteriormente</a>) para exibir uma mensagem de boas-vindas. Verifique se a rota <code>/06/post</code> redireciona corretamente para essa página após o login bem-sucedido.</li>
+  <li>Crie a página <code ctc>src/routes/06/profile/+page.svelte</code> (mencionada <a href="#profile">anteriormente</a>) para exibir uma mensagem de boas-vindas com o email do usuário. Verifique se a rota <code>/06/post</code> redireciona corretamente para essa página após o login bem-sucedido.
+  <p>Dica: você pode redirecionar para a página de boas vindas passando um parâmetro de consulta.</p>
+  </li>
   <li>Considere a rota <code ctc>src/routes/06/teste</code>:
     <ol type="a">
       <li>Crie um formulário em <code>+page.svelte</code> que envie, via POST, um campo chamado <code>mensagem</code> para a mesma rota.</li>
