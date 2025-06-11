@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://unpkg.com/highlightjs-svelte/dist/svelte.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+  <script defer>hljs.configure({ languages: ["svelte"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+  <!-- https://github.com/arronhunt/highlightjs-copy -->
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css" />
+  <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+  <script defer>hljs.addPlugin(new CopyButtonPlugin());</script>
+
+  <!-- https://github.com/TRSasasusu/highlightjs-highlight-lines.js -->
+  <!-- <script src="https://cdn.jsdelivr.net/gh/TRSasasusu/highlightjs-highlight-lines.js@1.2.0/highlightjs-highlight-lines.min.js"></script>
+  <script defer>hljs.highlightLinesAll([[], [], [], [], [], [],
+    [{ start: 1, end: 1, color: 'lightblue' }, { start: 7, end: 8, color: 'lightgreen' }, { start: 9, end: 13, color: 'lightblue' }],
+    [{ start: 1, end: 3, color: 'lightblue' }, { start: 14, end: 19, color: 'lightblue' }],
+    [{ start: 13, end: 21, color: 'lightblue' }, { start: 24, end: 27, color: 'lightblue' }],
+    [{ start: 8, end: 9, color: 'lightgreen' }, { start: 14, end: 19, color: 'lightblue' }],
+    [{ start: 1, end: 1, color: 'lightgreen' }, { start: 5, end: 6, color: 'lightgreen' }, { start: 7, end: 18, color: 'lightblue' }],
+    ]);
+  </script> -->
+
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script> -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
+</head>
+
+<h1 id="Named-actions">Ações Nomeadas</h1>
+
+<p>Além da ação padrão, podemos declarar várias ações nomeadas em um mesmo arquivo <code>+page.server.js</code>. Cada ação é executada ao especificar <code>?/nomeDaAcao</code> em <code>action</code> ou em <code>formaction</code>.</p>
+
+<p>Crie o arquivo <code ctc>src/routes/06/named/+page.server.js</code>:</p>
+<pre><code class="language-javascript">import { fail } from '@sveltejs/kit';
+
+export const actions = {
+  multiplicar: async ({ request }) =&gt; {
+    const data = await request.formData();
+    const x = Number(data.get('x'));
+    const y = Number(data.get('y'));
+
+    if (isNaN(x) || isNaN(y)) return fail(400, { error: 'Informe números válidos.', x, y });
+
+    return { result: x * y };
+  },
+  dividir: async ({ request }) =&gt; {
+    const data = await request.formData();
+    const x = Number(data.get('x'));
+    const y = Number(data.get('y'));
+
+        if (isNaN(x) || isNaN(y)) return fail(400, { error: 'Informe números válidos.', x, y });
+
+        if (y == 0) return fail(400, { error: 'Não é possível dividir por zero!', x, y });
+
+    return { result: x / y };
+  }
+};</code></pre>
+
+<p><strong>Explicação:</strong></p>
+<ul>
+  <li>Definimos duas ações: <code>multiplicar</code> e <code>dividir</code>.</li>
+  <li>Mesmo que os dados do formulário representem números, eles chegam como strings. Por isso, usamos a função <code>Number</code> para converter essas strings em valores numéricos.</li>
+  <li>Realizamos validações para garantir que os dados convertidos sejam, de fato, números. Caso o usuário tenha digitado algo inválido, a função <code>Number</code> não conseguirá fazer a conversão, e <code>isNaN</code> (de <em>is not a number</em>) retornará <code>true</code>, indicando a entrada inválida.</li>
+</ul>
+
+<p>Crie o arquivo <code ctc>src/routes/06/named/+page.svelte</code>:</p>
+<pre><code class="language-svelte">&lt;script&gt;
+  let { form } = $props();
+&lt;/script&gt;
+
+&lt;form method="POST" action="?/multiplicar"&gt;
+  &lt;label&gt;
+    x: &lt;input name="x" type="number" step="0.01" value={form?.x ?? ''} required /&gt;
+  &lt;/label&gt;
+  &lt;br /&gt;
+  &lt;label&gt;
+    y: &lt;input name="y" type="number" step="0.01" value={form?.y ?? ''} required /&gt;
+  &lt;/label&gt;
+  &lt;br /&gt;
+  &lt;button type="submit"&gt;Multiplicar&lt;/button&gt;
+  &lt;button type="submit" formaction="?/dividir"&gt;Dividir&lt;/button&gt;
+&lt;/form&gt;
+
+{#if form &amp;&amp; form.error != undefined}
+  &lt;p style="color: red"&gt;{form.error}&lt;/p&gt;
+{/if}
+
+{#if form &amp;&amp; form.result != undefined}
+  &lt;p style="color: green"&gt;Resultado: {form.result}&lt;/p&gt;
+{/if}</code></pre>
+
+<p><strong>Explicação:</strong></p>
+<ul>
+  <li>O formulário usa <code>action="?/multiplicar"</code>, acionando a ação <code>multiplicar</code> por padrão.</li>
+  <li>O botão "Dividir" usa <code>formaction="?/dividir"</code>, enviando o mesmo formulário para a ação <code>dividir</code>.</li>
+  <li>Os valores de <code>form.x</code> e <code>form.y</code> são preservados em caso de erro para facilitar a correção.</li>
+  <li>Se <code>form.error</code> existir, exibimos a mensagem de erro; se <code>form.result</code> existir, exibimos o resultado.</li>
+</ul>
+
+<p>Os atributos <code>action</code> e <code>formaction</code> recebem apenas um parâmetro de consulta como valor (por exemplo, <code>action="?/multiplicar"</code>), o que significa que o formulário será enviado para a mesma rota da URL atual. Caso fosse necessário enviar os dados para uma rota diferente, você poderia definir, por exemplo, <code>action="/outra/rota?/multiplicar"</code>.</p>
+
+<div class="info">
+  <p><strong>Atenção:</strong> Não é recomendável combinar ação padrão com ações nomeadas na mesma página. Se você submeter uma ação nomeada sem redirecionar, o parâmetro <code>?/acao</code> permanecerá na URL. Assim, uma próxima submissão para a ação padrão continuará sendo tratada pela última ação nomeada, o que pode causar comportamentos inesperados.</p>
+</div>
+
+<h2>Exercícios Práticos</h2>
+<ol class="excs">
+  <li>Recentemente, três novas irmandades abriram inscrições em seu reino de fantasia. Para se juntar a cada uma dessas irmandades, existem pré-requisitos específicos:
+    <ul>
+      <li><strong>Ordem dos Guerreiros</strong>: Mínimo de 18 anos; Força física ≥ 7 (escala de 1 a 10).</li>
+      <li><strong>Círculo dos Magos</strong>: Mínimo de 16 anos; Inteligência ≥ 8; Possui "conhecimento de magia" (checkbox).</li>
+      <li><strong>Guilda dos Artesãos</strong>: Mínimo de 15 anos; Habilidade manual ("destreza") ≥ 6; Possui "ferramentas de artesão" (checkbox).</li>
+    </ul>
+    <p>Crie uma página de inscrição que permita ao usuário tentar se registrar em qualquer uma das três irmandades:</p>
+    <ul>
+      <li>Cada botão do formulário deve acionar uma <strong>ação nomeada</strong> diferente, que validará os requisitos da irmandade correspondente.</li>
+      <li>Se o usuário atender aos requisitos, a ação deve <strong>redirecionar</strong> para a página inicial da respectiva irmandade (que você também deverá implementar).</li>
+      <li>Se faltar qualquer requisito, a ação deve retornar um erro via <code>fail()</code>, preservando os campos preenchidos e exibindo a mensagem de erro apropriada.</li>
+    </ul>
+    <p>Estrutura de Rotas:</p>
+    <ul>
+      <li><code>src/routes/06/irmandades/+page.svelte</code>: Página de inscrição.</li>
+      <li><code>src/routes/06/irmandades/guerreiros/+page.svelte</code>: Página inicial dos guerreiros.</li>
+      <li><code>src/routes/06/irmandades/magos/+page.svelte</code>: Página inicial dos magos.</li>
+      <li><code>src/routes/06/irmandades/artesaos/+page.svelte</code>: Página inicial dos artesãos.</li>
+    </ul>
+  </li>
+  <li>Você trabalha em um banco digital que oferece três tipos de empréstimo, cada um com pré-requisitos diferentes:
+    <ul>
+      <li><strong>Empréstimo Pessoal</strong>: Renda mensal ≥ R$ 2.000; Score de crédito ≥ 600.</li>
+      <li><strong>Empréstimo Imobiliário</strong>: Renda mensal ≥ R$ 5.000; Score de crédito ≥ 700; Possui imóvel para garantia (checkbox).</li>
+      <li><strong>Empréstimo Automotivo</strong>: Renda mensal ≥ R$ 3.000; Score de crédito ≥ 650; Valor do veículo ≥ R$ 15.000.</li>
+    </ul>
+    <p>Crie uma página de solicitação de empréstimo que permita ao usuário escolher qual modalidade deseja:</p>
+    <ul>
+      <li>Cada botão do formulário deve acionar uma <strong>ação nomeada</strong> diferente, que validará os requisitos da modalidade correspondente.</li>
+      <li>Se o usuário atender aos requisitos, a ação deve <strong>redirecionar</strong> para a página de confirmação daquele tipo de empréstimo (que você também deverá implementar).</li>
+      <li>Se faltar qualquer requisito, a ação deve retornar um erro via <code>fail()</code>, preservando os campos preenchidos e exibindo a mensagem de erro apropriada.</li>
+    </ul>
+    <p>Estrutura de Rotas:</p>
+    <ul>
+      <li><code>src/routes/06/emprestimo/+page.svelte</code>: Página de solicitação de empréstimo.</li>
+      <li><code>src/routes/06/emprestimo/pessoal/+page.svelte</code>: Página de confirmação do empréstimo pessoal.</li>
+      <li><code>src/routes/06/emprestimo/imobiliario/+page.svelte</code>: Página de confirmação do empréstimo imobiliário.</li>
+      <li><code>src/routes/06/emprestimo/automotivo/+page.svelte</code>: Página de confirmação do empréstimo automotivo.</li>
+    </ul>
+  </li>
+</ol>
