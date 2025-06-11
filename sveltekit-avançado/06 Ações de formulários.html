@@ -38,9 +38,9 @@
 <h1>Ações de Formulário</h1>
 
 <h2>Tipos de Requisições HTTP</h2>
-<p>O protocolo HTTP define vários métodos (ou "verbos") de requisição que um cliente pode enviar a um servidor. Até agora, usamos apenas requisições <strong>GET</strong> para buscar dados do servidor (via <code>load</code>). Para enviar dados do navegador para o servidor (criar, atualizar ou excluir informações), usaremos requisições <strong>POST</strong> (e, posteriormente, outros métodos como PUT e DELETE). Este capítulo aborda as <strong>ações de formulário</strong> com POST, permitindo envio seguro de dados, evitando exposição na URL e possibilitando retornos personalizados (sucesso/erro).</p>
+<p>O protocolo HTTP define vários métodos (ou "verbos") de requisição que um cliente pode enviar a um servidor. Até agora, usamos apenas requisições <strong>GET</strong> para buscar dados do servidor (via <code>load</code>). Para enviar dados do navegador para o servidor (criar, atualizar ou excluir informações), usaremos requisições <strong>POST</strong> (e, posteriormente, outros métodos como PUT e DELETE).</p>
 
-<table class="custom">
+<table border>
   <thead>
     <tr>
       <th>Método</th>
@@ -54,7 +54,7 @@
       <td><strong>GET</strong></td>
       <td>Solicita um recurso (página HTML, dados JSON, etc.).</td>
       <td>Parâmetros na URL (query string). Sem corpo (body).</td>
-      <td>Idempotente: não deve alterar o estado do servidor e múltiplas requisições idênticas devem retornar o mesmo resultado.</td>
+      <td>Idempotente: não deve alterar o estado do servidor, e múltiplas requisições idênticas devem retornar o mesmo resultado.</td>
     </tr>
     <tr>
       <td><strong>POST</strong></td>
@@ -65,10 +65,27 @@
   </tbody>
 </table>
 
-<img src="./cliente-servidor.png" alt="uma imagem de um cliente enviando dois tipos de cartas ao servidor, uma carta GET, que só possui o envelope, com o endereço do destinatário como uma url; e uma carta POST, que possui uma mensagem dentro do envelope, além do endereço.">
+<img src="./cliente-servidor.png" alt="uma imagem de um cliente enviando dois tipos de cartas ao servidor: uma carta GET, que só possui o envelope, com o endereço do destinatário como uma url; e uma carta POST, que possui uma mensagem dentro do envelope, além do endereço.">
+
+<p>A principal diferença entre GET e POST reside na forma como os dados são transmitidos:</p>
+<ul>
+  <li>
+    <b>GET:</b> Os dados são anexados à URL como parâmetros, o que os torna visíveis e limita o tamanho dos dados que podem ser enviados.
+  </li>
+  <li>
+    <b>POST:</b> Os dados são enviados no corpo da requisição, o que os torna mais seguros e permite o envio de maiores quantidades de dados.
+  </li>
+</ul>
+
+<p>Este capítulo aborda as <strong>ações de formulário</strong> com POST, permitindo envio seguro de dados, evitando exposição na URL e possibilitando retornos personalizados (sucesso/erro).</p>
 
 <h2>Enviando Dados com GET</h2>
-<p>Como vimos no capítulo <a target="_blank" href="./03 Carregando dados do servidor.html">Carregando dados do servidor</a>, requisições GET enviam dados pela URL. O elemento <code>&lt;form&gt;</code> é o principal recurso da web para enviar informações do cliente para o servidor. Por padrão, o formulário usa o método <code>GET</code>, que não possui corpo e torna as informações visíveis na URL, apresentando <a target="_blank" href="../sveltekit/0D Protocolo HTTP.html#desvantagens">várias desvantagens</a>.</p>
+<p>Como vimos no capítulo <a target="_blank" href="./03 Carregando dados do servidor.html">Carregando dados do servidor</a>, requisições GET enviam dados pela URL. O elemento <code>&lt;form&gt;</code> é um dos principais recursos da web para enviar informações do cliente para o servidor. Por padrão, o formulário usa o método <code>GET</code>, que não possui corpo e torna as informações visíveis na URL, apresentando <a target="_blank" href="../sveltekit/0D Protocolo HTTP.html#desvantagens">várias desvantagens</a>, incluindo:</p>
+<ul>
+  <li>Visibilidade dos dados na URL, comprometendo a segurança de informações sensíveis.</li>
+  <li>Limite no tamanho dos dados que podem ser enviados.</li>
+  <li>Dificuldade em enviar arquivos.</li>
+</ul>
 
 <p>Crie o arquivo <code ctc>src/routes/06/get/+page.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
@@ -103,9 +120,9 @@
 
 <p><strong>Explicação:</strong> Ao submeter o formulário, os dados aparecem na URL. O servidor lê esses parâmetros em <code>load</code>, retorna um status, e a página exibe mensagens diferentes conforme o valor de <code>data.status</code>. Note que, neste exemplo, a senha fica visível na URL, o que é um problema de segurança!</p>
 
-<h2>Ações Padrão (Default) com POST</h2>
+<h2>Ação Padrão (Default) com POST</h2>
 
-<p>Para lidar com requisições <code>POST</code>, um arquivo <code>+page.server.js</code> pode exportar um objeto <code>actions</code>. As funções dentro de <code>actions</code> processam os dados enviados pelo formulário.</p>
+<p>Para lidar com requisições <code>POST</code>, um arquivo <code>+page.server.js</code> pode exportar um objeto <code>actions</code>. Nesse objeto podemos declarar funções que recebem o evento de requisição e tratam os dados do formulário (por exemplo, via <code>await event.request.formData()</code>).</p>
 
 <p>Crie o arquivo <code ctc>src/routes/06/post/+page.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;form method="POST"&gt;
@@ -161,7 +178,7 @@
 
 <h2>Retornando Dados da Ação</h2>
 
-<p>Após processar a requisição, a ação pode retornar dados que ficam disponíveis na propriedade <code>form</code> da página Svelte correspondente. Os valores em <code>form</code> são persistentes, ficando disponíveis inclusive em <code>page.form</code> em todo o aplicativo, até a próxima atualização da página.</p>
+<p>Após processar a requisição, a ação pode retornar dados que ficam disponíveis na propriedade <code>form</code> da página Svelte correspondente. Os valores em <code>form</code> também ficam disponíveis em <code>page.form</code> em todo o aplicativo, até a próxima atualização da página.</p>
 
 <p>Modifique <code ctc>src/routes/06/post/+page.server.js</code>:</p>
 <pre><code class="language-javascript">export const actions = {
@@ -432,7 +449,7 @@ Veja as principais diferenças de tratamento entre as requisições GET e POST:
   </tbody>
 </table>
 
-<div class="info">Atenção: Mesmo uma requisição POST pode enviar parâmetros de consulta pela URL. Apesar de requisições GET também poderem enviar dados por um corpo, <a href="https://www.baeldung.com/cs/http-get-with-body">isso não ser recomendado</a>.</div>
+<div class="info">Atenção: Mesmo uma requisição POST pode enviar parâmetros de consulta pela URL. Apesar de requisições GET também poderem enviar dados por um corpo, <a href="https://www.baeldung.com/cs/http-get-with-body">isso não é recomendado</a>.</div>
 
 <h2>Exercícios de Fixação</h2>
 <ol>
@@ -479,16 +496,16 @@ Veja as principais diferenças de tratamento entre as requisições GET e POST:
 <h2>Exercícios Práticos</h2>
 <ol class="excs">
   <li>Crie a página <code ctc>src/routes/06/profile/+page.svelte</code> (mencionada <a href="#profile">anteriormente</a>) para exibir uma mensagem de boas-vindas com o email do usuário. Verifique se a rota <code>/06/post</code> redireciona corretamente para essa página após o login bem-sucedido.
-  <p>Dica: você pode redirecionar para a página de boas vindas passando um parâmetro de consulta.</p>
+    <p>Dica: você pode redirecionar para a página de boas vindas passando um parâmetro de consulta, que pode ser obtido na respectiva função <code>load</code>.</p>
   </li>
-  <li>Considere a rota <code ctc>src/routes/06/teste</code>:
+  <li>Considere a rota <code ctc>/06/teste/</code>:
     <ol type="a">
       <li>Crie um formulário em <code>+page.svelte</code> que envie, via POST, um campo chamado <code>mensagem</code> para a mesma rota.</li>
       <li>Crie a ação <code>default</code> correspondente em <code>+page.server.js</code>. A ação deve retornar o texto da mensagem com status 200, ou status 400 caso o campo esteja vazio.</li>
       <li>Altere o <code>+page.svelte</code> para exibir uma mensagem diferente dependendo do status retornado.</li>
     </ol>
   </li>
-  <li>Considere a rota <code ctc>src/routes/06/cadastro-produto</code>. Crie uma página com um formulário POST para cadastrar produtos com os seguintes campos: "nome do produto" (texto), "preço" (número decimal) e "quantidade em estoque" (número inteiro). Ao submeter o formulário, implemente as seguintes validações:
+  <li>Considere a rota <code ctc>/06/cadastro-produto/</code>. Crie uma página com um formulário POST para cadastrar produtos com os seguintes campos: "nome do produto" (texto), "preço" (número decimal) e "quantidade em estoque" (número inteiro). Ao submeter o formulário, implemente as seguintes validações:
     <ul>
       <li>Se "nome" estiver vazio, retorne <code>fail(400, { error: 'Nome obrigatório.', nome, preco, quantidade })</code>.</li>
       <li>Se "preço" não for um número válido ou for ≤ 0, retorne <code>fail(400, { error: 'Preço inválido.', nome, preco, quantidade })</code>.</li>

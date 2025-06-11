@@ -335,9 +335,9 @@ export async function load({ url }) {
       <li>Adicione links de navegação no menu lateral para acessar cada rota.</li>
     </ul>
   </li>
-  <li>Na rota <a href="#query"><code>/05/posts/query</code></a>, acrescente uma opção que permita escolher entre ordenar os posts por data ou por título.</li>
-  <li>Ainda em <a href="#query"><code>/05/posts/query</code></a>, adicione dois campos de data (“De” e “Até”) para filtrar apenas os posts publicados nesse intervalo.</li>
-  <li>Crie a rota <code ctc>src/routes/05/posts/[ano]/[mes]/[dia]</code> para exibir apenas os posts de um dia específico.</li>
+  <li>Na rota <a href="#query"><code>/05/posts/query/</code></a>, acrescente uma opção que permita escolher entre ordenar os posts por data ou por título.</li>
+  <li>Ainda em <a href="#query"><code>/05/posts/query/</code></a>, adicione dois campos de data (“De” e “Até”) para filtrar apenas os posts publicados nesse intervalo.</li>
+  <li>Implemente a rota <code ctc>/05/posts/[ano]/[mes]/[dia]/</code> para exibir apenas os posts de um dia específico.</li>
   <li>Crie um sub-layout <code ctc>src/routes/05/posts/[ano]/[mes]/+layout.svelte</code> que exiba um campo de busca de títulos por palavra-chave. Assim, as rotas filhas, além de filtrar por data, também podem ser filtradas por título.</li>
-  <li>Em <code ctc>src/routes/05/posts/+layout.svelte</code>, adicione uma <code>&lt;div&gt;</code> para exibir os valores dos parâmetros de consulta, quando houver. Utilize o objeto <code>page</code> (importado de <code>$app/state</code>).</li>
+  <li>No arquivo <code ctc>src/routes/05/posts/+layout.svelte</code>, adicione uma <code>&lt;div&gt;</code> para exibir os valores dos parâmetros de consulta, quando houver. Utilize o objeto <code>page</code> (importado de <code>$app/state</code>).</li>
 </ol>

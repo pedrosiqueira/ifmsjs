@@ -102,25 +102,25 @@ https://www.youtube.com/watch
 
 <h2 id="params">Parâmetros de Rota</h2>
 
-<p>As rotas em SvelteKit podem ser estáticas, como <code>src/routes/about</code>, ou dinâmicas, como <code>src/routes/blog/[slug]</code> ou <code>src/routes/posts/[ano]/[mes]</code>. As pastas entre colchetes representam <strong>parâmetros de rota</strong>, que são variáveis extraídas da URL mas que levam à mesma página.</p>
+<p>As rotas em SvelteKit podem ser estáticas, como <code>/about/</code>, ou dinâmicas, como <code>/blog/[slug]/</code> ou <code>/posts/[ano]/[mes]/</code>. As pastas entre colchetes representam <strong>parâmetros de rota</strong>, que são variáveis extraídas da URL mas que levam à mesma página.</p>
 
 <p>Exemplos:</p>
 <ul>
-  <li><code>/about</code> acessa a página em <code>src/routes/about</code>.</li>
-  <li><code>/blog/post1</code> e <code>/blog/post2</code> acessam <code>src/routes/blog/[slug]</code>, sendo <code>post1</code> e <code>post2</code> os valores de <code>[slug]</code>.</li>
-  <li><code>/posts/2025/03</code> e <code>/posts/2024/11</code> acessam <code>src/routes/posts/[ano]/[mes]</code>, sendo <code>2025</code> e <code>2024</code> os valores de <code>[ano]</code> e <code>03</code> e <code>11</code> os valores de <code>[mes]</code>.</li>
+  <li><code>/about</code> acessa a página <code>src/routes/about/+page.svelte</code>.</li>
+  <li><code>/blog/post1</code> e <code>/blog/post2</code> acessam a página <code>src/routes/blog/[slug]/+page.svelte</code>, sendo <code>post1</code> e <code>post2</code> os valores de <code>[slug]</code>.</li>
+  <li><code>/posts/2025/03</code> e <code>/posts/2024/11</code> acessam <code>src/routes/posts/[ano]/[mes]/+page.svelte</code>, sendo <code>2025</code> e <code>2024</code> os valores de <code>[ano]</code> e <code>03</code> e <code>11</code> os valores de <code>[mes]</code>.</li>
 </ul>
 
 <h4>Exercício de Fixação</h4>
 <ol>
-  <li>Ligue as URLs da esquerda às rotas da direita:
+  <li>Ligue as URLs da esquerda às páginas da direita:
     <pre>https://meusite.com/blog ------------ (a)
 https://meusite.com/sobre ----------- (b)
 https://meusite.com/blog/[slug] ----- (c)
-https://meusite.com/blog/artigo ----- (d)          (1) src/routes/about
-https://meusite.com/slug ------------ (e)          (2) src/routes/blog
-https://meusite.com/blog/2025/03 ---- (f)          (3) src/routes/blog/[slug]
-https://meusite.com/2025/03 --------- (g)          (4) src/routes/blog/[ano]/[mes]
+https://meusite.com/blog/artigo ----- (d)          (1) src/routes/about/+page.svelte
+https://meusite.com/slug ------------ (e)          (2) src/routes/blog/+page.svelte
+https://meusite.com/blog/2025/03 ---- (f)          (3) src/routes/blog/[slug]/+page.svelte
+https://meusite.com/2025/03 --------- (g)          (4) src/routes/blog/[ano]/[mes]/+page.svelte
 https://meusite.com/blog/2025 ------- (h)          (5) "erro 404"
 https://meusite.com/blog/outro/artigo (i)
 https://meusite.com/blog/about ------ (j)
@@ -355,18 +355,18 @@ return { parametro1, parametro2 };
   </li>
   <li><strong>Mensagem personalizada com parâmetro de rota</strong>
     <ul>
-      <li>Crie a rota <code ctc>src/routes/03/bem-vindo/[nome]/</code> que exibe uma mensagem de boas-vindas personalizada com base no valor do parâmetro de rota <code>nome</code>.</li>
+      <li>Implemente a rota <code ctc>/03/bem-vindo/[nome]/</code> que exibe uma mensagem de boas-vindas personalizada com base no valor do parâmetro de rota <code>nome</code>.</li>
     </ul>
   </li>
   <li><strong>Mensagem personalizada com parâmetro de consulta</strong>
     <ul>
-      <li>Modifique a rota <code ctc>src/routes/03/bem-vindo/</code> de modo que a mensagem de boas-vindas exiba o parâmetro de consulta <code>nome</code>.</li>
+      <li>Implemente a rota <code ctc>/03/bem-vindo/</code> que exibe uma mensagem de boas-vindas personalizada com base no valor do parâmetro de consulta <code>nome</code>.</li>
       <li>Caso o parâmetro não seja informado, exiba uma mensagem padrão.</li>
     </ul>
   </li>
   <li><strong>Formulário com verificação de idade</strong>
     <ul>
-      <li>Implemente a rota <code ctc>src/routes/03/verificacao/</code> com os seguintes arquivos:
+      <li>Implemente a rota <code ctc>/03/verificacao/</code> com os seguintes arquivos:
         <ul>
           <li><code>+page.server.js</code>: recebe os parâmetros de consulta <code>nome</code> e <code>data_nascimento</code>. Retorna <code>true</code> e o <code>nome</code> se a idade for maior ou igual a 18 anos; se a idade for menor que 18 anos, retorna <code>false</code>; se o nome ou a idade não foram informados, retorna <code>undefined</code>.</li>
           <li><code>+page.svelte</code>: exibe um formulário com os campos <code>nome</code> e <code>data_nascimento</code>, enviado para a própria página. Caso o servidor retorne <code>true</code>, exibe uma mensagem de boas-vindas com o nome; se <code>false</code>, exibe uma mensagem de acesso negado; se <code>undefined</code>, não exibe nenhuma mensagem.</li>
@@ -430,7 +430,7 @@ return { parametro1, parametro2 };
   </li>
   <li><strong>Exibição por categoria</strong>
     <ul>
-      <li>Crie a rota <code ctc>src/routes/03/produtos/[categoria]/</code> que exibe apenas os produtos cuja categoria corresponde ao parâmetro de rota <code>categoria</code>.</li>
+      <li>Implemente a rota <code ctc>/03/produtos/[categoria]/</code> que exibe apenas os produtos cuja categoria corresponde ao parâmetro de rota <code>categoria</code>.</li>
     </ul>
   </li>
   <li><strong>Busca por texto</strong>
