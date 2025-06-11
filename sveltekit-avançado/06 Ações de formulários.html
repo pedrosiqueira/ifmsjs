@@ -232,6 +232,148 @@
   <li>Se <code>form</code> existir, verificamos <code>form.status</code> e exibimos a mensagem correspondente.</li>
 </ul>
 
+
+<h2>GET vs POST</h2>
+<p>Para invocar uma ação de formulário, é necessário usar <code>method="POST"</code>. Formulários com <code>method="GET"</code> (ou sem especificar) simplesmente navegam para a URL indicada, como se fosse um link (<code>&lt;a&gt;</code>), anexando os campos como parâmetros de consulta, e acionam apenas a função <code>load</code> da rota de destino – nada é enviado ao objeto <code>actions</code>. Exemplo:</p>
+
+<pre><code class="language-svelte">&lt;form action="/search"&gt;
+  &lt;label&gt;
+    Pesquisa:
+    &lt;input name="q" type="text" /&gt;
+  &lt;/label&gt;
+  &lt;button&gt;Buscar&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+<p>Ao submeter, o navegador vai para <code>/search?q=...</code> usando GET e o SvelteKit executa <code>load</code> em <code>/search</code>, mas não aciona nenhuma ação de formulário.</p>
+
+<p>Veja as principais diferenças de tratamento entre as requisições GET e POST:</p>
+
+<table border>
+  <thead>
+    <tr>
+      <th>Operação</th>
+      <th>GET</th>
+      <th>POST</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Quem recebe as requisições</td>
+      <td>A função <code>load</code></td>
+      <td>As funções do objeto <code>actions</code></td>
+    </tr>
+    <tr>
+      <td>Onde os dados da requisição são tratados</td>
+      <td>Pode ser tanto no servidor, através dos arquivos <code>+(page|layout).server.js</code>, quanto no cliente, através dos arquivos <code>+(page|layout).js</code>.</td>
+      <td>Apenas no servidor, através dos arquivos <code>+(page|layout).server.js</code></td>
+    </tr>
+    <tr>
+      <td>Como obter os dados do formulário</td>
+      <td>Através do método <code>url.searchParams()</code></td>
+      <td>Através do método <code>request.formData()</code></td>
+    </tr>
+    <tr>
+      <td>Como os dados do servidor chegam até a página</td>
+      <td>Através da variável <code>data</code></td>
+      <td>Através da variável <code>form</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="info">
+  <p>Atenção: Mesmo uma requisição POST pode enviar parâmetros de consulta pela URL. Apesar de requisições GET também poderem enviar dados pelo corpo, <a href="https://www.baeldung.com/cs/http-get-with-body">isso não é recomendado</a>.</p>
+</div>
+
+<p>Veja lado-a-lado a comparação entre um formulário teste com GET e com POST:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Arquivo</th>
+      <th>GET</th>
+      <th>POST</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>+page.svelte</code></td>
+      <td>
+        <pre><code>&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;form&gt;
+  &lt;input name="email" type="email" placeholder="E-mail de usuário" /&gt;
+  &lt;input name="senha" type="password" placeholder="Senha" /&gt;
+  &lt;button&gt;Entrar&lt;/button&gt;
+&lt;/form&gt;
+
+
+
+{#if data.status == 400}
+  &lt;p&gt;E-mail e senha são obrigatórios!&lt;/p&gt;
+{:else if data.status == 401}
+  &lt;p&gt;Usuário ou senha inválidos!&lt;/p&gt;
+{:else if data.status == 200}
+  &lt;p&gt;Login efetuado com sucesso!&lt;/p&gt;
+  &lt;p&gt;Bem-vindo, {data.email}!&lt;/p&gt;
+{/if}</code></pre>
+      </td>
+      <td>
+        <pre><code>&lt;script&gt;
+  let { form } = $props();
+&lt;/script&gt;
+
+&lt;form method="POST"&gt;
+  &lt;input name="email" type="email" placeholder="E-mail de usuário" /&gt;
+  &lt;input name="senha" type="password" placeholder="Senha" /&gt;
+  &lt;button&gt;Entrar&lt;/button&gt;
+&lt;/form&gt;
+
+{#if !form}
+  &lt;p&gt;Preencha e submeta o formulário.&lt;/p&gt;
+{:else if form.status == 400}
+  &lt;p&gt;E-mail e senha são obrigatórios&lt;/p&gt;
+{:else if form.status == 401}
+  &lt;p&gt;Usuário ou senha inválidos&lt;/p&gt;
+{:else if form.status == 200}
+  &lt;p&gt;Login efetuado com sucesso!&lt;/p&gt;
+  &lt;p&gt;Bem-vindo, {form.email}!&lt;/p&gt;
+{/if}</code></pre>
+      </td>
+    </tr>
+    <tr>
+      <td><code>+page.server.js</code></td>
+      <td>
+        <pre><code class="js">
+
+export async function load({ url }) {
+  const email = url.searchParams.get('email');
+  const senha = url.searchParams.get('senha');
+
+  if (!email || !senha) return { status: 400 };
+  if (senha !== '1234') return { status: 401 };
+
+  return { status: 200, email };
+}</code></pre>
+      </td>
+      <td>
+        <pre><code class="js">export const actions = {
+  default: async ({ request }) =&gt; {
+    const data = await request.formData();
+    const email = data.get('email');
+    const senha = data.get('senha');
+
+    if (!email || !senha) return { status: 400 };
+    if (senha !== '1234') return { status: 401 };
+
+    return { status: 200, email };
+  }
+};</code></pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 <h2>Redirecionamentos</h2>
 
 <p>Para redirecionar o usuário após uma ação, usamos a função <code>redirect(status, url)</code> de <code>@sveltejs/kit</code>. Essa função lança uma exceção que interrompe a execução da ação e responde com o código de redirecionamento especificado.</p>
@@ -407,50 +549,6 @@ export const actions = {
   <p><strong>Atenção:</strong> Não é recomendável combinar ação padrão com ações nomeadas na mesma página. Se você submeter uma ação nomeada sem redirecionar, o parâmetro <code>?/acao</code> permanecerá na URL. Assim, uma próxima submissão para a ação padrão continuará sendo tratada pela última ação nomeada, o que pode causar comportamentos inesperados.</p>
 </div>
 
-<h2>GET vs POST</h2>
-<p>Para invocar uma ação de formulário, é necessário usar <code>method="POST"</code>. Formulários com <code>method="GET"</code> (ou sem especificar) simplesmente navegam para a URL indicada, como se fosse um link (<code>&lt;a&gt;</code>), anexando os campos como parâmetros de consulta, e acionam apenas a função <code>load</code> da rota de destino – nada é enviado ao objeto <code>actions</code>. Exemplo:</p>
-
-<pre><code class="language-svelte">&lt;form action="/search"&gt;
-  &lt;label&gt;
-    Pesquisa:
-    &lt;input name="q" type="text" /&gt;
-  &lt;/label&gt;
-  &lt;button&gt;Buscar&lt;/button&gt;
-&lt;/form&gt;</code></pre>
-
-<p>Ao submeter, o navegador vai para <code>/search?q=...</code> usando GET e o SvelteKit executa <code>load</code> em <code>/search</code>, mas não aciona nenhuma ação de formulário.</p>
-
-Veja as principais diferenças de tratamento entre as requisições GET e POST:
-
-<table border>
-  <thead>
-    <tr>
-      <th>Operação</th>
-      <th>GET</th>
-      <th>POST</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Quem recebe as requisições</td>
-      <td>A função <code>load</code></td>
-      <td>As funções do objeto <code>actions</code></td>
-    </tr>
-    <tr>
-      <td>Como obter os dados do formulário</td>
-      <td>Através do método <code>url.searchParams()</code></td>
-      <td>Através do método <code>request.formData()</code></td>
-    </tr>
-    <tr>
-      <td>Como os dados do servidor chegam até a página</td>
-      <td>Através da variável <code>data</code></td>
-      <td>Através da variável <code>form</code></td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="info">Atenção: Mesmo uma requisição POST pode enviar parâmetros de consulta pela URL. Apesar de requisições GET também poderem enviar dados por um corpo, <a href="https://www.baeldung.com/cs/http-get-with-body">isso não é recomendado</a>.</div>
-
 <h2>Exercícios de Fixação</h2>
 <ol>
   <li>Explique a diferença entre uma requisição GET e uma requisição POST em formulários HTML.</li>
@@ -505,58 +603,73 @@ Veja as principais diferenças de tratamento entre as requisições GET e POST:
       <li>Altere o <code>+page.svelte</code> para exibir uma mensagem diferente dependendo do status retornado.</li>
     </ol>
   </li>
-  <li>Considere a rota <code ctc>/06/cadastro-produto/</code>. Crie uma página com um formulário POST para cadastrar produtos com os seguintes campos: "nome do produto" (texto), "preço" (número decimal) e "quantidade em estoque" (número inteiro). Ao submeter o formulário, implemente as seguintes validações:
-    <ul>
-      <li>Se "nome" estiver vazio, retorne <code>fail(400, { error: 'Nome obrigatório.', nome, preco, quantidade })</code>.</li>
-      <li>Se "preço" não for um número válido ou for ≤ 0, retorne <code>fail(400, { error: 'Preço inválido.', nome, preco, quantidade })</code>.</li>
-      <li>Se "quantidade" não for um inteiro ≥ 1, retorne <code>fail(400, { error: 'Quantidade inválida.', nome, preco, quantidade })</code>.</li>
-    </ul>
-    <p>Apenas quando todos os campos forem válidos, retorne <code>{ sucesso: true, produto: nome }</code>.</p>
-    <p>No componente, exiba o texto de erro (se houver) e mantenha os valores preenchidos nos campos. Se o cadastro for bem-sucedido, mostre "Produto {nome} cadastrado com sucesso!".</p>
+  <li>Considere a rota <code ctc>/06/cadastro-produto/</code>:
+    <ol type="a">
+      <li>Crie uma página com um formulário POST para cadastrar produtos com os seguintes campos: "nome do produto" (texto), "preço" (número decimal) e "quantidade em estoque" (número inteiro).</li>
+      <li>Ao submeter o formulário, implemente as seguintes validações:
+        <ul>
+          <li>Se "nome" estiver vazio, retorne <code>fail(400, { error: 'Nome obrigatório.', nome, preco, quantidade })</code>.</li>
+          <li>Se "preço" não for um número válido ou for ≤ 0, retorne <code>fail(400, { error: 'Preço inválido.', nome, preco, quantidade })</code>.</li>
+          <li>Se "quantidade" não for um inteiro ≥ 1, retorne <code>fail(400, { error: 'Quantidade inválida.', nome, preco, quantidade })</code>.</li>
+        </ul>
+      </li>
+      <li>Apenas quando todos os campos forem válidos, retorne <code>{ sucesso: true, produto: nome }</code>.</li>
+      <li>No componente, exiba o texto de erro (se houver) e mantenha os valores preenchidos nos campos. Se o cadastro for bem-sucedido, mostre "Produto {nome} cadastrado com sucesso!".</li>
+    </ol>
   </li>
-  <li>Crie um formulário de cadastro com os seguintes campos obrigatórios:
-    <ul>
-      <li><code>nome</code>: Mínimo de 2 caracteres.</li>
-      <li><code>email</code>: Deve conter apenas letras, <code>@</code> e <code>.</code>, com pelo menos uma palavra antes do <code>@</code> e duas após, separadas pelo <code>.</code>.</li>
-      <li><code>data de nascimento</code>: A idade deve ser ≥ 12 anos.</li>
-    </ul>
-    <p>Se houver erros:</p>
-    <ul>
-      <li>Use <code>fail</code> para retornar os dados preenchidos e mensagens de erro.</li>
-      <li>Exiba os erros abaixo de cada campo no formulário.</li>
-    </ul>
-    <p>Se estiver tudo certo:</p>
-    <ul>
-      <li>Retorne <code>{ success: true, nome }</code> e exiba:
+  <li>Considere a rota <code ctc>/06/cadastro-usuario/</code>:
+    <ol type="a">
+      <li>Crie um formulário de cadastro com os seguintes campos obrigatórios:
+        <ul>
+          <li><code>nome</code>: Mínimo de 2 caracteres.</li>
+          <li><code>email</code>: Deve conter apenas letras, <code>@</code> e <code>.</code>, com pelo menos uma palavra antes do <code>@</code> e duas após, separadas pelo <code>.</code>.</li>
+          <li><code>data de nascimento</code>: A idade deve ser ≥ 12 anos.</li>
+        </ul>
+      </li>
+      <li>Se houver erros:
+        <ul>
+          <li>Use <code>fail</code> para retornar os dados preenchidos e mensagens de erro.</li>
+          <li>Exiba os erros abaixo de cada campo no formulário.</li>
+        </ul>
+      </li>
+      <li>Se estiver tudo certo:
+        <ul>
+          <li>Retorne <code>{ success: true, nome }</code></li>
+          <li>Exiba: “Cadastro concluído com sucesso. Bem-vindo(a), {nome}!”</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>Considere a rota <code ctc>/06/inscricao/</code>:
+    <ol type="a">
+      <li>Crie um formulário de pagamento com os seguintes campos obrigatórios:
+        <ul>
+          <li><code>nome no cartão</code>: Mínimo 3 letras.</li>
+          <li><code>número do cartão</code>: 16 dígitos.</li>
+          <li><code>data de validade</code>: formato MM/AA, data futura.</li>
+          <li><code>código de segurança (CVV)</code>: 3 dígitos.</li>
+          <li><code>plano</code>: Campo select com as opções: <code>Plano Bit (básico)</code>, <code>Plano Byte (intermediário)</code>, <code>Plano Quantum (premium)</code>.</li>
+        </ul>
+      </li>
+      <li>Se houver erros:
+        <ul>
+          <li>Use <code>fail</code> para retornar os dados preenchidos e erros.</li>
+          <li>Exiba os erros abaixo de cada campo no formulário.</li>
+        </ul>
+      </li>
+      <li>Se estiver tudo certo, redirecione para a página com base no plano:
+        <ul>
+          <li><code>/06/inscricao/basico</code></li>
+          <li><code>/06/inscricao/intermediario</code></li>
+          <li><code>/06/inscricao/premium</code></li>
+        </ul>
+      </li>
+      <li>Essas páginas devem mostrar informações (inventadas) sobre o plano, bem como:
         <blockquote>
-          <p>“Cadastro concluído com sucesso. Bem-vindo(a), {nome}!”</p>
+          <p>“Pagamento aprovado. Bem-vindo(a) ao Plano {X}!”</p>
         </blockquote>
       </li>
-    </ul>
-  </li>
-  <li>Crie um formulário de pagamento com os seguintes campos obrigatórios:
-    <ul>
-      <li><code>nome no cartão</code>: Mínimo 3 letras.</li>
-      <li><code>número do cartão</code>: 16 dígitos.</li>
-      <li><code>data de validade</code>: formato MM/AA, data futura.</li>
-      <li><code>código de segurança (CVV)</code>: 3 dígitos.</li>
-      <li><code>plano</code>: Campo select com as opções: <code>Plano Bit (básico)</code>, <code>Plano Byte (intermediário)</code>, <code>Plano Quantum (premium)</code>.</li>
-    </ul>
-    <p>Se houver erros:</p>
-    <ul>
-      <li>Use <code>fail</code> para retornar os dados preenchidos e erros.</li>
-      <li>Exiba os erros abaixo de cada campo no formulário.</li>
-    </ul>
-    <p>Se estiver tudo certo, redirecione para a página com base no plano:</p>
-    <ul>
-      <li><code>/04/ex2/basico</code></li>
-      <li><code>/04/ex2/intermediario</code></li>
-      <li><code>/04/ex2/premium</code></li>
-    </ul>
-    <p>Essas páginas devem mostrar informações (inventadas) sobre o plano, bem como:</p>
-    <blockquote>
-      <p>“Pagamento aprovado. Bem-vindo(a) ao Plano {X}!”</p>
-    </blockquote>
+    </ol>
   </li>
   <li>Recentemente, três novas irmandades abriram inscrições em seu reino de fantasia. Para se juntar a cada uma dessas irmandades, existem pré-requisitos específicos:
     <ul>
