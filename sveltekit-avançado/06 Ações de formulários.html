@@ -25,7 +25,7 @@
     [{ start: 8, end: 9, color: 'lightgreen' }, { start: 14, end: 19, color: 'lightblue' }],
     [{ start: 1, end: 1, color: 'lightgreen' }, { start: 5, end: 6, color: 'lightgreen' }, { start: 7, end: 18, color: 'lightblue' }],
     ]);
-  </script> -->
+ </script> -->
 
   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
@@ -38,7 +38,7 @@
 <h1>Ações de Formulário</h1>
 
 <h2>Tipos de Requisições HTTP</h2>
-<p>O protocolo HTTP define vários métodos (ou "verbos") de requisição que um cliente pode enviar a um servidor. Até agora, usamos apenas requisições <strong>GET</strong> para buscar dados do servidor (via <code>load</code>). Para enviar dados do navegador para o servidor (criar, atualizar ou excluir informações), usaremos requisições <strong>POST</strong> (e, posteriormente, outros métodos como PUT e DELETE).</p>
+<p>O protocolo HTTP define vários métodos (ou "verbos") de requisição que um cliente pode enviar a um servidor. Até agora, usamos apenas requisições <strong>GET</strong> para buscar dados do servidor (via <code>load</code>). Para enviar dados do navegador para o servidor (criar, atualizar ou excluir informações), usaremos principalmente requisições <strong>POST</strong> (e, posteriormente, outros métodos como PUT e DELETE).</p>
 
 <table border>
   <thead>
@@ -54,13 +54,13 @@
       <td><strong>GET</strong></td>
       <td>Solicita um recurso (página HTML, dados JSON, etc.).</td>
       <td>Parâmetros na URL (query string). Sem corpo (body).</td>
-      <td>Idempotente: não deve alterar o estado do servidor, e múltiplas requisições idênticas devem retornar o mesmo resultado.</td>
+      <td><strong>Idempotente:</strong> não deve alterar o estado do servidor. Múltiplas requisições idênticas devem retornar o mesmo resultado.</td>
     </tr>
     <tr>
       <td><strong>POST</strong></td>
-      <td>Envia dados para criar ou processar um recurso (envio de formulário, etc.).</td>
-      <td>Dados no corpo (body): campos de formulário, JSON, etc.</td>
-      <td>Não é idempotente: múltiplas requisições podem criar vários recursos ou causar alterações distintas.</td>
+      <td>Envia dados para criar ou processar um recurso (envio de formulário, upload de arquivos, etc.).</td>
+      <td>Dados no corpo (body): campos de formulário, JSON, arquivos, etc.</td>
+      <td><strong>Não é idempotente:</strong> múltiplas requisições podem criar vários recursos ou causar alterações distintas.</td>
     </tr>
   </tbody>
 </table>
@@ -69,24 +69,18 @@
 
 <p>A principal diferença entre GET e POST reside na forma como os dados são transmitidos:</p>
 <ul>
-  <li>
-    <b>GET:</b> Os dados são anexados à URL como parâmetros, o que os torna visíveis e limita o tamanho dos dados que podem ser enviados.
-  </li>
-  <li>
-    <b>POST:</b> Os dados são enviados no corpo da requisição, o que os torna mais seguros e permite o envio de maiores quantidades de dados.
-  </li>
+  <li><b>GET:</b> Os dados são anexados à URL como parâmetros de consulta (query string). Isso os torna visíveis no histórico do navegador, nos logs do servidor e limita o tamanho e o tipo dos dados que podem ser enviados. É ideal para buscas e filtagens.</li>
+  <li><b>POST:</b> Os dados são enviados no corpo da requisição. Isso os torna mais adequados para informações sensíveis (como senhas), permite o envio de maiores quantidades de dados e o upload de arquivos. É ideal para criar, atualizar ou processar informações.</li>
 </ul>
-
-<p>Este capítulo aborda as <strong>ações de formulário</strong> com POST, permitindo envio seguro de dados, evitando exposição na URL e possibilitando retornos personalizados (sucesso/erro).</p>
+<p>Este capítulo aborda as <strong>ações de formulário</strong> com POST, permitindo o envio seguro de dados, evitando exposição na URL e possibilitando retornos personalizados (sucesso/erro) de forma eficiente no SvelteKit.</p>
 
 <h2>Enviando Dados com GET</h2>
 <p>Como vimos no capítulo <a target="_blank" href="./03 Carregando dados do servidor.html">Carregando dados do servidor</a>, requisições GET enviam dados pela URL. O elemento <code>&lt;form&gt;</code> é um dos principais recursos da web para enviar informações do cliente para o servidor. Por padrão, o formulário usa o método <code>GET</code>, que não possui corpo e torna as informações visíveis na URL, apresentando <a target="_blank" href="../sveltekit/0D Protocolo HTTP.html#desvantagens">várias desvantagens</a>, incluindo:</p>
 <ul>
-  <li>Visibilidade dos dados na URL, comprometendo a segurança de informações sensíveis.</li>
+  <li>Visibilidade dos dados na URL, comprometendo a segurança.</li>
   <li>Limite no tamanho dos dados que podem ser enviados.</li>
   <li>Dificuldade em enviar arquivos.</li>
 </ul>
-
 <p>Crie o arquivo <code ctc>src/routes/06/get/+page.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { data } = $props();
@@ -106,7 +100,6 @@
   &lt;p&gt;Login efetuado com sucesso!&lt;/p&gt;
   &lt;p&gt;Bem-vindo, {data.email}!&lt;/p&gt;
 {/if}</code></pre>
-
 <p>Crie o arquivo <code ctc>src/routes/06/get/+page.server.js</code>:</p>
 <pre><code class="language-javascript">export async function load({ url }) {
   const email = url.searchParams.get('email');
@@ -117,27 +110,22 @@
 
   return { status: 200, email };
 }</code></pre>
-
-<p><strong>Explicação:</strong> Ao submeter o formulário, os dados aparecem na URL. O servidor lê esses parâmetros em <code>load</code>, retorna um status, e a página exibe mensagens diferentes conforme o valor de <code>data.status</code>. Note que, neste exemplo, a senha fica visível na URL, o que é um problema de segurança!</p>
+<p><strong>Explicação:</strong> Ao submeter o formulário, os dados aparecem na URL como parâmetros de consulta (ex: <code>/06/get?email=...&senha=...</code>). O servidor lê esses parâmetros na função <code>load</code>, retorna um status, e a página exibe mensagens diferentes conforme o valor de <code>data.status</code>. <strong>Note que, neste exemplo, a senha fica visível na URL, o que é um problema de segurança!</strong></p>
 
 <h2>Ação Padrão (Default) com POST</h2>
-
-<p>Para lidar com requisições <code>POST</code>, um arquivo <code>+page.server.js</code> pode exportar um objeto <code>actions</code>. Nesse objeto podemos declarar funções que recebem o evento de requisição e tratam os dados do formulário (por exemplo, via <code>await event.request.formData()</code>).</p>
-
+<p>Para lidar com requisições <code>POST</code>, um arquivo <code>+page.server.js</code> pode exportar um objeto <code>actions</code>. Dentro desse objeto, podemos declarar funções que recebem o evento de requisição e tratam os dados enviados pelo formulário (por exemplo, via <code>await event.request.formData()</code>).</p>
 <p>Crie o arquivo <code ctc>src/routes/06/post/+page.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;form method="POST"&gt;
   &lt;input name="email" type="email" placeholder="E-mail de usuário" /&gt;
   &lt;input name="senha" type="password" placeholder="Senha" /&gt;
   &lt;button&gt;Entrar&lt;/button&gt;
 &lt;/form&gt;</code></pre>
-
 <p><strong>Explicação:</strong></p>
 <ul>
   <li>O atributo <code>method="POST"</code> especifica que o formulário usará o método POST para enviar os dados.</li>
   <li>Ao submeter, o formulário envia os dados para a URL atual (já que <code>action</code> não foi especificado).</li>
-  <li>Isso aciona a ação <code>default</code> no arquivo <code>+page.server.js</code> correspondente.</li>
+  <li>Isso aciona a ação <code>default</code> (ação padrão) no arquivo <code>+page.server.js</code> correspondente.</li>
 </ul>
-
 <p>Crie o arquivo <code ctc>src/routes/06/post/+page.server.js</code>:</p>
 <pre><code class="language-javascript">export const actions = {
   default: async (event) =&gt; {
@@ -145,21 +133,17 @@
     console.log(await event.request.formData());
   }
 };</code></pre>
-
 <p><strong>Explicação:</strong></p>
 <ul>
   <li>A função <code>default</code> é executada quando a rota <code>/06/post</code> recebe uma requisição <code>POST</code>.</li>
-  <li>O parâmetro <code>event</code> é um objeto <a target="_blank" href="https://svelte.dev/docs/kit/@sveltejs-kit#RequestEvent">RequestEvent</a>, contendo informações da requisição.</li>
-  <li>Como vimos no <a target="_blank" href="./03 Carregando dados do servidor.html#serverloadevent">capítulo anterior</a>, a função <code>load</code> recebe um objeto <a target="_blank" href="https://svelte.dev/docs/kit/@sveltejs-kit#ServerLoadEvent">ServerLoadEvent</a>, que herda os métodos de <code>RequestEvent</code>. Por isso, você já deve estar familiarizado com propriedades como <code>params</code>, <code>url</code> e <code>fetch</code>, disponíveis tanto em ações de formulário quanto na função <code>load</code>.</li>
-  <li>Para acessar os dados enviados pelo formulário, utilize o método assíncrono <code>formData()</code> do objeto <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Request"><code>request</code></a>, que é uma propriedade de <code>event</code>.</li>
+  <li>O parâmetro <code>event</code> é um objeto <a target="_blank" href="https://svelte.dev/docs/kit/@sveltejs-kit#RequestEvent"><code>RequestEvent</code></a>, contendo informações detalhadas da requisição HTTP.</li>
+  <li>Como vimos no <a target="_blank" href="./03 Carregando dados do servidor.html#serverloadevent">capítulo anterior</a>, a função <code>load</code> recebe um objeto <a target="_blank" href="https://svelte.dev/docs/kit/@sveltejs-kit#ServerLoadEvent"><code>ServerLoadEvent</code></a>, que <strong>herda</strong> de <code>RequestEvent</code>. Por isso, você já deve estar familiarizado com propriedades como <code>params</code>, <code>url</code> e <code>fetch</code>, que estão disponíveis tanto em ações de formulário quanto na função <code>load</code>.</li>
+  <li>Para acessar os dados enviados pelo formulário, utilize o método assíncrono <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Request/formData"><code>formData()</code></a> do objeto <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Request"><code>request</code></a>, que é uma propriedade de <code>event</code>.</li>
 </ul>
-
 <div class="info">
-  <p><strong>Observação:</strong> Ações de formulário só respondem a requisições <code>POST</code>. Requisições <code>GET</code> não devem alterar o estado do servidor.</p>
+  <p><strong>Importante:</strong> Ações de formulário no SvelteKit (definidas em <code>+page.server.js</code>) só respondem a requisições <code>POST</code>. Requisições <code>GET</code> não devem alterar o estado do servidor.</p>
 </div>
-
-<p>Você pode enviar dados para outra rota especificando o atributo <code>action</code> no formulário:</p>
-
+<p>Você pode enviar dados para outra rota (ou ação específica) especificando o atributo <code>action</code> no formulário:</p>
 <p>Crie o arquivo <code ctc>src/routes/06/form/+page.svelte</code>:</p>
 <pre><code class="language-svelte">&lt;form method="POST" action="/06/post"&gt;
   &lt;input type="number" placeholder="Digite um número" /&gt;
@@ -167,19 +151,13 @@
   &lt;input name="umadata" type="date" /&gt;
   &lt;button&gt;Enviar&lt;/button&gt;
 &lt;/form&gt;</code></pre>
-
-<p><strong>Explicação:</strong> O atributo <code>action="/06/post"</code> faz com que este formulário envie os dados para a ação padrão da rota <code>/06/post</code>.</p>
-
+<p><strong>Explicação:</strong> O atributo <code>action="/06/post"</code> faz com que este formulário envie os dados para a ação padrão (<code>default</code>) da rota <code>/06/post</code>.</p>
 <div class="info">
-  <p><strong>Observação:</strong> O atributo <code>name</code> é essencial para que o valor de um campo seja incluído na requisição. No exemplo acima, o valor do campo numérico (sem <code>name</code>) não será enviado.</p>
+  <p><strong>Observação:</strong> O atributo <code>name</code> é essencial para que o valor de um campo de formulário seja incluído na requisição ao servidor. No exemplo acima, o valor do campo numérico (sem <code>name</code>) não será enviado.</p>
 </div>
-
 <p>Ótimo! Agora temos um meio eficiente e seguro de trocar dados entre páginas!</p>
-
 <h2>Retornando Dados da Ação</h2>
-
-<p>Após processar a requisição, a ação pode retornar dados que ficam disponíveis na propriedade <code>form</code> da página Svelte correspondente. Os valores em <code>form</code> também ficam disponíveis em <code>page.form</code> em todo o aplicativo, até a próxima atualização da página.</p>
-
+<p>Após processar a requisição, a ação pode retornar dados. Esses dados ficam disponíveis na propriedade <code>form</code> da página Svelte (<code>+page.svelte</code>) correspondente. Os valores em <code>form</code> também ficam disponíveis em <code>$page.form</code>(store reativa do SvelteKit) em todo o aplicativo, até a próxima atualização da página.</p>
 <p>Modifique <code ctc>src/routes/06/post/+page.server.js</code>:</p>
 <pre><code class="language-javascript">export const actions = {
   default: async ({ request }) =&gt; {
@@ -193,16 +171,13 @@
     return { status: 200, email };
   }
 };</code></pre>
-
 <p><strong>Explicação:</strong></p>
 <ul>
-  <li>Linha 2: Desestruturamos o objeto <code>event</code>, pois só precisamos da propriedade <code>request</code>.</li>
+  <li>Linha 2: Desestruturamos o objeto <code>event</code>, pois para obter os dados do formulário, precisamos apenas da propriedade <code>request</code>.</li>
   <li>Linhas 3-5: Usamos <code>request.formData()</code> para obter os valores dos campos <code>email</code> e <code>senha</code>.</li>
-  <li>Linhas 6-8: Se algum campo estiver vazio, retornamos <code>{ status: 400 }</code>. Se a senha estiver incorreta, retornamos <code>{ status: 401 }</code>. Caso contrário, retornamos <code>{ status: 200, email }</code>.</li>
+  <li>Linhas 6-10: Implementamos uma lógica de validação. Se algum campo estiver vazio, retornamos <code>{ status: 400 }</code>. Se a senha estiver incorreta, retornamos <code>{ status: 401 }</code>. Caso contrário, retornamos <code>{ status: 200, email }</code>.</li>
 </ul>
-
 <p>Assim como os dados retornados por <code>load</code> <a target="_blank" href="./03 Carregando dados do servidor.html#load-return">ficam disponíveis</a> na propriedade <code>data</code>, os dados retornados por uma ação de formulário ficam disponíveis na propriedade <code>form</code>.</p>
-
 <p>Agora, modifique <code ctc>src/routes/06/post/+page.svelte</code> para exibir esses dados:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { form } = $props();
@@ -224,18 +199,15 @@
   &lt;p&gt;Login efetuado com sucesso!&lt;/p&gt;
   &lt;p&gt;Bem-vindo, {form.email}!&lt;/p&gt;
 {/if}</code></pre>
-
 <p><strong>Explicação:</strong></p>
 <ul>
-  <li>Linha 2: A propriedade <code>form</code> contém os dados retornados pela ação do formulário.</li>
-  <li>Linha 11: Diferentemente de <code>load</code>, que sempre é executada ao acessar a rota, ações de formulário só são executadas após uma requisição <code>POST</code>. Portanto, <code>form</code> não existe se não houve submissão, e precisamos dessa verificação antes de acessar qualquer de suas propriedades.</li>
+  <li>Linha 2: A propriedade <code>form</code> contém os dados retornados pela ação do formulário após a submissão.</li>
+  <li>Linha 11: Diferentemente de <code>load</code>, que sempre é executada ao acessar a rota, ações de formulário só são executadas após uma requisição <code>POST</code>. Portanto, <code>form</code> não existe se não houve submissão inicial, e precisamos dessa verificação antes de tentar acessar qualquer de suas propriedades.</li>
   <li>Se <code>form</code> existir, verificamos <code>form.status</code> e exibimos a mensagem correspondente.</li>
 </ul>
-
-
-<h2>GET vs POST</h2>
-<p>Para invocar uma ação de formulário, é necessário usar <code>method="POST"</code>. Formulários com <code>method="GET"</code> (ou sem especificar) simplesmente navegam para a URL indicada, como se fosse um link (<code>&lt;a&gt;</code>), anexando os campos como parâmetros de consulta, e acionam apenas a função <code>load</code> da rota de destino – nada é enviado ao objeto <code>actions</code>. Exemplo:</p>
-
+<h2>GET vs POST em Detalhe</h2>
+<p>Para invocar uma ação de formulário no SvelteKit, é necessário usar <code>method="POST"</code>. Formulários com <code>method="GET"</code>(ou sem especificar o método) simplesmente navegam para a URL indicada, como se fosse um link (<code>&lt;a&gt;</code>), anexando os campos como parâmetros de consulta. Nesses casos, o SvelteKit aciona apenas a função <code>load</code> da rota de destino – <strong>nenhuma ação de formulário é executada</strong>.</p>
+<p>Exemplo de formulário GET:</p>
 <pre><code class="language-svelte">&lt;form action="/search"&gt;
   &lt;label&gt;
     Pesquisa:
@@ -243,17 +215,14 @@
   &lt;/label&gt;
   &lt;button&gt;Buscar&lt;/button&gt;
 &lt;/form&gt;</code></pre>
-
-<p>Ao submeter, o navegador vai para <code>/search?q=...</code> usando GET e o SvelteKit executa <code>load</code> em <code>/search</code>, mas não aciona nenhuma ação de formulário.</p>
-
-<p>Veja as principais diferenças de tratamento entre as requisições GET e POST:</p>
-
+<p>Ao submeter, o navegador vai para <code>/search?q=...</code> usando GET e o SvelteKit executa a função <code>load</code> em <code>/search/+page.server.js</code>(ou <code>+page.js</code>), mas não aciona nenhuma ação de formulário.</p>
+<p>Veja as principais diferenças de tratamento entre as requisições GET e POST no SvelteKit:</p>
 <table border>
   <thead>
     <tr>
-      <th>Operação</th>
+      <th>Característica</th>
       <th>GET</th>
-      <th>POST</th>
+      <th>POST (Ações de Formulário)</th>
     </tr>
   </thead>
   <tbody>
@@ -264,27 +233,30 @@
     </tr>
     <tr>
       <td>Onde os dados da requisição são tratados</td>
-      <td>Pode ser tanto no servidor, através dos arquivos <code>+(page|layout).server.js</code>, quanto no cliente, através dos arquivos <code>+(page|layout).js</code>.</td>
-      <td>Apenas no servidor, através dos arquivos <code>+(page|layout).server.js</code></td>
+      <td>Pode ser tanto no servidor (<code>.server.js</code>) quanto no cliente (<code>.js</code>), dependendo se a função <code>load</code> é universal ou não.</td>
+      <td>Apenas no servidor (<code>.server.js</code>), garantindo que operações com alteração de estado sejam seguras.</td>
     </tr>
     <tr>
       <td>Como obter os dados do formulário</td>
-      <td>Através do método <code>url.searchParams()</code></td>
-      <td>Através do método <code>request.formData()</code></td>
+      <td>Através de <code>url.searchParams.get('nomeDoCampo')</code> (do parâmetro <code>url</code> da função <code>load</code>).</td>
+      <td>Através de <code>await request.formData().get('nomeDoCampo')</code> (do parâmetro <code>request</code> da função de ação).</td>
     </tr>
     <tr>
       <td>Como os dados do servidor chegam até a página</td>
       <td>Através da variável <code>data</code></td>
       <td>Através da variável <code>form</code></td>
     </tr>
+    <tr>
+      <td>Visibilidade dos dados</td>
+      <td>Visíveis na URL e histórico do navegador.</td>
+      <td>Não visíveis na URL; enviados no corpo da requisição.</td>
+    </tr>
   </tbody>
 </table>
-
 <div class="info">
-  <p>Atenção: Mesmo uma requisição POST pode enviar parâmetros de consulta pela URL. Apesar de requisições GET também poderem enviar dados pelo corpo, <a target="_blank" href="https://www.baeldung.com/cs/http-get-with-body">isso não é recomendado</a>.</p>
+  <p><strong>Atenção:</strong> Mesmo uma requisição POST pode enviar parâmetros de consulta pela URL (ex: <code>/rota?id=123</code>). No entanto, estes não são os dados do formulário, que são enviados no corpo. Além disso, embora requisições GET tecnicamente possam ter um corpo, <a target="_blank" href="https://www.baeldung.com/cs/http-get-with-body">isso não é recomendado e pode causar problemas de compatibilidade.</a></p>
 </div>
-
-<p>Veja lado-a-lado a comparação entre um formulário teste com GET e com POST:</p>
+<p>Veja lado-a-lado a comparação completa entre um formulário teste com GET e com POST, incluindo os arquivos Client-side e Server-side:</p>
 <table>
   <thead>
     <tr>
@@ -297,7 +269,7 @@
     <tr>
       <td><code>+page.svelte</code></td>
       <td>
-        <pre><code>&lt;script&gt;
+        <pre><code class="language-svelte">&lt;script&gt;
   let { data } = $props();
 &lt;/script&gt;
 
@@ -319,7 +291,7 @@
 {/if}</code></pre>
       </td>
       <td>
-        <pre><code>&lt;script&gt;
+        <pre><code class="language-svelte">&lt;script&gt;
   let { form } = $props();
 &lt;/script&gt;
 
@@ -344,7 +316,7 @@
     <tr>
       <td><code>+page.server.js</code></td>
       <td>
-        <pre><code class="js">
+        <pre><code class="language-javascript">
 
 export async function load({ url }) {
   const email = url.searchParams.get('email');
@@ -357,7 +329,7 @@ export async function load({ url }) {
 }</code></pre>
       </td>
       <td>
-        <pre><code class="js">export const actions = {
+        <pre><code class="language-javascript">export const actions = {
   default: async ({ request }) =&gt; {
     const data = await request.formData();
     const email = data.get('email');
@@ -373,11 +345,8 @@ export async function load({ url }) {
     </tr>
   </tbody>
 </table>
-
 <h2>Redirecionamentos</h2>
-
-<p>Para redirecionar o usuário após uma ação, usamos a função <code>redirect(status, url)</code> de <code>@sveltejs/kit</code>. Essa função lança uma exceção que interrompe a execução da ação e responde com o código de redirecionamento especificado.</p>
-
+<p>Para redirecionar o usuário após uma ação (por exemplo, após um login bem-sucedido ou envio de formulário), usamos a função <code>redirect(status, url)</code> de <code>@sveltejs/kit</code>. Essa função lança uma exceção (throw) que interrompe a execução da ação e instrui o SvelteKit a responder com o código de redirecionamento HTTP especificado, direcionando o navegador para a nova URL.</p>
 <p>Modifique <code ctc>src/routes/06/post/+page.server.js</code>:</p>
 <pre><code class="language-javascript">import { redirect } from '@sveltejs/kit';
 
@@ -393,29 +362,31 @@ export const actions = {
     redirect(303, '/06/profile');
   }
 };</code></pre>
-
 <p><strong>Explicação:</strong></p>
 <ul>
   <li>Importamos <code>redirect</code> de <code>@sveltejs/kit</code>.</li>
-  <li id="profile">Se o login for bem-sucedido, redirecionamos o usuário para a rota <code>/06/profile</code> (que ainda não foi criada) com o código HTTP 303.</li>
+  <li id="profile">Se o login for bem-sucedido, redirecionamos o usuário para a rota <code>/06/profile</code> (que criaremos nos exercícios) com o código HTTP 303.</li>
 </ul>
-
 <div class="info">
-  <p><strong>Observação:</strong> Toda resposta HTTP possui um código de status. Códigos 300–399 indicam redirecionamentos; 400–499, erros do cliente; 500–599, erros do servidor. Consulte a <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">documentação do MDN</a> para detalhes.</p>
+  <p><strong>Observação:</strong> Toda resposta HTTP possui um código de status.
+  <ul>
+    <li><code>2xx</code> (Sucesso): Requisição processada com sucesso.</li>
+    <li><code>3xx</code> (Redirecionamento): Ações adicionais são necessárias para completar a requisição.</li>
+    <li><code>4xx</code> (Erro do Cliente): Erro na requisição do cliente (ex: dados inválidos, recurso não encontrado).</li>
+    <li><code>5xx</code> (Erro do Servidor): Erro no servidor que impediu o processamento da requisição.</li>
+  </ul>
+  Consulte a <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">documentação do MDN</a> para detalhes completos.</p>
 </div>
-
 <div class="info">
-  <p><strong>Importante:</strong> <code>redirect()</code> lança uma exceção e encerra a execução da ação. Não coloque-o dentro de um bloco <code>try/catch</code>, pois isso impedirá o redirecionamento.</p>
+  <p><strong>Importante:</strong> <code>redirect()</code> lança uma exceção e encerra imediatamente a execução da ação ou função <code>load</code>. Não coloque-o dentro de um bloco <code>try/catch</code> que capture todas as exceções, pois isso impedirá o redirecionamento.</p>
 </div>
-
 <div class="info">
-  <p><strong>Observação:</strong> Redirecionamentos também podem ser usados em <a target="_blank" href="https://svelte.dev/docs/kit/load#Redirects"><code>load</code></a>.</p>
+  <p><strong>Observação:</strong> Redirecionamentos também podem ser usados em <a target="_blank" href="https://svelte.dev/docs/kit/load#Redirects">funções <code>load</code></a> para, por exemplo, proteger rotas ou direcionar usuários para uma página de login.</p>
 </div>
 
 <h2>Validação de Erros com <code>fail</code></h2>
-
-<p>Se a requisição não puder ser processada devido a dados inválidos, é possível retornar mensagens de erro junto com os valores inseridos anteriormente. Isso permite que o usuário corrija os dados e tente novamente. A função <code>fail(status, data)</code> de <code>@sveltejs/kit</code> retorna um código HTTP (geralmente na faixa dos 400) e um objeto com dados como detalhes do erro e valores dos campos. O status fica disponível em <code>page.status</code> e os dados em <code>form</code>.</p>
-
+<p>Se a requisição não puder ser processada devido a dados inválidos (erros de validação), é possível retornar mensagens de erro junto com os valores inseridos anteriormente pelo usuário. Isso permite que o usuário veja o que errou, corrija os dados e tente novamente sem ter que preencher tudo do zero.</p>
+<p>A função <code>fail(status, data)</code> de <code>@sveltejs/kit</code> retorna um código HTTP (geralmente na faixa dos 400, indicando erro do cliente) e um objeto com dados adicionais, como detalhes do erro e os valores dos campos do formulário. O status retornado por <code>fail</code> fica disponível em <code>$page.status</code>(e acessível via <code>$page.status</code> na página) e os dados no objeto <code>form</code> da página.</p>
 <p>Modifique <code ctc>src/routes/06/post/+page.server.js</code>:</p>
 <pre><code class="language-javascript">import { fail, redirect } from '@sveltejs/kit';
 
@@ -436,15 +407,13 @@ export const actions = {
     redirect(303, '/06/profile');
   }
 };</code></pre>
-
 <p><strong>Explicação:</strong></p>
 <ul>
-  <li>Linhas 9–15: Validamos os dados. Se estiverem inválidos, usamos <code>fail</code> para retornar a mensagem de erro e manter os dados do formulário.</li>
-  <li>Linha 11: A validação de email é simplificada. Em sistemas reais, utilize bibliotecas específicas e robustas para isso.</li>
-  <li>Linha 15: Apenas para simular a situação de um email inexistente.</li>
+  <li>Linhas 9-15: Implementamos validações mais detalhadas. Se qualquer validação falhar, usamos <code>fail(status, data)</code> para retornar um código 400 (Bad Request) e um objeto contendo a mensagem de erro e, importante, os dados preenchidos pelo usuário (como o <code>email</code>) para que ele não precise digitar tudo novamente.</li>
+  <li>Linha 11: A validação de e-mail aqui é simplificada. Em sistemas reais, utilize bibliotecas específicas para isso.</li>
+  <li>Linha 15: Adicionamos uma simulação para um e-mail "inexistente" para demonstrar outro tipo de falha de validação.</li>
 </ul>
-
-<p>Modifique <code ctc>src/routes/06/post/+page.svelte</code>:</p>
+<p>Modifique <code ctc>src/routes/06/post/+page.svelte</code> para exibir essas mensagens de erro e preservar os valores dos campos:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { form } = $props();
 &lt;/script&gt;
@@ -458,20 +427,17 @@ export const actions = {
 {#if form?.error}
   &lt;p style="color: red"&gt;{form.error}&lt;/p&gt;
 {/if}</code></pre>
-
 <p><strong>Explicação:</strong></p>
 <ul>
   <li>O campo e-mail mantém seu valor em caso de erro, para que o usuário não precise digitá-lo novamente.</li>
-  <li>Por segurança, a senha não é preservada após um erro.</li>
-  <li>Se houver erro, mostramos a mensagem apropriada.</li>
-  <li>A validação no navegador (como <code>type="email"</code> e <code>required</code>) ajuda a evitar erros, mas a validação no servidor é indispensável, pois o código do cliente pode ser alterado pelo usuário. Para testar, inspecione o campo de e-mail, remova o atributo <code>type="email"</code> e tente enviar um endereço de e-mail inválido.</li>
+  <li>Por segurança, a senha nunca é preservada no campo após uma submissão, mesmo em caso de erro.</li>
+  <li>Se <code>form.error</code> existir (indicando que <code>fail</code> foi chamado e um erro foi retornado), a mensagem de erro é exibida.</li>
+  <li>A validação no navegador (como <code>type="email"</code> e <code>required</code>) ajuda a evitar erros e melhora a experiência do usuário, mas a validação no servidor é indispensável, pois o código do cliente pode ser facilmente contornado ou alterado pelo usuário. Para testar, inspecione o campo de e-mail no navegador, remova o atributo <code>type="email"</code> e tente enviar um endereço de e-mail inválido.</li>
 </ul>
-
 <div class="info">
   <p><strong>Observação:</strong> Na linha 6, <code>?.</code> é um <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining">operador de encadeamento opcional</a>, que tenta acessar a propriedade <code>email</code> do objeto <code>form</code>. Se o objeto for indefinido ou nulo, a expressão entra em curto-circuito e é avaliada como <code>undefined</code> em vez de gerar um erro.</p>
   <p>O equivalente de <code>form?.email || ''</code> usando <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator">operador ternário</a> seria <code>form? form.email : ''</code>, que significa: obtenha o <code>email</code> de <code>form</code>, caso exista, senão, obtenha uma string vazia.</p>
 </div>
-
 <h2>Exercícios de Fixação</h2>
 <ol>
   <li>Explique a diferença entre uma requisição GET e uma requisição POST em formulários HTML.</li>
@@ -486,8 +452,8 @@ export const actions = {
   </li>
   <li>Complete: Requisições GET não devem causar _______ no servidor, enquanto requisições POST são usadas para _______ .</li>
   <li>O que acontece se você omitir o atributo <code>name</code> de um campo de formulário?</li>
-  <li>Qual é o papel do objeto <code>event</code> em uma ação de formulário no SvelteKit? Cite ao menos duas propriedades úteis.</li>
-  <li>Onde os dados retornados por uma ação de formulário ficam disponíveis na página?
+  <li>Qual é o papel do objeto <code>event</code> em uma ação de formulário no SvelteKit? Cite ao menos duas propriedades úteis que podem ser acessadas a partir dele.</li>
+  <li>Onde os dados retornados por uma ação de formulário (definida em <code>+page.server.js</code>) ficam disponíveis na página Svelte (<code>+page.svelte</code>) correspondente?
     <ol type="a">
       <li><code>data</code></li>
       <li><code>event.params</code></li>
