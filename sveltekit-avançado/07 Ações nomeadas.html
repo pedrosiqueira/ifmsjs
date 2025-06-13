@@ -35,44 +35,62 @@
   <script src="https://cdn.jsdelivr.net/gh/pedrosiqueira/custom-style/custom.min.js"></script>
 </head>
 
-<h1 id="Named-actions">Ações Nomeadas</h1>
+<h1>Ações Nomeadas</h1>
 
-<p>Além da ação padrão, podemos declarar várias ações nomeadas em um mesmo arquivo <code>+page.server.js</code>. Cada ação é executada ao especificar <code>?/nomeDaAcao</code> em <code>action</code> ou em <code>formaction</code>.</p>
+<p>Em SvelteKit, além de uma única ação padrão por página, podemos definir múltiplas <strong>ações nomeadas</strong>. Isso nos permite gerenciar diferentes submissões de formulário na mesma rota, de forma organizada e centralizada no arquivo <code>+page.server.js</code>. Podemos declarar várias funções como propriedades de um objeto <code>actions</code>. Cada função é invocada ao especificarmos seu nome na URL, como <code>?/nomeDaAcao</code>, no atributo <code>action</code> de um formulário ou <code>formaction</code> de um botão.</p>
 
-<p>Crie o arquivo <code ctc>src/routes/06/named/+page.server.js</code>:</p>
+<p>Vamos aprimorar nosso exemplo com uma calculadora que pode multiplicar e dividir. Crie o arquivo <code ctc>src/routes/06/named/+page.server.js</code>:</p>
 <pre><code class="language-javascript">import { fail } from '@sveltejs/kit';
 
+// O objeto `actions` exportado contém todas as ações nomeadas da página.
+// Cada chave do objeto (ex: 'multiplicar') é o nome da ação.
 export const actions = {
+  // Ação 'multiplicar'
   multiplicar: async ({ request }) =&gt; {
     const data = await request.formData();
     const x = Number(data.get('x'));
     const y = Number(data.get('y'));
 
-    if (isNaN(x) || isNaN(y)) return fail(400, { error: 'Informe números válidos.', x, y });
+    // Validação: garante que os campos são números.
+    if (isNaN(x) || isNaN(y)) {
+      // Retorna um erro 400 (Bad Request) com uma mensagem e os dados submetidos.
+      return fail(400, { error: 'Informe números válidos.', x, y });
+    }
 
+    // Sucesso: retorna um objeto com o resultado.
     return { result: x * y };
   },
+
+  // Ação 'dividir'
   dividir: async ({ request }) =&gt; {
     const data = await request.formData();
     const x = Number(data.get('x'));
     const y = Number(data.get('y'));
 
-        if (isNaN(x) || isNaN(y)) return fail(400, { error: 'Informe números válidos.', x, y });
+    // Validação 1: garante que os campos são números.
+    if (isNaN(x) || isNaN(y)) {
+      return fail(400, { error: 'Informe números válidos.', x, y });
+    }
+    
+    // Validação 2: impede a divisão por zero.
+    if (y === 0) {
+      return fail(400, { error: 'Não é possível dividir por zero!', x, y });
+    }
 
-        if (y == 0) return fail(400, { error: 'Não é possível dividir por zero!', x, y });
-
+    // Sucesso: retorna um objeto com o resultado.
     return { result: x / y };
   }
 };</code></pre>
 
 <p><strong>Explicação:</strong></p>
 <ul>
-  <li>Definimos duas ações: <code>multiplicar</code> e <code>dividir</code>.</li>
+  <li>Declaramos um objeto <code>actions</code> que contém duas propriedades: <code>multiplicar</code> e <code>dividir</code>. Cada propriedade corresponde a uma função assíncrona que processa os dados do formulário.</li>
   <li>Mesmo que os dados do formulário representem números, eles chegam como strings. Por isso, usamos a função <code>Number</code> para converter essas strings em valores numéricos.</li>
-  <li>Realizamos validações para garantir que os dados convertidos sejam, de fato, números. Caso o usuário tenha digitado algo inválido, a função <code>Number</code> não conseguirá fazer a conversão, e <code>isNaN</code> (de <em>is not a number</em>) retornará <code>true</code>, indicando a entrada inválida.</li>
+  <li>Realizamos validações para garantir que os dados convertidos sejam, de fato, números. Caso o usuário tenha digitado algo inválido, a função <code>Number</code> não conseguirá fazer a conversão, e a função <code>isNaN</code> (de <em>is not a number</em>) retornará <code>true</code>, indicando a entrada inválida.</li>
+  <li>Utilizamos a função <code>fail(status, data)</code> do SvelteKit para retornar uma resposta de erro controlada. Isso evita que o aplicativo quebre e permite exibir uma mensagem amigável ao usuário, preservando os dados que ele já preencheu.</li>
 </ul>
 
-<p>Crie o arquivo <code ctc>src/routes/06/named/+page.svelte</code>:</p>
+<p>Agora, crie o arquivo <code ctc>src/routes/06/named/+page.svelte</code> para a interface:</p>
 <pre><code class="language-svelte">&lt;script&gt;
   let { form } = $props();
 &lt;/script&gt;
@@ -100,13 +118,14 @@ export const actions = {
 
 <p><strong>Explicação:</strong></p>
 <ul>
-  <li>O formulário usa <code>action="?/multiplicar"</code>, acionando a ação <code>multiplicar</code> por padrão.</li>
-  <li>O botão "Dividir" usa <code>formaction="?/dividir"</code>, enviando o mesmo formulário para a ação <code>dividir</code>.</li>
+  <li>Um único formulário pode executar lógicas completamente diferentes dependendo de qual botão é clicado.</li>
+  <li>O formulário principal tem <code>action="?/multiplicar"</code>. Isso significa que, por padrão (por exemplo, se o usuário pressionar Enter no campo de input), a ação <code>multiplicar</code> será executada.</li>
+  <li>O botão "Dividir" possui o atributo <code>formaction="?/dividir"</code>. Ele sobrepõe o <code>action</code> do formulário, direcionando a submissão para a ação <code>dividir</code>.</li>
   <li>Os valores de <code>form.x</code> e <code>form.y</code> são preservados em caso de erro para facilitar a correção.</li>
   <li>Se <code>form.error</code> existir, exibimos a mensagem de erro; se <code>form.result</code> existir, exibimos o resultado.</li>
 </ul>
 
-<p>Os atributos <code>action</code> e <code>formaction</code> recebem apenas um parâmetro de consulta como valor (por exemplo, <code>action="?/multiplicar"</code>), o que significa que o formulário será enviado para a mesma rota da URL atual. Caso fosse necessário enviar os dados para uma rota diferente, você poderia definir, por exemplo, <code>action="/outra/rota?/multiplicar"</code>.</p>
+<p>O atributo <code>action</code> (ou <code>formaction</code>) envia o formulário para a URL atual, apenas adicionando o parâmetro de busca (ex: <code>?/multiplicar</code>). Se precisar enviar os dados para uma rota completamente diferente, você pode especificar o caminho completo: <code>action="/outra/rota?/nomeDaAcao"</code>.</p>
 
 <div class="info">
   <p><strong>Atenção:</strong> Não é recomendável combinar ação padrão com ações nomeadas na mesma página. Se você submeter uma ação nomeada sem redirecionar, o parâmetro <code>?/acao</code> permanecerá na URL. Assim, uma próxima submissão para a ação padrão continuará sendo tratada pela última ação nomeada, o que pode causar comportamentos inesperados.</p>

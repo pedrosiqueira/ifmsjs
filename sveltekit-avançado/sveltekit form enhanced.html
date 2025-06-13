@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SvelteKit: Progressive Enhancement com Form Actions</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+            background-color: #fdfdfd;
+        }
+        h1, h2, h3 {
+            color: #ff3e00;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h1 {
+            font-size: 2.2em;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 40px;
+        }
+        h3 {
+            font-size: 1.4em;
+            margin-top: 30px;
+            border: none;
+        }
+        code {
+            font-family: "Fira Code", "Courier New", monospace;
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #ddd;
+        }
+        pre code {
+            padding: 0;
+            background: none;
+            font-size: 0.95em;
+        }
+        .note {
+            background-color: #fff9e6;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .note p {
+            margin: 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        strong {
+            color: #2d3748;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Progressive Enhancement com Form Actions em SvelteKit</h1>
+
+    <p>Depois de entender como as <code>form actions</code> funcionam, o próximo passo é aprimorar a experiência do usuário. O conceito de <strong>Progressive Enhancement</strong> (Aprimoramento Progressivo) é fundamental no SvelteKit.</p>
+
+    <p>A ideia é simples: sua aplicação deve funcionar perfeitamente com o HTML e o navegador, mesmo que o JavaScript do usuário esteja desabilitado ou falhe em carregar. Isso torna sua aplicação <strong>resiliente</strong>. Quando o JavaScript <em>está</em> disponível, nós podemos "aprimorar" a experiência, evitando recarregamentos de página completos e adicionando interações mais ricas.</p>
+    
+    <p>Assim como o SvelteKit aprimora as tags <code><a></code> para usar roteamento do lado do cliente, ele nos dá a action <code>use:enhance</code> para fazer o mesmo com formulários.</p>
+
+    <h2>1. O Básico: <code>use:enhance</code></h2>
+    <p>A maneira mais fácil de aplicar o aprimoramento progressivo a um formulário é usando a action <code>use:enhance</code>.</p>
+
+    <p>Primeiro, importe a função <code>enhance</code> de <code>$app/forms</code>:</p>
+    <pre><code class="language-svelte"><script>
+    import { enhance } from '$app/forms';
+
+    let { data, form } = $props();
+</script></code></pre>
+
+    <p>Depois, adicione a diretiva <code>use:enhance</code> ao seu elemento <code><form></code>:</p>
+    <pre><code class="language-svelte"><form method="POST" action="?/create" use:enhance>
+    <!-- campos do formulário -->
+</form></code></pre>
+
+    <div class="note">
+        <p><strong>Atenção:</strong> A action <code>use:enhance</code> só funciona em formulários com <code>method="POST"</code> que apontam para uma <em>action</em> definida em um arquivo <code>+page.server.js</code>. Ela não funcionará com <code>method="GET"</code> ou se o post for para um endpoint <code>+server.js</code>.</p>
+    </div>
+
+    <p>E é só isso! Com o JavaScript habilitado, <code>use:enhance</code> irá emular o comportamento nativo do navegador, mas sem o recarregamento completo da página. Ele fará o seguinte:</p>
+    <ul>
+        <li>Atualizará a propriedade <code>form</code> com os dados retornados pela action (em caso de sucesso ou erro de validação).</li>
+        <li>Invalidará todos os dados com <code>invalidateAll()</code> após uma resposta de sucesso, fazendo com que as funções <code>load</code> sejam executadas novamente.</li>
+        <li>Navegará para a nova página em caso de uma resposta de redirecionamento (<code>redirect</code>).</li>
+        <li>Renderizará a página de erro mais próxima (<code>+error.svelte</code>) se um erro inesperado ocorrer.</li>
+        <li>Resetará os valores dos campos do formulário.</li>
+        <li>Gerenciará o foco para uma melhor acessibilidade.</li>
+    </ul>
+
+    <h2>2. Personalizando a Experiência com um Callback</h2>
+    <p>O verdadeiro poder de <code>use:enhance</code> aparece quando passamos uma função de callback para personalizar seu comportamento. Isso nos permite criar <strong>estados pendentes</strong> (ex: "Salvando...") e <strong>UI Otimista</strong> (atualizar a interface antes da confirmação do servidor).</p>
+
+    <p>A função de callback tem a seguinte estrutura:</p>
+    <pre><code class="language-svelte"><form
+    method="POST"
+    use:enhance={({ formElement, formData, action, cancel, submitter }) => {
+        // Este código executa ANTES do envio do formulário.
+        // Você pode, por exemplo, chamar cancel() aqui para impedir o envio.
+
+        return async ({ result, update }) => {
+            // Este código executa DEPOIS que o servidor responde.
+            // 'result' é o ActionResult retornado pela sua action.
+            // 'update' é uma função para executar o comportamento padrão do enhance.
+        };
+    }}
+>
+...
+</form></code></pre>
+
+    <h3>Exemplo 1: Estado de Carregamento (Pending State)</h3>
+    <p>Vamos simular uma rede lenta em nossa action no servidor para que o efeito seja visível:</p>
+    <pre><code class="language-javascript">// src/routes/todos/+page.server.js
+import { fail } from '@sveltejs/kit';
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+export const actions = {
+    create: async ({ request }) => {
+        await sleep(1000); // Simula 1 segundo de latência
+        const data = await request.formData();
+        
+        if (!data.get('description')) {
+            return fail(400, { description: data.get('description'), error: 'A descrição não pode ser vazia.' });
+        }
+
+        // Lógica para salvar o todo...
+        console.log('Novo todo:', data.get('description'));
+
+        return { success: true };
+    }
+};</code></pre>
+    
+    <p>Agora, no nosso componente, vamos usar um estado local para controlar a interface durante o envio:</p>
+    <pre><code class="language-svelte"><!-- src/routes/todos/+page.svelte -->
+<script>
+    import { enhance } from '$app/forms';
+    import { fly } from 'svelte/transition';
+
+    let { data, form } = $props();
+    let creating = $state(false); // Svelte 5 Runes
+</script>
+
+<h1>Todos</h1>
+
+<form
+    method="POST"
+    action="?/create"
+    use:enhance={() => {
+        creating = true; // Inicia o estado de carregamento
+
+        return async ({ update }) => {
+            await update(); // Aplica o resultado da action (atualiza 'form', etc.)
+            creating = false; // Finaliza o estado de carregamento
+        };
+    }}
+>
+    <label>
+        Adicionar um todo:
+        <input name="description" autocomplete="off" required disabled={creating} />
+    </label>
+    <button disabled={creating}>{creating ? 'Salvando...' : 'Adicionar'}</button>
+
+    {#if form?.error}
+        <p style="color: red;">{form.error}</p>
+    {/if}
+</form>
+
+{#if creating}
+    <p transition:fly={{ y: 10 }}><i>Adicionando novo item...</i></p>
+{/if}
+
+<!-- Lista de todos -->
+</code></pre>
+
+    <h3>Exemplo 2: UI Otimista (Optimistic UI)</h3>
+    <p>Para ações que provavelmente darão certo (como deletar um item), podemos melhorar ainda mais a experiência atualizando a UI <em>imediatamente</em>, sem esperar a resposta do servidor. Isso é chamado de UI Otimista.</p>
+    <p>Vamos filtrar o item da lista localmente assim que o botão de deletar for clicado.</p>
+    <pre><code class="language-svelte"><!-- Dentro de um #each para a lista de todos -->
+<script>
+    // ... imports e props
+    let deleting = $state([]); // Armazena os IDs dos itens sendo deletados
+</script>
+
+<ul>
+    {#each data.todos.filter(todo => !deleting.includes(todo.id)) as todo (todo.id)}
+        <li in:fly={{ y: 20 }}>
+            <span>{todo.description}</span>
+            <form
+                method="POST"
+                action="?/delete"
+                style="display: inline;"
+                use:enhance={() => {
+                    // Atualização otimista: adiciona o ID à lista de exclusão
+                    deleting = [...deleting, todo.id];
+
+                    return async ({ update }) => {
+                        // Opcional: Se a action falhar, você pode querer remover o ID de `deleting`
+                        // para que o item reapareça. Por simplicidade, `update` vai sincronizar
+                        // o estado final com o servidor de qualquer forma quando `load` for re-executado.
+                        await update(); 
+                    };
+                }}
+            >
+                <input type="hidden" name="id" value={todo.id} />
+                <button aria-label="Deletar todo" disabled={deleting.includes(todo.id)}>×</button>
+            </form>
+        </li>
+    {/each}
+</ul>
+</code></pre>
+    <p>Neste exemplo, o item desaparece da lista instantaneamente com uma transição suave. O SvelteKit ainda envia a requisição ao servidor em segundo plano para garantir que os dados sejam de fato deletados.</p>
+
+    <h2>3. Controle Avançado: <code>applyAction</code> e <code>fetch</code> Manual</h2>
+    
+    <h3>Usando <code>applyAction</code></h3>
+    <p>Quando você fornece um callback para <code>use:enhance</code>, você assume o controle do que acontece após o envio. A função <code>update()</code> é um atalho para reativar o comportamento padrão. No entanto, para um controle mais granular, você pode usar a função <code>applyAction</code>.</p>
+    <p><code>applyAction(result)</code> aplica o resultado de uma action ao estado da página (atualiza <code>form</code>, <code>page.status</code>, lida com erros e redirecionamentos).</p>
+
+    <pre><code class="language-svelte"><script>
+    import { enhance, applyAction } from '$app/forms';
+    import { goto } from '$app/navigation';
+</script>
+
+<form
+    method="POST"
+    use:enhance={() => {
+        // Lógica pré-envio...
+        
+        return async ({ result }) => {
+            // Lógica pós-envio customizada
+            if (result.type === 'redirect') {
+                await goto(result.location);
+            } else {
+                // Aplica o resultado (sucesso, falha, erro) à página
+                await applyAction(result);
+            }
+        };
+    }}
+>
+...
+</form>
+</code></pre>
+
+    <h3><code>fetch</code> Manual com <code>onsubmit</code></h3>
+    <p>Para o controle absoluto, você pode ignorar <code>use:enhance</code> e usar um listener de eventos <code>onsubmit</code> com a API <code>fetch</code> nativa. Isso lhe dá controle total sobre a requisição, mas exige mais código manual.</p>
+    <p>O SvelteKit fornece a função <code>deserialize</code> para converter a resposta de texto da action de volta em um objeto <code>ActionResult</code>, preservando tipos especiais como <code>Date</code>.</p>
+
+    <pre><code class="language-svelte"><script>
+    import { applyAction, deserialize } from '$app/forms';
+    import { invalidateAll } from '$app/navigation';
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+
+        const response = await fetch(event.currentTarget.action, {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = deserialize(await response.text());
+
+        if (result.type === 'success') {
+            // Se a action teve sucesso, invalida os dados para recarregar a lista
+            await invalidateAll();
+        }
+
+        applyAction(result);
+    }
+</script>
+
+<form method="POST" action="?/create" onsubmit={handleSubmit}>
+    <!-- ... -->
+</form>
+</code></pre>
+    
+    <div class="note">
+        <p><strong>Conclusão:</strong> Comece sempre com <code><form></code> padrão. Adicione <code>use:enhance</code> para uma experiência de SPA instantânea. Use o callback de <code>use:enhance</code> para adicionar feedbacks visuais como estados de carregamento e UIs otimistas. Recorra ao <code>fetch</code> manual apenas quando precisar de um controle que <code>use:enhance</code> não oferece.</p>
+    </div>
+
+</body>
+</html>
