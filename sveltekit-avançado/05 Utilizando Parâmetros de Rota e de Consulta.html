@@ -30,14 +30,16 @@
 </head>
 
 <h1>Utilizando Parâmetros de Rota e de Consulta</h1>
+<p class="lead">Aprenda a criar páginas dinâmicas e filtros de dados utilizando os poderosos recursos de roteamento do SvelteKit.</p>
 
-<h2>Preparando o banco de dados</h2>
-<p>Crie o arquivo <code ctc>src/lib/server/postsDatabase.js</code>:</p>
-<pre id="postsdatabase"><code class="language-javascript">const posts = [
-  { slug: &apos;um&apos;, title: &apos;Primeiro Post Bacana&apos;, publish_date: &apos;2025-03-12&apos;, content: &apos;Conteúdo do primeiro post&apos; },
-  { slug: &apos;outro&apos;, title: &apos;Outro Post Joia&apos;, publish_date: &apos;2025-03-25&apos;, content: &apos;Conteúdo do outro post&apos; },
-  { slug: &apos;algum&apos;, title: &apos;Mais um Post Joia&apos;, publish_date: &apos;2024-11-22&apos;, content: &apos;Conteúdo de mais um post&apos; },
-  { slug: &apos;ainda&apos;, title: &apos;Ainda Outro Bacana&apos;, publish_date: &apos;2024-11-02&apos;, content: &apos;Conteúdo de ainda outro post&apos; }
+<section>
+  <h2>Preparando o Banco de Dados</h2>
+  <p>Primeiro, vamos criar um arquivo para simular nosso banco de dados. Crie o arquivo <code ctc>src/lib/server/postsDatabase.js</code> com o seguinte conteúdo:</p>
+  <pre id="postsdatabase"><code class="language-javascript">const posts = [
+  { slug: 'um', title: 'Primeiro Post Bacana', publish_date: '2025-03-12', content: 'Conteúdo do primeiro post' },
+  { slug: 'outro', title: 'Outro Post Joia', publish_date: '2025-03-25', content: 'Conteúdo do outro post' },
+  { slug: 'algum', title: 'Mais um Post Legal', publish_date: '2024-11-22', content: 'Conteúdo de mais um post' },
+  { slug: 'ainda', title: 'Ainda Outro Bacana', publish_date: '2024-11-02', content: 'Conteúdo de ainda outro post' }
 ];
 
 export const postsDatabase = {
@@ -47,65 +49,51 @@ export const postsDatabase = {
   getByQuery(title, content) { }
 };</code></pre>
 
-<p><strong>Explicação:</strong> Este arquivo simula um banco de dados de posts em memória e declara quatro funções para consulta. No momento, essas funções estão vazias — tua tarefa será implementá-las.</p>
+  <p><strong>Explicação:</strong> Este arquivo simula um banco de dados em memória e exporta um objeto <code>postsDatabase</code> com quatro funções de consulta. Sua tarefa será implementar a lógica de cada uma delas ao longo deste guia.</p>
 
-<div class="info">
-  <p><strong>Atenção:</strong> Este é apenas um banco de dados didático! Em uma aplicação real, os dados estariam armazenados em um banco de dados de verdade.</p>
-</div>
+  <div class="info">
+    <strong>Atenção:</strong> Este é um banco de dados apenas para fins didáticos. Em uma aplicação real, os dados estariam armazenados em um sistema de banco de dados robusto (como PostgreSQL, MySQL, etc.).
+  </div>
 
-<div class="info">
-  <p><strong>Observação:</strong> O termo <em>slug</em> vem do jornalismo, originalmente para identificar matérias de forma abreviada. No desenvolvimento web, em vez de usar IDs numéricos (por exemplo, <code>/posts/123</code>) para artigos ou postagens, geralmente usamos um slug que reflita o título ou o tema do artigo (por exemplo, <code>/posts/introducao-ao-sveltekit</code>).</p>
-  <p><strong>Por que usar slugs?</strong></p>
-  <ul>
-    <li>
-      <strong>URLs amigáveis (SEO e usabilidade):</strong>
-      Slugs tornam as URLs mais descritivas e fáceis de memorizar.
-      <ul>
-        <li>Motores de busca (Google, Bing etc.) valorizam URLs com palavras-chave relevantes.</li>
-        <li>Usuários confiam mais em URLs que indicam claramente o conteúdo antes de clicar.</li>
-      </ul>
-    </li>
-    <li>
-      <strong>Unicidade e consistência:</strong>
-      Cada slug deve ser único para evitar ambiguidade ao buscar um artigo específico.
-    </li>
-    <li>
-      <strong>Geração automática a partir do título:</strong>
-      Normalmente, o slug é uma string normalizada contendo apenas <a target="_blank" href="https://stackoverflow.com/a/1547940">caracteres compatíveis com URLs</a>. Esse processo inclui:
-      <ul>
-        <li>Converter todo o texto para minúsculas (ex.: “Como Fazer um Slug” → “como fazer um slug”).</li>
-        <li>Remover acentos (ex.: “ação” → “acao”).</li>
-        <li>Substituir espaços por hífens (ex.: “como-fazer-um-slug”).</li>
-        <li>Eliminar ou substituir pontuações (ex.: “C# e .NET” → “c-e-net”).</li>
-        <li>Verificar se o slug já existe no banco; em caso afirmativo, adicionar um sufixo numérico (por exemplo, “como-fazer-um-slug-1”, “como-fazer-um-slug-2” etc.).</li>
-      </ul>
-    </li>
-    <li>
-      <strong>Facilidade de compartilhamento:</strong>
-      Ao copiar e colar a URL, o slug indica claramente o conteúdo, melhorando a legibilidade em redes sociais, e-mails ou chats.
-    </li>
-    <li>
-      <strong>Recuperação rápida do conteúdo:</strong>
-      Quando o servidor recebe uma requisição para <code>/posts/introducao-ao-sveltekit</code>, basta consultar o banco usando esse slug, que geralmente corresponde à rota dinâmica <code>/posts/[slug]</code> em frameworks como SvelteKit, Next.js ou Django.
-    </li>
-  </ul>
-  <p>Em resumo, o <strong>slug</strong> é uma prática fundamental para criar URLs amigáveis, melhorar a experiência do usuário e facilitar o trabalho de SEO. Ele funciona como um “identificador legível” para suas postagens, substituindo IDs numéricos por nomes descritivos extraídos do próprio título do conteúdo.</p>
-</div>
+  <div class="info" id="what-is-a-slug">
+    <h3>O que é um <em>Slug</em>?</h3>
+    <p>O termo <em>slug</em>, originário do jargão jornalístico para identificar matérias, foi adotado no desenvolvimento web para criar URLs únicas e legíveis por humanos. Em vez de IDs numéricos (<code>/posts/123</code>), usamos um slug que reflete o título (<code>/posts/introducao-ao-sveltekit</code>).</p>
 
-<h2 id="dados-do-layout">Carregando Dados no Layout</h2>
-<p>Arquivos <code>+layout.svelte</code> também podem usar um arquivo <code>+layout.server.js</code> para carregar dados antes de renderizar as páginas filhas.</p>
+    <h4>Por que usar slugs?</h4>
+    <ul>
+      <li><strong>URLs Amigáveis (SEO e Usabilidade):</strong> Slugs tornam as URLs descritivas, fáceis de memorizar e melhoram o ranking em motores de busca como o Google, que valorizam palavras-chave na URL.</li>
+      <li><strong>Identificação Única:</strong> Cada slug deve ser único para garantir que a URL aponte para um único artigo, evitando ambiguidades.</li>
+      <li><strong>Facilidade de Compartilhamento:</strong> Uma URL com slug é mais informativa e confiável quando compartilhada em redes sociais, e-mails ou chats.</li>
+      <li><strong>Recuperação Rápida:</strong> O servidor utiliza o slug (ex: <code>introducao-ao-sveltekit</code>) para buscar o conteúdo correspondente no banco de dados, geralmente mapeado para uma rota dinâmica como <code>/posts/[slug]</code>.</li>
+    </ul>
 
-<p>Crie o arquivo <code ctc>src/routes/05/posts/+layout.server.js</code>:</p>
-<pre><code class="language-javascript">import { postsDatabase } from '$lib/server/postsDatabase';
+    <h4>Como um slug é gerado?</h4>
+    <p>Normalmente, o slug é gerado a partir do título, aplicando-se um processo de normalização para torná-lo <a target="_blank" href="https://stackoverflow.com/a/1547940">compatível com URLs</a>:</p>
+    <ul>
+      <li>Converter para minúsculas: "Como Fazer um Slug" → "como fazer um slug"</li>
+      <li>Remover acentos: "ação" → "acao"</li>
+      <li>Substituir espaços e pontuações por hífens: "C# e .NET" → "c-e-net"</li>
+      <li>Garantir unicidade, adicionando um sufixo se necessário: "meu-post", "meu-post-2", etc.</li>
+    </ul>
+    <p><strong>Em resumo, o slug é uma prática fundamental para criar URLs amigáveis, funcionando como um "identificador legível" para seu conteúdo.</strong></p>
+  </div>
+</section>
+
+<section>
+  <h2 id="dados-do-layout">Carregando Dados no Layout</h2>
+  <p>Arquivos <code>+layout.svelte</code> também podem carregar dados de um arquivo <code>+layout.server.js</code> antes de renderizar as páginas filhas. Esses dados ficam disponíveis para o layout e para todas as páginas dentro dele.</p>
+
+  <p>Crie o arquivo <code ctc>src/routes/05/posts/+layout.server.js</code>:</p>
+  <pre><code class="language-javascript">import { postsDatabase } from '$lib/server/postsDatabase';
 
 export async function load() {
-  const posts = postsDatabase.getAll();
+  const posts = postsDatabase.getAll(); // Você implementará esta função
   return { posts };
 }</code></pre>
-<p><strong>Explicação:</strong> A função <code>getAll()</code> ainda não existe; você precisará implementá-la no arquivo <code>postsDatabase.js</code>. Essa função deve retornar a lista completa de posts.</p>
+  <p><strong>Explicação:</strong> A função <code>load</code> buscará todos os posts e os retornará na propriedade <code>posts</code>.</p>
 
-<p>Crie o arquivo <code ctc>src/routes/05/posts/+layout.svelte</code>:</p>
-<pre><code class="language-svelte">&lt;script&gt;
+  <p>Agora, crie o layout <code ctc>src/routes/05/posts/+layout.svelte</code> para exibir esses dados:</p>
+  <pre><code class="language-svelte">&lt;script&gt;
   let { data, children } = $props();
 &lt;/script&gt;
 
@@ -113,151 +101,6 @@ export async function load() {
   &lt;div class="col-4 bg-body-secondary"&gt;
     &lt;aside&gt;
       &lt;h4&gt;Últimos Posts&lt;/h4&gt;
-      &lt;ul&gt;
-        {#each data.posts.slice(0, 2) as post}
-          &lt;li&gt;
-            &lt;a href="/05/posts/{post.slug}"&gt;
-              {post.title}
-            &lt;/a&gt;
-          &lt;/li&gt;
-        {/each}
-      &lt;/ul&gt;
-    &lt;/aside&gt;
-  &lt;/div&gt;
-
-  &lt;div class="col"&gt;
-    &lt;main&gt;
-      {@render children()}
-    &lt;/main&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-<p><strong>Explicação:</strong></p>
-<ul>
-  <li>A função <code>load</code> no <code>+layout.server.js</code> retorna <code>{ posts }</code>, que fica disponível para este layout e para todas as páginas filhas.</li>
-  <li>No layout, exibimos os dois posts mais recentes em um menu lateral. Fazemos isso através do método <code>data.posts.slice(0, 2)</code>, que extrai os itens dos índices <code>0</code> a <code>1</code> da lista <code>posts</code>. </li>
-</ul>
-
-<h2>Listando todos os posts</h2>
-<p>Crie o arquivo <code ctc>src/routes/05/posts/+page.svelte</code>:</p>
-<pre><code class="language-svelte">&lt;script&gt;
-  let { data } = $props();
-&lt;/script&gt;
-
-&lt;h3&gt;Todos os Posts&lt;/h3&gt;
-{#each data.posts as post}
-  &lt;p&gt;&lt;a href="/05/posts/{post.slug}"&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
-{/each}</code></pre>
-<p><strong>Explicação:</strong> Esta página utiliza os dados fornecidos pelo layout para listar todos os posts disponíveis.</p>
-<div class="info">
-  <p><strong>Nota:</strong> Se várias funções <code>load</code> retornarem propriedades com o mesmo nome, o valor da última sobrescreve as anteriores. Por exemplo, se uma função <code>load</code> do layout retorna <code>{ a: 1, b: 2 }</code> e a da página retorna <code>{ b: 3, c: 4 }</code>, o resultado final será <code>{ a: 1, b: 3, c: 4 }</code>.</p>
-</div>
-
-<h2>Exibindo um post individual</h2>
-<p>Para mostrar um post específico, um parâmetro de rota.</p>
-
-<p>Crie o arquivo <code ctc>src/routes/05/posts/[slug]/+page.server.js</code>:</p>
-<pre><code class="language-javascript">import { postsDatabase } from '$lib/server/postsDatabase';
-
-export async function load({ params }) {
-  const post = postsDatabase.getBySlug(params.slug);
-  return { post };
-}</code></pre>
-<p><strong>Explicação:</strong> A função <code>getBySlug</code> deve retornar uma postagem cujo <code>slug</code> corresponda ao parâmetro de rota.</p>
-
-<p>Crie o arquivo <code ctc>src/routes/05/posts/[slug]/+page.svelte</code>:</p>
-<pre><code class="language-svelte">&lt;script&gt;
-  let { data } = $props();
-&lt;/script&gt;
-
-&lt;h1&gt;{data.post.title}&lt;/h1&gt;
-&lt;sub&gt;Publicado em {data.post.publish_date}&lt;/sub&gt;
-&lt;p&gt;{data.post.content}&lt;/p&gt;</code></pre>
-<p><strong>Explicação:</strong> Aqui, usamos o parâmetro de rota <code>slug</code> para carregar e exibir o post correspondente.</p>
-
-<h2>Filtrando por ano e mês</h2>
-<p>Vamos criar uma rota para listar posts publicados em determinado mês.</p>
-
-<p>Crie o arquivo <code ctc>src/routes/05/posts/[ano]/[mes]/+page.server.js</code>:</p>
-<pre><code class="language-javascript">import { postsDatabase } from '$lib/server/postsDatabase';
-
-export async function load({ params }) {
-  const posts = postsDatabase.getByYearMonth(params.ano, params.mes);
-  return { posts, ano: params.ano, mes: params.mes };
-}</code></pre>
-<p><strong>Explicação:</strong> A função <code>getByYearMonth</code> deve filtrar <code>posts</code> pelo ano e mês informados.</p>
-
-<p id="ano-mes">Crie o arquivo <code ctc>src/routes/05/posts/[ano]/[mes]/+page.svelte</code>:</p>
-<pre><code class="language-svelte">&lt;script&gt;
-  let { data } = $props();
-&lt;/script&gt;
-
-&lt;h3&gt;Postagens de {data.mes}/{data.ano}&lt;/h3&gt;
-
-{#each data.posts as post}
-  &lt;p&gt;&lt;a href="/05/posts/{post.slug}"&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
-{:else}
-  &lt;p&gt;Nenhuma postagem nesse mês!&lt;/p&gt;
-{/each}</code></pre>
-<p><strong>Explicação:</strong> Com <code>data.ano</code> e <code>data.mes</code>, filtramos e exibimos posts de um mês específico. Se a lista estiver vazia, mostramos uma mensagem alternativa.</p>
-
-<h2 id="url">Filtrando posts por título e conteúdo</h2>
-<p>Agora vamos buscar posts por palavras-chave no título ou conteúdo.</p>
-
-<p>Crie o arquivo <code ctc>src/routes/05/posts/query/+page.server.js</code>:</p>
-<pre><code class="language-javascript">import { postsDatabase } from '$lib/server/postsDatabase';
-
-export async function load({ url }) {
-  const title = url.searchParams.get('title');
-  const content = url.searchParams.get('content');
-
-  return { posts: postsDatabase.getByQuery(title, content) };
-}</code></pre>
-
-<p><strong>Explicação:</strong> A função <code>getByQuery</code> deve filtrar posts cujo título contenha <code>title</code> ou cujo conteúdo contenha <code>content</code>, sem diferenciar maiúsculas e minúsculas. Se os parâmetros forem nulos ou vazios, eles devem ser ignorados.</p>
-
-<p id="query">Crie o arquivo <code ctc>src/routes/05/posts/query/+page.svelte</code>:</p>
-<pre><code class="language-svelte">&lt;script&gt;
-  let { data } = $props();
-&lt;/script&gt;
-
-&lt;form&gt;
-  &lt;input type="text" name="title" placeholder="Busca por título..." /&gt;
-  &lt;input type="text" name="content" placeholder="Busca por conteúdo..." /&gt;
-  &lt;button type="submit"&gt;Buscar&lt;/button&gt;
-&lt;/form&gt;
-
-&lt;h3&gt;Resultados da busca&lt;/h3&gt;
-&lt;ul&gt;
-  {#each data.posts as post}
-    &lt;li&gt;&lt;a href="/05/posts/{post.slug}"&gt;{post.title}&lt;/a&gt;&lt;/li&gt;
-  {:else}
-    &lt;li&gt;Nenhum resultado encontrado.&lt;/li&gt;
-  {/each}
-&lt;/ul&gt;</code></pre>
-
-<p><strong>Explicação:</strong> O formulário envia parâmetros pela URL (query params). A função <code>load</code> no servidor lê esses parâmetros com <code>url.searchParams.get()</code> e retorna os posts filtrados.</p>
-
-<h2 id="pagedata">Utilizando <code>page.data</code> no layout</h2>
-
-<p>O componente <code>+page.svelte</code>, assim como cada <code>+layout.svelte</code> acima dele na hierarquia, tem acesso aos seus próprios dados e também aos dados de todos os seus layouts &quot;pais&quot;. Mas às vezes precisamos do contrário — que um layout “pai” acesse dados de um layout página “filha”.</p>
-<p>Por exemplo, podemos querer que o layout principal (raiz) mostre no título da aba do navegador o <code>title</code> retornado pelo <code>load</code> de um post específico.</p>
-<p>Para isso, utilizamos <a target="_blank" href="https://svelte.dev/docs/kit/$app-state#page">page.data</a>. Ele contém todos os dados retornados pelas funções <code>load</code> na hierarquia de layouts e páginas.</p>
-<p><strong>Modifique</strong> o arquivo <code ctc>src/routes/05/posts/+layout.svelte</code>:</p>
-<pre><code class="language-svelte">&lt;script&gt;
-  import { page } from '$app/state';
-  let { data, children } = $props();
-
-  console.log(page);
-&lt;/script&gt;
-
-&lt;svelte:head&gt;
-  &lt;title&gt;{page.data.post?.title || page.url.pathname}&lt;/title&gt;
-&lt;/svelte:head&gt;
-
-&lt;div class="row"&gt;
-  &lt;div class="col-4 bg-body-secondary"&gt;
-    &lt;aside&gt;
-      &lt;h4&gt;Últimos posts&lt;/h4&gt;
       &lt;ul&gt;
         {#each data.posts.slice(0, 2) as post}
           &lt;li&gt;
@@ -274,70 +117,227 @@ export async function load({ url }) {
     &lt;/main&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-<p><strong>Explicação:</strong></p>
-<ul>
-  <li>O objeto <code>page.data</code> contém todos os dados devolvidos pelas funções <code>load</code> deste layout e das páginas filhas. Em particular, <code>page.data.post?.title</code> pega o título do post carregado em <code>+page.server.js</code> de <code>/05/posts/[slug]</code>.</li>
-  <li>Se não houver um post carregado (por exemplo, na listagem de todos os posts), usamos <code>page.url.pathname</code> como título padrão.</li>
-</ul>
-<p>Além da propriedade <code>data</code>, o objeto <code>page</code> também possui outras propriedades, como <code>params</code>, que contém os parâmetros de rotas, e <code>url</code>, que contém os parâmetros de consulta. Assim, você também pode acessas esses dados não só no servidor, mas também no cliente.</p>
+  <p><strong>Explicação:</strong> O layout recebe os dados de <code>load</code> via <code>data</code>. Aqui, usamos <code>data.posts.slice(0, 2)</code> para criar uma lista com os dois primeiros posts em um menu lateral. O conteúdo da página filha é renderizado dentro do <code>{@render children()}</code>.</p>
+</section>
 
-<h4>Exercícios de fixação</h4>
-<ol>
-  <li>Considere os dois arquivos seguintes:
-    <p><code>src/routes/uva/[jaca]/pera/+page.svelte</code>:</p>
-    <pre><code class="language-svelte">&lt;script&gt;
+<section>
+  <h2>Listando Todos os Posts</h2>
+  <p>Vamos criar a página principal que lista todos os posts carregados pelo layout.</p>
+  <p>Crie o arquivo <code ctc>src/routes/05/posts/+page.svelte</code>:</p>
+  <pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;h3&gt;Todos os Posts&lt;/h3&gt;
+{#each data.posts as post}
+  &lt;p&gt;&lt;a href="/05/posts/{post.slug}"&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
+{/each}</code></pre>
+  <p><strong>Explicação:</strong> Esta página simplesmente percorre <code>data.posts</code>, que já foi fornecida pelo <code>+layout.server.js</code>, para criar uma lista de links.</p>
+
+  <div class="info">
+    <strong>Observação:</strong> Se uma função <code>load</code> de layout e uma de página retornarem propriedades com o mesmo nome, o valor da página (filha) tem precedência e sobrescreve o do layout. Ex: Layout retorna <code>{ a: 1, b: 2 }</code> e a página <code>{ b: 3, c: 4 }</code>, o componente receberá <code>{ a: 1, b: 3, c: 4 }</code>.
+  </div>
+</section>
+
+<section>
+  <h2>Exibindo um Post Individual</h2>
+  <p>Para exibir um post específico, podemos utilizar um <strong>parâmetro de rota</strong>. Criaremos uma rota dinâmica cujo nome de pasta é envolvido por colchetes, como <code>[slug]</code>.</p>
+
+  <p>Crie o arquivo <code ctc>src/routes/05/posts/[slug]/+page.server.js</code>:</p>
+  <pre><code class="language-javascript">import { postsDatabase } from '$lib/server/postsDatabase';
+
+export async function load({ params }) {
+  // O valor de 'params.slug' vem da URL, ex: /posts/meu-primeiro-post
+  const post = postsDatabase.getBySlug(params.slug);
+  return { post };
+}</code></pre>
+  <p><strong>Explicação:</strong> A função <code>load</code> recebe um objeto <code>params</code> que contém os parâmetros da rota. Usamos <code>params.slug</code> para buscar o post correspondente.</p>
+
+  <p>Crie a página para exibir o post: <code ctc>src/routes/05/posts/[slug]/+page.svelte</code>:</p>
+  <pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;h1&gt;{data.post.title}&lt;/h1&gt;
+&lt;sub&gt;Publicado em {data.post.publish_date}&lt;/sub&gt;
+&lt;p&gt;{data.post.content}&lt;/p&gt;</code></pre>
+  <p><strong>Explicação:</strong> A página recebe o post carregado via <code>data.post</code> e exibe seus detalhes.</p>
+</section>
+
+<section>
+  <h2>Filtrando por Ano e Mês</h2>
+  <p>Podemos combinar múltiplos parâmetros de rota para criar filtros mais complexos, como listar posts de um mês específico.</p>
+
+  <p>Crie <code ctc>src/routes/05/posts/[ano]/[mes]/+page.server.js</code>:</p>
+  <pre><code class="language-javascript">import { postsDatabase } from '$lib/server/postsDatabase';
+
+export async function load({ params }) {
+  const posts = postsDatabase.getByYearMonth(params.ano, params.mes);
+  return { posts, ano: params.ano, mes: params.mes };
+}</code></pre>
+  <p><strong>Explicação:</strong> A função <code>getByYearMonth</code> filtrará os posts. Também retornamos <code>ano</code> e <code>mes</code> para usá-los no template.</p>
+
+  <p id="ano-mes">Crie a página de exibição <code ctc>src/routes/05/posts/[ano]/[mes]/+page.svelte</code>:</p>
+  <pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;h3&gt;Postagens de {data.mes}/{data.ano}&lt;/h3&gt;
+
+{#each data.posts as post}
+  &lt;p&gt;&lt;a href="/05/posts/{post.slug}"&gt;{post.title}&lt;/a&gt;&lt;/p&gt;
+{:else}
+  &lt;p&gt;Nenhuma postagem nesse mês!&lt;/p&gt;
+{/each}</code></pre>
+  <p><strong>Explicação:</strong> Usamos <code>data.ano</code> e <code>data.mes</code> para exibir um título dinâmico. O bloco <code>{:else}</code> mostra uma mensagem caso a lista <code>data.posts</code> esteja vazia.</p>
+</section>
+
+<section>
+  <h2 id="url">Filtrando com Parâmetros de Consulta (Query Params)</h2>
+  <p>Para filtros opcionais, como uma busca, podemos utilizar <strong>parâmetros de consulta</strong> (a parte da URL após o <code>?</code>).</p>
+
+  <p>Crie o arquivo do servidor para a rota de busca <code ctc>src/routes/05/posts/query/+page.server.js</code>:</p>
+  <pre><code class="language-javascript">import { postsDatabase } from '$lib/server/postsDatabase';
+
+export async function load({ url }) {
+  // Extrai os parâmetros da URL, ex: /query?title=Post&content=...
+  const title = url.searchParams.get('title');
+  const content = url.searchParams.get('content');
+
+  const posts = postsDatabase.getByQuery(title, content);
+  return { posts };
+}</code></pre>
+  <p><strong>Explicação:</strong> A função <code>load</code> recebe o objeto <code>url</code>, que permite acessar os parâmetros de consulta com <code>url.searchParams.get()</code>. A função <code>getByQuery</code> deve ser implementada para filtrar os posts.</p>
+
+  <p id="query">Crie a página com o formulário de busca <code ctc>src/routes/05/posts/query/+page.svelte</code>:</p>
+  <pre><code class="language-svelte">&lt;script&gt;
+  let { data } = $props();
+&lt;/script&gt;
+
+&lt;form method="GET" action="/05/posts/query"&gt;
+  &lt;input type="text" name="title" placeholder="Busca por título..." /&gt;
+  &lt;input type="text" name="content" placeholder="Busca por conteúdo..." /&gt;
+  &lt;button type="submit"&gt;Buscar&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;h3&gt;Resultados da busca&lt;/h3&gt;
+&lt;ul&gt;
+  {#each data.posts as post}
+    &lt;li&gt;&lt;a href="/05/posts/{post.slug}"&gt;{post.title}&lt;/a&gt;&lt;/li&gt;
+  {:else}
+    &lt;li&gt;Nenhum resultado encontrado. Refine sua busca.&lt;/li&gt;
+  {/each}
+&lt;/ul&gt;</code></pre>
+  <p><strong>Explicação:</strong> Este formulário usa <code>method="GET"</code>, que envia os dados do formulário como parâmetros na URL. Quando o formulário é submetido, a página recarrega e a função <code>load</code> no servidor é executada com os novos parâmetros.</p>
+</section>
+
+<section>
+  <h2 id="pagedata">Acessando Dados da Página no Layout com <code>page.data</code></h2>
+  <p>Normalmente, os dados fluem do layout "pai" para a página "filha". Mas e se um layout precisar de dados carregados pela página filha? Por exemplo, para definir o título da aba do navegador (<code>&lt;title&gt;</code>) com o título do post atual.</p>
+  <p>Para isso, podemos usar o objeto <code>page</code> importado de <code>$app/state</code>. Ele contém os dados combinados de todas as funções <code>load</code> ativas.</p>
+
+  <p><strong>Modifique</strong> o arquivo <code ctc>src/routes/05/posts/+layout.svelte</code> para usar <code>page</code>:</p>
+  <pre><code class="language-svelte">&lt;script&gt;
+  import { page } from '$app/state';
+  let { data, children } = $props();
+
+  console.log(page); // Dica: inspecione o console do navegador para ver a estrutura completa do objeto 'page'
+&lt;/script&gt;
+
+&lt;svelte:head&gt;
+  &lt;title&gt;{page.data.post?.title || page.url.pathname}&lt;/title&gt;
+&lt;/svelte:head&gt;
+
+&lt;div class="row"&gt;
+  &lt;!-- Coluna do menu lateral (sem alterações) --&gt;
+  &lt;div class="col-4 bg-body-secondary"&gt;
+    &lt;aside&gt;
+      &lt;h4&gt;Últimos Posts&lt;/h4&gt;
+      &lt;ul&gt;
+        {#each data.posts.slice(0, 2) as post}
+          &lt;li&gt;&lt;a href="/05/posts/{post.slug}"&gt;{post.title}&lt;/a&gt;&lt;/li&gt;
+        {/each}
+      &lt;/ul&gt;
+    &lt;/aside&gt;
+  &lt;/div&gt;
+
+  &lt;div class="col"&gt;
+    &lt;main&gt;
+      {@render children()}
+    &lt;/main&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  <p><strong>Explicação:</strong></p>
+  <ul>
+    <li>Importamos <code>page</code>.</li>
+    <li>No <code>&lt;svelte:head&gt;</code>, definimos o título da página. A expressão <code>page.data.post?.title</code> tenta acessar o título do post carregado pela página filha (<code>[slug]/+page.server.js</code>). O operador <code>?.</code> (optional chaining) evita erros se <code>post</code> não existir.</li>
+    <li>Se <code>page.data.post?.title</code> for nulo, usamos um título padrão.</li>
+  </ul>
+  <p>O objeto <code>page</code> também contém <code>params</code> e <code>url</code>, permitindo acesso a parâmetros de rota e de consulta diretamente nos componentes <code>.svelte</code>.</p>
+</section>
+
+<section>
+  <h3>Exercício de Fixação</h3>
+  <ol>
+    <li>Considere os dois arquivos seguintes:
+      <p><code>src/routes/uva/[jaca]/pera/+page.svelte</code>:</p>
+      <pre><code class="language-svelte">&lt;script&gt;
   import { page } from '$app/state';
 &lt;/script&gt;
 {page.params.jaca}
 </code></pre>
-    <p><code>src/routes/uva/jaca/[pera]/+page.svelte</code>:</p>
-    <pre><code class="language-svelte">&lt;script&gt;
+      <p><code>src/routes/uva/jaca/[pera]/+page.svelte</code>:</p>
+      <pre><code class="language-svelte">&lt;script&gt;
   import { page } from '$app/state';
 &lt;/script&gt;
 {page.params.pera}
 </code></pre>
-    <p>O que aparecerá na tela ao acessar cada uma das seguintes URLs?</p>
-    <ul>
-      <li><code>/jaca</code></li>
-      <li><code>/jaca/uva/pera</code></li>
-      <li><code>/uva</code></li>
-      <li><code>/uva/caju/jaca</code></li>
-      <li><code>/uva/figo/caqui</code></li>
-      <li><code>/uva/jaca</code></li>
-      <li><code>/uva/jaca/caju</code></li>
-      <li><code>/uva/jaca/pera</code></li>
-      <li><code>/uva/kiwi/pera</code></li>
-      <li><code>/uva/pera/jaca</code></li>
-      <li><code>/uva/pera/kiwi</code></li>
-    </ul>
-  </li>
-</ol>
-<h2 id="exercícios">Exercícios</h2>
-<ol class="excs">
-  <li>Implemente as seguintes funções no arquivo <a href="#postsdatabase"><code>postsDatabase.js</code></a>, responsáveis pela lógica de consulta:
-    <ol>
-      <li><code>getAll()</code>: retorna todos os posts.</li>
-      <li><code>getByYearMonth(year, month)</code>: retorna os posts publicados no ano e mês especificados.</li>
-      <li><code>getBySlug(slug)</code>: retorna o post cujo <code>slug</code> corresponda exatamente ao fornecido.</li>
-      <li><code>getByQuery(title, content)</code>: retorna todos os posts cujo título contenha a string <code>title</code> ou cujo conteúdo contenha a string <code>content</code>, sem diferenciar maiúsculas de minúsculas. Se <code>title</code> ou <code>content</code> estiver vazio, indefinido ou nulo, ignore-os no filtro.</li>
-    </ol>
-  </li>
-  <li>
-    Você já tem a rota dinâmica <code>/05/posts/[ano]/[mes]</code> que exibe as postagens de um mês específico. Agora, implemente nessa página um formulário que permita ao usuário digitar (ou selecionar) um <code>ano</code> e um <code>mês</code> e redirecione automaticamente para a rota correspondente.
-    <p><strong>Dica:</strong> Para evitar que o formulário envie dados como parâmetros de consulta, adicione um ouvinte <a target="_blank" href="https://svelte.dev/docs/kit/form-actions#Progressive-enhancement-Custom-event-listener"><code>onsubmit</code></a> ao formulário e utilize a função <code>goto()</code> do módulo <code>$app/navigation</code> para <a target="_blank" href="https://svelte.dev/docs/kit/$app-navigation#goto">fazer o redirecionamento programático</a>.</p>
-  </li>
-  <li>
-    Em vez de retornar os parâmetros de rota e consulta diretamente de <code>+page.server.js</code> nas páginas <a href="#ano-mes"><code>/05/posts/[ano]/[mes]</code></a> e <a href="#query"><code>/05/posts/query</code></a>, exiba seus valores nas respectivas páginas usando o objeto <code>page</code> (importado de <code>$app/state</code>).
-  </li>
-  <li>Garanta que seu aplicativo SvelteKit seja totalmente navegável:
-    <ul>
-      <li>Crie todos os arquivos de rota indicados neste capítulo.</li>
-      <li>Adicione links de navegação no menu lateral para acessar cada rota.</li>
-    </ul>
-  </li>
-  <li>Na rota <a href="#query"><code>/05/posts/query/</code></a>, acrescente uma opção que permita escolher entre ordenar os posts por data ou por título.</li>
-  <li>Ainda em <a href="#query"><code>/05/posts/query/</code></a>, adicione dois campos de data (“De” e “Até”) para filtrar apenas os posts publicados nesse intervalo.</li>
-  <li>Implemente a rota <code ctc>/05/posts/[ano]/[mes]/[dia]/</code> para exibir apenas os posts de um dia específico.</li>
-  <li>Crie um sub-layout <code ctc>src/routes/05/posts/[ano]/[mes]/+layout.svelte</code> que exiba um campo de busca de títulos por palavra-chave. Assim, as rotas filhas, além de filtrar por data, também podem ser filtradas por título.</li>
-  <li>No arquivo <code ctc>src/routes/05/posts/+layout.svelte</code>, adicione uma <code>&lt;div&gt;</code> para exibir os valores dos parâmetros de consulta, quando houver. Utilize o objeto <code>page</code> (importado de <code>$app/state</code>).</li>
-</ol>
+      <p>O que aparecerá na tela ao acessar cada uma das seguintes URLs?</p>
+      <ul>
+        <li><code>/jaca</code></li>
+        <li><code>/jaca/uva/pera</code></li>
+        <li><code>/uva</code></li>
+        <li><code>/uva/caju/jaca</code></li>
+        <li><code>/uva/figo/caqui</code></li>
+        <li><code>/uva/jaca</code></li>
+        <li><code>/uva/jaca/caju</code></li>
+        <li><code>/uva/jaca/pera</code></li>
+        <li><code>/uva/kiwi/pera</code></li>
+        <li><code>/uva/pera/jaca</code></li>
+        <li><code>/uva/pera/kiwi</code></li>
+      </ul>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2 id="exercícios">Exercícios Práticos</h2>
+  <ol class="excs">
+    <li>Implemente as seguintes funções no arquivo <a href="#postsdatabase"><code>postsDatabase.js</code></a>, responsáveis pela lógica de consulta:
+      <ol>
+        <li><code>getAll()</code>: retorna todos os posts.</li>
+        <li><code>getByYearMonth(year, month)</code>: retorna os posts publicados no ano e mês especificados.</li>
+        <li><code>getBySlug(slug)</code>: retorna o post cujo <code>slug</code> corresponda exatamente ao fornecido.</li>
+        <li><code>getByQuery(title, content)</code>: retorna todos os posts cujo título contenha a string <code>title</code> ou cujo conteúdo contenha a string <code>content</code>, sem diferenciar maiúsculas de minúsculas. Se <code>title</code> ou <code>content</code> estiver vazio, indefinido ou nulo, ignore-os no filtro.</li>
+      </ol>
+    </li>
+    <li>
+      Você já tem a rota dinâmica <code>/05/posts/[ano]/[mes]</code> que exibe as postagens de um mês específico. Agora, implemente nessa página um formulário que permita ao usuário digitar (ou selecionar) um <code>ano</code> e um <code>mês</code> e redirecione automaticamente para a rota correspondente.
+      <p><strong>Dica:</strong> Para evitar que o formulário envie dados como parâmetros de consulta, adicione um ouvinte <a target="_blank" href="https://svelte.dev/docs/kit/form-actions#Progressive-enhancement-Custom-event-listener"><code>onsubmit</code></a> ao formulário e utilize a função <code>goto()</code> do módulo <code>$app/navigation</code> para <a target="_blank" href="https://svelte.dev/docs/kit/$app-navigation#goto">fazer o redirecionamento programático</a>.</p>
+    </li>
+    <li>
+      Em vez de retornar os parâmetros de rota e consulta diretamente de <code>+page.server.js</code> nas páginas <a href="#ano-mes"><code>/05/posts/[ano]/[mes]</code></a> e <a href="#query"><code>/05/posts/query</code></a>, exiba seus valores nas respectivas páginas usando o objeto <code>page</code> (importado de <code>$app/state</code>).
+    </li>
+    <li>Garanta que seu aplicativo SvelteKit seja totalmente navegável:
+      <ul>
+        <li>Crie todos os arquivos de rota indicados neste capítulo.</li>
+        <li>Adicione links de navegação no menu lateral para acessar cada rota.</li>
+      </ul>
+    </li>
+    <li>Na rota <a href="#query"><code>/05/posts/query/</code></a>, acrescente uma opção que permita escolher entre ordenar os posts por data ou por título.</li>
+    <li>Ainda em <a href="#query"><code>/05/posts/query/</code></a>, adicione dois campos de data (“De” e “Até”) para filtrar apenas os posts publicados nesse intervalo.</li>
+    <li>Implemente a rota <code ctc>/05/posts/[ano]/[mes]/[dia]/</code> para exibir apenas os posts de um dia específico.</li>
+    <li>Crie um sub-layout <code ctc>src/routes/05/posts/[ano]/[mes]/+layout.svelte</code> que exiba um campo de busca de títulos por palavra-chave. Assim, as rotas filhas, além de filtrar por data, também podem ser filtradas por título.</li>
+    <li>No arquivo <code ctc>src/routes/05/posts/+layout.svelte</code>, adicione uma <code>&lt;div&gt;</code> para exibir os valores dos parâmetros de consulta, quando houver. Utilize o objeto <code>page</code> (importado de <code>$app/state</code>).</li>
+  </ol>
+</section>
