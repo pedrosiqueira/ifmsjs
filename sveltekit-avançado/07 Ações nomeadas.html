@@ -133,131 +133,153 @@ export const actions = {
 
 <h2>Exercícios Práticos</h2>
 <ol class="excs">
-  <li>Você está desenvolvendo a área &quot;Minha Conta&quot; de um aplicativo web. Nesta página, o usuário logado deve ser capaz de realizar três ações distintas em um mesmo formulário: atualizar suas informações de perfil, alterar sua senha e desativar sua conta.
+  <li>
+    <strong>Gerenciamento de Perfil de Usuário</strong>
+    <p><strong>Cenário:</strong> Você está desenvolvendo a área "Minha Conta" de um aplicativo web. Nesta página, o usuário logado deve ser capaz de realizar três ações distintas em um mesmo formulário: atualizar suas informações de perfil, alterar sua senha e desativar sua conta.</p>
+
     <p>Crie o arquivo <code ctc>src/routes/07/perfil/+page.svelte</code> com um formulário com os seguintes campos e botões:</p>
     <ul>
-      <li>Um campo para <strong>Nome</strong></li>
-      <li>Um campo para <strong>E-mail</strong></li>
-      <li>Um campo para <strong>Senha Atual</strong></li>
-      <li>Um campo para <strong>Nova Senha</strong></li>
-      <li>Um campo para <strong>Confirmar Nova Senha</strong></li>
-      <li>Uma caixa de seleção para <strong>confirmar a desativação da conta</strong></li>
-      <li>Botão "Salvar Alterações</li>
+      <li>Campo de texto para <strong>Nome</strong></li>
+      <li>Campo de texto para <strong>E-mail</strong></li>
+      <li>Campo de senha para <strong>Senha Atual</strong></li>
+      <li>Campo de senha para <strong>Nova Senha</strong></li>
+      <li>Campo de senha para <strong>Confirmar Nova Senha</strong></li>
+      <li>Caixa de seleção para <strong>confirmar a desativação da conta</strong></li>
+      <li>Botão "Salvar Alterações"</li>
       <li>Botão "Alterar Senha"</li>
-      <li>Botão "Desativar Minha Conta</li>
+      <li>Botão "Desativar Minha Conta"</li>
     </ul>
     <p>Crie o arquivo <code ctc>src/routes/07/perfil/+page.server.js</code> com as seguintes ações nomeadas:</p>
     <ol>
       <li>
         <p><strong>Ação <code>atualizarPerfil</code>:</strong></p>
         <ul>
-          <li><strong>Acionada por:</strong> Botão &quot;Salvar Alterações&quot;.</li>
-          <li><strong>Validação:</strong> Os campos nome, e-mail e senha não podem estar vazios. A senha deve ser 'senhasecreta'.</li>
-          <li><strong>Em caso de falha:</strong> Use <code>fail(400, { ... })</code> para retornar uma mensagem de erro e os dados preenchidos nos campos de nome e e-mail.</li>
-          <li><strong>Em caso de sucesso:</strong> Use <code>redirect(303, '/07/perfil?status=perfil_atualizado')</code> para recarregar a página e mostrar uma mensagem de sucesso.</li>
+          <li><strong>Acionada por:</strong> Botão "Salvar Alterações".</li>
+          <li><strong>Validação:</strong> Os campos "Nome", "E-mail" e "Senha Atual" não podem estar vazios. A senha atual deve ser <code>'senhasecreta'</code>.</li>
+          <li><strong>Falha:</strong> Retorne <code>fail(400, { ... })</code> com uma mensagem de erro e os dados preenchidos nos campos de nome e e-mail.</li>
+          <li><strong>Sucesso:</strong> Redirecione com <code>redirect(303, '/07/perfil?status=perfil_atualizado')</code>.</li>
         </ul>
       </li>
       <li>
         <p><strong>Ação <code>alterarSenha</code>:</strong></p>
         <ul>
-          <li><strong>Acionada por:</strong> Botão &quot;Alterar Senha&quot;.</li>
+          <li><strong>Acionada por:</strong> Botão "Alterar Senha".</li>
           <li><strong>Validação:</strong>
             <ul>
-              <li>Os três campos de senha não podem estar vazios.</li>
-              <li>A &quot;Nova Senha&quot; e a &quot;Confirmar Nova Senha&quot; devem ser idênticas.</li>
-              <li>A &quot;Nova Senha&quot; deve ter no mínimo 8 caracteres.</li>
-              <li>A senha atual deve ser 'senhasecreta'.</li>
+              <li>Os campos "Senha Atual", "Nova Senha" e "Confirmar Nova Senha" não podem estar vazios.</li>
+              <li>A senha atual deve ser <code>'senhasecreta'</code>.</li>
+              <li>A "Nova Senha" e a "Confirmar Nova Senha" devem ser idênticas.</li>
+              <li>A "Nova Senha" deve ter no mínimo 4 caracteres.</li>
             </ul>
           </li>
-          <li><strong>Em caso de falha:</strong> Use <code>fail(400, { ... })</code> com uma mensagem de erro específica para cada problema de validação. Não retorne as senhas preenchidas por segurança.</li>
-          <li><strong>Em caso de sucesso:</strong> Use <code>redirect(303, '/07/perfil?status=senha_alterada')</code>.</li>
+          <li><strong>Falha:</strong> Retorne <code>fail(400, { ... })</code> com uma mensagem de erro específica para cada problema. Por segurança, não retorne os valores das senhas.</li>
+          <li><strong>Sucesso:</strong> Redirecione com <code>redirect(303, '/07/perfil?status=senha_alterada')</code>.</li>
         </ul>
       </li>
       <li>
         <p><strong>Ação <code>desativarConta</code>:</strong></p>
         <ul>
-          <li><strong>Acionada por:</strong> Botão &quot;Desativar Minha Conta&quot;.</li>
-          <li><strong>Validação:</strong> A caixa de seleção de confirmação deve estar marcada, o campo de senha atual deve estar preenchido com a senha 'senhasecreta'.</li>
-          <li><strong>Em caso de falha:</strong> Use <code>fail(400, { ... })</code> com o erro &quot;Você deve confirmar a desativação&quot;.</li>
-          <li><strong>Em caso de sucesso:</strong> Use <code>redirect(303, '/07/login?status=conta_desativada')</code> para deslogar o usuário e enviá-lo para a página de login.</li>
+          <li><strong>Acionada por:</strong> Botão "Desativar Minha Conta".</li>
+          <li><strong>Validação:</strong> A caixa de confirmação deve estar marcada e o campo "Senha Atual" deve ser <code>'senhasecreta'</code>.</li>
+          <li><strong>Falha:</strong> Retorne <code>fail(400, { error: 'Você deve confirmar a desativação e fornecer a senha atual.' })</code>.</li>
+          <li><strong>Sucesso:</strong> Redirecione para a página de login com <code>redirect(303, '/07/login?status=conta_desativada')</code>.</li>
         </ul>
       </li>
     </ol>
-    <p>Crie o arquivo <code ctc>src/routes/07/login/+page.svelte</code> para receber o redirecionamento após a desativação de conta, e que exibe uma mensagem caso contenha o parâmetro de consulta <code>status</code> com o valor <code>conta_desativada</code>.</p>
+    <p>Crie o arquivo <code ctc>src/routes/07/login/+page.svelte</code> para receber o redirecionamento após a desativação da conta, exibindo uma mensagem de sucesso se o parâmetro de URL <code>status=conta_desativada</code> estiver presente.</p>
   </li>
-  <li>Você está criando um sistema de gerenciamento de conteúdo (CMS). Na página de edição de um artigo, o autor precisa de três opções: publicar o artigo, salvá-lo como rascunho ou excluí-lo.</p>
+  <li>
+    <strong>Sistema de Gerenciamento de Conteúdo (CMS)</strong>
+    <p><strong>Cenário:</strong> Você está criando a página de edição de um artigo em um CMS. O autor precisa de três opções distintas: publicar o artigo, salvá-lo como rascunho para continuar depois ou excluí-lo permanentemente.</p>
     <p>Crie o arquivo <code ctc>src/routes/07/blog/[id]/editar/+page.svelte</code> com um formulário com os seguintes campos e botões:</p>
     <ul>
-      <li>Um campo para o <strong>Título</strong> do artigo</li>
-      <li>Uma área de texto para o <strong>Conteúdo</strong> do artigo</li>
-      <li>Um campo oculto para o <strong>ID</strong> do artigo</li>
+      <li>Campo de texto para o <strong>Título</strong> do artigo.</li>
+      <li>Área de texto (textarea) para o <strong>Conteúdo</strong> do artigo.</li>
+      <li>Campo oculto (hidden) para o <strong>ID</strong> do artigo.</li>
+      <li>Botão "Publicar".</li>
+      <li>Botão "Salvar Rascunho".</li>
+      <li>Botão "Excluir Artigo".</li>
     </ul>
     <p>Crie o arquivo <code ctc>src/routes/07/blog/[id]/editar/+page.server.js</code> com as seguintes ações nomeadas:</p>
     <ol>
       <li>
         <p><strong>Ação <code>publicar</code>:</strong></p>
         <ul>
-          <li><strong>Validação:</strong> ID, Título e Conteúdo não podem estar vazios.</li>
-          <li><strong>Falha:</strong> <code>fail(400, ...)</code> com a mensagem de erro e os dados preenchidos.</li>
-          <li><strong>Sucesso:</strong> <code>redirect(303, '/07/blog/[id]?status=artigo_publicado')</code>, onde <code>[id]</code> é o id do artigo.</li>
+          <li><strong>Validação:</strong> Os campos ID, Título e Conteúdo não podem estar vazios.</li>
+          <li><strong>Falha:</strong> Retorne <code>fail(400, ...)</code> com a mensagem de erro e os dados preenchidos.</li>
+          <li><strong>Sucesso:</strong> Redirecione para a página do artigo com <code>redirect(303, `/07/blog/${id}?status=artigo_publicado`)</code>, onde <code>${id}</code> é o id do artigo.</li>
         </ul>
       </li>
       <li>
         <p><strong>Ação <code>salvarRascunho</code>:</strong></p>
         <ul>
-          <li><strong>Validação:</strong> Apenas o Título é obrigatório. O conteúdo pode estar vazio.</li>
-          <li><strong>Falha:</strong> <code>fail(400, ...)</code> se o título estiver vazio.</li>
-          <li><strong>Sucesso:</strong> <strong>Não redirecione</strong>. Retorne um objeto de sucesso <code>{ success: true, message: 'Rascunho salvo com sucesso!' }</code> para que a página exiba a mensagem sem recarregar.</li>
+          <li><strong>Validação:</strong> Apenas o Título é obrigatório.</li>
+          <li><strong>Falha:</strong> Retorne <code>fail(400, ...)</code> se o título estiver vazio.</li>
+          <li><strong>Sucesso:</strong> <strong>Não redirecione.</strong> Retorne um objeto de sucesso, como <code>{ success: true, message: 'Rascunho salvo com sucesso!' }</code>, para que a página possa exibir a mensagem sem recarregar.</li>
         </ul>
       </li>
       <li>
         <p><strong>Ação <code>excluir</code>:</strong></p>
         <ul>
-          <li><strong>Validação:</strong> Garanta que o ID do artigo foi enviado.</li>
-          <li><strong>Falha:</strong> <code>fail(400, ...)</code> se o ID estiver ausente.</li>
-          <li><strong>Sucesso:</strong> <code>redirect(303, '/07/blog?status=artigo_excluido')</code>.</li>
+          <li><strong>Validação:</strong> Garanta que o ID do artigo foi enviado no formulário.</li>
+          <li><strong>Falha:</strong> Retorne <code>fail(400, ...)</code> se o ID estiver ausente.</li>
+          <li><strong>Sucesso:</strong> Redirecione para a listagem do blog com <code>redirect(303, '/07/blog?status=artigo_excluido')</code>.</li>
         </ul>
       </li>
     </ol>
-    <p>Crie o arquivo <code ctc>src/routes/07/blog/[id]/+page.svelte</code> para receber o redirecionamento após a publicação do artigo, e que tenha um conteúdo fixo fictício. Caso haja o parâmetro de consulta <code>status</code> com o valor <code>artigo_publicado</code>, exiba uma mensagem correspondente.</p>
-    <p>Crie o arquivo <code ctc>src/routes/07/blog/+page.svelte</code> para receber o redirecionamento após a exclusão do artigo, e que tenha um conteúdo fixo fictício. Caso haja o parâmetro de consulta <code>status</code> com o valor <code>artigo_excluido</code>, exiba uma mensagem correspondente.</p>
+    <p>Crie o arquivo <code>src/routes/07/blog/[id]/+page.svelte</code> para exibir um artigo fictício e uma mensagem de sucesso se a URL contiver <code>?status=artigo_publicado</code>.</p>
+    <p>Crie o arquivo <code>src/routes/07/blog/+page.svelte</code> para ser a página principal do blog e exibir uma mensagem de sucesso se a URL contiver <code>?status=artigo_excluido</code>.</p>
   </li>
   <!-- um exercício tipo visualnovel em que cada página é um cenário, com formulário, que tenham botões para enviar o formulário para a própria página ou outras páginas. e diferentes tratamentos de formulário que envolvam redirecionamento ou retorno para a mesma página. -->
-  <li>Recentemente, três novas irmandades abriram inscrições em seu reino de fantasia. Para se juntar a cada uma dessas irmandades, existem pré-requisitos específicos:
+  <li>
+    <strong>Inscrição em Irmandades de Fantasia</strong>
+    <p><strong>Cenário:</strong> Em um reino de fantasia, três novas irmandades estão recrutando membros. Seu desafio é criar um portal de inscrição para aspirantes a heróis, onde cada irmandade tem pré-requisitos únicos.</p>
+
+    <h4>Pré-requisitos das Irmandades</h4>
     <ul>
-      <li><strong>Ordem dos Guerreiros</strong>: Mínimo de 18 anos; Força física ≥ 7 (escala de 1 a 10).</li>
-      <li><strong>Círculo dos Magos</strong>: Mínimo de 16 anos; Inteligência ≥ 8; Possui "conhecimento de magia" (checkbox).</li>
-      <li><strong>Guilda dos Artesãos</strong>: Mínimo de 15 anos; Habilidade manual ("destreza") ≥ 6; Possui "ferramentas de artesão" (checkbox).</li>
+      <li><strong>Ordem dos Guerreiros:</strong> Idade mínima de 18 anos; Força física ≥ 7 (escala de 1 a 10).</li>
+      <li><strong>Círculo dos Magos:</strong> Idade mínima de 16 anos; Inteligência ≥ 8; Possuir "conhecimento de magia" (caixa de seleção).</li>
+      <li><strong>Guilda dos Artesãos:</strong> Idade mínima de 15 anos; Destreza manual ≥ 6; Possuir "ferramentas de artesão" (caixa de seleção).</li>
     </ul>
-    <p>Crie uma página de inscrição que permita ao usuário tentar se registrar em qualquer uma das três irmandades:</p>
+
+    <h4>Sua Missão</h4>
+    <p>Na página de inscrição, crie um formulário onde o usuário preenche seus atributos. Inclua um botão de inscrição para cada irmandade.</p>
     <ul>
-      <li>Cada botão do formulário deve acionar uma <strong>ação nomeada</strong> diferente, que validará os requisitos da irmandade correspondente.</li>
-      <li>Se o usuário atender aos requisitos, a ação deve <strong>redirecionar</strong> para a página inicial da respectiva irmandade (que você também deverá implementar).</li>
-      <li>Se faltar qualquer requisito, a ação deve retornar um erro via <code>fail()</code>, preservando os campos preenchidos e exibindo a mensagem de erro apropriada.</li>
+      <li>Cada botão deve acionar uma <strong>ação nomeada</strong> diferente (ex: <code>juntarGuerreiros</code>, <code>juntarMagos</code>).</li>
+      <li>Se o usuário atender aos requisitos, a ação deve <strong>redirecionar</strong> para a página inicial da respectiva irmandade.</li>
+      <li>Caso contrário, a ação deve retornar um erro via <code>fail()</code>, preservando os dados preenchidos e exibindo uma mensagem clara sobre o requisito não atendido.</li>
     </ul>
-    <p>Estrutura de Rotas:</p>
+
+    <h4>Estrutura de Rotas</h4>
     <ul>
-      <li><code>src/routes/07/irmandades/+page.svelte</code>: Página de inscrição.</li>
-      <li><code>src/routes/07/irmandades/guerreiros/+page.svelte</code>: Página inicial dos guerreiros.</li>
-      <li><code>src/routes/07/irmandades/magos/+page.svelte</code>: Página inicial dos magos.</li>
-      <li><code>src/routes/07/irmandades/artesaos/+page.svelte</code>: Página inicial dos artesãos.</li>
+      <li><code>src/routes/07/irmandades/+page.svelte</code>: Página de inscrição com o formulário.</li>
+      <li><code>src/routes/07/irmandades/guerreiros/+page.svelte</code>: Página de boas-vindas da Ordem dos Guerreiros.</li>
+      <li><code>src/routes/07/irmandades/magos/+page.svelte</code>: Página de boas-vindas do Círculo dos Magos.</li>
+      <li><code>src/routes/07/irmandades/artesaos/+page.svelte</code>: Página de boas-vindas da Guilda dos Artesãos.</li>
     </ul>
   </li>
-  <li>Você trabalha em um banco digital que oferece três tipos de empréstimo, cada um com pré-requisitos diferentes:
+  <li>
+    <strong>Simulação de Solicitação de Empréstimo</strong>
+    <p><strong>Cenário:</strong> Você é desenvolvedor em um banco digital e precisa criar a página de solicitação de empréstimos. O sistema oferece três modalidades, cada uma com critérios de aprovação específicos.</p>
+
+    <h4>Modalidades e Pré-requisitos</h4>
     <ul>
-      <li><strong>Empréstimo Pessoal</strong>: Renda mensal ≥ R$ 2.000; Score de crédito ≥ 600.</li>
-      <li><strong>Empréstimo Imobiliário</strong>: Renda mensal ≥ R$ 5.000; Score de crédito ≥ 700; Possui imóvel para garantia (checkbox).</li>
-      <li><strong>Empréstimo Automotivo</strong>: Renda mensal ≥ R$ 3.000; Score de crédito ≥ 650; Valor do veículo ≥ R$ 15.000.</li>
+      <li><strong>Empréstimo Pessoal:</strong> Renda mensal ≥ R$ 2.000; Score de crédito ≥ 600.</li>
+      <li><strong>Empréstimo Imobiliário:</strong> Renda mensal ≥ R$ 5.000; Score de crédito ≥ 700; Possuir imóvel para garantia (caixa de seleção).</li>
+      <li><strong>Empréstimo Automotivo:</strong> Renda mensal ≥ R$ 3.000; Score de crédito ≥ 650; Valor do veículo a ser financiado ≥ R$ 15.000.</li>
     </ul>
-    <p>Crie uma página de solicitação de empréstimo que permita ao usuário escolher qual modalidade deseja:</p>
+
+    <h4>Seu Desafio</h4>
+    <p>Crie uma página com um único formulário para o usuário inserir seus dados financeiros. Adicione um botão para solicitar cada tipo de empréstimo.</p>
     <ul>
-      <li>Cada botão do formulário deve acionar uma <strong>ação nomeada</strong> diferente, que validará os requisitos da modalidade correspondente.</li>
-      <li>Se o usuário atender aos requisitos, a ação deve <strong>redirecionar</strong> para a página de confirmação daquele tipo de empréstimo (que você também deverá implementar).</li>
-      <li>Se faltar qualquer requisito, a ação deve retornar um erro via <code>fail()</code>, preservando os campos preenchidos e exibindo a mensagem de erro apropriada.</li>
+      <li>Cada botão deve acionar uma <strong>ação nomeada</strong> correspondente (ex: <code>solicitarPessoal</code>, <code>solicitarImobiliario</code>).</li>
+      <li>Se o cliente for elegível, <strong>redirecione-o</strong> para uma página de confirmação específica para aquele tipo de empréstimo.</li>
+      <li>Se não for elegível, retorne um erro via <code>fail()</code> com a justificativa, mantendo os dados do formulário para que o usuário possa tentar outra modalidade.</li>
     </ul>
-    <p>Estrutura de Rotas:</p>
+
+    <h4>Estrutura de Rotas</h4>
     <ul>
-      <li><code>src/routes/07/emprestimo/+page.svelte</code>: Página de solicitação de empréstimo.</li>
+      <li><code>src/routes/07/emprestimo/+page.svelte</code>: Página de solicitação com o formulário.</li>
       <li><code>src/routes/07/emprestimo/pessoal/+page.svelte</code>: Página de confirmação do empréstimo pessoal.</li>
       <li><code>src/routes/07/emprestimo/imobiliario/+page.svelte</code>: Página de confirmação do empréstimo imobiliário.</li>
       <li><code>src/routes/07/emprestimo/automotivo/+page.svelte</code>: Página de confirmação do empréstimo automotivo.</li>
