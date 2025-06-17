@@ -239,7 +239,7 @@ export async function load({ url }) {
 
 <h2 id="pagedata">Utilizando <code>page.data</code> no layout</h2>
 
-<p>O componente <code>+page.svelte</code>, assim como cada <code>+layout.svelte</code> acima dele na hierarquia, tem acesso aos seus próprios dados e também aos dados de todos os seus layouts &quot;pais&quot;.</p>. Mas às vezes precisamos do contrário — que um layout “pai” acesse dados de um layout página “filha”.</p>
+<p>O componente <code>+page.svelte</code>, assim como cada <code>+layout.svelte</code> acima dele na hierarquia, tem acesso aos seus próprios dados e também aos dados de todos os seus layouts &quot;pais&quot;. Mas às vezes precisamos do contrário — que um layout “pai” acesse dados de um layout página “filha”.</p>
 <p>Por exemplo, podemos querer que o layout principal (raiz) mostre no título da aba do navegador o <code>title</code> retornado pelo <code>load</code> de um post específico.</p>
 <p>Para isso, utilizamos <a target="_blank" href="https://svelte.dev/docs/kit/$app-state#page">page.data</a>. Ele contém todos os dados retornados pelas funções <code>load</code> na hierarquia de layouts e páginas.</p>
 <p><strong>Modifique</strong> o arquivo <code ctc>src/routes/05/posts/+layout.svelte</code>:</p>

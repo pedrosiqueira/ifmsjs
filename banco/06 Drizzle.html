@@ -50,17 +50,7 @@ import { and, asc, count, desc, eq, gt, like, lt, max, min, sql, sum } from 'dri
 <h3>Expressões Válidas</h3>
 <p>Para realizar uma consulta, é possível combinar diversas funções, desde que componham uma expressão válida.</p>
 <p><strong>Pergunta:</strong> O que essa consulta faz?</p>
-<table class="custom">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Saída</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code>const consulta = await db
+<pre><code>const consulta = await db
     .select({ titulo: tabela.posts.titulo, nome: tabela.usuarios.nome })
     .from(tabela.posts)
     .where(
@@ -72,41 +62,27 @@ import { and, asc, count, desc, eq, gt, like, lt, max, min, sql, sum } from 'dri
     .orderBy(desc(tabela.posts.criado_em));
 
 console.log(consulta);</code></pre>
-            </td>
-            <td>
-                <pre><code>[
+<dialog id="expressoes-validas" class="custom-modal">
+    <pre><code>[
   { titulo: 'primeiro artigo', nome: 'maria_silva' },
   { titulo: 'segundo artigo', nome: 'francisca_pereira' },
   { titulo: 'terceiro artigo', nome: 'francisca_pereira' },
   { titulo: 'quarto artigo', nome: 'maria_silva' },
   { titulo: 'quinto artigo', nome: 'francisca_pereira' }
 ]</code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
+</dialog>
+<div style="text-align:center"><button data-custom-modal="expressoes-validas">Exibir resultado</button></div>
 <h3>Obtendo um Único Item</h3>
 <p>Em muitas consultas, especialmente ao buscar por uma chave primária, esperamos receber um único objeto como resultado. Porém, o método <code>select</code> sempre retorna uma lista — mesmo que contenha apenas um item. Para acessar o item, usamos seu índice:</p>
 
-<table class="custom">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Saída</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code>const lista = await db.select().from(tabela.usuarios)
+<pre><code>const lista = await db.select().from(tabela.usuarios)
 .where(eq(tabela.usuarios.id, 2)).limit(1);
 
 console.log(lista);
 console.log(lista[0].nome);</code></pre>
-            </td>
-            <td>
-                <pre><code>[
+
+<dialog id="limit-1" class="custom-modal">
+    <pre><code>[
   {
     id: 2,
     nome: 'francisca_pereira',
@@ -117,30 +93,17 @@ console.log(lista[0].nome);</code></pre>
   }
 ]
 francisca_pereira</code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
+</dialog>
+<div style="text-align:center"><button data-custom-modal="limit-1">Exibir resultado</button></div>
 <p>Quando você precisa apenas de um único item — ou do primeiro da lista — pode utilizar a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring">sintaxe de desestruturação</a> do JavaScript:</p>
-<table class="custom">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Saída</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code>const [usuario] = await db.select().from(tabela.usuarios)
+<pre><code>const [usuario] = await db.select().from(tabela.usuarios)
 .where(eq(tabela.usuarios.id, 2)).limit(1);
 
 console.log(usuario);
 console.log(usuario.nome);</code></pre>
-            </td>
-            <td>
-                <pre><code>{
+
+<dialog id="unico-item" class="custom-modal">
+    <pre><code>{
   id: 2,
   nome: 'francisca_pereira',
   email: 'francisca@pereira.com',
@@ -149,11 +112,8 @@ console.log(usuario.nome);</code></pre>
   criado_em: '2025-03-31 16:45:03'
 }
 francisca_pereira</code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
+</dialog>
+<div style="text-align:center"><button data-custom-modal="unico-item">Exibir resultado</button></div>
 <h2>Inserções</h2>
 
 <h3>Inserindo Objetos ou Listas de Objetos</h3>
@@ -186,17 +146,7 @@ await db.insert(tabela.usuarios).values({ nome, email, });</code></pre>
 
 <h3>Retornando Resultados</h3>
 <p>Ao inserir um objeto no banco de dados, é comum não informarmos o ID, pois ele costuma ser gerado automaticamente. No entanto, em muitos casos, precisamos recuperar esse ID logo após a inserção. Para isso, podemos usar o método <code>returning</code>, que retorna o objeto recém-inserido já com o ID atribuído pelo banco:</p>
-<table class="custom">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Saída</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code>const usuario = {
+<pre><code>const usuario = {
     nome: 'marcia_nascimento',
     email: 'marcia@nascimento.com'
 };
@@ -206,9 +156,9 @@ const [novoUsuario] = await db
 
 console.log("Antes:", usuario);
 console.log("Depois:", novoUsuario);</code></pre>
-            </td>
-            <td>
-                <pre><code>Antes: {
+
+<dialog id="retornando" class="custom-modal">
+    <pre><code>Antes: {
     nome: 'marcia_nascimento',
     email: 'marcia@nascimento.com'
 }
@@ -221,23 +171,10 @@ Depois: {
   pontos: 0,
   criado_em: '2025-04-04 13:28:47'
 }</code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
+</dialog>
+<div style="text-align:center"><button data-custom-modal="retornando">Exibir resultado</button></div>
 <p>Geralmente, ao inserir um objeto no banco, já temos todos os outros atributos definidos, e nos interessa apenas recuperar os que são gerados automaticamente, como o ID. Nesses casos, podemos filtrar quais atributos queremos que sejam devolvidos após a inserção:</p>
-<table class="custom">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Saída</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code>const usuario = { nome: 'carlos_gomes', email: 'carlos@gomes.com' };
+<pre><code>const usuario = { nome: 'carlos_gomes', email: 'carlos@gomes.com' };
 
 const [criado] = await db.insert(tabela.usuarios)
     .values(usuario).returning({
@@ -246,38 +183,24 @@ const [criado] = await db.insert(tabela.usuarios)
     });
 
 console.log("Usuário criado:", criado);</code></pre>
-            </td>
-            <td>
-                <pre><code>Usuário criado: { id: 7, criacao: '2025-04-04 15:10:06' }</code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<dialog id="retorno-filtrado" class="custom-modal">
+    <pre><code>Usuário criado: { id: 7, criacao: '2025-04-04 15:10:06' }</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="retorno-filtrado">Exibir resultado</button></div>
+
 
 <p>Quando precisamos apenas do ID, ele ainda será devolvido dentro de um objeto. Para extrair apenas esse valor, podemos usar a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring">sintaxe de desestruturação</a> do JavaScript:</p>
-<table class="custom">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Saída</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code>const usuario = { nome: 'juliany_jesus', email: 'juliana@jesus.com' }
+<pre><code>const usuario = { nome: 'juliany_jesus', email: 'juliana@jesus.com' }
 
 const [{ id }] = await db.insert(tabela.usuarios)
 .values(usuario).returning({ id: tabela.usuarios.id });
 
 console.log("ID:", id);</code></pre>
-            </td>
-            <td>
-                <pre><code>ID: 8</code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<dialog id="retorno-id" class="custom-modal">
+    <pre><code>ID: 8</code></pre>
+</dialog>
+<div style="text-align:center"><button data-custom-modal="retorno-id">Exibir resultado</button></div>
+
 
 <h2>Atualizações</h2>
 <p>Atualizações são muito parecidas com consultas. Os exemplos abaixo realizam a mesma operação:</p>
@@ -357,17 +280,7 @@ await db.insert(tabela.usuarios).values(pessoa)
 
 <p>Também há a opção <code>onConflictDoUpdate</code>, que tenta inserir o objeto, mas caso haja conflito, atualiza os dados:</p>
 
-<table class="custom">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Saída</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code>// Busca um objeto
+<pre><code>// Busca um objeto
 const [usuarioExistente] = await db.select().from(tabela.usuarios)
     .where(like(tabela.usuarios.nome, 'julian%'));
 
@@ -385,9 +298,9 @@ const [usuarioAtualizado] = await db.insert(tabela.usuarios)
     }).returning();
 
 console.log('Depois da atualização:', usuarioAtualizado);</code></pre>
-            </td>
-            <td>
-                <pre><code>Antes da atualização: {
+
+<dialog id="on-conflict-update" class="custom-modal">
+    <pre><code>Antes da atualização: {
   id: 7,
   nome: 'juliany_jesus',
   email: 'juliana@jesus.com',
@@ -403,17 +316,14 @@ Depois da atualização: {
   pontos: 150,
   criado_em: '2025-04-08 11:04:54'
 }</code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
+</dialog>
+<div style="text-align:center"><button data-custom-modal="on-conflict-update">Exibir resultado</button></div>
 <p>O <code>onConflictDoUpdate</code> exige que você defina qual coluna está gerando o conflito (<code>target</code>) e quais atributos devem ser atualizados (<code>set</code>).</p>
 
 <h2>Exclusões</h2>
 <p>Tome muito cuidado com exclusões! Nunca faça:</p>
 
-<pre><del>await db.delete(users);</del></pre>
+<pre style="color:red"><del>await db.delete(users);</del></pre>
 
 <p>Sempre filtre o que deve ser excluído:</p>
 
@@ -422,23 +332,13 @@ await db.delete(tabela.posts).where(eq(tabela.posts.id, id));</code></pre>
 
 <p>Se quiser, é possível devolver o objeto que foi excluído:</p>
 
-<table class="custom">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Saída</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code>const id = 4;
+<pre><code>const id = 4;
 const [postagemExcluida] = await db.delete(tabela.posts).where(eq(tabela.posts.id, id)).returning();
 
 console.log(postagemExcluida);</code></pre>
-            </td>
-            <td>
-                <pre><code>{
+
+<dialog id="retorno-excluido" class="custom-modal">
+    <pre><code>{
   id: 2,
   titulo: 'segundo artigo',
   conteudo: 'conteúdo do segundo artigo',
@@ -446,11 +346,8 @@ console.log(postagemExcluida);</code></pre>
   criado_em: '2025-04-09 21:12:48',
   atualizado_em: '2025-04-09 21:12:48'
 }</code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
+</dialog>
+<div style="text-align:center"><button data-custom-modal="retorno-excluido">Exibir resultado</button></div>
 <h2 id="operador-magico-de-sql">O operador mágico <code>sql</code></h2>
 <p>Ao usar uma biblioteca ORM, há situações em que uma consulta específica é difícil de escrever usando apenas a API fornecida. Nesses casos, é comum recorrer a <strong>consultas brutas</strong> (<em>raw queries</em>), escritas como strings SQL. No entanto, esse método normalmente <strong>não garante segurança de tipos</strong> nem <strong>proteção contra injeção de SQL</strong>.</p>
 
@@ -460,17 +357,7 @@ console.log(postagemExcluida);</code></pre>
 
 <p>Por exemplo, para buscar todos os títulos das postagens de usuários cujo nome começa com “francisca”:</p>
 
-<table class="custom">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Saída</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <pre><code>const nome = 'francisca';
+<pre><code>const nome = 'francisca';
 const result = await db.all(
     sql`
     SELECT ${tabela.posts.titulo}
@@ -481,18 +368,15 @@ const result = await db.all(
     `
 );
 console.log(result);</code></pre>
-            </td>
-            <td>
-                <pre><code>[
+
+<dialog id="template-sql" class="custom-modal">
+    <pre><code>[
   { titulo: 'segundo artigo' }, 
   { titulo: 'terceiro artigo' },
   { titulo: 'quinto artigo' }   
 ]</code></pre>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
+</dialog>
+<div style="text-align:center"><button data-custom-modal="template-sql">Exibir resultado</button></div>
 <p>Além do <code>db.all</code>, você pode usar <code>db.get</code> se quiser apenas um item, ou <code>db.run</code> para obter informações detalhadas da execução.</p>
 
 <h2>Conclusão</h2>

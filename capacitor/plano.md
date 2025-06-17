@@ -135,5 +135,3 @@ Para uso quando tiver salvando dados:
 - Funciona offline e sincroniza quando conectado.
 
 ---
-
-Esses projetos são fáceis de implementar e ensinam conceitos essenciais como **persistência de dados, interatividade e integração com recursos nativos**. Qual deles você acha mais interessante para começar? 🚀
