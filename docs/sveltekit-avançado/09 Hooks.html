@@ -31,7 +31,7 @@
 <h1>Hooks no SvelteKit</h1>
 
 <section>
-  <h2>handle</h2>
+  <h2>A função handle</h2>
   <p>SvelteKit fornece vários <em>hooks</em> — maneiras de interceptar e sobrescrever o comportamento padrão do framework.</p>
   <p>O hook mais básico é a função <code>handle</code>, que reside em <code>src/hooks.server.js</code>. Ela é executada toda vez que o servidor SvelteKit recebe uma <a href="web-standards#Fetch-APIs-Request">requisição</a> — seja enquanto o aplicativo está em execução, ou durante a <a href="page-options#prerender">pré-renderização</a> — e determina a <a href="web-standards#Fetch-APIs-Response">resposta</a>.</p>
   <p>A função <code>handle</code> recebe um objeto <code>event</code> representando a requisição e uma função <code>resolve</code>, que renderiza a rota e retorna uma <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response"><code>Response</code></a>. Isso permite que você modifique cabeçalhos ou corpos de resposta, ou ignore o SvelteKit completamente (por exemplo, para implementar rotas programaticamente).</p>
@@ -47,7 +47,32 @@
   if (event.url.pathname === '/ping') return new Response('pong');
   return await resolve(event);
 }</code></pre>
-  <p><strong>Explicação:</strong></p>
+  <p><strong>Explicação:</strong> aqui.</p>
+
+
+  <p>Você pode gerar uma resposta e depois manipulá-la [melhore].</p>
+
+  <div class="code-block">
+    <span class="filename">src/hooks.server.js</span>
+    <pre><code>
+/** @type {import('@sveltejs/kit').Handle} */
+export async function handle({ event, resolve }) {
+  const response = await resolve(event);
+
+  // Note que modificar os cabeçalhos de resposta nem sempre é seguro.
+  // Objetos de resposta podem ter cabeçalhos imutáveis
+  // (ex: Response.redirect() retornado de um endpoint).
+  // Modificar cabeçalhos imutáveis lança um TypeError.
+  // Nesse caso, clone a resposta ou evite criar um
+  // objeto de resposta com cabeçalhos imutáveis.
+  response.headers.set('x-custom-header', 'potato');
+
+  return response;
+}
+      </code></pre>
+  </div>
+
+  <p>Explicação:</p>
 </section>
 <section>
   <h2>O objeto <code>event</code></h2>
@@ -85,7 +110,7 @@
   <p><strong>Explicação:</strong></p>
 </section>
 <section>
-  <h2>resolve</h2>
+  <h2>A função de callback resolve</h2>
   <p><code>resolve</code> também suporta um segundo parâmetro opcional que oferece mais controle sobre como a resposta será renderizada. Esse parâmetro é um objeto que pode ter os seguintes campos:</p>
   <ul>
     <li><code>transformPageChunk(opts: { html: string, done: boolean }): MaybePromise&lt;string | undefined&gt;</code> — aplica transformações personalizadas ao HTML. Se <code>done</code> for verdadeiro, é o bloco final. Os blocos não são garantidos como HTML bem formado (eles podem incluir a tag de abertura de um elemento, mas não sua tag de fechamento, por exemplo), mas sempre serão divididos em limites razoáveis, como <code>%sveltekit.head%</code> ou componentes de layout/página.</li>
@@ -107,43 +132,107 @@ export async function handle({ event, resolve }) {
 }
       </code></pre>
   </div>
+
+  <p>esse exemplo usa as três propriedades do objeto:</p>
+  <pre data-language="js" class="shiki css-variables twoslash lsp" style="background-color:var(--shiki-background);color:var(--shiki-foreground)"><code><span class="line"><span style="color:var(--shiki-token-comment)">/**</span> <span style="color:var(--shiki-token-keyword)">@type</span> <span style="color:var(--shiki-token-function)">{import('@sveltejs/kit').Handle}</span> <span style="color:var(--shiki-token-comment)">*/</span></span>
+<span class="line"><span style="color:var(--shiki-token-keyword)">export</span> <span style="color:var(--shiki-token-keyword)">async</span> <span style="color:var(--shiki-token-keyword)">function</span> <span style="color:var(--shiki-token-function)"></span><span style="color:var(--shiki-token-function)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><pre class="shiki css-variables" style="background-color:var(--shiki-background);color:var(--shiki-foreground)" tabindex="0"><code><span class="line"><span style="color:var(--shiki-token-keyword)">function</span> <span style="color:var(--shiki-token-function)">handle</span><span style="color:var(--shiki-foreground)">({ event</span><span style="color:var(--shiki-token-punctuation)">,</span> <span style="color:var(--shiki-foreground)">resolve }</span><span style="color:var(--shiki-token-keyword)">:</span> <span style="color:var(--shiki-foreground)">{</span></span>
+<span class="line">    <span style="color:var(--shiki-foreground)">event</span><span style="color:var(--shiki-token-keyword)">:</span> <span style="color:var(--shiki-token-constant)">any</span><span style="color:var(--shiki-foreground)">;</span></span>
+<span class="line">    <span style="color:var(--shiki-foreground)">resolve</span><span style="color:var(--shiki-token-keyword)">:</span> <span style="color:var(--shiki-token-constant)">any</span><span style="color:var(--shiki-foreground)">;</span></span>
+<span class="line"><span style="color:var(--shiki-foreground)">})</span><span style="color:var(--shiki-token-keyword)">:</span> <span style="color:var(--shiki-token-function)">Promise</span><span style="color:var(--shiki-foreground)">&lt;</span><span style="color:var(--shiki-token-constant)">any</span><span style="color:var(--shiki-foreground)">&gt;</span></span></code></pre></code>
+  <div class="twoslash-popup-docs twoslash-popup-docs-tags">
+    <div class="tags"><span class="tag">@type</span><span class="value">{import('@sveltejs/kit').Handle}</span></div>
+  </div></span>handle</span></span><span style="color:var(--shiki-foreground)">({</span> <span style="color:var(--shiki-foreground)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><span style="color:var(--shiki-foreground)">event</span><span style="color:var(--shiki-token-punctuation)">:</span> <span style="color:var(--shiki-foreground)">any</span></code></span>event</span></span><span style="color:var(--shiki-token-punctuation)">,</span> <span style="color:var(--shiki-foreground)"></span><span style="color:var(--shiki-foreground)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><span style="color:var(--shiki-foreground)">resolve</span><span style="color:var(--shiki-token-punctuation)">:</span> <span style="color:var(--shiki-foreground)">any</span></code></span>resolve</span></span> <span style="color:var(--shiki-foreground)">}) {</span></span>
+  <span class="line"> <span style="color:var(--shiki-token-keyword)">const</span> <span style="color:var(--shiki-token-constant)"></span><span style="color:var(--shiki-token-constant)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><span style="color:var(--shiki-token-keyword)">const</span> <span style="color:var(--shiki-token-constant)">response</span><span style="color:var(--shiki-token-keyword)">:</span> <span style="color:var(--shiki-token-constant)">any</span></code></span>response</span></span> <span style="color:var(--shiki-token-keyword)">=</span> <span style="color:var(--shiki-token-keyword)">await</span> <span style="color:var(--shiki-token-function)"></span><span style="color:var(--shiki-token-function)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><span style="color:var(--shiki-foreground)">resolve</span><span style="color:var(--shiki-token-punctuation)">:</span> <span style="color:var(--shiki-foreground)">any</span></code></span>resolve</span></span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-foreground)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><span style="color:var(--shiki-foreground)">event</span><span style="color:var(--shiki-token-punctuation)">:</span> <span style="color:var(--shiki-foreground)">any</span></code></span>event</span></span><span style="color:var(--shiki-token-punctuation)">,</span> <span style="color:var(--shiki-foreground)">{</span></span>
+  <span class="line"> <span style="color:var(--shiki-token-function)"></span><span style="color:var(--shiki-token-function)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><pre class="shiki css-variables" style="background-color:var(--shiki-background);color:var(--shiki-foreground)" tabindex="0"><code><span class="line"><span style="color:var(--shiki-foreground)">transformPageChunk</span><span style="color:var(--shiki-token-punctuation)">:</span> <span style="color:var(--shiki-foreground)">({ html }: {</span></span>
+<span class="line">    <span style="color:var(--shiki-foreground)">html</span><span style="color:var(--shiki-token-keyword)">:</span> <span style="color:var(--shiki-foreground)">any;</span></span>
+<span class="line"><span style="color:var(--shiki-foreground)">})</span> <span style="color:var(--shiki-token-keyword)">=&gt;</span> <span style="color:var(--shiki-foreground)">any</span></span></code></pre></code></span>transformPageChunk</span></span><span style="color:var(--shiki-token-keyword)">:</span> <span style="color:var(--shiki-foreground)">({</span> <span style="color:var(--shiki-foreground)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><span style="color:var(--shiki-foreground)">html</span><span style="color:var(--shiki-token-punctuation)">:</span> <span style="color:var(--shiki-foreground)">any</span></code></span>html</span></span> <span style="color:var(--shiki-foreground)">})</span> <span style="color:var(--shiki-token-keyword)">=&gt;</span> <span style="color:var(--shiki-token-constant)"></span><span style="color:var(--shiki-token-constant)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><span style="color:var(--shiki-foreground)">html</span><span style="color:var(--shiki-token-punctuation)">:</span> <span style="color:var(--shiki-foreground)">any</span></code></span>html</span></span><span style="color:var(--shiki-token-function)">.</span><span style="color:var(--shiki-token-function)">replace</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">'old'</span><span style="color:var(--shiki-token-punctuation)">,</span> <span style="color:var(--shiki-token-string-expression)">'new'</span><span style="color:var(--shiki-foreground)">)</span><span style="color:var(--shiki-token-punctuation)">,</span></span>
+  <span class="line"> <span style="color:var(--shiki-token-function)"></span><span style="color:var(--shiki-token-function)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><span style="color:var(--shiki-foreground)">filterSerializedResponseHeaders</span><span style="color:var(--shiki-token-punctuation)">:</span> <span style="color:var(--shiki-foreground)">(name</span><span style="color:var(--shiki-token-keyword)">:</span> <span style="color:var(--shiki-token-constant)">any</span><span style="color:var(--shiki-foreground)">)</span> <span style="color:var(--shiki-token-keyword)">=&gt;</span> <span style="color:var(--shiki-foreground)">any</span></code></span>filterSerializedResponseHeaders</span></span><span style="color:var(--shiki-token-keyword)">:</span> <span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-foreground)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><span style="color:var(--shiki-foreground)">name</span><span style="color:var(--shiki-token-punctuation)">:</span> <span style="color:var(--shiki-foreground)">any</span></code></span>name</span></span><span style="color:var(--shiki-foreground)">)</span> <span style="color:var(--shiki-token-keyword)">=&gt;</span> <span style="color:var(--shiki-token-constant)"></span><span style="color:var(--shiki-token-constant)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><span style="color:var(--shiki-foreground)">name</span><span style="color:var(--shiki-token-punctuation)">:</span> <span style="color:var(--shiki-foreground)">any</span></code></span>name</span></span><span style="color:var(--shiki-token-function)">.</span><span style="color:var(--shiki-token-function)">startsWith</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">'x-'</span><span style="color:var(--shiki-foreground)">)</span><span style="color:var(--shiki-token-punctuation)">,</span></span>
+  <span class="line"> <span style="color:var(--shiki-token-function)"></span><span style="color:var(--shiki-token-function)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><pre class="shiki css-variables" style="background-color:var(--shiki-background);color:var(--shiki-foreground)" tabindex="0"><code><span class="line"><span style="color:var(--shiki-foreground)">preload</span><span style="color:var(--shiki-token-punctuation)">:</span> <span style="color:var(--shiki-foreground)">({ type</span><span style="color:var(--shiki-token-punctuation)">,</span> <span style="color:var(--shiki-foreground)">path }: {</span></span>
+<span class="line">    <span style="color:var(--shiki-foreground)">type</span><span style="color:var(--shiki-token-keyword)">:</span> <span style="color:var(--shiki-foreground)">any;</span></span>
+<span class="line">    <span style="color:var(--shiki-foreground)">path: any;</span></span>
+<span class="line"><span style="color:var(--shiki-foreground)">})</span> <span style="color:var(--shiki-token-keyword)">=&gt;</span> <span style="color:var(--shiki-foreground)">any</span></span></code></pre></code></span>preload</span></span><span style="color:var(--shiki-token-keyword)">:</span> <span style="color:var(--shiki-foreground)">({</span> <span style="color:var(--shiki-foreground)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><span style="color:var(--shiki-foreground)">type</span><span style="color:var(--shiki-token-punctuation)">:</span> <span style="color:var(--shiki-foreground)">any</span></code></span>type</span></span><span style="color:var(--shiki-token-punctuation)">,</span> <span style="color:var(--shiki-foreground)"></span><span style="color:var(--shiki-foreground)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><span style="color:var(--shiki-foreground)">path</span><span style="color:var(--shiki-token-punctuation)">:</span> <span style="color:var(--shiki-foreground)">any</span></code></span>path</span></span> <span style="color:var(--shiki-foreground)">})</span> <span style="color:var(--shiki-token-keyword)">=&gt;</span> <span style="color:var(--shiki-foreground)"></span><span style="color:var(--shiki-foreground)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><span style="color:var(--shiki-foreground)">type</span><span style="color:var(--shiki-token-punctuation)">:</span> <span style="color:var(--shiki-foreground)">any</span></code></span>type</span></span> <span style="color:var(--shiki-foreground)"></span><span style="color:var(--shiki-token-keyword)">===</span> <span style="color:var(--shiki-token-string-expression)">'js'</span> <span style="color:var(--shiki-token-keyword)">||</span> <span style="color:var(--shiki-token-constant)"></span><span style="color:var(--shiki-token-constant)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><span style="color:var(--shiki-foreground)">path</span><span style="color:var(--shiki-token-punctuation)">:</span> <span style="color:var(--shiki-foreground)">any</span></code></span>path</span></span><span style="color:var(--shiki-token-function)">.</span><span style="color:var(--shiki-token-function)">includes</span><span style="color:var(--shiki-foreground)">(</span><span style="color:var(--shiki-token-string-expression)">'/important/'</span><span style="color:var(--shiki-foreground)">)</span></span>
+  <span class="line"> <span style="color:var(--shiki-foreground)">});</span></span>
+  <span class="line"></span>
+  <span class="line"> <span style="color:var(--shiki-token-keyword)">return</span> <span style="color:var(--shiki-foreground)"></span><span style="color:var(--shiki-foreground)"><span class="twoslash-hover"><span class="twoslash-popup-container"><code class="twoslash-popup-code"><span style="color:var(--shiki-token-keyword)">const</span> <span style="color:var(--shiki-token-constant)">response</span><span style="color:var(--shiki-token-keyword)">:</span> <span style="color:var(--shiki-token-constant)">any</span></code></span>response</span></span><span style="color:var(--shiki-foreground)">;</span></span>
+  <span class="line"><span style="color:var(--shiki-foreground)">}</span></span></code></pre>
+  <p>Note that <code>resolve(...)</code> will never throw an error, it will always return a <code>Promise&lt;Response&gt;</code> with the appropriate status code. If an error is thrown elsewhere during <code>handle</code>, it is treated as fatal, and SvelteKit will respond with a JSON representation of the error or a fallback error page — which can be customised via <code>src/error.html</code> — depending on the <code>Accept</code> header. You can read more about error handling <a href="errors">here</a>.</p>
 </section>
 <section>
-  <h2>sequence</h2>
+  <h2>A função auxiliar sequence</h2>
   <p>Você pode definir várias funções <code>handle</code> e executá-las com <a href="@sveltejs-kit-hooks">a função auxiliar <code>sequence</code></a> https://svelte.dev/docs/kit/@sveltejs-kit-hooks.</p>
 
+  <pre><code>import { sequence } from '@sveltejs/kit/hooks';
 
-  <div class="code-block">
-    <span class="filename">src/hooks.server.js</span>
-    <pre><code>
 /** @type {import('@sveltejs/kit').Handle} */
-export async function handle({ event, resolve }) {
-  event.locals.user = await getUserInformation(event.cookies.get('sessionid'));
-
-  const response = await resolve(event);
-
-  // Note que modificar os cabeçalhos de resposta nem sempre é seguro.
-  // Objetos de resposta podem ter cabeçalhos imutáveis
-  // (ex: Response.redirect() retornado de um endpoint).
-  // Modificar cabeçalhos imutáveis lança um TypeError.
-  // Nesse caso, clone a resposta ou evite criar um
-  // objeto de resposta com cabeçalhos imutáveis.
-  response.headers.set('x-custom-header', 'potato');
-
-  return response;
+async function first({ event, resolve }) {
+	console.log('first pre-processing');
+	const result = await resolve(event, {
+		transformPageChunk: ({ html }) => {
+			// transforms are applied in reverse order
+			console.log('first transform');
+			return html;
+		},
+		preload: () => {
+			// this one wins as it's the first defined in the chain
+			console.log('first preload');
+			return true;
+		}
+	});
+	console.log('first post-processing');
+	return result;
 }
-      </code></pre>
-  </div>
 
+/** @type {import('@sveltejs/kit').Handle} */
+async function second({ event, resolve }) {
+	console.log('second pre-processing');
+	const result = await resolve(event, {
+		transformPageChunk: ({ html }) => {
+			console.log('second transform');
+			return html;
+		},
+		preload: () => {
+			console.log('second preload');
+			return true;
+		},
+		filterSerializedResponseHeaders: () => {
+			// this one wins as it's the first defined in the chain
+			console.log('second filterSerializedResponseHeaders');
+			return true;
+		}
+	});
+	console.log('second post-processing');
+	return result;
+}
+
+export const handle = sequence(first, second);</code></pre>
+  <p>The example above would print:</p>
+  <div class="code-block">
+    <pre data-language="" class="shiki css-variables" style="background-color:var(--shiki-background);color:var(--shiki-foreground)"><code><span class="line"><span>first pre-processing</span></span>
+<span class="line"><span>first preload</span></span>
+<span class="line"><span>second pre-processing</span></span>
+<span class="line"><span>second filterSerializedResponseHeaders</span></span>
+<span class="line"><span>second transform</span></span>
+<span class="line"><span>first transform</span></span>
+<span class="line"><span>second post-processing</span></span>
+<span class="line"><span>first post-processing</span></span></code></pre>
+  </div>
 </section>
 <section>
-	<h2>Mais informações</h2>
-	<p>Existem três arquivos de hooks, todos opcionais:</p>
-	<ul>
-		<li><code>src/hooks.server.js</code> — os hooks do servidor do seu aplicativo</li>
-		<li><code>src/hooks.client.js</code> — os hooks do cliente do seu aplicativo</li>
-		<li><code>src/hooks.js</code> — os hooks do seu aplicativo que são executados tanto no cliente quanto no servidor</li>
-	</ul>
-	<p>O código nesses módulos será executado quando o aplicativo for iniciado, tornando-os úteis para inicializar clientes de banco de dados e assim por diante.</p>
-	<p>Para mais informações, consulte a <a href="https://svelte.dev/docs/kit/hooks">documentação oficial</a>.</p>
+  <h2>Mais informações</h2>
+  <p>Existem três arquivos de hooks, todos opcionais:</p>
+  <ul>
+    <li><code>src/hooks.server.js</code> — os hooks do servidor do seu aplicativo</li>
+    <li><code>src/hooks.client.js</code> — os hooks do cliente do seu aplicativo</li>
+    <li><code>src/hooks.js</code> — os hooks do seu aplicativo que são executados tanto no cliente quanto no servidor</li>
+  </ul>
+  <p>O código nesses módulos será executado quando o aplicativo for iniciado, tornando-os úteis para inicializar clientes de banco de dados e assim por diante.</p>
+  <p>Cada arquivo desses define exclusivas ou compartilhadas funções de hook, como a função handle, disponível apenas em <code>hooks.server.js</code>.</p>
+  <p>Para mais informações, consulte a <a href="https://svelte.dev/docs/kit/hooks">documentação oficial</a>.</p>
 </section>
+
+
+<h2>Exercícios de fixação</h2>
+[elabore exercícios teóricos e de perguntas]
+
+<h2>Exercícios práticos</h2>
+[elabore exercícios de programação, só não precisa de exercícios sobre transformPageChunk preload filterSerializedResponseHeaders, que são recursos mais avançados que não usarei com os alunos.]
