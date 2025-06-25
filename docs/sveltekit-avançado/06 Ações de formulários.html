@@ -492,6 +492,25 @@ export const actions = {
       <li>Altere o <code>+page.svelte</code> para exibir uma mensagem diferente dependendo do status retornado.</li>
     </ol>
   </li>
+  <li>Crie a página <code ctc>src/routes/06/rota/a/+page.svelte</code>:</p>
+    <pre><code class="svelte">&lt;form method="POST" action="/07/ifms/a"&gt;
+  &lt;label&gt;Número: &lt;input name="umnumero" type="number" placeholder="Digite um número" /&gt;&lt;/label&gt;&lt;br /&gt;
+  &lt;label&gt;Texto: &lt;input name="umtexto" type="text" placeholder="Digite um texto" /&gt;&lt;/label&gt;&lt;br /&gt;
+  &lt;label&gt;Data: &lt;input name="umadata" type="date" /&gt;&lt;/label&gt;&lt;br /&gt;
+  &lt;button&gt;Enviar 1&lt;/button&gt;
+  &lt;button formaction="/07/ifms/b"&gt;Enviar 2&lt;/button&gt;
+  &lt;button formaction="/07/ifms/c"&gt;Enviar 3&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;a href="/07/ifms/a"&gt;Voltar&lt;/a&gt;</code></pre>
+    <p>Com base no formulário acima, crie o arquivo de servidor e a página para lidar com as submissões de cada um dos três botões:</p>
+    <ol type="a">
+      <li>A página da rota <code>/06/ifms/a</code> deve exibir o valor que foi enviado no campo <code>umnumero</code>.</li>
+      <li>A página da rota <code>/06/ifms/b</code> deve exibir o valor que foi enviado no campo <code>umtexto</code>.</li>
+      <li>A página da rota <code>/06/ifms/c</code> deve exibir o valor que foi enviado no campo <code>umadata</code>.</li>
+    </ol>
+    <p>Além disso, todas as páginas devem ter um link que leve de volta à rota <code>/06/ifms/a</code>, e se o dado esperado para uma determinada rota estiver vazio, a página de destino deve exibir a mensagem: <strong>Preencha o formulário!</strong>.</p>
+  </li>
   <li>Considere a rota <code ctc>/06/cadastro-produto/</code>:
     <ol type="a">
       <li>Crie uma página com um formulário POST para cadastrar produtos com os seguintes campos: "nome do produto" (texto), "preço" (número decimal) e "quantidade em estoque" (número inteiro).</li>

@@ -90,7 +90,8 @@ Para uso quando tiver salvando dados:
 ### App de Sorteio (tipo roleta ou número aleatório)
 
 - Gira uma roleta ou escolhe um número aleatório.
-- Nenhum dado salvo.
+- Algo tipo cassino, jogo do tigrinho
+- serviços do random.org, como geração de sequências, embaralhamento de lista, rolamento de dados, etc.
 
 ---
 
