@@ -493,16 +493,16 @@ export const actions = {
     </ol>
   </li>
   <li>Crie a página <code ctc>src/routes/06/rota/a/+page.svelte</code>:</p>
-    <pre><code class="svelte">&lt;form method="POST" action="/07/ifms/a"&gt;
+    <pre><code class="svelte">&lt;form method="POST" action="/06/ifms/a"&gt;
   &lt;label&gt;Número: &lt;input name="umnumero" type="number" placeholder="Digite um número" /&gt;&lt;/label&gt;&lt;br /&gt;
   &lt;label&gt;Texto: &lt;input name="umtexto" type="text" placeholder="Digite um texto" /&gt;&lt;/label&gt;&lt;br /&gt;
   &lt;label&gt;Data: &lt;input name="umadata" type="date" /&gt;&lt;/label&gt;&lt;br /&gt;
   &lt;button&gt;Enviar 1&lt;/button&gt;
-  &lt;button formaction="/07/ifms/b"&gt;Enviar 2&lt;/button&gt;
-  &lt;button formaction="/07/ifms/c"&gt;Enviar 3&lt;/button&gt;
+  &lt;button formaction="/06/ifms/b"&gt;Enviar 2&lt;/button&gt;
+  &lt;button formaction="/06/ifms/c"&gt;Enviar 3&lt;/button&gt;
 &lt;/form&gt;
 
-&lt;a href="/07/ifms/a"&gt;Voltar&lt;/a&gt;</code></pre>
+&lt;a href="/06/ifms/a"&gt;Voltar&lt;/a&gt;</code></pre>
     <p>Com base no formulário acima, crie o arquivo de servidor e a página para lidar com as submissões de cada um dos três botões:</p>
     <ol type="a">
       <li>A página da rota <code>/06/ifms/a</code> deve exibir o valor que foi enviado no campo <code>umnumero</code>.</li>
